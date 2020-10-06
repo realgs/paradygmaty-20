@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import Iterable, Sized, NoReturn
 
 
-def quick_sort(array: Iterable and Sized) -> None:
+def quick_sort(array: Iterable and Sized) -> NoReturn:
     def quick_sort(array: Iterable and Sized, left: int, right: int) -> NoReturn:
         if left < right:
             position = left - 1
