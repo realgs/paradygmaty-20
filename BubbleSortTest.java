@@ -17,16 +17,9 @@ public class BubbleSortTest {
         bubbleSort = new BubbleSort();
         rand = new Random();
         doubleList = new ArrayList<>();
-        doubleList.add(6.2);
-        doubleList.add(-0.87);
-        doubleList.add(1.2);
-        doubleList.add(-0.87);
-        doubleList.add(13.8);
-        doubleList.add(-20.87);
-        doubleList.add(1.22);
-        doubleList.add(-87.06);
-        doubleList.add(120.8);
-        doubleList.add(870.8);
+        for(int i=0; i<100; i++){
+            doubleList.add(rand.nextDouble()*100);
+        }
 
         integerList = new ArrayList<>();
         for(int i=0; i<100; i++){
