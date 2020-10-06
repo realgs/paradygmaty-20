@@ -1,1 +1,6 @@
-To start run: ts-node index.ts
+To start run: 
+
+```
+npm i
+ts-node index.ts
+```
