@@ -36,7 +36,7 @@ def main():
     quick_sort(array_1)
     print(f'Array sorted by quicksort: {array_1}')
     counting_sort(array_2)
-    print(f'Array sorted by couting sort: {array_2}')
+    print(f'Array sorted by counting sort: {array_2}')
 
 
 if __name__ == '__main__':
