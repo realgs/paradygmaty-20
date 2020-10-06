@@ -1,0 +1,23 @@
+{
+  "name": "labs1",
+  "version": "1.0.0",
+  "description": "Sorting algorithms in TS",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kabugh/paradygmaty-20.git"
+  },
+  "author": "kabugh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kabugh/paradygmaty-20/issues"
+  },
+  "homepage": "https://github.com/kabugh/paradygmaty-20#readme",
+  "dependencies": {
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
