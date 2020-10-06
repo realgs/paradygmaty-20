@@ -50,6 +50,5 @@ public class main {
         selectSort.sort(r_intList100);
         selectSort.sort(r_intList1000);
         selectSort.sort(r_intList10000);
-
     }
 }
