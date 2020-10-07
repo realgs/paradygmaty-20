@@ -21,18 +21,31 @@ public class SortTest {
         randomActual = r.ints(randomSampleSize).toArray();
         randomExpected = new int[randomSampleSize];
         System.arraycopy(randomActual, 0, randomExpected, 0, randomActual.length);
+
         Arrays.sort(randomExpected);
     }
 
     @Test
     public void testQuicksortSimple() {
-        Sort.quicksort(actual);
+        Sort.quickSort(actual);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void testQuicksortRandomArray() {
-        Sort.quicksort(randomActual);
+        Sort.quickSort(randomActual);
+        assertArrayEquals(randomExpected, randomActual);
+    }
+
+    @Test
+    public void testMergesortSimple() {
+        Sort.mergeSort(actual);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testMergesortRandomArray() {
+        Sort.mergeSort(randomActual);
         assertArrayEquals(randomExpected, randomActual);
     }
 }
