@@ -18,7 +18,7 @@ public class DoubleArray {
 		Random rand = new Random();
 	
 		for (int i = 0; i < size; i++) {
-			Double number = rand.nextDouble();
+			Double number = rand.nextDouble() * 1000;
 			array3[i] = number;
 			array4[i] = number;
 		}
@@ -32,7 +32,7 @@ public class DoubleArray {
 
 	public static void printArray(Double[] array) {
 		for (int i = 0; i < array.length - 1; i++) {
-			System.out.print(array[i] + " ");
+			System.out.printf(" %.2f",array[i]);
 		}
 		System.out.println();
 	}
