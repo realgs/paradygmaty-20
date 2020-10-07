@@ -90,4 +90,64 @@ class SortTest
         assertArrayEquals(compareArray,arrayUnderTest);
     }
 
+    @Test
+    void quickSmallRandomInputTest()
+    {
+        arrayUnderTest = generateRandom(1000,-1000,2000);
+        compareArray = arrayUnderTest.clone();
+
+        sort.quickSort(arrayUnderTest,Integer::compare);
+        Arrays.sort(compareArray);
+
+        assertArrayEquals(compareArray,arrayUnderTest);
+    }
+
+    @Test
+    void quickBigRandomInputTest()
+    {
+        arrayUnderTest = generateRandom(100000,-1000000,2000000);
+        compareArray = arrayUnderTest.clone();
+
+        sort.quickSort(arrayUnderTest,Integer::compare);
+        Arrays.sort(compareArray);
+
+        assertArrayEquals(compareArray,arrayUnderTest);
+    }
+
+    @Test
+    void quickSortedInputTest()
+    {
+        arrayUnderTest = new Integer[10000];
+
+        for(int i = 0 ; i < 10000 ; i++)
+        {
+            arrayUnderTest[i] = i;
+        }
+
+        compareArray = arrayUnderTest.clone();
+
+        sort.quickSort(arrayUnderTest,Integer::compare);
+        Arrays.sort(compareArray);
+
+        assertArrayEquals(compareArray,arrayUnderTest);
+    }
+
+    @Test
+    void quickReverseSortedInputTest()
+    {
+        arrayUnderTest = new Integer[10000];
+
+        for(int i = 0 ; i < 10000 ; i++)
+        {
+            arrayUnderTest[i] = 10000 - i;
+        }
+
+        compareArray = arrayUnderTest.clone();
+
+        sort.quickSort(arrayUnderTest,Integer::compare);
+        Arrays.sort(compareArray);
+
+        assertArrayEquals(compareArray,arrayUnderTest);
+    }
+
 }

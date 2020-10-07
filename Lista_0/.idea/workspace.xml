@@ -36,7 +36,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Semestr 2/Algorytmy i Struktury Danych/Laboratoria/Lista 5/Zadanie 1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -56,6 +56,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SortTest.quickRandomInputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Lista_0" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SortTest" />
+      <option name="METHOD_NAME" value="quickRandomInputTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SortTest.quickReverseSortedInputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Lista_0" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SortTest" />
+      <option name="METHOD_NAME" value="quickReverseSortedInputTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SortTest.smallRandomInputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Lista_0" />
       <option name="PACKAGE_NAME" value="" />
@@ -69,6 +89,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.SortTest" />
+        <item itemvalue="JUnit.SortTest.quickReverseSortedInputTest" />
+        <item itemvalue="JUnit.SortTest.quickRandomInputTest" />
         <item itemvalue="JUnit.SortTest.smallRandomInputTest" />
       </list>
     </recent_temporary>
@@ -91,22 +113,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602058382996" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1602060195222">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1602069701299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602060195222" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1602060195222">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602069701299" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1602069701299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1602060195222" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1602060195222">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1602069701299" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1602069701299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1602060195222" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1602060195222">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1602069701299" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1602069701299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602060195222" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602069701299" />
     <state x="498" y="306" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1602058350181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
