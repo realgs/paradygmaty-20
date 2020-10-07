@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class SortingAlgorithms {
-    public int[] insertSort(int[] unsortedArray) {
+    public Integer[] insertSort(Integer[] unsortedArray) {
         for (int i = 1; i < unsortedArray.length; i++) {
             int selectedElement = unsortedArray[i];
             int j = i - 1;
@@ -14,16 +14,16 @@ public class SortingAlgorithms {
         return unsortedArray;
     }
 
-    public List<Integer> QuickSort(List<Integer> list) {
-        quicksort(list, 0, list.size() - 1);
+    public List<Integer> quickSort(List<Integer> list) {
+        quickSort(list, 0, list.size() - 1);
         return list;
     }
 
-    private void quicksort(List<Integer> list, int startIndex, int endIndex) {
+    private void quickSort(List<Integer> list, int startIndex, int endIndex) {
         if (endIndex > startIndex) {
             int partition = partition(list, startIndex, endIndex);
-            quicksort(list, startIndex, partition);
-            quicksort(list, partition + 1, endIndex);
+            quickSort(list, startIndex, partition);
+            quickSort(list, partition + 1, endIndex);
         }
     }
 
