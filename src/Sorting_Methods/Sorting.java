@@ -14,7 +14,28 @@ public class Sorting {
         return sortingArray;
     }
 
-    public static void swap(int[] array, int firstIndex, int secondIndex) {
+    public static int[] selectionSort(int[] array) {
+        int[] sortedArray = array.clone();
+        for (int i = 0; i < sortedArray.length; i++) {
+            int minimalValueIndex = findIndexOfSmallestElement(sortedArray, i);
+            if (minimalValueIndex != i) {
+                swap(sortedArray, i, minimalValueIndex);
+            }
+        }
+        return sortedArray;
+    }
+
+    private static int findIndexOfSmallestElement(int[] array, int beginingOfSearchIndex) {
+        int indexOfMinimalValue = beginingOfSearchIndex;
+        for (int j = beginingOfSearchIndex + 1; j < array.length; j++) {
+            if (array[j] < array[indexOfMinimalValue]) {
+                indexOfMinimalValue = j;
+            }
+        }
+        return indexOfMinimalValue;
+    }
+
+    private static void swap(int[] array, int firstIndex, int secondIndex) {
         int temp = array[firstIndex];
         array[firstIndex] = array[secondIndex];
         array[secondIndex] = temp;
