@@ -26,27 +26,28 @@ public class main {
 	}
 
 	static int[] selectSort(int[] tab) {
-
-		int minVal = Integer.MAX_VALUE;
-		int whereMinVal = -1;
-		int tmp;
-		boolean isSorted = false;
-		for (int i = 0; i < tab.length && !isSorted; i++) {
-			isSorted = true;
-			for (int j = i; j < tab.length; j++) {
-				if (tab[j] < minVal) {
-					minVal = tab[j];
-					whereMinVal = j;
-					isSorted = false;
+		if (tab.length > 1) {
+			int minVal = Integer.MAX_VALUE;
+			int whereMinVal = -1;
+			int tmp;
+			boolean isSorted = false;
+			for (int i = 0; i < tab.length && !isSorted; i++) {
+				isSorted = true;
+				for (int j = i; j < tab.length; j++) {
+					if (tab[j] < minVal) {
+						minVal = tab[j];
+						whereMinVal = j;
+						isSorted = false;
+					}
 				}
-			}
-			if (!isSorted) {
-				tmp = tab[i];
-				tab[i] = minVal;
-				tab[whereMinVal] = tmp;
-				
-				whereMinVal = -1;
-				minVal = Integer.MAX_VALUE;
+				if (!isSorted) {
+					tmp = tab[i];
+					tab[i] = minVal;
+					tab[whereMinVal] = tmp;
+
+					whereMinVal = -1;
+					minVal = Integer.MAX_VALUE;
+				}
 			}
 		}
 		return tab;
