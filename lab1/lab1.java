@@ -8,7 +8,7 @@ public class lab1 {
         int array[] = new int[size];
         Random generator = new Random();
         for (int i = 0; i < array.length; i++) {
-            array[i] = generator.nextInt(1000);
+            array[i] = generator.nextInt(2000) - 1000; // range: (-1000 -- 1000)
         }
         return array;
     }
@@ -26,6 +26,7 @@ public class lab1 {
     }
 
     public static void main(String[] args) {
+
         int[] arr = generateArray(10);
         int[] arr2 = arr.clone();
 
