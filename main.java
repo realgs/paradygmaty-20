@@ -1,3 +1,7 @@
+
+// Autor: Pawel Winiarz, 218717
+// Paradygmaty Programowania Lab, Wt. godz. 19
+
 import java.util.Arrays;
 
 public class main {
@@ -21,10 +25,38 @@ public class main {
 		return tab;
 	}
 
-	public static void main(String[] args) {
+	static int[] selectSort(int[] tab) {
+
+		int minVal = Integer.MAX_VALUE;
+		int whereMinVal = -1;
+		int tmp;
+		boolean isSorted = false;
+		for (int i = 0; i < tab.length && !isSorted; i++) {
+			isSorted = true;
+			for (int j = i; j < tab.length; j++) {
+				if (tab[j] < minVal) {
+					minVal = tab[j];
+					whereMinVal = j;
+					isSorted = false;
+				}
+			}
+			if (!isSorted) {
+				tmp = tab[i];
+				tab[i] = minVal;
+				tab[whereMinVal] = tmp;
 				
-		System.out.println(Arrays.toString(bubbleSort(new int [] {9,5,2,4,1})));
-		
+				whereMinVal = -1;
+				minVal = Integer.MAX_VALUE;
+			}
+		}
+		return tab;
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println(Arrays.toString(bubbleSort(new int[] { 9, 5, 2, 4, 1 })));
+		System.out.println(Arrays.toString(selectSort(new int[] { 9, 5, 2, 4, 1 })));
+
 	}
 
 }
