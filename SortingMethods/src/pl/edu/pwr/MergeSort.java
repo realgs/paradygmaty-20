@@ -1,18 +1,17 @@
 package pl.edu.pwr;
 
-import java.util.Arrays;
 
 public class MergeSort {
     public void sort(int[] array) {
-        if(array == null) return;
+        if (array == null) return;
         mergeSort(array, 0, array.length - 1);
     }
 
     private void mergeSort(int[] array, int fst, int lst) {
-        if(fst < lst) {
+        if (fst < lst) {
             int mid = (fst + lst) / 2;
             mergeSort(array, fst, mid);
-            mergeSort(array, mid+1, lst);
+            mergeSort(array, mid + 1, lst);
             merge(array, fst, mid, lst);
         }
     }
@@ -32,8 +31,7 @@ public class MergeSort {
         while (i < l.length && j < r.length) {
             if (l[i] <= r[j]) {
                 array[k++] = l[i++];
-            }
-            else {
+            } else {
                 array[k++] = r[j++];
             }
         }

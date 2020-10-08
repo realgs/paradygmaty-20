@@ -1,6 +1,5 @@
 package pl.edu.pwr;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
@@ -14,7 +13,7 @@ public class Main {
                 intArrCopy = new int[intArr.length];
         int[] bigIntArr = {4323243, -2315555, 1236997, -1324578, 69994312},
                 bigIntArrCopy = new int[bigIntArr.length];
-        float[] floatArr = {1.1f, 5.28f, -3.42f, 1356.55f};
+//        float[] floatArr = {1.1f, 5.28f, -3.42f, 1356.55f};
 
 
         testSort(mSort, sSort, intArr, intArrCopy);
