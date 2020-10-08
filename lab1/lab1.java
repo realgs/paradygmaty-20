@@ -31,7 +31,7 @@ public class lab1 {
 
             int range = (int) Math.pow(10, i);
 
-            System.out.println("\nTest " + i + ", range: " + range + ":");
+            System.out.println("\nTest " + i + ", range: (" + "-" + range + " -- " + range + "):");
 
             int[] arr = generateArray(10, range);
             int[] arr2 = arr.clone();
