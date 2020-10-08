@@ -27,19 +27,27 @@ public class lab1 {
 
     public static void main(String[] args) {
 
-        int[] arr = generateArray(10, 10);
-        int[] arr2 = arr.clone();
+        for (int i = 1; i <= 5; i++) {
 
-        System.out.println("\nUnsorted array:");
-        printArray(arr);
+            int range = (int) Math.pow(10, i);
 
-        System.out.println("\nSorted by mergesort:");
-        Sort.mergesort(arr);
-        printArray(arr);
+            System.out.println("\nTest " + i + ", range: " + range + ":");
 
-        System.out.println("\nSorted by quicksort:");
-        Sort.quicksort(arr2, 0, arr2.length - 1);
-        printArray(arr2);
+            int[] arr = generateArray(10, range);
+            int[] arr2 = arr.clone();
+
+            System.out.println("\nUnsorted array:");
+            printArray(arr);
+
+            System.out.println("\nSorted by mergesort:");
+            Sort.mergesort(arr);
+            printArray(arr);
+
+            System.out.println("\nSorted by quicksort:");
+            Sort.quicksort(arr2, 0, arr2.length - 1);
+            printArray(arr2);
+
+        }
 
     }
 }
