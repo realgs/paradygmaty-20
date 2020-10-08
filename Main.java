@@ -19,6 +19,28 @@ public class Main
         }
     }
 
+    public static void bubbleSort(int [] tab)
+    {
+        for(int i = 0;i<tab.length;i++)
+        {
+            boolean isSorted = true;
+
+            for(int j = 0;j<tab.length - i - 1;j++)
+            {
+                if(tab[j] > tab[j + 1])
+                {
+                    swap(tab,j,j + 1);
+                    isSorted = false;
+                }
+            }
+
+            if(isSorted)
+            {
+                break;
+            }
+        }
+    }
+
     public static void swap(int [] tab,int firstIndex,int secondIndex)
     {
         int tmp = tab[firstIndex];
