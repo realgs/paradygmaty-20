@@ -1,129 +1,71 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
 
-# C extensions
-*.so
+# Created by https://www.toptal.com/developers/gitignore/api/eclipse
+# Edit at https://www.toptal.com/developers/gitignore?templates=eclipse
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# External tool builders
+.externalToolBuilders/
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
 
-# Translations
-*.mo
-*.pot
+# CDT-specific (C/C++ Development Tooling)
+.cproject
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+# CDT- autotools
+.autotools
 
-# Flask stuff:
-instance/
-.webassets-cache
+# Java annotation processor (APT)
+.factorypath
 
-# Scrapy stuff:
-.scrapy
+# PDT-specific (PHP Development Tools)
+.buildpath
 
-# Sphinx documentation
-docs/_build/
+# sbteclipse plugin
+.target
 
-# PyBuilder
-target/
+# Tern plugin
+.tern-project
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# TeXlipse plugin
+.texlipse
 
-# IPython
-profile_default/
-ipython_config.py
+# STS (Spring Tool Suite)
+.springBeans
 
-# pyenv
-.python-version
+# Code Recommenders
+.recommenders/
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+# Annotation Processing
+.apt_generated/
+.apt_generated_test/
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+# Uncomment this line if you wish to ignore the project description file.
+# Typically, this file would be tracked if it contains build/dependency configurations:
+#.project
 
-# SageMath parsed files
-*.sage.py
+### Eclipse Patch ###
+# Spring Boot Tooling
+.sts4-cache/
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+# End of https://www.toptal.com/developers/gitignore/api/eclipse
