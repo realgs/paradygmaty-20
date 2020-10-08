@@ -1,7 +1,24 @@
 public class Main {
 
-    public static int partition(int[] array, int start, int end){
-        return 0;
+    public static int partition(int[] array, int start, int stop){
+        int pivot = array[stop];
+        int i = (start-1);
+
+        for (int j = start; j < stop; j++) {
+            if (array[j] <= pivot) {
+                i++;
+
+                int swapTemp = array[i];
+                array[i] = array[j];
+                array[j] = swapTemp;
+            }
+        }
+
+        int swapTemp = array[i+1];
+        array[i+1] = array[stop];
+        array[stop] = swapTemp;
+
+        return i+1;
     }
 
     public static void shellSort(int arrayToSort[]) {
@@ -20,8 +37,12 @@ public class Main {
         }
     }
 
-    public static void quickSort(int[] array){
-
+    public static void quickSort(int[] array, int start, int stop){
+        if(start<stop){
+            int index=partition(array, start, stop);
+            quickSort(array, start, index-1);
+            quickSort(array, index+1, stop);
+        }
     }
 
     public static void main(String[] args){
