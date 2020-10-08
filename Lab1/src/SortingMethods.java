@@ -1,44 +1,52 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class SortingMethods {
 
     public static void main(String[] args) {
 
-        List<Integer> list = new ArrayList<>();
-
-        list.add(9);
-        list.add(1);
-        list.add(4);
-        list.add(2);
-        list.add(0);
-        list.add(1);
-        list.add(-1);
-        list.add(-1);
-        list.add(-4);
-
-        quicksort(list);
-
-        System.out.println(list);
-
-        list = new ArrayList<>();
-
-        list.add(9);
-        list.add(1);
-        list.add(4);
-        list.add(2);
-        list.add(0);
-        list.add(1);
-        list.add(-1);
-        list.add(-1);
-        list.add(-4);
-
-        list = mergesort(list);
-
-        System.out.println(list);
+        testQuicksort();
+        testMergesort();
     }
+
+    private static void testQuicksort() {
+
+        testSortingMethod("Quicksort");
+    }
+
+    private static void testMergesort() {
+
+        testSortingMethod("Mergesort");
+    }
+
+    private static void testSortingMethod(String methodName) {
+
+        List<List<Integer>> testCases = new ArrayList<>(Arrays.asList(
+
+                Arrays.asList(9, 1, 4, 0, 2, 150, -15, 0, 1, -1, -1, -4),
+                Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 2, 1, 0, -1, -1, -2),
+                Arrays.asList(-2, -1, -1, 0, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9),
+                Arrays.asList(5, 5, 5, 5, 5, 5, 5, 5),
+                Collections.emptyList()
+        ));
+
+        System.out.printf("# %s%n", methodName);
+
+        for(List<Integer> testCase : testCases) {
+
+            System.out.println("\nBefore sort: " + testCase);
+
+            if(methodName.equals("Quicksort"))
+                quicksort(testCase);
+            else if(methodName.equals("Mergesort"))
+                testCase = mergesort(testCase);
+            else throw new IllegalArgumentException();
+
+            System.out.println("After sort:  " + testCase);
+        }
+
+        System.out.println("\n");
+    }
+
 
     public static <T extends Comparable<T>> void quicksort(List<T> list) {
 
@@ -93,7 +101,6 @@ public class SortingMethods {
             T temp = list.get(left);
 
             list.set(left, list.get(right));
-
             list.set(right, temp);
         }
     }
@@ -104,6 +111,9 @@ public class SortingMethods {
     }
 
     private static <T extends Comparable<T>> List<T> mergesort(List<T> list, int startIndex, int endIndex) {
+
+        if(list.size() == 0)
+            return new ArrayList<>();
 
         if(startIndex == endIndex) {
 
