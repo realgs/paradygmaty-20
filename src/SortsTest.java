@@ -14,11 +14,14 @@ public class SortsTest {
             list.add(random.nextInt());
         }
         ArrayList<Integer> list1 = new ArrayList<>(list);
+        ArrayList<Integer> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Integer::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
     @Test
@@ -28,11 +31,14 @@ public class SortsTest {
             list.add(random.nextDouble());
         }
         ArrayList<Double> list1 = new ArrayList<>(list);
+        ArrayList<Double> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Double::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
     @Test
@@ -42,11 +48,14 @@ public class SortsTest {
             list.add(random.nextFloat());
         }
         ArrayList<Float> list1 = new ArrayList<>(list);
+        ArrayList<Float> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Float::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
     @Test
@@ -56,11 +65,14 @@ public class SortsTest {
             list.add(((Integer) random.nextInt()).byteValue());
         }
         ArrayList<Byte> list1 = new ArrayList<>(list);
+        ArrayList<Byte> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Byte::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
     @Test
@@ -70,11 +82,14 @@ public class SortsTest {
             list.add(1);
         }
         ArrayList<Integer> list1 = new ArrayList<>(list);
+        ArrayList<Integer> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Integer::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
     @Test
@@ -84,11 +99,14 @@ public class SortsTest {
             list.add(random.nextInt(1000) * -1);
         }
         ArrayList<Integer> list1 = new ArrayList<>(list);
+        ArrayList<Integer> list2 = new ArrayList<>(list);
         QuickSort.sort(list);
+        InsertSort.sort(list2);
         list1.sort(Integer::compareTo);
 
         assertTrue(ifSorted(list));
         assertTrue(ifSorted(list1));
+        assertTrue(ifSorted(list2));
     }
 
 
