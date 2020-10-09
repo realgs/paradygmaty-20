@@ -30,8 +30,18 @@ const insertSort = (array: number[]): number[] => {
     return array
 }
 
-const randomArray = generateRandomNumberArray(5, 0, 200)
-const bubbleSortedArray = bubbleSort(randomArray)
-const insertSortedArray = insertSort(randomArray)
+function testSorting(size: number, min: number, max: number, useInts: boolean) {
+    const array = generateRandomNumberArray(size, min, max, useInts)
+    const bubbleSortedArray = bubbleSort(array)
+    const insertSortedArray = insertSort(array)
 
-console.log(bubbleSortedArray, insertSortedArray)
+    console.log(bubbleSortedArray, insertSortedArray)
+}
+
+testSorting(10, 0, 200, true) // positive ints;
+testSorting(10, -200, 200, true) // mixed ints;
+testSorting(10, -200, -1, true) // negative ints;
+
+testSorting(10, 0, 200, false) // positive doubles;
+testSorting(10, -200, 200, false) // mixed doubles;
+testSorting(10, -200, -1, false) // negative doubles;
