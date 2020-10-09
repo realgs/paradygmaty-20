@@ -15,10 +15,14 @@ public class Tests {
             a[i] = r.nextInt(Integer.MAX_VALUE);
         }
         List<Integer> assertList = new ArrayList<>(Arrays.asList(a));
-        List<Integer> integerList = new ArrayList<>(Arrays.asList(a));
-        InsertSort.sort(integerList, Integer::compareTo);
+        List<Integer> list = new ArrayList<>(Arrays.asList(a));
+        InsertSort.sort(list, Integer::compareTo);
         Collections.sort(assertList);
-        Assert.assertEquals(assertList, integerList);
+        Assert.assertEquals(assertList, list);
+
+        list = new ArrayList<>(Arrays.asList(a));
+        BubbleSort.sort(list, Integer::compareTo);
+        Assert.assertEquals(assertList, list);
     }
 
     @Test
@@ -28,10 +32,14 @@ public class Tests {
             a[i] = r.nextDouble() * size;
         }
         List<Double> assertList = new ArrayList<>(Arrays.asList(a));
-        List<Double> doubleList = new ArrayList<>(Arrays.asList(a));
-        BubbleSort.sort(doubleList, Double::compareTo);
+        List<Double> list = new ArrayList<>(Arrays.asList(a));
+        BubbleSort.sort(list, Double::compareTo);
         Collections.sort(assertList);
-        Assert.assertEquals(assertList, doubleList);
+        Assert.assertEquals(assertList, list);
+
+        list = new ArrayList<>(Arrays.asList(a));
+        BubbleSort.sort(list, Double::compareTo);
+        Assert.assertEquals(assertList, list);
     }
 
 }
