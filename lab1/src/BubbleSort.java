@@ -3,7 +3,7 @@ import java.util.List;
 
 public class BubbleSort {
 
-    public static <T> void sort(List<T> list, Comparator<T> comparator){
+    public static <T> void sort(List<T> list, Comparator<T> comparator) {
         int size = list.size();
         for (int i = 1; i < size; ++i) {
             for (int left = 0; left < (size - i); ++left) {
@@ -14,7 +14,7 @@ public class BubbleSort {
         }
     }
 
-    private static <T> void swap(List<T> list, int left, int right){
+    private static <T> void swap(List<T> list, int left, int right) {
         T temp = list.get(left);
         list.set(left, list.get(right));
         list.set(right, temp);
