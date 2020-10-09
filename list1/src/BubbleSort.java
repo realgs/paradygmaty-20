@@ -19,4 +19,5 @@ public class BubbleSort {
         list.set(left, list.get(right));
         list.set(right, temp);
     }
+
 }
