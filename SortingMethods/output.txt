@@ -1,0 +1,25 @@
+z2data11.csv	Liczebność zbioru: 200 CocktailSort 	 porównania: 10348	 zamiany: 5295
+z2data11.csv	Liczebność zbioru: 200 CombSort 	 porównania: 3363	 zamiany: 627
+z2data12.csv	Liczebność zbioru: 400 CocktailSort 	 porównania: 41097	 zamiany: 19879
+z2data12.csv	Liczebność zbioru: 400 CombSort 	 porównania: 7106	 zamiany: 1401
+z2data13.csv	Liczebność zbioru: 800 CocktailSort 	 porównania: 159800	 zamiany: 78563
+z2data13.csv	Liczebność zbioru: 800 CombSort 	 porównania: 16576	 zamiany: 3413
+z2data21.csv	Liczebność zbioru: 200 CocktailSort 	 porównania: 19900	 zamiany: 10000
+z2data21.csv	Liczebność zbioru: 200 CombSort 	 porównania: 2766	 zamiany: 264
+z2data22.csv	Liczebność zbioru: 400 CocktailSort 	 porównania: 79800	 zamiany: 40000
+z2data22.csv	Liczebność zbioru: 400 CombSort 	 porównania: 6707	 zamiany: 572
+z2data23.csv	Liczebność zbioru: 800 CocktailSort 	 porównania: 319600	 zamiany: 160000
+z2data23.csv	Liczebność zbioru: 800 CombSort 	 porównania: 14978	 zamiany: 1242
+z2data31.csv	Liczebność zbioru: 200 CocktailSort 	 porównania: 199	 zamiany: 0
+z2data31.csv	Liczebność zbioru: 200 CombSort 	 porównania: 2567	 zamiany: 0
+z2data32.csv	Liczebność zbioru: 400 CocktailSort 	 porównania: 399	 zamiany: 0
+z2data32.csv	Liczebność zbioru: 400 CombSort 	 porównania: 6308	 zamiany: 0
+z2data33.csv	Liczebność zbioru: 800 CocktailSort 	 porównania: 799	 zamiany: 0
+z2data33.csv	Liczebność zbioru: 800 CombSort 	 porównania: 14179	 zamiany: 0
+
+1.Wplyw liczebnosci zbioru. CombSort okazuje sie lepszy w przypadku mniejszej liczebnosci zbioru
+ 2.Wplyw rodzaju danych wejsciowych. CombSort okazuje sie bardziej skuteczny w przypadku nieposortowanego
+ zbioru danych wejsciowych, wskazuje na to znacznie mniejsza liczba porownan i zamian. 
+ 3.Problemy implementacji. W mojej implementacji odczytywanie plikow jest zrealizowane przy pomocy klasy String.
+ Przy odpowiednio duzych ilosciach danych String nie pozwoli na zamieszczenie takiej ilosci danych.
+ Takze, jest niewygodna realizacja dodania nowego przypadku sortowania 
