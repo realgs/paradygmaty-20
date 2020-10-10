@@ -1,1 +1,0 @@
-"Wszystko " + "OK"
