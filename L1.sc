@@ -30,3 +30,37 @@ def insertsort(array:Array[Int]):Array[Int] =
   }
   array
 }
+
+def randomTest(): Boolean = {
+  var lista = new Array[Int](100)
+  for(i <- 0.to(99)) lista(i) = rand.nextInt(100000) - 50000
+
+  val insertList = insertsort(lista)
+  val quickList = quicksort(lista)
+
+  var flag1 = true
+  for(i <- 1.to(99))
+  {
+    if (insertList(i) < insertList(i-1))
+    {
+      println("insertsort doesn't work")
+      flag1 = false
+    }
+  }
+  if(flag1) println("insertsort works")
+
+  var flag2 = true
+  for(i <- 1.to(99))
+  {
+    if (quickList(i) < quickList(i-1))
+    {
+      println("quicksort doesn't work")
+      flag2 = false
+    }
+  }
+
+  if(flag2) println("quicksort works")
+  flag1 & flag2
+}
+
+for(i <- 1.to(10)) randomTest()
