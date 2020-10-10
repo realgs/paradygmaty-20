@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 Sorting/
-
+*.gitignore
 Lab2/idea./
 Proba/
 *.iml
