@@ -13,3 +13,20 @@ def quicksort (array: Array[Int]): Array[Int] =
     )
   }
 }
+
+def insertsort(array:Array[Int]):Array[Int] =
+{
+  for (i <- 1 until array.length)
+  {
+    for (j <- i - 1 to 0 by -1)
+    {
+      if (array(j+1) < array(j))
+      {
+        var temp = array(j)
+        array(j) = array(j+1)
+        array(j+1) = temp
+      }
+    }
+  }
+  array
+}
