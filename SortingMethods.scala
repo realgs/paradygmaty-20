@@ -1,9 +1,5 @@
 object SortingMethods {
-
-  def main(args:Array[String]): Unit ={
-    BubbleSort(Array(6,5,34,2,1));
-    SelectionSort(Array(6,5,34,2,1))
-  }
+  
 
   def BubbleSort(array:Array[Int]):Array[Int]={
     for(i<- 0 to array.length-2){
