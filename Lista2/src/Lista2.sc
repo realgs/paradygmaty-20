@@ -36,6 +36,17 @@ intervalChecker(List(), 0, 3.3)==false
 intervalChecker(List(1.1,-2.2), -2.2, 1.1)==true
 
 
+//zadanie 4
+def power(base: Double, exponent: Int): Double =
+  if(exponent<0) throw new Exception("Negative exponent")
+  else if(exponent==0) 1
+  else base*power(base,exponent-1)
+
+power(3, 4)==81
+power(4.4,0)==1
+power(2.5,4)==39.0625
+power(-2, 5)==(-32)
+//power(2, -3) // =>> throws Ecxeption "Negative exponent"
 
 
 
