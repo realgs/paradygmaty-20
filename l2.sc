@@ -21,3 +21,23 @@ def concatenate(list: List[String], endChar: Char, separator: Char):String =
 concatenate(List("This","is","test","string"),'.',',');
 concatenate(List("Single string"),'.',',');
 concatenate(List(),'.',',');
+
+// 3)
+def checkIfInRange(list: List[Double], range: (Double,Double)):Boolean =
+  if(list.isEmpty)
+      throw new Exception("Podano pusta liste.")
+  else if(range._1 > range._2)
+      throw new Exception("Podano nieprawidłowy zakres.")
+  else if(range._1 > list.head || range._2 < list.head)
+      false
+  else if(!list.tail.isEmpty)
+      checkIfInRange(list.tail,range)
+  else
+      true
+
+checkIfInRange(List(1,2,3),(0,10))
+checkIfInRange(List(-1,-2,-3),(0,10))
+checkIfInRange(List(0.5),(-1,1))
+checkIfInRange(List(-1,1),(-1,1))
+checkIfInRange(List(0,0,0),(0,0))
+checkIfInRange(List(2,5.5,6),(0,5.5))
