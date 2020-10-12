@@ -22,11 +22,11 @@ def transformString(listOfStrings: List[String], endPunctuation: String, separat
   }
 }
 
-transformString(List(), "?", " ")
-transformString(List(""), "...", " ")
-transformString(List("", "", ""), "!", ", ")
-transformString(List("This", "is", "test"), ".", " ")
-transformString(List("Unusu", "visu", "ritual"), "!", "al ")
+transformString(List(), "?", " ") == ""
+transformString(List(""), "...", " ") == "..."
+transformString(List("", "", ""), "!", ", ") == ", , !"
+transformString(List("This", "is", "test"), ".", " ") == "This is test."
+transformString(List("Unusu", "visu", "ritual"), "!", "al ") == "Unusual visual ritual!"
 
 // Function 3
 @tailrec
