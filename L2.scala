@@ -27,3 +27,26 @@ makeSentence(List("D","N","A"),"","!") == "DNA!"
 makeSentence(List("D","N","A"),"","") == "DNA"
 
 //zadanie 3
+
+def doNumbersFit(numbList : List[Double], X : Double, Y : Double) : Boolean =
+  if(numbList == Nil) true
+  else (numbList.head >= X && numbList.head <= Y) && doNumbersFit(numbList.tail, X, Y)
+
+doNumbersFit(List(2,3,4,5,6), 2, 5) == false
+doNumbersFit(List(1,10,100), 0, 101) == true
+doNumbersFit(List(1,10,100), 0.99, 100.001) == true
+doNumbersFit(List(1.55,2.6,9.99), 1, 10) == true
+doNumbersFit(List(), 1, 10) == true
+doNumbersFit(List(0), 0, 0) == true
+
+//zadanie 4
+
+def pow(base: Double, exp: Int) : Double =
+  if(exp == 0) 1
+  else base * pow(base, exp - 1)
+
+pow(2,6) == 64
+pow(2,0) == 1
+pow(3.5,4) == 150.0625
+pow(0, 10) == 0
+pow(0.25, 2) == 0.0625
