@@ -41,3 +41,15 @@ checkIfInRange(List(0.5),(-1,1))
 checkIfInRange(List(-1,1),(-1,1))
 checkIfInRange(List(0,0,0),(0,0))
 checkIfInRange(List(2,5.5,6),(0,5.5))
+
+// 4)
+def power(x: Int, y: Int): Int =
+  if(y == 0)
+    1
+  else if(y == 1)
+    x
+  else
+    x * power(x, y - 1)
+
+power(3,2)
+power(2,3)
