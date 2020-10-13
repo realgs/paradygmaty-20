@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 // Zadanie 1
 def productOfList (xs: List[Double]): Double=
   if(xs.nonEmpty) {
@@ -13,20 +15,22 @@ productOfList(List(2.0,-3.0,-4.0))==24.0
 
 // Zadanie 2
 def makeSentence(lOfStrings: List[String],endSymbol:String,separator:String):String={
-  if(lOfStrings.nonEmpty){
+  if(lOfStrings==null) throw new Exception("lista nie moze byc nullem ")
+  if(lOfStrings!=Nil){
       if(lOfStrings.length > 1) lOfStrings.head+separator+makeSentence(lOfStrings.tail,endSymbol,separator)
       else lOfStrings.head+endSymbol
   }
-  else endSymbol
+  else throw new Exception("Zle dane wejsciowe ")
 }
 makeSentence(List("Lista","Druga"),"."," ").equals("Lista Druga.")
 makeSentence(List("Ala","ma","kota"),"?"," , ").equals("Ala , ma , kota?")
-makeSentence(List(),"."," ").equals(".")
+makeSentence(List(),"."," ")
 makeSentence(List("a","l","a"),",","").equals("ala,")
-makeSentence(List("One"),".","   ").equals("One.")
+makeSentence(null,".","   ")
 
 // Zadanie 3
-def checkNumbers (listOfNumbers: List[Double],X:Double,Y:Double): Boolean =
+@tailrec
+def checkNumbers(listOfNumbers: List[Double], X:Double, Y:Double): Boolean =
     if(listOfNumbers.nonEmpty){
           if(listOfNumbers.head>=X && listOfNumbers.head<=Y)
               if (listOfNumbers.length>1) checkNumbers(listOfNumbers.tail, X, Y)
