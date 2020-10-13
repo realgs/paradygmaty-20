@@ -9,8 +9,8 @@ def multiplyNumbers(numbers: List[Double]): Double =
 multiplyNumbers(Nil) == 0
 multiplyNumbers(List(2)) == 2
 multiplyNumbers(List(12.5, 0, 11, 10)) == 0
-multiplyNumbers(List(1, 2, 3, 4, 5)) == 120
 multiplyNumbers(List(1.5, 2.25, -2.75, 0.5, 4)) == -18.5625
+multiplyNumbers(List(-12345.12345, 23456.23456)) <= -2.895701 * Math.pow(10, 8)
 
 // Function 2
 def transformString(listOfStrings: List[String], endPunctuation: String, separator: String): String =
@@ -39,23 +39,29 @@ withinRange(List(-1, 0, 1), -1, 1)
 withinRange(List(-1, -2, 0, 2), -1, 1)
 
 // Function 4
+// tylko w potegowaniu uzywam BigDecimal, poniewaz w tym przypadku liczby moga latwo urosnac 'duze'
 def power(base: Double, exponent: Int): BigDecimal = {
-  @tailrec
-  def subPower(result: Double, exponent: Int): BigDecimal = exponent match {
-    case 0 => 1
-    case 1 => result
-    case _ => subPower(result * base, exponent - 1)
-  }
-  subPower(base, exponent)
+  if(exponent < 0 && base == 0) throw new Exception("Undefined value")
+  if(exponent == 0) 1
+  else if (exponent > 0) base * power(base, exponent - 1)
+  else power(base, exponent + 1) / base
 }
 
-power(0, 1) == 0
-power(0, 0) == 1
-power(10, 0) == 1
-power(10, 1) == 10
-power(-2, 9) == -512
-power(2, 9) == 512
-power(2.5, 2) == 6.25
-power(-1.5, 2) == 2.25
-power(123, 8)
-power(123.1123, 60)
+power(0, 1) == Math.pow(0, 1)
+power(0, 0) == Math.pow(0, 0)
+power(10, 0) == Math.pow(10, 0)
+power(-2, 0) == Math.pow(-2, 0)
+power(-2, 9) == Math.pow(-2, 9)
+power(2, 9) == Math.pow(2, 9)
+power(2.5, 4) == Math.pow(2.5, 4)
+power(-1.5, 2) == Math.pow(-1.5, 2)
+power(5, -3) == Math.pow(5, -3)
+
+// dla bardziej szczegółowych wynikow Math.pow nie zadziala wystarczajaco dokladnie bo java nie uzywa BigDecimal w tej metodzie
+// wynik z funkcji uzywajacej BigDecimal jest bardziej dokladny niz Math.pow wiec sprawdzam >=
+
+power(123, 20) >= Math.pow(123, 20)
+power(123.1123, 60) >= 2.61870571 * Math.pow(10, 125)
+power(123, -20) >= 1.5918339803 * Math.pow(10, -42)
+power(0, -1) // exception
+//
