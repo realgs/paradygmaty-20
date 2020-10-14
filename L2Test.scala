@@ -30,7 +30,7 @@ class L2Test extends FunSuite {
     assert(L2.countPower(2, -5) == 0.03125)
     assert(L2.countPower(2,0) == 1)
     assert(L2.countPower(-9,2) == 81)
-    assert(L2.countPower(0, 0) == 1)
+    assert(L2.countPower(2.5, 2) == 6.25)
   }
 
 }
