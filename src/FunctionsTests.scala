@@ -39,4 +39,3 @@ object FunctionsTests {
     power(0, -1) // exception
   }
 }
-//
