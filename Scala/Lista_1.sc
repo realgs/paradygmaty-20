@@ -5,15 +5,19 @@ def multiply(x:List[Double]):List[Double]={
 }
 
 println(multiply(List(1.2, 3, 4, 5)));
+println(Nil);
+println(multiply(List(-2.5, 5.5, 7)));
 
 //ZADANIE 2
 def concatenate(x: List[String], sep: Char, end:Char):String={
-  if(x==Nil) end.toString
+  if(x==Nil) ""
   else if(x.size==1) x.head+end
   else x.head+sep+concatenate(x.tail, sep, end)
 }
 
 println(concatenate(List("Ala", "ma", "kota"), ',', '.'));
+println(concatenate(Nil, ',', '!'));
+println(concatenate(List(), ';', '?'));
 
 //ZADANIE 3
 def checkIfInRange(x: List[Double], beginning: Double, end: Double):Boolean={
