@@ -13,6 +13,7 @@ object L2 {
 
   val checkRange: (List[Double], Double, Double) => Boolean = (list: List[Double], x: Double, y: Double) =>
     if (list == Nil) true
+    else if (x > y) checkRange(list, y, x)
     else if (list.head >= x && list.head <= y) checkRange(list.tail, x, y)
     else false
 

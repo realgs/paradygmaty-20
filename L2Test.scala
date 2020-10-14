@@ -18,7 +18,7 @@ class L2Test extends FunSuite {
   }
 
   test("Test for 'checkRange' function: ") {
-    assert(L2.checkRange(List(4, 5, 8, 0), -5, 10))
+    assert(L2.checkRange(List(4, 5, 8, 0), 10, -5))
     assert(!L2.checkRange(List(3.5,0.3,-6.9,2.1), 0, 5))
     assert(!L2.checkRange(List(3,0,-6,2), -8, 0))
     assert(L2.checkRange(List(-4.2,-4.1,0.75,2.2), -5, 2.5))
