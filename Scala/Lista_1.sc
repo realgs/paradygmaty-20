@@ -16,9 +16,18 @@ def concatenate(x: List[String], sep: Char, end:Char):String={
 println(concatenate(List("Ala", "ma", "kota"), ',', '.'));
 
 //ZADANIE 3
-def checkIfInRange(x: List[Double]):Boolean={
-true
+def checkIfInRange(x: List[Double], beginning: Double, end: Double):Boolean={
+  if(x==Nil) false
+  else{
+    if(x.size==1 && x.head>=beginning && x.head<=end) true
+    else if(x.head>=beginning && x.head<=end) checkIfInRange(x.tail, beginning, end)
+    else false
+  }
 }
+
+checkIfInRange(List(1.2, 2, 4, 5.5), 1, 7);
+checkIfInRange(List(1.2, 2, 4, 5.5), 1.3, 7);
+checkIfInRange(Nil, 1, 7);
 
 //ZADANIE 4
 def power(x:Double,p:Double):Double={
