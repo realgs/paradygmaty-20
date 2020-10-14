@@ -17,7 +17,7 @@ def transformString(listOfStrings: List[String], endPunctuation: String, separat
   if(listOfStrings == Nil) ""
   else {
     val punctuation = if(listOfStrings.tail != Nil) separator else endPunctuation
-    s"${listOfStrings.head}" + punctuation + transformString(listOfStrings.tail, endPunctuation, separator)
+    listOfStrings.head + punctuation + transformString(listOfStrings.tail, endPunctuation, separator)
   }
 
 transformString(List(), "?", " ") == ""
