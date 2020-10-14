@@ -21,6 +21,12 @@ true
 }
 
 //ZADANIE 4
-def power(x:Double,y:Double):Double={
-1
+def power(x:Double,p:Double):Double={
+  if(p==0) 1
+  else if(p<0) (1/x)*power(x, p+1)
+  else x+power(x, p-1)
 }
+
+println(power(2.4, 3));
+println(power(2.4, -3));
+println(power(2.4, 0));
