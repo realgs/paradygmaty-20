@@ -7,9 +7,13 @@ def multiply(x:List[Double]):List[Double]={
 println(multiply(List(1.2, 3, 4, 5)));
 
 //ZADANIE 2
-def concatenate(x: List[String]):String={
-  
+def concatenate(x: List[String], sep: Char, end:Char):String={
+  if(x==Nil) end.toString
+  else if(x.size==1) x.head+end
+  else x.head+sep+concatenate(x.tail, sep, end)
 }
+
+println(concatenate(List("Ala", "ma", "kota"), ',', '.'));
 
 //ZADANIE 3
 def checkIfInRange(x: List[Double]):Boolean={
