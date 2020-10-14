@@ -29,3 +29,4 @@ object L2 {
     else if(index < 0) 1/base * power(base, index+1)
     else base * power(base, index-1)
 }
+
