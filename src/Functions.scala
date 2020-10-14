@@ -30,3 +30,4 @@ object Functions {
     else power(base, exponent + 1) / base
   }
 }
+//
