@@ -11,16 +11,23 @@ listProduct(List(2.25,2,4,10)) == 180
 listProduct(List(1.1,2.2,3.3,99.9))
 math.abs(797.8014 - listProduct(List(1.1,2.2,3.3,99.9))) <= 1.0e-12 //true, w zakresie błędu obliczeń
 listProduct(List(0,0,0,0,0)) == 0
+listProduct(List(-2,4,-1)) == 8
+listProduct(List(-2,-4,-1)) == -8
+listProduct(List(-1)) == -1
+listProduct(List(-1,2.25,4,-3)) == 27
+listProduct(List(-1,2.25,4,-3,0)) == 0
 
 //zadanie 2
 
-def makeSentence(wordsList : List[String], separator : String, ending : String) : String =
-  if(wordsList == Nil) ending
-  else if(wordsList.tail != Nil)  wordsList.head + separator + makeSentence(wordsList.tail, separator, ending)
-  else wordsList.head + makeSentence(wordsList.tail, separator, ending)
+def makeSentence(wordsList : List[String], separator : String, ending : String)
+  def makeSentenceInner(wordsList : List[String], separator : String, ending : String) : String =
+    if(wordsList == Nil) ending
+    else if(wordsList.tail != Nil)  wordsList.head + separator + makeSentence(wordsList.tail, separator, ending)
+    else wordsList.head + makeSentence(wordsList.tail, separator, ending)
+  if(wordsList == Nil) throw new Exception("podano pustą liste")
+  makeSentenceInner(wordsList, separator, ending)
 
 makeSentence(List("Ala","ma","kota")," ** ",".") == "Ala ** ma ** kota."
-makeSentence(List()," -- ",".") == "."
 makeSentence(List("")," ",".") == "."
 makeSentence(List("1","2","3"),"+","?") == "1+2+3?"
 makeSentence(List("D","N","A"),"","!") == "DNA!"
@@ -42,11 +49,17 @@ doNumbersFit(List(0), 0, 0) == true
 //zadanie 4
 
 def pow(base: Double, exp: Int) : Double =
-  if(exp == 0) 1
-  else base * pow(base, exp - 1)
+  if(base == 0 && exp <= 0) throw new Exception("wyrażenie nieoznaczone: 0^0 lub dzielenie przez 0: 1/(0^n)")
+  else if(base == 0) 0  
+  else if(exp == 0) 1
+  else if(exp > 0) base * pow(base, exp - 1)
+  else (1/base) * pow(base, exp + 1)
 
 pow(2,6) == 64
 pow(2,0) == 1
 pow(3.5,4) == 150.0625
 pow(0, 10) == 0
 pow(0.25, 2) == 0.0625
+pow(-2,3) == -8
+pow(-2, -2) == 0.25
+pow(4, -3) == 0.015625
