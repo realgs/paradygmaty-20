@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Own
+.gitignore
+.bsp
+.idea
+project
+target
+build.sbt
+
+
+
