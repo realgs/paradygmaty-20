@@ -1,4 +1,4 @@
-object l2 {
+class list2 {
   //zadanie 1
   def multiply(xs: List[Double]): Double =
     if (xs == Nil) 0
