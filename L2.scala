@@ -1,7 +1,6 @@
 package List2
 
 object L2 {
-
   val product: List[Double] => Double = (list: List[Double]) =>
     if(list == Nil) 0
     else if(list.tail != Nil) list.head * product(list.tail)
@@ -29,6 +28,4 @@ object L2 {
     else if(base == 0) 0
     else if(index < 0) 1/base * power(base, index+1)
     else base * power(base, index-1)
-
 }
-
