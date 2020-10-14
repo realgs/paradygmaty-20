@@ -17,7 +17,7 @@ class L2Test extends FunSuite {
     assertThrows[Exception](L2.createString(List(),':','!'))
   }
 
-  test("Test for 'checkRange' method: ") {
+  test("Test for 'checkRange' function: ") {
     assert(L2.checkRange(List(4, 5, 8, 0), -5, 10))
     assert(!L2.checkRange(List(3.5,0.3,-6.9,2.1), 0, 5))
     assert(!L2.checkRange(List(3,0,-6,2), -8, 0))
