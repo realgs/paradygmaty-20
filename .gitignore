@@ -130,9 +130,13 @@ dmypy.json
 
 <<<<<<< HEAD
 # KB ignore
+.gitignore
 Lista1/.idea/
 Lista1/Lista1.iml
 Lista1/out/
+Lista2/.idea/
+Lista2/Lista2.iml
+Lista2/out/
 =======
 .DS_Store
 .gitignore
