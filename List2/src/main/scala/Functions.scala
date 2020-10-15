@@ -26,6 +26,7 @@ object Functions {
   }
 
   // Zadanie 3
+  @tailrec
   private def areInRec(numbers: List[Double], lowerBound: Double, upperBound: Double): Boolean = {
     if (numbers == Nil) true
     else {
@@ -52,6 +53,8 @@ object Functions {
         else auxExponent(exponent >> 1, result, power * power)
       }
     }
+
+    if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
 
     if (exponent >= 0) {
       auxExponent(exponent, 1, base)

@@ -85,6 +85,12 @@ class FunctionsTest extends FunSuite {
     assert(Functions.exponent(0, 15) === 0)
   }
 
+  test("exponent.undefined") {
+    assertThrows[IllegalArgumentException] {
+      Functions.exponent(0, 0);
+    }
+  }
+
   test("exponent.positiveBase") {
     assert(Functions.exponent(9.5, 3) === 857.375)
   }
