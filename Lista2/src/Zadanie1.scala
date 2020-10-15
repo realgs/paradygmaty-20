@@ -1,5 +1,6 @@
+import scala.math.BigDecimal
 object Zadanie1 extends App{
-  def product(list: List[Double]): Double =
+  def product(list: List[Double]): BigDecimal =
     if(list.isEmpty) 0
     else if(list.tail!=Nil) list.head * product(list.tail)
     else list.head
