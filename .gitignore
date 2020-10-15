@@ -6,10 +6,13 @@ __pycache__/
 Sorting/
 *.gitignore
 Lab2/.idea/
-Lab2/src
+Lab2/src/
+/.idea/
 *.iml
 # C extensions
 *.so
+l1
+warunki zaliczenia
 
 # Distribution / packaging
 .Python
