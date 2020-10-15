@@ -14,4 +14,11 @@ class Functions {
     else if (list.length == 1) list.head + finishSign
     else list.head + separator + createSentence(list.tail, finishSign, separator)
   }
+
+  // zadanie 3
+  def areInRange(list: List[Double], X: Double, Y: Double) : Boolean = {
+    if (list.isEmpty) true
+    else if (list.head >= X && list.head <= Y) areInRange(list.tail, X, Y)
+    else false
+  }
 }
