@@ -6,8 +6,7 @@ __pycache__/
 Sorting/
 *.gitignore
 Lab2/.idea/
-/.idea/
-/idea/
+Lab2/src
 *.iml
 # C extensions
 *.so
