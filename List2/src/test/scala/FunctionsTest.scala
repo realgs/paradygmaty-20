@@ -87,7 +87,7 @@ class FunctionsTest extends FunSuite {
 
   test("exponent.undefined") {
     assertThrows[IllegalArgumentException] {
-      Functions.exponent(0, 0);
+      Functions.exponent(0, 0)
     }
   }
 

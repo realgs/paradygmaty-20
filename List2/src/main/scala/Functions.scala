@@ -21,7 +21,7 @@ object Functions {
 
   def concatenateStrings(words: List[String], separator: String, endOfLineCharacter: Char): String = {
     if (words == null || separator == null) {
-      throw new IllegalArgumentException("Can't concatenate null values");
+      throw new IllegalArgumentException("Can't concatenate null values")
     } else concatenateStringsRec(words, separator, endOfLineCharacter)
   }
 
