@@ -1,10 +1,10 @@
 object zad03 {
   @scala.annotation.tailrec
-  def inRange(list: List[Double], left: Double, right: Double): Boolean = {
-    if (left > right) throw new Exception("Left cannot be greater than right")
+  def inRange(list: List[Double], lower: Double, upper: Double): Boolean = {
+    if (lower > upper) throw new Exception("Lower cannot be greater than upper")
     else if (list == Nil) true
-    else if (list.head < left || list.head > right) false
-    else inRange(list.tail, left, right)
+    else if (list.head < lower || list.head > upper) false
+    else inRange(list.tail, lower, upper)
   }
 
   def runTests(): Unit = {

@@ -1,17 +1,17 @@
 object zad04 {
-  private def checkValidity(base: Double, index: Int): Unit = {
-    if (base == 0 && index <= 0) throw new Exception("Invalid input")
+  def toPower(base: Double, exponent: Int): Double = {
+    validate(base, exponent)
+    if (exponent < 0) 1 / calcPower(base, -exponent)
+    else calcPower(base, exponent)
   }
 
-  private def calcPower(base: Double, nonNegativeIndex: Int): Double = {
-    if (nonNegativeIndex == 0) 1
-    else base * calcPower(base, nonNegativeIndex - 1)
+  private def validate(base: Double, exponent: Int): Unit = {
+    if (base == 0 && exponent <= 0) throw new Exception("Invalid input")
   }
 
-  def toPower(base: Double, index: Int): Double = {
-    checkValidity(base, index)
-    if (index < 0) 1 / calcPower(base, -1 * index)
-    else calcPower(base, index)
+  private def calcPower(base: Double, nonNegativeExponent: Int): Double = {
+    if (nonNegativeExponent == 0) 1
+    else base * calcPower(base, nonNegativeExponent - 1)
   }
 
   def runTests(): Unit = {
