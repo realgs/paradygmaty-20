@@ -1,6 +1,6 @@
 package functions
 
-class Functions {
+object Functions {
   // zadanie 1
   def multiply (list: List[Double]) : Double = {
     if (list.isEmpty) 0.0
