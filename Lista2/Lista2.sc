@@ -30,3 +30,20 @@ areInInterval(List(),2,1)
 areInInterval(List(1.5),1.5,1.5)
 areInInterval(List(1,2,3,4,5),0.5,5.1)
 areInInterval(List(12,37.41,15.23,8.4),9,7)
+
+//Zadanie 4
+val power: (Double,Int) => Double = (base,exponent) =>
+  (base,exponent) match
+    {
+    case (_,0) => 1
+    case (0,_) => 0
+    case _ =>
+    if(exponent < 0) power(1/base,-exponent)
+    else base * power(base,exponent - 1)
+    }
+
+power(0,0)
+power(0,-1)
+power(10,0)
+power(0.5,-3)
+power(-2,-4)
