@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions
 
+import scala.util.control.Exception
+
 class l2Tests {
   @Test def testFunction1 {
     val function1 = new list2
@@ -27,6 +29,7 @@ class l2Tests {
     Assertions.assertFalse(function3.checkNumbers(List(-25.23412, -100.231, 123.123), -10, -10))
     Assertions.assertTrue(function3.checkNumbers(List(1), 1, 1))
     Assertions.assertFalse(function3.checkNumbers(List(-123.124, -345, 123, 124.25, 36.346), -123.124, 124.25))
+
   }
 
   @Test def testFunction4: Unit = {
@@ -37,5 +40,15 @@ class l2Tests {
     Assertions.assertEquals(1, function4.pow(12345,0))
     Assertions.assertEquals(4124.64, function4.pow(4124.64,1))
     Assertions.assertEquals(0, function4.pow(0,100))
+  }
+
+  @Test
+  def functionThirdExceptionTest: Unit = {
+    Assertions.assertThrows(classOf[Exception], () => (new list2).checkNumbers(List(4,64.12,421), 3, -8))
+  }
+
+  @Test
+  def functionFourthExceptionTest: Unit = {
+    Assertions.assertThrows(classOf[Exception], () => (new list2).pow(0, -1))
   }
 }

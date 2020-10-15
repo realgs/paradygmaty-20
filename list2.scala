@@ -21,7 +21,8 @@ class list2 {
 
   //zadanie 4
   def pow(base: Double, exponent: Int): Double =
-    if (exponent == 0) 1
+    if (exponent < 0 && base == 0) throw new Exception("illegal expression")
+    else if (exponent == 0) 1
     else if (exponent > 0) base * pow(base, exponent - 1)
     else 1 / base * pow(base, exponent + 1)
 
