@@ -37,9 +37,9 @@ def checkNumbers(listOfNumbers: List[Double], X:Double, Y:Double): Boolean =
               else true
           else false
     }
-    else false
+    else true
 
-!checkNumbers(List(), 0.5, 4.0)
+checkNumbers(List(), 0.5, 4.0)
 checkNumbers(List(0.5, 2.0, 4.0), 0.5, 4.0)
 checkNumbers(List(1.0,1.0,1.0),1.0,1.0)
 !checkNumbers(List(4.5,2.0,3.0),0.5,4.0)
