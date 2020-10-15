@@ -44,29 +44,29 @@ object Functions {
   }
 
   // Zadanie 4
-  def exponent(base: Double, exponent: Int): Double = {
+  def power(base: Double, exponent: Int): Double = {
     @tailrec
-    def auxExponent(exponent: Int, result: Double, power: Double): Double = {
+    def auxPower(exponent: Int, result: Double, power: Double): Double = {
       if (exponent <= 0) result
       else {
-        if (exponent % 2 == 1) auxExponent(exponent >> 1, result * power, power * power)
-        else auxExponent(exponent >> 1, result, power * power)
+        if (exponent % 2 == 1) auxPower(exponent >> 1, result * power, power * power)
+        else auxPower(exponent >> 1, result, power * power)
       }
     }
 
     if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
 
     if (exponent >= 0) {
-      auxExponent(exponent, 1, base)
+      auxPower(exponent, 1, base)
     } else {
-      auxExponent(-exponent, 1, 1 / base)
+      auxPower(-exponent, 1, 1 / base)
     }
   }
 
-  def linearExponentDemo(base: Double, exponent: Int): Double = {
+  def linearPowerDemo(base: Double, exponent: Int): Double = {
     if (exponent == 0) 1
     else {
-      base * linearExponentDemo(base, exponent - 1)
+      base * linearPowerDemo(base, exponent - 1)
     }
   }
 }

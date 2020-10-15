@@ -81,35 +81,35 @@ class FunctionsTest extends FunSuite {
 
 
   // Zadanie 4
-  test("exponent.zeroBase") {
-    assert(Functions.exponent(0, 15) === 0)
+  test("power.zeroBase") {
+    assert(Functions.power(0, 15) === 0)
   }
 
-  test("exponent.undefined") {
+  test("power.undefined") {
     assertThrows[IllegalArgumentException] {
-      Functions.exponent(0, 0)
+      Functions.power(0, 0)
     }
   }
 
-  test("exponent.positiveBase") {
-    assert(Functions.exponent(9.5, 3) === 857.375)
+  test("power.positiveBase") {
+    assert(Functions.power(9.5, 3) === 857.375)
   }
 
-  test("exponent.negativeBase") {
-    assert(Math.abs(Functions.exponent(-3.14, 5) - -305.244776182) < 0.000001)
+  test("power.negativeBase") {
+    assert(Math.abs(Functions.power(-3.14, 5) - -305.244776182) < 0.000001)
   }
 
-  test("exponent.negativeExponent") {
-    assert(Functions.exponent(1.0 / 2, -9) === 512)
+  test("power.negativeExponent") {
+    assert(Functions.power(1.0 / 2, -9) === 512)
   }
 
-  test("exponent.maxExponent") {
-    assert(Functions.exponent(1.0, Integer.MAX_VALUE) === 1)
+  test("power.maxExponent") {
+    assert(Functions.power(1.0, Integer.MAX_VALUE) === 1)
   }
 
-  test("linearExponentDemo.maxExponent") {
+  test("linearPowerDemo.maxExponent") {
     assertThrows[StackOverflowError] {
-      Functions.linearExponentDemo(1.0, Integer.MAX_VALUE)
+      Functions.linearPowerDemo(1.0, Integer.MAX_VALUE)
     }
   }
 }
