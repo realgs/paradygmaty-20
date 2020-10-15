@@ -17,7 +17,7 @@ class L2 {
       if(xs.tail!=Nil)
         xs.head+separator+makeSentence(xs.tail,separator,end)
       else
-        xs.head+"."
+        xs.head+end
     }
   }
 
@@ -33,9 +33,9 @@ class L2 {
     if (pw == 0)
       1
     else {
-      if (pw < 0)
+      if (pw < 0) 
         (1 / base) * power(1/base, -pw - 1)
-      else
+      else 
         base * power(base, pw - 1)
     }
   }
