@@ -75,7 +75,7 @@ def power(x: Int, y: Int): Double =
     powerPositive(x, y)
 
 power(3, 2)
-power(2, 3)
+power(-2, 3)
 power(5, -2)
 power(2, 0)
 power(0, 0)
