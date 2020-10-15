@@ -1,13 +1,18 @@
 // Karol Waliszewski
 
 // 1)
-def product(a: Double, b: Double): Double =
-    a * b
+def productList(list: List[Double]): Double =
+  if(list == Nil)
+    0
+  else if(list.tail.isEmpty)
+    list.head
+  else
+    list.head * productList(list.tail)
 
-product(1, 2)
-product(0, 6)
-product(-1.5, 2)
-product(2.5, 0.5)
+productList(List(1, 2, 3, 4, 5))
+productList(List(1, 2, 0))
+productList(List(-1, -5, 5))
+productList(List(0.5, 0.5))
 
 // 2)
 def concatenate(list: List[String], endChar: Char, separator: Char):String =
