@@ -25,7 +25,8 @@ object Functions {
   // zadanie 4
   def power(base: Double, exponent: Int) : Double = {
     if (exponent == 0) 1
-    else if (exponent > 0) base * power(base, exponent - 1)
-    else (1 / base) * power(base, exponent + 1)
+    else if (exponent >= 0) base * power(base, exponent - 1)
+    else if (base != 0) (1 / base) * power(base, exponent + 1)
+    else throw new Exception("0 can't have negative exponent")
   }
 }
