@@ -17,11 +17,10 @@ object Functions {
 
   // Function 3
   @tailrec
-  def withinRange(numbers: List[Double], startRange: Double, endRange: Double): Boolean = {
+  def withinRange(numbers: List[Double], startRange: Double, endRange: Double): Boolean =
     if(startRange > endRange) throw new Exception("Illogical range")
-    if (numbers == Nil) true
+    else if (numbers == Nil) true
     else (numbers.head >= startRange && numbers.head <= endRange) && withinRange(numbers.tail, startRange, endRange)
-  }
 
   // Function 4
   // tylko w potegowaniu uzywam BigDecimal, poniewaz w tym przypadku liczby moga latwo urosnac 'duze'
