@@ -19,6 +19,8 @@ object FunctionsTests {
     println(withinRange(List(-125.5, -1.2, 0, 2, 4.25), -125.5, 4.25))
     println(withinRange(List(-1, 0, 1), -1, 1))
     println(withinRange(List(-1, -2, 0, 2), -1, 1), " powinno rzucic false")
+//    println(withinRange(List(1,2,3,4), 5, 4)) // exception - illogical range
+
 
     println(power(0, 1) == Math.pow(0, 1))
     println(power(0, 0) == Math.pow(0, 0))
