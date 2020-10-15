@@ -21,4 +21,11 @@ class Functions {
     else if (list.head >= X && list.head <= Y) areInRange(list.tail, X, Y)
     else false
   }
+
+  // zadanie 4
+  def power(base: Double, exponent: Int) : Double = {
+    if (exponent == 0) 1
+    else if (exponent > 0) base * power(base, exponent - 1)
+    else (1 / base) * power(base, exponent + 1)
+  }
 }
