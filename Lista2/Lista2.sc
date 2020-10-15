@@ -19,3 +19,14 @@ constructASentence(List("This","is","a","test"),'.',' ')
 constructASentence(List(),'.',' ')
 constructASentence(List("Test"),'!',',')
 constructASentence(List("Some input"),'?','s')
+
+//Zadanie 3
+val areInInterval: (List[Double],Double,Double) => Boolean = (numbers,X,Y) =>
+  if(numbers.isEmpty) true
+  else if(numbers.head >= X && numbers.head <= Y) areInInterval(numbers.tail,X,Y)
+  else false
+
+areInInterval(List(),2,1)
+areInInterval(List(1.5),1.5,1.5)
+areInInterval(List(1,2,3,4,5),0.5,5.1)
+areInInterval(List(12,37.41,15.23,8.4),9,7)
