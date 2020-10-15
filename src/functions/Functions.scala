@@ -7,4 +7,11 @@ class Functions {
     else if (list.length == 1) list.head
     else list.head * multiply(list.tail)
   }
+
+  // zadanie 2
+  def createSentence (list: List[String], finishSign: Char, separator: Char) : String = {
+    if (list.isEmpty) ""
+    else if (list.length == 1) list.head + finishSign
+    else list.head + separator + createSentence(list.tail, finishSign, separator)
+  }
 }
