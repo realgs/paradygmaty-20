@@ -44,6 +44,7 @@ checkRange(List(100, 10, 50), 5, 99) == false
 // Zadanie 4
 def power(base: Double, exponent: Int): Double =
 {
+  if(base == 0 && exponent < 0) throw new IllegalArgumentException()
   if(exponent == 0) return 1
   @scala.annotation.tailrec
   def powerIterPos(accum: Double, i: Int): Double =
