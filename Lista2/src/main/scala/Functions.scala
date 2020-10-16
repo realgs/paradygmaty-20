@@ -23,8 +23,9 @@ object Functions {
   }
 
   def power(base: Double, exponent: Int): Double = {
-    if(base == 0.0 && exponent == 0)  throw new Exception("Undefined value")
+    if(base == 0.0 && exponent <= 0)  throw new Exception("Undefined value")
     else if(exponent == 0) 1.0
+    else if(base == 1.0) 1.0
     else if(base == 0.0) 0.0
     else if(exponent < 0) 1/base * power(base, exponent+1)
     else base * power(base,exponent-1)
