@@ -36,3 +36,20 @@ println(valInRange(0,0,List(0,0,0,0,0,0,0,0,0,0)) == true)
 println(valInRange(1,9,List(1,2,3,4,5,6,7,8,9,10)) == false)
 println(valInRange(-10.5,10.5,List(1.2,3.4,5.6,7.8,9.10)) == true)
 println(valInRange(1,0.5,List(-0.5,0,0.5,1)))
+
+
+// Zadanie 4
+val power: (Double,Int) => Double = (base,exp) => {
+  if (base == 0 && exp < 0) throw (new Exception("Nie mozna dzielic przez zero"))
+  else if(exp == 0) 1
+  else if(base == 0) 0
+  else if (exp > 0) base * power(base,exp - 1)
+  else 1/base * power(base,exp + 1)
+}
+
+println(power(0,0) == 1.0)
+println(power(1.5,0) == 1.0)
+println(power(0,-1))
+println(power(-2,9) == -512)
+println(power(0.5,-10) == 1024)
+
