@@ -10,6 +10,17 @@ def doMultiPlication[A](list:List[A]):Double =
     }
 }
 
+def hasStringOnlyNumbers[A](list:List[A]):Boolean =
+  {
+    val string = list.mkString("")
+    val string_replace = string.replaceAll("[.]","")
+    if(string_replace.forall(_.isDigit))
+      {
+        return true
+      }
+      false
+  }
+
 def Multiplication[A]( list:List[A]):Any =
   {
     if (list==Nil)
@@ -17,9 +28,8 @@ def Multiplication[A]( list:List[A]):Any =
         Nil
     }
     else {
-      val string = list.mkString("")
-      val string_replace = string.replaceAll("[.]","")
-      if(string_replace.forall(_.isDigit))
+
+      if(hasStringOnlyNumbers(list))
       {
           doMultiPlication(list)
       }
@@ -53,11 +63,5 @@ Multiplication(list_not_number)
 val list_mixed = List(1,2,true,false,"aaa")
 
 Multiplication(list_mixed)
-
-
-
-
-
-
 
 
