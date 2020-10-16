@@ -1,5 +1,3 @@
-package list_2
-
 import scala.annotation.tailrec
 
 object Functions {
@@ -31,6 +29,5 @@ object Functions {
     else if(exponent < 0) 1/base * power(base, exponent+1)
     else base * power(base,exponent-1)
   }
-
 
 }
