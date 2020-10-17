@@ -25,4 +25,14 @@ object L2 {
     }
     else false
   }
+
+  // Zadanie 4
+  def power(x: Double, y: Int) : Double = {
+    if(x == 0 && y == 0) throw new Exception("0 to 0th power cannot be computed")
+
+    if (y > 0) x * power(x, y - 1)
+    else if(y < 0) 1 / x * power(x, y + 1)
+    else 1
+  }
+
 }
