@@ -59,6 +59,19 @@ object Lab2 {
                                                   //> res11: Boolean = true
     isInRange(Nil, List(2.0,4.0)) == true         //> res12: Boolean = true
   
-  
+  def power(base:Double, up:Int):Double =
+  {
+      def powerRec(base:Double, up:Int, current:Double):Double =
+      {
+         if (up == 0) current
+         else powerRec(base, up-1, current*base)
+       }
+   if (up ==0) 1
+   else powerRec(base, up, 1)
+  }                                               //> power: (base: Double, up: Int)Double
+  power(3.0, 2) == 9                              //> res13: Boolean = true
+  power(3.0, 4) == 81                             //> res14: Boolean = true
+  power(3.0, 0) == 1                              //> res15: Boolean = true
+  power(4.0, 3) == 64                             //> res16: Boolean = true
 
 }
