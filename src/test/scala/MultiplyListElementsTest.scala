@@ -1,9 +1,9 @@
 import org.scalatest.FunSuite
 
-class MultiplyListElementsTest extends FunSuite{
+class MultiplyListElementsTest extends FunSuite {
 
   test("positiveIntegersList") {
-    assert(L2.multiplyListElements(List(1,2,3,4,5)) == 120)
+    assert(L2.multiplyListElements(List(1, 2, 3, 4, 5)) == 120)
   }
 
   test("negativeIntegersList") {
