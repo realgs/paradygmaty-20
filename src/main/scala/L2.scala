@@ -13,4 +13,16 @@ object L2 {
     else if(words.tail == Nil) words.head + endCharacter
     else words.head + separator + concatenateWords(words.tail, separator, endCharacter)
   }
+
+  // Zadanie 3
+  def areAllElementsInRange(elements: List[Double], startRange: Double, endRange: Double ) : Boolean = {
+    if(endRange < startRange) throw new Exception("End range cannot be smaller than start range")
+
+    if(elements == Nil) true
+    else if(elements.head >= startRange && elements.head <= endRange) {
+      if(elements.tail == Nil) true
+      else areAllElementsInRange(elements.tail, startRange, endRange)
+    }
+    else false
+  }
 }
