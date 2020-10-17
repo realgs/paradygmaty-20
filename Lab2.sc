@@ -1,12 +1,12 @@
 import scala.math
-// 1)
 
+//Auxiliary function
 def hasListOnlyNumbers[A](list:List[A]):Boolean = {
 
   if(list==Nil)
-    {
-      return false
-    }
+  {
+    return false
+  }
   val string = list.mkString("")
   val string_replace = string.replaceAll("[.]|[-]", "")
   if (string_replace.forall(_.isDigit)) {
@@ -14,6 +14,8 @@ def hasListOnlyNumbers[A](list:List[A]):Boolean = {
   }
   false
 }
+
+// 1)
 
 def multiplication[A]( list:List[A]):Any =
   {
@@ -110,8 +112,8 @@ sentenceBuilder(task_2_tuple_single_element_in_list)
 val task_2_tuple_string_empty = (List(),'.',' ')
 sentenceBuilder(task_2_tuple_string_empty)
 
-val task_2_tuple_wrong_end_sentence = (List(),' ',' ')
-sentenceBuilder(task_2_tuple_wrong_end_sentence)
+val task_2_tuple_wrong_end_sign= (List(),' ',' ')
+sentenceBuilder(task_2_tuple_wrong_end_sign)
 
 //3
 
@@ -149,7 +151,7 @@ def isInCompartment[A]( tuple:(List[A],A,A)):Boolean =
 
 //Tests 3
 
-val task_3_tuple_good = (List(5,6,7),8,-1)
+val task_3_tuple_good = (List(5,8,7,-1),8,-1)
 isInCompartment(task_3_tuple_good)
 
 val task_3_tuple_with_some_doubles = (List(7,3.1),8,3)
@@ -158,13 +160,16 @@ isInCompartment(task_3_tuple_with_some_doubles)
 val task_3_tuple_with_more_doubles = (List(3.2,3.1),3,3.3)
 isInCompartment(task_3_tuple_with_some_doubles)
 
-val task_3_tuple_good_wrong_list = (List(6,3.2,7),4,8)
-isInCompartment(task_3_tuple_good_wrong_list)
+val task_3_tuple_good_list_wrong = (List(6,3.2,7),4,8)
+isInCompartment(task_3_tuple_good_list_wrong)
 
 val task_3_tuple_empty_list= (List(),2,6)
 isInCompartment(task_3_tuple_empty_list)
 
 val task_3_tuple_wrong_types = (List(true),2,6)
+isInCompartment(task_3_tuple_wrong_types)
+
+val task_3_tuple_wrong_compartment = (List(6,6),"a",6)
 isInCompartment(task_3_tuple_wrong_types)
 
 def exponentiation[A](tuple:(A,A)):Double=
@@ -185,14 +190,5 @@ exponentiation(tuple_4_2)
 val tuple_4_3 = (2,true)
 exponentiation(tuple_4_3)
 
-val tuple_4_4 = (2,-3)
+val tuple_4_4 = (Nil,6)
 exponentiation(tuple_4_4)
-
-val tuple_4_5 = (-2,3)
-exponentiation(tuple_4_5)
-
-val tuple_4_6 = (2.5,3)
-exponentiation(tuple_4_6)
-
-val tuple_4_7 = (3,2.5)
-exponentiation(tuple_4_7)
