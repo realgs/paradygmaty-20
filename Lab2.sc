@@ -1,3 +1,4 @@
+import scala.math
 // 1)
 
 def hasListOnlyNumbers[A](list:List[A]):Boolean = {
@@ -166,3 +167,32 @@ isInCompartment(task_3_tuple_empty_list)
 val task_3_tuple_wrong_types = (List(true),2,6)
 isInCompartment(task_3_tuple_wrong_types)
 
+def exponentiation[A](tuple:(A,A)):Double=
+{
+  val list = List(tuple._1,tuple._2)
+  if(hasListOnlyNumbers(list)) {
+     return scala.math.pow(tuple._1.toString.toDouble,tuple._2.toString.toDouble)
+  }
+  0
+}
+
+val tuple_4_1 = (2,4)
+exponentiation(tuple_4_1)
+
+val tuple_4_2 = ("a",4)
+exponentiation(tuple_4_2)
+
+val tuple_4_3 = (2,true)
+exponentiation(tuple_4_3)
+
+val tuple_4_4 = (2,-3)
+exponentiation(tuple_4_4)
+
+val tuple_4_5 = (-2,3)
+exponentiation(tuple_4_5)
+
+val tuple_4_6 = (2.5,3)
+exponentiation(tuple_4_6)
+
+val tuple_4_7 = (3,2.5)
+exponentiation(tuple_4_7)
