@@ -1,0 +1,18 @@
+Końcowy termin oddania 17.10.2020 23:59. 
+Do każdego zadania przygotuj 3-5 testów sprawdzających poprawność działania! Język implementacji Scala.
+
+1) Funkcja, która przyjmuje listę liczb rzeczywistych, a zwraca ich iloczyn.
+
+    Punkty: 2.5
+
+2) Funkcja przyjmująca listę stringów(np słów), znak kończący zdanie oraz separator. Na wyjściu zwraca string będący połączeniem stringów wejściowych oddzielonych od siebie separatorem i zakończony określonym znakiem (np. kropka, wykrzyknik, znak zapytania).
+
+    Punkty: 2.5 
+
+3) Funkcja sprawdzająca czy liczby z podanej na wejściu listy mieszczą się w przedziale domkniętym [X, Y]. Zwraca true jeśli tak, false w przeciwnym przypadku.
+
+    Punkty: 2.5
+
+4) Funkcja, która liczy potęgę z danej liczby(podstawy) o danym wykładniku (np X^Y).
+
+    Punkty: 2.5
