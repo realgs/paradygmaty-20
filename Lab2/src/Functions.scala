@@ -21,9 +21,11 @@ object Functions {
     else numbers.head >= X && numbers.head <= Y && ifInRange(numbers.tail, X, Y)
 
   // Function 4.
-  def power(X:Double, Y:Int):Double =
-    if(Y == 0) 1
+  def power(X:Double, Y:Int):Double = {
+    if(X == 0 && Y == 0) throw new Exception("undefined")
+    else if(Y == 0) 1
     else if(Y > 0) X * power(X, Y - 1)
     else power(1 / X, -Y)
+  }
 
 }
