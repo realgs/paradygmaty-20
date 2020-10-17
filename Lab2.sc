@@ -54,23 +54,18 @@ val list_double_first = List(2.5,4,10)
 multiplication(list_double_first)
 
 val list_int_first = List(1,2,3.5)
-
 multiplication(list_int_first)
 
 val list_1_element = List(1)
-
 multiplication(list_1_element)
 
 val empty_list = List()
-
 multiplication(empty_list)
 
 val list_not_number = List("aaa","bbb")
-
 multiplication(list_not_number)
 
 val list_mixed = List(1,2,true,false,"aaa")
-
 multiplication(list_mixed)
 
 // 2)
