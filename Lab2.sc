@@ -50,7 +50,6 @@ def multiplication[A]( list:List[A]):Any =
 
 //Tests 1
 val list_double_first = List(2.5,4,10)
-
 multiplication(list_double_first)
 
 val list_int_first = List(1,2,3.5)
@@ -107,7 +106,7 @@ sentenceBuilder(task_2_tuple_single_element_in_list)
 val task_2_tuple_string_empty = (List(),'.',' ')
 sentenceBuilder(task_2_tuple_string_empty)
 
-val task_2_tuple_wrong_end_sign= (List(),' ',' ')
+val task_2_tuple_wrong_end_sign= (List("ala","ma","kota"),' ',' ')
 sentenceBuilder(task_2_tuple_wrong_end_sign)
 
 //3
@@ -167,17 +166,42 @@ isInCompartment(task_3_tuple_wrong_types)
 val task_3_tuple_wrong_compartment = (List(6,6),"a",6)
 isInCompartment(task_3_tuple_wrong_types)
 
+//4
 def exponentiation[A](tuple:(A,A)):Double=
 {
+  def rec(tuple:(Double,Double)):Double=
+    {
+      if(tuple._2==0)
+      {
+        1
+      }
+      else
+      {
+        tuple._1*exponentiation((tuple._1,tuple._2-1))
+      }
+    }
+
   val list = List(tuple._1,tuple._2)
-  if(hasListOnlyNumbers(list)) {
-     return scala.math.pow(tuple._1.toString.toDouble,tuple._2.toString.toDouble)
+  if(hasListOnlyNumbers(list) && (tuple._2.toString.toDouble % 1) == 0) {
+    if(tuple._2.toString.toDouble<0)
+      {
+        val value = 1/tuple._1.toString.toDouble
+        val value_2 = -1*tuple._2.toString.toDouble
+         rec((value,value_2))
+      }
+    else
+      {
+        rec((tuple._1.toString.toDouble,tuple._2.toString.toDouble))
+      }
   }
-  0
+  else
+    0
 }
 
-val tuple_4_1 = (2,4)
+//tests 4
+val tuple_4_1 = (3,5)
 exponentiation(tuple_4_1)
+scala.math.pow(3,5)
 
 val tuple_4_2 = ("a",4)
 exponentiation(tuple_4_2)
@@ -187,3 +211,13 @@ exponentiation(tuple_4_3)
 
 val tuple_4_4 = (Nil,6)
 exponentiation(tuple_4_4)
+
+val tuple_4_5 = (2,-3)
+exponentiation(tuple_4_5)
+scala.math.pow(2,-3)
+
+val tuple_4_6 = (5,0.5)
+exponentiation(tuple_4_6)
+
+val tuple_4_7 = (0.5,3)
+exponentiation(tuple_4_7)
