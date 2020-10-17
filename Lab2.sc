@@ -29,5 +29,36 @@ object Lab2 {
     stringParser(Nil, " ", ".") == ""             //> res5: Boolean = true
     stringParser(List("la", "aaaaa","ppppa"), "---", "!") == "la---aaaaa---ppppa!"
                                                   //> res6: Boolean = true
-          
+    
+    
+    def isInRange(numbers:List[Double], range:List[Double]):Boolean =
+    {
+      val lower = range.head
+      val upper = range.tail.head
+      def isInRangeRec(numbers:List[Double], low:Double, upper:Double):Boolean =
+      {
+        if (numbers.head < low || numbers.head > upper) false
+        else
+          if (numbers.tail == Nil) true
+          else isInRangeRec(numbers.tail, low, upper)
+       }
+       if (numbers == Nil) true
+       else isInRangeRec(numbers, range.head, range.tail.head)
+    }                                             //> isInRange: (numbers: List[Double], range: List[Double])Boolean
+    
+    
+    isInRange(List(2.0, 3.0, 5.0, 3.5), List(3.0, 4.0)) == false
+                                                  //> res7: Boolean = true
+    isInRange(List(2.0, 3.0, 5.0, 3.5), List(3.0, 5.0)) == false
+                                                  //> res8: Boolean = true
+    isInRange(List(2.0, 3.0, 5.0, 3.5), List(1.0, 6.0)) == true
+                                                  //> res9: Boolean = true
+    isInRange(List(2.0, 3.0, 5.0, 3.5), List(2.0, 5.0)) == true
+                                                  //> res10: Boolean = true
+    isInRange(List(2.5, 3.0, 5.0, 3.5), List(2.0, 5.0)) == true
+                                                  //> res11: Boolean = true
+    isInRange(Nil, List(2.0,4.0)) == true         //> res12: Boolean = true
+  
+  
+
 }
