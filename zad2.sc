@@ -5,8 +5,8 @@ def sentenceFun(words:List[String],separator:String,sign:String): String = {
   else ""
 }
 
-sentenceFun(List("Ala","ma","Kota")," ","!")
-sentenceFun(List("Czarodziej","Maciej","wywrozyl","z","tarota")," ","?")
-sentenceFun(List(),"","")
-sentenceFun(List(),"<separatorTest>","????")
-sentenceFun(List("bylo","fajnie")," ","?")
+sentenceFun(List("Ala","ma","Kota")," ","!") == "Ala ma Kota!"
+sentenceFun(List("Czarodziej","Maciej","wywrozyl","z","tarota")," ","?") == "Czarodziej Maciej wywrozyl z tarota?"
+sentenceFun(List(),"","") == ""
+sentenceFun(List(),"<separatorTest>","????") == ""
+sentenceFun(List("bylo","fajnie")," ","?") == "bylo fajnie?"

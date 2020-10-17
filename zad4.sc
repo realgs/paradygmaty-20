@@ -4,7 +4,7 @@ def pow(x:Double,y:Int):Double =
   else x * pow(x,y-1)
 
 pow(2,5) == 32
-pow(-2,-3) == -0.125
+BigDecimal(pow(-2,-3)).setScale(3,BigDecimal.RoundingMode.HALF_UP) == -0.125
 pow(0,0) == 1
 pow(2,0) == 1
-pow(2.5,3) == 15.625
+BigDecimal(pow(2.5,3)).setScale(3,BigDecimal.RoundingMode.HALF_UP) == 15.625
