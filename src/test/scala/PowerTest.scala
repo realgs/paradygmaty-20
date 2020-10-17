@@ -15,6 +15,10 @@ class PowerTest extends FunSuite{
   }
 
   test("zeroToZeroExponent") {
-    assertThrows[Exception] { L2.power(0,0) }
+    assert(L2.power(0,0) == 1)
+  }
+
+  test("zeroToNegativeExponent") {
+    assertThrows[Exception] { L2.power(0,-10) }
   }
 }
