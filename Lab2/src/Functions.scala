@@ -2,7 +2,6 @@ import scala.annotation.tailrec
 
 object Functions {
 
-
   // Function 1.
   def multiply(numbers:List[Double]):Double =
     if(numbers == Nil) 0
@@ -19,7 +18,7 @@ object Functions {
   @tailrec
   def ifInRange(numbers:List[Double], X:Double, Y:Double):Boolean =
     if(numbers == Nil) true
-    else numbers.head <= X && numbers.head >= Y && ifInRange(numbers.tail, X, Y)
+    else numbers.head >= X && numbers.head <= Y && ifInRange(numbers.tail, X, Y)
 
   // Function 4.
   def power(X:Double, Y:Int):Double =
