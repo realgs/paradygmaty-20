@@ -17,15 +17,15 @@ object Functions {
   // Function 3.
   @tailrec
   def ifInRange(numbers:List[Double], X:Double, Y:Double):Boolean =
-    if(numbers == Nil) true
+    if(Y <= X) throw new Exception("Invalid range")
+    else if(numbers == Nil) true
     else numbers.head >= X && numbers.head <= Y && ifInRange(numbers.tail, X, Y)
 
   // Function 4.
-  def power(X:Double, Y:Int):Double = {
+  def power(X:Double, Y:Int):Double =
     if(X == 0 && Y == 0) throw new Exception("undefined")
     else if(Y == 0) 1
     else if(Y > 0) X * power(X, Y - 1)
     else power(1 / X, -Y)
-  }
 
 }
