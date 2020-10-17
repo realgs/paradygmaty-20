@@ -9,6 +9,7 @@ def productList(list: List[Double]): Double =
   else
     list.head * productList(list.tail)
 
+productList(List())
 productList(List(1, 2, 3, 4, 5))
 productList(List(1, 2, 0))
 productList(List(-1, -5, 5))
