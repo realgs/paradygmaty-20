@@ -1,0 +1,52 @@
+Nie wolno stosować funkcji bibliotecznych (np. "length", "reverse", "append") o złożoności większej, niż O(1). W przypadku, gdy zachodzi konieczność ich użycia należy przygotować własną implementację.
+
+Wszystkie zadania porządnie sprawdzić dla odpowiednich przypadków skrajnych.
+
+Implementacja Scala/Ocaml.
+
+Deadline oddania: piątek 30.10.2020 22:00
+
+Przypominam- pracujemy w osobnych branchach dla każdej z list, wystawiamy osobne pull requesty, w których znaleźć mają się wyłącznie pliki z kodem dotyczące danej listy. Przypominam o 'endline at the end of file', o którym krzyczy Wam Git.
+
+1) Napisz funkcję tworzącą z listy wejściowej dwie listy. W pierwszej mają się znaleźć wszystkie elementy o wartościach ujemnych. W drugiej mają się znaleźć wszystkie elementy o wartościach ujemnych, nieparzystych (każda liczba ma spełniać oba te warunki). Porządek elementów musi być zachowany. Elementy w listach mogą (i będą) się powielać. Wynik zwróć w postaci pary list.
+
+   Przykład:
+   wywołanie: podziel [-3;-6;8;-9;13]
+   wynik    : ([-3;-6;-9],[-3;-9])
+
+   Punkty: 5
+
+2) Napisz funkcję zwracającą długość dowolnej listy. Funkcja ma mieć jeden parametr. Jaką złożoności obliczeniową i pamięciową udało Ci się osiągnąć?
+
+   Przykład:
+   wywołanie: dlugosc [5;4;3;2]
+   wynik    : 4
+
+   Punkty: 2 
+
+3) Napisz funkcję łączącą dwie podane listy. Elementy w liście wyjściowej mają występować naprzemiennie. Jaką złożoności obliczeniową i pamięciową udało Ci się osiągnąć?
+
+   Przykład:
+   wywołanie: polacz [5;4;3;2] [1;2;3;4;5;6]
+   wynik    : [5;1;4;2;3;3;2;4;5;6]
+
+   Punkty: 3 
+
+Poniższe dwie funkcje napisz przy użyciu rekurencji ogonowej i nieogonowej. Porównaj.
+
+4) Napisz funkcję wyszukującą po/w elementach listy wejściowej. Przyjmuje dwa argumenty wejściowe - lista, w której szukamy wartości. Drugi argument - element, którego szukamy. Zwracamy listę elementów, które zawierają w sobie lub są równe szukanej frazie. Dodatkowo, zaprojektuj funkcję tak, by przyjmowała N fraz wejściowych i zwracała wyniki, które zawierają którąkolwiek z fraz.
+
+   Przykład:
+   wywołanie: find ['index0169';'index0168202';'index0168211';'index0168210';'index0169222';'index0169224'] 'index0168';;
+   wynik    : (['index0168211';'index0168210'])
+
+   Punkty: 4 (+3 za N fraz)
+
+5) Napisz funkcję łączącą trzy listy. Elementy drugiej listy mają znaleźć się po elementach pierwszej listy. Elementy trzeciej po drugiej.
+   Zwróć szczególną uwagę na optymalność złożoności obliczeniowej i pamięciowej.
+
+   Przykład:
+   wywołanie: joinLists [5;4;3;2] [1;0] [9];;
+   wynik    : [5;4;3;2;1;0;9]
+
+   Punkty: 3
