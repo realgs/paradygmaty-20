@@ -1,3 +1,4 @@
+Końcowy termin oddania 17.10.2020 23:59. 
 Do każdego zadania przygotuj 3-5 testów sprawdzających poprawność działania! Język implementacji Scala.
 
 1) Funkcja, która przyjmuje listę liczb rzeczywistych, a zwraca ich iloczyn.
