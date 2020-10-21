@@ -11,27 +11,27 @@ object zad01 {
   }
 
   private def partition[A](values: List[A], predicates: List[A => Boolean]): List[List[A]] = {
+    @scala.annotation.tailrec
+    def partitionInternal(values: List[A], predicates: List[A => Boolean], result: List[List[A]]): List[List[A]] = {
+      predicates match {
+        case Nil => result
+        case head :: tail => partitionInternal(values, tail, applyPredicate(values, head) :: result)
+      }
+    }
+
     Utils.reverseList(partitionInternal(values, predicates, List()))
   }
 
-  @tailrec
-  private def partitionInternal[A](values: List[A], predicates: List[A => Boolean], result: List[List[A]]): List[List[A]] = {
-    predicates match {
-      case Nil => result
-      case head :: tail => partitionInternal(values, tail, applyPredicate(values, head) :: result)
-    }
-  }
-
   private def applyPredicate[A](values: List[A], predicate: A => Boolean): List[A] = {
-    Utils.reverseList(applyPredicateInternal(values, predicate, List()))
-  }
-
-  @tailrec
-  private def applyPredicateInternal[A](values: List[A], predicate: A => Boolean, result: List[A]): List[A] = {
-    values match {
-      case Nil => result
-      case head :: tail if predicate(head) => applyPredicateInternal(tail, predicate, head :: result)
-      case head :: tail => applyPredicateInternal(tail, predicate, result)
+    @tailrec
+    def applyPredicateInternal(values: List[A], predicate: A => Boolean, result: List[A]): List[A] = {
+      values match {
+        case Nil => result
+        case head :: tail if predicate(head) => applyPredicateInternal(tail, predicate, head :: result)
+        case head :: tail => applyPredicateInternal(tail, predicate, result)
+      }
     }
+
+    Utils.reverseList(applyPredicateInternal(values, predicate, List()))
   }
 }
