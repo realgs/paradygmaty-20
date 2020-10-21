@@ -3,6 +3,22 @@ import scala.annotation.tailrec
 
 object Lista3 extends App{
 
+  // zadanie 1
+  private def isNegative(number: Double): Boolean =
+    number<0
+
+  private def isNegativeAndOdd(number: Double): Boolean =
+    ((number%2) != 0) && isNegative(number)
+
+  def filterList(list: List[Double]): (List[Double], List[Double]) ={
+    def innerFilterList(innerList: List[Double], filter: Double => Boolean): List[Double] =
+      innerList match{
+        case Nil => Nil
+        case head::tail  => if(filter(head)) head::innerFilterList(tail, filter)  else innerFilterList(tail, filter)
+      }
+    (innerFilterList(list, isNegative), innerFilterList(list, isNegativeAndOdd))
+  }
+
   // zadanie 2
   def length[A](list: List[A]): Int = {
     @tailrec
@@ -30,7 +46,4 @@ object Lista3 extends App{
       case(Nil, Nil, Nil) => Nil
     }
   }
-
-
-
 }
