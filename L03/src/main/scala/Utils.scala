@@ -12,4 +12,12 @@ object Utils {
 
     reverseListInternal(list, List())
   }
+
+  def appendList[A](a: List[A], b: List[A]): List[A] = {
+    (a, b) match {
+      case (_, Nil) => a
+      case (Nil, _) => b
+      case (head :: tail, _) => head :: appendList(tail, b)
+    }
+  }
 }
