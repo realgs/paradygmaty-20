@@ -14,9 +14,7 @@ object Test2 extends App {
   def zdanie2(array:List[String], sign:String, space:String):String = {
     if(array != Nil) array.head + space + zdanie2(array.tail, sign, space) else sign;
   }
-
-
-
+  
   //Zadania 3
   def interval(array:List[Int], x:Int, y:Int):Boolean ={
     if(array != Nil) {
