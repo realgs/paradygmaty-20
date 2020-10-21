@@ -6,7 +6,7 @@ object zad02 {
     def dlugoscInternal(list: List[A], result: Int): Int = {
       list match {
         case Nil => result
-        case head :: tail => dlugoscInternal(tail, result + 1)
+        case _ :: tail => dlugoscInternal(tail, result + 1)
       }
     }
 

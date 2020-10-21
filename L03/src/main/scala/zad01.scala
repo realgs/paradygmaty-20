@@ -11,7 +11,7 @@ object zad01 {
   }
 
   private def partition[A](values: List[A], predicates: List[A => Boolean]): List[List[A]] = {
-    @scala.annotation.tailrec
+    @tailrec
     def partitionInternal(values: List[A], predicates: List[A => Boolean], result: List[List[A]]): List[List[A]] = {
       predicates match {
         case Nil => result
@@ -28,7 +28,7 @@ object zad01 {
       values match {
         case Nil => result
         case head :: tail if predicate(head) => applyPredicateInternal(tail, predicate, head :: result)
-        case head :: tail => applyPredicateInternal(tail, predicate, result)
+        case _ :: tail => applyPredicateInternal(tail, predicate, result)
       }
     }
 
