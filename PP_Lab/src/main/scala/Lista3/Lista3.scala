@@ -32,8 +32,8 @@ object Lista3 extends App{
   def merge[A](leftList: List[A], rightList: List[A]): List[A] =
     (leftList, rightList) match {
       case(headLeft::tailLeft, headRight::tailRight) => headLeft::headRight::merge(tailLeft, tailRight)
-      case(Nil, headRight::tailRight) => headRight::tailRight
-      case(headLeft::tailLeft, Nil) =>headLeft::tailLeft
+      case(Nil, rightList) => rightList
+      case(leftList, Nil) => leftList
       case(Nil, Nil) => Nil
     }
 
