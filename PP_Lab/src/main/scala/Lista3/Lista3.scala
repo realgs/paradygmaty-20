@@ -21,7 +21,7 @@ object Lista3 extends App{
 
   // zadanie 2
   //zlozonosc obliczeniowa: O(n)
-  //zlozonosc pamieciowa: 1 rekord aktywacji, ze względu na rekursje ogonową
+  //zlozonosc pamieciowa: 1 rekord aktywacji, ze względu na rekursje ogonową. Czyli O(1)
   def length[A](list: List[A]): Int = {
     @tailrec
     def innerLength[A](innerList: List[A], accum: Int): Int =
@@ -32,6 +32,9 @@ object Lista3 extends App{
 
 
   //zadanie 3
+  //zlozonosc obliczeniowa: O(n), gdzie n to dlugosc ktorszej z list (tak na prawde to n+1, ponieważ jedna iteracja wykona sie raz na sam koniec, by dodac
+  //                                                                                                                             na koniec dluzsza z liste)
+  //zlozonosc pamieciowa: O(n), -,,-
   def merge[A](leftList: List[A], rightList: List[A]): List[A] =
     (leftList, rightList) match {
       case(headLeft::tailLeft, headRight::tailRight) => headLeft::headRight::merge(tailLeft, tailRight)
