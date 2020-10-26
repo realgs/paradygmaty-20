@@ -20,6 +20,8 @@ object Lista3 extends App{
 
 
   // zadanie 2
+  //zlozonosc obliczeniowa: O(n)
+  //zlozonosc pamieciowa: 1 rekord aktywacji, ze względu na rekursje ogonową
   def length[A](list: List[A]): Int = {
     @tailrec
     def innerLength[A](innerList: List[A], accum: Int): Int =
