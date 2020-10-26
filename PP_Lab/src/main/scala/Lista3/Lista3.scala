@@ -95,8 +95,8 @@ object Lista3 extends App{
     @scala.annotation.tailrec
     def innerDoesWordMatchAnyKey(word: String, keyList: List[String]): Boolean =
       keyList match{
-        case(h::t) => if(ifContainsKey(word, h)) true  else innerDoesWordMatchAnyKey(word, t)
-        case(Nil) => false
+        case h::t => if(ifContainsKey(word, h)) true  else innerDoesWordMatchAnyKey(word, t)
+        case Nil => false
       }
     innerDoesWordMatchAnyKey(word, keyList)
   }
@@ -107,7 +107,7 @@ object Lista3 extends App{
       (inputList, keyWordsList) match{
         case(Nil, _) => List()
         case(_, Nil) => List()
-        case(headI::tailI, headK::tailK) => if(doesWordMatchAnyKey(headI, keyWordsList)) headI::innerFind(tailI, keyWordsList)
+        case(headI::tailI, _ :: _) => if(doesWordMatchAnyKey(headI, keyWordsList)) headI::innerFind(tailI, keyWordsList)
                                             else innerFind(tailI, keyWordsList)
       }
     innerFind(inputList, keyWordsList)
@@ -120,7 +120,7 @@ object Lista3 extends App{
       (inputList, keyWordsList) match{
         case(Nil, _) => accum
         case(_, Nil) => List()
-        case(headI::tailI, headK::tailK) => if(doesWordMatchAnyKey(headI, keyWordsList)) innerFind(tailI, keyWordsList, appendList(accum, List(headI)))
+        case(headI::tailI, _ :: _) => if(doesWordMatchAnyKey(headI, keyWordsList)) innerFind(tailI, keyWordsList, appendList(accum, List(headI)))
                                             else innerFind(tailI, keyWordsList, accum)
       }
     innerFind(inputList, keyWordsList, List())
