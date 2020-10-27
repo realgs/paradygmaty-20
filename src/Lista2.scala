@@ -22,7 +22,8 @@ object Lista2 extends App {
     * Nie zezwalam na nulle w liscie stringow, ale separator i koniec zdania moze nim byc
   */
   def createSentence(stringsList: List[String], stringsSeparator: String, sentenceEndMark: String): String = {
-    if (stringsList == Nil) convertNullIntoEmptyString(sentenceEndMark)
+    if (stringsList == Nil) ""
+    else if (stringsList.tail == Nil) stringsList.head + convertNullIntoEmptyString(sentenceEndMark)
     else throwExceptionOnNullValue(stringsList.head) +
       (if (stringsList.tail != Nil) convertNullIntoEmptyString(stringsSeparator) else "") +
       createSentence(stringsList.tail, stringsSeparator, sentenceEndMark)
@@ -62,7 +63,7 @@ object Lista2 extends App {
       stringsList = List(),
       stringsSeparator = " ",
       sentenceEndMark = "!"
-    ) == "!"
+    ) == ""
   )
   /* Tutaj zostanie zwrocony wyjatek
   println(
