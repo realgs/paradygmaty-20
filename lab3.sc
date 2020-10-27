@@ -120,8 +120,24 @@ def findTail(arr: List[String], phrase: String): List[String] = {
   findTailInner(arr, phrase, Nil)
 }
 
-find(List("day", "say no to something", "another day", "nobody", "there is no no", "just testing", "hello world"), "day")
-findTail(List("day","say no to something", "another day", "nobody", "there is no no", "just testing", "hello world"), "day")
+// Zlozonosc czasowa "pętli" to O(arr.length * phrases.length), musimy wziąć pod uwagę wykonywanie stringContains, zatem zlożoność funkcji to średnio O(arr.length * phrases.length * (el.length + phrase.length))
+def findList(arr: List[String], phrases: List[String]): List[String] = {
+  def containPhrases(text: String, phrases: List[String]):Boolean =
+    phrases match {
+    case Nil => false
+    case hd::tl => if(stringContains(text, hd)) true else containPhrases(text, tl)
+  }
+
+  arr match {
+    case Nil => Nil
+    case hd::tl => if(containPhrases(hd, phrases)) hd::findList(tl, phrases) else findList(tl, phrases)
+  }
+}
+
+find(List("apple", "orange", "banana", "peach", "strawberry", "blackberry"), "an")
+findTail(List("apple", "orange", "banana", "peach", "strawberry", "blackberry"), "an")
+
+findList(List("apple", "orange", "banana", "peach", "strawberry", "blackberry"), List("berry", "nana"))
 
 // 5)
 // Złożoność obliczeniowa i pamięciowa O(n), gdzie n to suma dlugosci list
@@ -129,8 +145,7 @@ def join[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] =
   (arr1, arr2, arr3) match {
     case (head::tail,_,_) => head :: join(tail, arr2, arr3)
     case (Nil,head::tail,_) => head :: join(Nil, tail, arr3)
-    case (Nil,Nil,head::tail) => head :: join(Nil, Nil, tail)
-    case (Nil,Nil,Nil) => Nil
+    case (Nil,Nil,_) => arr3
   }
 
 // Złożoność obliczeniowa O(2n), a pamięciowa O(1), gdzie n to suma dlugosci list
@@ -139,8 +154,7 @@ def joinTail[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] = {
     (arr1, arr2, arr3) match {
       case (head::tail,_,_) => joinTailInner(tail, arr2, arr3, head :: res)
       case (Nil,head::tail,_) => joinTailInner(Nil, tail, arr3, head :: res)
-      case (Nil,Nil,head::tail) => joinTailInner(Nil, Nil, tail, head :: res)
-      case (Nil,Nil,Nil) => reverse(res)
+      case (Nil,Nil,_) => reverse(arr3 ::: res)
     }
 
   joinTailInner(arr1, arr2, arr3, Nil)
