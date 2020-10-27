@@ -154,7 +154,7 @@ def joinTail[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] = {
     (arr1, arr2, arr3) match {
       case (head::tail,_,_) => joinTailInner(tail, arr2, arr3, head :: res)
       case (Nil,head::tail,_) => joinTailInner(Nil, tail, arr3, head :: res)
-      case (Nil,Nil,_) => reverse(arr3 ::: res)
+      case (Nil,Nil,_) => reverse(res):::arr3
     }
 
   joinTailInner(arr1, arr2, arr3, Nil)
