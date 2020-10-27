@@ -1,3 +1,17 @@
+def reverse[A](list: List[A]): List[A] =
+{
+  @scala.annotation.tailrec
+  def reverseIter(list: List[A], reverse: List[A]): List[A] =
+  {
+    if(list == Nil) reverse
+    else reverseIter(list.tail, list.head :: reverse)
+  }
+  reverseIter(list, List())
+}
+
+reverse(List(1, 2, 3, 4)) == List(4, 3, 2, 1)
+reverse(List()) == List()
+
 def connect [A](first: List[A], second: List[A]): List[A] =
 {
   @scala.annotation.tailrec
@@ -6,8 +20,8 @@ def connect [A](first: List[A], second: List[A]): List[A] =
     (connected, first, second) match
     {
       case (connected, Nil, Nil) => connected
-      case (connected, first, Nil) => connected.reverse ::: first
-      case (connected, Nil, second) => connected.reverse ::: second
+      case (connected, first, Nil) => reverse(connected) ::: first
+      case (connected, Nil, second) => reverse(connected) ::: second
       case (connected, first, second) =>
         connectIter(second.head :: first.head :: connected, first.tail, second.tail)
     }

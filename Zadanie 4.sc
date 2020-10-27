@@ -1,3 +1,17 @@
+def reverse[A](list: List[A]): List[A] =
+{
+  @scala.annotation.tailrec
+  def reverseIter(list: List[A], reverse: List[A]): List[A] =
+  {
+    if(list == Nil) reverse
+    else reverseIter(list.tail, list.head :: reverse)
+  }
+  reverseIter(list, List())
+}
+
+reverse(List(1, 2, 3, 4)) == List(4, 3, 2, 1)
+reverse(List()) == List()
+
 def strContains(left: String, right: String): Boolean =
 {
   if(left == "" && right == "") return true
@@ -54,7 +68,7 @@ def findTail(list: List[String], phrase: String): List[String] =
   @scala.annotation.tailrec
   def findTailIter(list: List[String], result: List[String]): List[String] =
   {
-    if(list == Nil) result.reverse
+    if(list == Nil) reverse(result)
     else if (strContains(list.head, phrase)) findTailIter(list.tail, list.head :: result)
     else findTailIter(list.tail, result)
   }
@@ -93,7 +107,7 @@ def findMultipleTail(list: List[String], phrases: List[String]): List[String] =
   @scala.annotation.tailrec
   def findMultipleIter(list: List[String], result: List[String]): List[String] =
   {
-    if(list == Nil) result.reverse
+    if(list == Nil) reverse(result)
     else if (containsForEach(list.head, phrases))
       findMultipleIter(list.tail, list.head :: result)
     else findMultipleIter(list.tail, result)
