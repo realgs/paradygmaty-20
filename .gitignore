@@ -3,6 +3,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+Sorting/
+*.gitignore
+Lab2/.idea/
+Lab2/src/
+/.idea/
+*.iml
+l1
+warunki zaliczenia
+
 # C extensions
 *.so
 
