@@ -96,9 +96,11 @@ def findPattern[A] (xs:List[A],patterns:List[A]): List[A]={
   reverse(findIter(xs,patterns,List()),Nil)
 }
 findPattern(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168","index01692"))==List("index0168202", "index0168211", "index0168210", "index0169222","index0169224")
+findPattern(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168"))==List("index0168202", "index0168211", "index0168210")
 findPattern(Nil,Nil)==Nil
 findPattern(Nil,List("a"))==Nil
 findPattern(List("a","b","c","ba","ca","da","dd"),List("a","d"))==List("a","ba","ca","da","dd")
+findPattern(List("a","b","c","ba","ca","da","dd"),List("a","d","c"))==List("a","c","ba","ca","da","dd")
 findPattern(List(123,1345,223412,98765,32456,21345,123456),List(12,56))==List(123, 223412, 32456, 123456)
 
 // zadanie 5
@@ -107,7 +109,7 @@ def joinLists[A](xs:List[A],ys:List[A],zs:List[A]):List[A]= {
   def joinReverse[A](xs: List[A], ys: List[A], zs: List[A]): List[A] =
     (xs, ys) match {
       case (_,Nil) =>zs
-      case (Nil,h :: t) => joinReverse(t,xs,h :: zs)
+      case (Nil,h :: t) => joinReverse(xs,t,h :: zs)
       case (h1 :: t1,_) => joinReverse(t1,ys, h1 :: zs)
     }
   @tailrec
@@ -120,7 +122,7 @@ def joinLists[A](xs:List[A],ys:List[A],zs:List[A]):List[A]= {
   else joinFinaly(zs,joinReverse(xs,ys,List()))
 }
 
-joinLists(List(5,4,3,2),List(1,0),List(9))==List(5, 4, 3, 2, 1, 9)
+joinLists(List(5,4,3,2),List(1,0),List(9)) ==List(5, 4, 3, 2, 1, 0,9)
 joinLists(Nil,Nil,Nil)==Nil
 joinLists(List(1,2),Nil,List(3))==List(1,2,3)
 joinLists(List(1,2),List(3),Nil)==List(1,2,3)
