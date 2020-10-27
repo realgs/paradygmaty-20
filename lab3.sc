@@ -15,8 +15,7 @@ def reverse[A](arr:List[A]):List[A] = {
 
 
 // 1)
-
-
+// Zlozonosc czasowa oraz pamięciowa to O(n) dla ujemnych oraz w najgorszym wypadku również O(n) dla nieparzystych, zatem O(n^2) dla funkcji.
 def divide(arr: List[Int]):(List[Int], List[Int]) = {
   def filter[A](arr:List[A], conditional: A => Boolean):List[A] =
     arr match {
@@ -30,13 +29,11 @@ def divide(arr: List[Int]):(List[Int], List[Int]) = {
   def checkOdd(n:Int):Boolean =
     (n % 2 + 2) % 2 == 1
 
-  def checkNegativeAndOdd(n:Int):Boolean =
-    checkNegative(n) && checkOdd(n)
-
-   (filter(arr, checkNegative), filter(arr, checkNegativeAndOdd))
+  val negative = filter(arr, checkNegative)
+  (negative, filter(negative, checkOdd))
 }
 
-divide(List(-1, 0, 5, 2, -5, -2))
+divide(List(-1, 0, 5, 2, -5, -2, -20, -15, 0, -5, 2))
 divide(List(1, 2, 3, 4, 5))
 divide(List(-2, 0, 5, 2, -4, -6))
 
@@ -52,12 +49,12 @@ divide(List(-2, 0, 5, 2, -4, -6))
 // Złożoność obliczeniowa O(n), a pamięciowa O(1)
 def length(arr: List[Any]):Int = {
   @tailrec
-  def lengthIter(arr: List[Any], n: Int):Int =
+  def lengthTail(arr: List[Any], n: Int):Int =
     arr match {
       case Nil => n
-      case _ => lengthIter(arr.tail, n + 1)
+      case _ => lengthTail(arr.tail, n + 1)
     }
-  lengthIter(arr, 0)
+  lengthTail(arr, 0)
 }
 
 length(List(5,4,3,2))
@@ -65,6 +62,7 @@ length(List("a","b","c","d","e"))
 length(List())
 
 // 3)
+// Złożoność obliczeniowa O(n) = O(2(arr1.length + arr2.length)), a pamięciowa O(1)
 def connect[A](arr1: List[A], arr2: List[A]): List[A] = {
   @tailrec
   def connectTail(arr1: List[A], arr2: List[A], result: List[A], n: Int ): List[A] =
@@ -85,10 +83,48 @@ connect(List(1,2,3),List())
 connect(List(),List(1,2,3))
 
 // 4)
-def find[String](arr: List[String], el: String): List[String] =
-  Nil
+// Zlozonosc czasowa to srednio O(el.length + phrase.length), ale w najgorszym przypadku to O(el.length * phrase.length)
+@tailrec
+def stringContains(el: String, phrase: String):Boolean = {
+  @tailrec
+  def stringContainsInner(el: String, phrase: String):Boolean =
+    (el, phrase) match {
+      case(_, "") => true
+      case("", _) => false
+      case(_, _) => if(el.head == phrase.head) stringContainsInner(el.tail, phrase.tail) else false
+    }
+
+    if(el == "")
+      false
+    else if(el.head == phrase.head && stringContainsInner(el.tail, phrase.tail))
+      true
+    else
+      stringContains(el.tail, phrase)
+}
+// Zlozonosc czasowa to O(n) + zlozonosc dla "stringContains", zatem srednio O(arr.length(el.length + phrase.length))
+def find(arr: List[String], phrase: String): List[String] =
+  arr match {
+    case Nil => Nil
+    case hd::tl => if(stringContains(hd, phrase)) hd::find(tl, phrase) else find(tl, phrase)
+  }
+
+// Zlozonosc czasowa to O(arr.length + res.length), z powodu reverse + zlozonosc dla "stringContains", zatem srednio O(arr.length(el.length + phrase.length) + res.length)
+def findTail(arr: List[String], phrase: String): List[String] = {
+  @tailrec
+  def findTailInner(arr: List[String], phrase: String, res:List[String]): List[String] =
+    arr match {
+      case Nil => reverse(res)
+      case hd::tl => if(stringContains(hd, phrase)) findTailInner(tl, phrase, hd::res) else findTailInner(tl, phrase, res)
+    }
+
+  findTailInner(arr, phrase, Nil)
+}
+
+find(List("day", "say no to something", "another day", "nobody", "there is no no", "just testing", "hello world"), "day")
+findTail(List("day","say no to something", "another day", "nobody", "there is no no", "just testing", "hello world"), "day")
 
 // 5)
+// Złożoność obliczeniowa i pamięciowa O(n), gdzie n to suma dlugosci list
 def join[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] =
   (arr1, arr2, arr3) match {
     case (head::tail,_,_) => head :: join(tail, arr2, arr3)
@@ -97,4 +133,20 @@ def join[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] =
     case (Nil,Nil,Nil) => Nil
   }
 
+// Złożoność obliczeniowa O(2n), a pamięciowa O(1), gdzie n to suma dlugosci list
+def joinTail[A](arr1: List[A], arr2: List[A], arr3: List[A]): List[A] = {
+  def joinTailInner(arr1: List[A], arr2: List[A], arr3: List[A], res: List[A]): List[A]=
+    (arr1, arr2, arr3) match {
+      case (head::tail,_,_) => joinTailInner(tail, arr2, arr3, head :: res)
+      case (Nil,head::tail,_) => joinTailInner(Nil, tail, arr3, head :: res)
+      case (Nil,Nil,head::tail) => joinTailInner(Nil, Nil, tail, head :: res)
+      case (Nil,Nil,Nil) => reverse(res)
+    }
+
+  joinTailInner(arr1, arr2, arr3, Nil)
+}
+
 join(List(1,2,3), List(4,5), List(6,7,8))
+joinTail(List(1,2,3), List(4,5), List(6,7,8))
+
+
