@@ -51,7 +51,7 @@ class L3 {
   //rekursja ogonowa
   def joinListsTailRec[A](xs1:List[A],xs2:List[A],xs3:List[A]):List[A] ={
     @tailrec
-    def joinListHelper[A](xs1:List[A], xs2:List[A], xs3:List[A], xs:List[A]):List[A] ={
+    def joinListHelper(xs1:List[A], xs2:List[A], xs3:List[A], xs:List[A]):List[A] ={
       (xs1,xs2,xs3)match {
         case (head::tail,_,_) => joinListHelper(tail,xs2,xs3,head::xs)
         case (Nil,head::tail,_) => joinListHelper(Nil,tail,xs3,head::xs)
@@ -60,7 +60,7 @@ class L3 {
       }
     }
     @tailrec
-    def reverse[A](xs1:List[A], xs:List[A]):List[A] ={
+    def reverse(xs1:List[A], xs:List[A]):List[A] ={
       if(xs1==Nil) xs
       else reverse(xs1.tail,xs1.head::xs)
     }
