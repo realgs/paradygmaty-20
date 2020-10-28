@@ -38,3 +38,26 @@ listLength(List(1)) == 1
 listLength(List(List(),List(),List(List()))) == 3
 listLength(List('a','b','c','d','e','f')) == 6
 //Złożoność czasowa O(n), pamięciowa 0(1)
+
+//Zadanie 3
+def merge[A](firstList: List[A])(secondList: List[A]):List[A] =
+{
+  @scala.annotation.tailrec
+  def mergeRec(accum: List[A])(list1: List[A])(list2: List[A]):List[A] =
+    {
+      (list1,list2) match
+      {
+        case (head1::tail1,head2::tail2) => mergeRec(head2::head1::accum)(tail1)(tail2)
+        case (Nil,head::tail) => mergeRec(head::accum)(Nil)(tail)
+        case (head::tail,Nil) => mergeRec(head::accum)(tail)(Nil)
+        case _ => reverse(accum)
+      }
+    }
+  mergeRec(List())(firstList)(secondList)
+}
+
+merge(List())(List()) == List()
+merge(List('a','b'))(List('c','d','e','f')) == List('a','c','b','d','e','f')
+merge(List(1,2,3,4))(List()) == List(1,2,3,4)
+merge(List("Lorem","ipsum"))(List("dolor","sit")) == List("Lorem","dolor","ipsum","sit")
+//Złożoność czasowa 0(n), złożoność pamięciowa 0(n)
