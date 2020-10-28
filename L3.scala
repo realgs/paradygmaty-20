@@ -30,14 +30,31 @@ class L3 {
 
   // 3)
   def mergeLists[A](xs1:List[A],xs2:List[A]):List[A] ={
-    (xs1,xs2) match {
-      case (Nil,_) => xs2
-      case(_,Nil) => xs1
-      case(_,_) => xs1.head :: xs2.head :: mergeLists (xs1.tail, xs2.tail)
+    @tailrec
+    def reverse(xs1:List[A], xs:List[A]):List[A] ={
+      if(xs1==Nil) xs
+      else reverse(xs1.tail,xs1.head::xs)
     }
+    @tailrec
+    def mergeListsHelper(xs1:List[A], xs2:List[A], xs:List[A]):List[A] = {
+      (xs1, xs2) match {
+        case (Nil, _) => reverse(xs,Nil):::xs2
+        case (_, Nil) => reverse(xs,Nil):::xs1
+        case (_, _) => mergeListsHelper(xs1.tail, xs2.tail,xs2.head :: xs1.head :: xs)
+      }
+    }
+
+    mergeListsHelper(xs1,xs2,Nil)
   }
 
-  // 5
+  // 4)
+  //rekursja nieogonowa
+  def findRec[A](xs:List[A],element:A)= {
+
+  }
+
+
+  // 5)
   //rekursja nieogonowa
   def joinListsRec[A](xs1:List[A],xs2:List[A],xs3:List[A]):List[A] ={
     (xs1,xs2,xs3)match {
