@@ -14,15 +14,22 @@ object L3 extends App {
 
   def divideList(list: List[Int]): (List[Int], List[Int]) = {
     @tailrec
-    def divideListHelper(list: List[Int], negativeNumbersList: List[Int], negativeOddNumbersList: List[Int]): (List[Int], List[Int]) = {
-      if (list == Nil) (negativeNumbersList, negativeOddNumbersList)
-      else if (list.head < 0) {
-        if (list.head % 2 != 0) divideListHelper(list.tail, list.head :: negativeNumbersList, list.head :: negativeOddNumbersList)
-        else divideListHelper(list.tail, list.head :: negativeNumbersList, negativeOddNumbersList)
+    def divideListHelper(numbers: List[Int], negativeNumbers: List[Int], negativeOddNumbers: List[Int]): (List[Int], List[Int]) = {
+      if (numbers == Nil) (negativeNumbers, negativeOddNumbers)
+      else if (numbers.head < 0) {
+        if (numbers.head % 2 != 0) divideListHelper(numbers.tail, numbers.head :: negativeNumbers, numbers.head :: negativeOddNumbers)
+        else divideListHelper(numbers.tail, numbers.head :: negativeNumbers, negativeOddNumbers)
       }
-      else divideListHelper(list.tail, negativeNumbersList, negativeOddNumbersList)
+      else divideListHelper(numbers.tail, negativeNumbers, negativeOddNumbers)
     }
 
     divideListHelper(reverse(list), Nil, Nil)
+  }
+
+  // zadanie 2
+  def length[A](list: List[A]): Int = {
+    if (list == Nil) 0
+    else if (list.tail == Nil) 1
+    else 1 + length(list.tail)
   }
 }
