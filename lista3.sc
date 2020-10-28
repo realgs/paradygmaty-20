@@ -27,3 +27,14 @@ splitList(List(-2,-4,-6,-8)) == (List(-2,-4,-6,-8),List())
 splitList(List(-1,-3,-5,-7)) == (List(-1,-3,-5,-7),List(-1,-3,-5,-7))
 splitList(List(-1,-2,-3,-4,-5,-6,-7,-8)) == (List(-1,-2,-3,-4,-5,-6,-7,-8),List(-1,-3,-5,-7))
 splitList(List(-1,2,-3,-4,5,6,7,-9)) == (List(-1,-3,-4,-9),List(-1,-3,-9))
+
+//Zadanie 2
+def listLength[A](list: List[A]):Int =
+  if(list == Nil) 0
+  else 1 + listLength(list.tail)
+
+listLength(List()) == 0
+listLength(List(1)) == 1
+listLength(List(List(),List(),List(List()))) == 3
+listLength(List('a','b','c','d','e','f')) == 6
+//Złożoność czasowa O(n), pamięciowa 0(1)
