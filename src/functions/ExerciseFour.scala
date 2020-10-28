@@ -32,7 +32,7 @@ object ExerciseFour {
 
   def findElementsContainingAtLeastOnePhrase(list: List[String], phrases: List[String]): List[String] = {
     (list, phrases) match {
-      case (Nil, _) || (_, Nil) => Nil
+      case (Nil, _) | (_, Nil) => Nil
       case (listHead :: listTail, _) =>
         if (containsAtLeastOne(listHead, phrases)) listHead :: findElementsContainingAtLeastOnePhrase(listTail, phrases)
         else findElementsContainingAtLeastOnePhrase(listTail, phrases)
@@ -43,7 +43,7 @@ object ExerciseFour {
     @tailrec
     def inner(lista: List[String], frazy: List[String], currentResult: List[String]): List[String] = {
       (lista, frazy) match {
-        case (Nil, _) || (_, Nil) => currentResult
+        case (Nil, _) | (_, Nil) => currentResult
         case (listHead :: listTail, _) =>
           if (containsAtLeastOne(listHead, phrases)) inner(listTail, phrases, listHead :: currentResult)
           else inner(listTail, phrases, currentResult)

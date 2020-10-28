@@ -36,5 +36,5 @@ object UtilityFunctions {
       case phrasesHead :: phrasesTail => if (contains(element, phrasesHead)) true else containsAtLeastOne(element, phrasesTail)
     }
   }
-  
+
 }
