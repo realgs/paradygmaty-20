@@ -61,6 +61,31 @@ connect(Nil,List(1,2,3,4))==List(1,2,3,4)
 connect(Nil,Nil)==Nil
 
 // zadanie 4
+@tailrec
+def reverse[A](zs:List[A],ys:List[A]): List[A]=
+  zs match {
+    case Nil=>ys
+    case h::t=>reverse(t,h::ys)
+  }
+def myContains(elem:String,pat:String): Boolean={
+  @tailrec
+  def contIter(ls:List[Char],ps:List[Char]): Boolean={
+    (ls,ps) match {
+      case (_,Nil)=>true
+      case (Nil,_)=>false
+      case (hl::tl,hp::tp)=> if(hl==hp)contIter(tl,tp)
+      else contIter(tl,pat.toList)
+    }
+  }
+  contIter(elem.toList,pat.toList)
+}
+@tailrec
+def checkElem[A](elem:A, patterns:List[A]): Boolean=
+  patterns match{
+    case Nil=> false
+    case h::t=>myContains(elem.toString,h.toString) || checkElem(elem,t)
+  }
+// rekursja ogonowa
 def findPattern[A] (xs:List[A],patterns:List[A]): List[A]={
     @tailrec
     def findIter[A] (xs:List[A],patterns:List[A],ys:List[A]): List[A]=
@@ -69,32 +94,9 @@ def findPattern[A] (xs:List[A],patterns:List[A]): List[A]={
           case h::t=> if(checkElem(h,patterns)) findIter(t,patterns,h::ys)
                       else findIter(t,patterns,ys)
         }
-    @tailrec
-    def checkElem[A](elem:A, patterns:List[A]): Boolean=
-        patterns match{
-          case Nil=> false
-          case h::t=>myContains(elem.toString,h.toString) || checkElem(elem,t)
-        }
-    @tailrec
-    def reverse(zs:List[A],ys:List[A]): List[A]=
-        zs match {
-          case Nil=>ys
-          case h::t=>reverse(t,h::ys)
-        }
-    def myContains(elem:String,pat:String): Boolean={
-        @tailrec
-        def contIter(ls:List[Char],ps:List[Char]): Boolean={
-          (ls,ps) match {
-            case (_,Nil)=>true
-            case (Nil,_)=>false
-            case (hl::tl,hp::tp)=> if(hl==hp)contIter(tl,tp)
-                                   else contIter(tl,pat.toList)
-            }
-        }
-      contIter(elem.toList,pat.toList)
-    }
-  reverse(findIter(xs,patterns,List()),Nil)
+    reverse(findIter(xs,patterns,List()),Nil)
 }
+
 findPattern(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168","index01692"))==List("index0168202", "index0168211", "index0168210", "index0169222","index0169224")
 findPattern(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168"))==List("index0168202", "index0168211", "index0168210")
 findPattern(Nil,Nil)==Nil
@@ -102,6 +104,22 @@ findPattern(Nil,List("a"))==Nil
 findPattern(List("a","b","c","ba","ca","da","dd"),List("a","d"))==List("a","ba","ca","da","dd")
 findPattern(List("a","b","c","ba","ca","da","dd"),List("a","d","c"))==List("a","c","ba","ca","da","dd")
 findPattern(List(123,1345,223412,98765,32456,21345,123456),List(12,56))==List(123, 223412, 32456, 123456)
+
+//rekurencja
+def findPatternRec[A] (xs:List[A],patterns:List[A]): List[A]=
+    xs match {
+      case Nil => Nil
+      case h :: t => if (checkElem(h, patterns)) h :: findPatternRec(t, patterns)
+      else findPatternRec(t, patterns)
+    }
+
+findPatternRec(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168","index01692"))==List("index0168202", "index0168211", "index0168210", "index0169222","index0169224")
+findPatternRec(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224" ),List("index0168"))==List("index0168202", "index0168211", "index0168210")
+findPatternRec(Nil,Nil)==Nil
+findPatternRec(Nil,List("a"))==Nil
+findPatternRec(List("a","b","c","ba","ca","da","dd"),List("a","d"))==List("a","ba","ca","da","dd")
+findPatternRec(List("a","b","c","ba","ca","da","dd"),List("a","d","c"))==List("a","c","ba","ca","da","dd")
+findPatternRec(List(123,1345,223412,98765,32456,21345,123456),List(12,56))==List(123, 223412, 32456, 123456)
 
 // zadanie 5
 def joinLists[A](xs:List[A],ys:List[A],zs:List[A]):List[A]= {
@@ -126,4 +144,17 @@ joinLists(List(5,4,3,2),List(1,0),List(9)) ==List(5, 4, 3, 2, 1, 0,9)
 joinLists(Nil,Nil,Nil)==Nil
 joinLists(List(1,2),Nil,List(3))==List(1,2,3)
 joinLists(List(1,2),List(3),Nil)==List(1,2,3)
+
+def joinListsRec[A](xs:List[A],ys:List[A],zs:List[A]):List[A]={
+  (xs,ys,zs) match{
+    case(Nil,Nil,Nil)=>Nil
+    case (h::t,_,_)=>h::joinListsRec(t,ys,zs)
+    case (Nil,h::t,_)=>h::joinListsRec(xs,t,zs)
+    case (Nil,Nil,h::t)=>h::joinListsRec(xs,ys,t)
+  }
+}
+joinListsRec(List(5,4,3,2),List(1,0),List(9)) ==List(5, 4, 3, 2, 1, 0,9)
+joinListsRec(Nil,Nil,Nil)==Nil
+joinListsRec(List(1,2),Nil,List(3))==List(1,2,3)
+joinListsRec(List(1,2),List(3),Nil)==List(1,2,3)
 
