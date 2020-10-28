@@ -14,4 +14,27 @@ object UtilityFunctions {
 
     reverseTail(list, Nil)
   }
+
+  def contains(element: String, phrase: String): Boolean = {
+    @tailrec
+    def innerContains(element: String, phrase: String, startingPhrase: String): Boolean = {
+      (element, phrase) match {
+        case (_, "") => true
+        case ("", _) => false
+        case (_, _) =>
+          if (element.head == phrase.head) innerContains(element.tail, phrase.tail, startingPhrase)
+          else innerContains(element.tail, startingPhrase, startingPhrase)
+      }
+    }
+    innerContains(element, phrase, phrase)
+  }
+
+  @tailrec
+  def containsAtLeastOne(element: String, phrases: List[String]): Boolean = {
+    phrases match {
+      case Nil => false
+      case phrasesHead :: phrasesTail => if (contains(element, phrasesHead)) true else containsAtLeastOne(element, phrasesTail)
+    }
+  }
+  
 }
