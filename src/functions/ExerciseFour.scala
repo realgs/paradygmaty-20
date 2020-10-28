@@ -27,7 +27,7 @@ object ExerciseFour {
           else
             findTail(tail, accum)
       }
-    findTail(list, Nil)
+    findTail(reverseList(list), Nil)
   }
 
   def findElementsContainingAtLeastOnePhrase(list: List[String], phrases: List[String]): List[String] = {
@@ -49,7 +49,7 @@ object ExerciseFour {
           else inner(listTail, phrases, currentResult)
       }
     }
-    inner(list, phrases, Nil)
+    inner(reverseList(list), phrases, Nil)
   }
 
 }
