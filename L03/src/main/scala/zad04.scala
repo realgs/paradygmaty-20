@@ -20,12 +20,20 @@ object zad04 {
     Utils.reverseList(findTailInternal(phrases, words, List()))
   }
 
-  // TODO: write own implementation of string.contains
   @tailrec
   def matches(phrase: String, words: List[String]): Boolean = {
     words match {
       case Nil => false
-      case head :: tail => if (phrase.contains(head)) true else matches(phrase, tail)
+      case head :: tail => if (contains(phrase, head)) true else matches(phrase, tail)
+    }
+  }
+
+  @tailrec
+  def contains(phrase: String, word: String): Boolean = {
+    (phrase, word) match {
+      case (_, "") => true
+      case ("", _) => false
+      case _ => if (phrase.head != word.head) false else contains(phrase.tail, word.tail)
     }
   }
 }
