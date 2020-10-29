@@ -27,6 +27,27 @@ object Functions {
     auxFilter(xs, List[A]())
   }
 
+  def contains[A](xs: List[A], x: A): Boolean = {
+    fold_left(xs, false)((element, accu) => (element == x) || accu)
+  }
+
+  def distinctElements[A](xs: List[A]): List[A] = {
+    reverse(fold_left(xs, List[A]())((x, accu) => if (contains(accu, x)) accu else x :: accu))
+  }
+
+  @tailrec
+  def fold_left_str[B](s: String, accu: B)(f: (Char, B) => B): B = {
+    s match {
+      case "" => accu
+      case _ => fold_left_str(s.tail, f(s.head, accu))(f)
+    }
+  }
+
+  val strlen: String => Int = (s: String) => {
+    fold_left_str(s, 0)((_, sum) => sum + 1)
+  }
+
+
   // Task 1
   val split: List[Int] => (List[Int], List[Int]) = xs => {
     val (left, right) = fold_left(xs, (List[Int](), List[Int]()))((x, accu) => {
@@ -89,18 +110,6 @@ object Functions {
   }
 
   @tailrec
-  def fold_left_str[B](s: String, accu: B)(f: (Char, B) => B): B = {
-    s match {
-      case "" => accu
-      case _ => fold_left_str(s.tail, f(s.head, accu))(f)
-    }
-  }
-
-  val strlen: String => Int = (s: String) => {
-    fold_left_str(s, 0)((_, sum) => sum + 1)
-  }
-
-  @tailrec
   private def isMatch(pattern: String, offsetS: String): Boolean = {
     (pattern, offsetS) match {
       case ("", _) => true
@@ -108,14 +117,14 @@ object Functions {
     }
   }
 
+  // Karp-Rabin
   def isSubstring(pattern: String, s: String): Boolean = {
     val SYSTEM_BASE = 256
 
-    val len = strlen(pattern) // O(n)
+    val len = strlen(pattern)
     val removeTerm = power(SYSTEM_BASE, len - 1)
-    val hp = rollingHash(pattern, SYSTEM_BASE)  // O(n)
+    val hp = rollingHash(pattern, SYSTEM_BASE)
 
-    // O(m) at most
     @tailrec
     def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Boolean = {
       if (i >= len) {
@@ -142,7 +151,8 @@ object Functions {
   }
 
   def find(patterns: List[String], xs: List[String]): List[String] = {
-    fold_left(patterns, List[String]())((pat, accu) => concatLists(accu, find(pat, xs)))
+    val matches = fold_left(patterns, List[String]())((pat, accu) => concatLists(accu, find(pat, xs)))
+    distinctElements(matches)
   }
 
   def concatLists[A](xs: List[A], ys: List[A]): List[A] = {

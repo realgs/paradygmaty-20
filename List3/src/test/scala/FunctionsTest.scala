@@ -76,6 +76,12 @@ class FunctionsTest extends FunSuite {
       List("index0168202", "index0168211", "index0168210"))
   }
 
+  test("find.multipleExample") {
+    assert(Functions.find(List("682", "0168202"),
+      List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
+      List("index0168202", "index0168211", "index0168210"))
+  }
+
   test("joinLists.example") {
     assert(Functions.joinLists(List(5,4,3,2), List(1,0), List(9)) === List(5,4,3,2,1,0,9))
   }
