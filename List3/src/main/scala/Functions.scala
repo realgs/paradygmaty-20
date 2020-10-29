@@ -4,16 +4,15 @@ object Functions {
   private val mod = (x: Int, n: Int) => (x % n + n) % n
   private val isOdd = (x: Int) => mod(x, 2) == 1
 
-  // Write fold left here
-
-  private def reverse [A](xs: List[A]): List[A] = {
-    def auxReverse: (List[A], List[A]) => List[A] = (xs, acc) => {
-      xs match {
-        case Nil => acc
-        case h::t => auxReverse(t, h :: acc)
-      }
+  def fold_left [A, B](xs: List[A], accu: B)(f: (A, B) => B): B = {
+    xs match {
+      case Nil => accu
+      case h::t => fold_left(t, f(h, accu)) (f)
     }
-    auxReverse(xs, List())
+  }
+
+  def reverse [A](xs: List[A]): List[A] = {
+    fold_left(xs, List[A]())(_ :: _)
   }
 
   val split: List[Int] => (List[Int], List[Int])= xs => {
