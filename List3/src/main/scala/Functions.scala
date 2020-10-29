@@ -67,6 +67,7 @@ object Functions {
         else auxPower(exponent >> 1, result, power * power)
       }
     }
+
     if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
 
     if (exponent >= 0) {
@@ -95,6 +96,7 @@ object Functions {
     add(removed, base, next)
   }
 
+  @tailrec
   def fold_left_str[B](s: String, accu: B)(f: (Char, B) => B): B = {
     s match {
       case "" => accu
@@ -114,12 +116,13 @@ object Functions {
   }
 
   def isSubstring(pattern: String, s: String): Boolean = {
-    val SYSTEM_BASE = 199
+    val SYSTEM_BASE = 256
 
     val len = strlen(pattern)
     val removeTerm = power(SYSTEM_BASE, len - 1)
     val hp = rollingHash(pattern, SYSTEM_BASE)
 
+    @tailrec
     def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Unit = {
       if (i >= len) {
         if (rh == hp) {
@@ -144,7 +147,7 @@ object Functions {
   def concatLists[A](xs: List[A], ys: List[A]): List[A] = {
     xs match {
       case Nil => ys
-      case h::t => h :: concatLists(t, ys)
+      case h :: t => h :: concatLists(t, ys)
     }
   }
 

@@ -51,7 +51,7 @@ class FunctionsTest extends FunSuite {
   }
 
   test("isSubstring") {
-    assert(Functions.isSubstring("e", "beta_alpha_gamma"))
+    assert(Functions.isSubstring("mm", "beta_alpha_gamma"))
   }
 
   test("joinLists.example") {
