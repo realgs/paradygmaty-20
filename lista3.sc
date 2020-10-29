@@ -9,6 +9,16 @@ def reverse[A](list: List[A]):List[A] =
   reverseRec(List())(list)
 }
 
+def createList(from:Int)(to:Int):List[Int] =
+  {
+    @scala.annotation.tailrec
+    def createListRec(current:Int)(accum:List[Int]):List[Int] =
+      if(current <= to) createListRec(current + 1)(current::accum)
+      else reverse(accum)
+
+    createListRec(from)(List())
+  }
+
 reverse(List(1,2,3,4,5))
 //Zadanie 1
 val splitList:List[Int] => (List[Int],List[Int]) = listToSplit =>
@@ -61,3 +71,39 @@ merge(List('a','b'))(List('c','d','e','f')) == List('a','c','b','d','e','f')
 merge(List(1,2,3,4))(List()) == List(1,2,3,4)
 merge(List("Lorem","ipsum"))(List("dolor","sit")) == List("Lorem","dolor","ipsum","sit")
 //Złożoność czasowa 0(n), złożoność pamięciowa 0(n)
+
+//Zadanie 5
+//Zwykła rekurencja
+def joinLists[A](firstList : List[A])(secondList : List[A])(thirdList: List[A]):List[A] =
+{
+  if(firstList != Nil) firstList.head::joinLists(firstList.tail)(secondList)(thirdList)
+  else if(secondList != Nil) secondList.head::joinLists(firstList)(secondList.tail)(thirdList)
+  else if(thirdList != Nil) thirdList.head::joinLists(firstList)(secondList)(thirdList.tail)
+  else Nil
+}
+
+joinLists(List())(List())(List()) == List()
+joinLists(List(1,2,3,4))(List(5,6))(List(7,8,9,10,11)) == List(1,2,3,4,5,6,7,8,9,10,11)
+joinLists(List())(List())(List(List())) == List(List())
+joinLists(List('a','b'))(List('c'))(List('d','e','f')) == List('a','b','c','d','e','f')
+//StackOverflowError
+//joinLists(createList(0)(50000))(createList(50001)(100000))(createList(100001)(150000)) == createList(0)(150000)
+//Rekurencja ogonowa
+def joinListsTail[A](firstList: List[A])(secondList: List[A])(thirdList: List[A]):List[A] =
+{
+   @scala.annotation.tailrec
+   def joinListsRec(accum: List[A])(list1: List[A])(list2: List[A])(list3: List[A]):List[A] =
+   {
+     if(list1 != Nil) joinListsRec(list1.head::accum)(list1.tail)(list2)(list3)
+     else if(list2 != Nil) joinListsRec(list2.head::accum)(list1)(list2.tail)(list3)
+     else if(list3 != Nil) joinListsRec(list3.head::accum)(list1)(list2)(list3.tail)
+     else reverse(accum)
+   }
+   joinListsRec(List())(firstList)(secondList)(thirdList)
+}
+
+joinListsTail(List())(List())(List()) == List()
+joinListsTail(List(1,2,3,4))(List(5,6))(List(7,8,9,10,11)) == List(1,2,3,4,5,6,7,8,9,10,11)
+joinListsTail(List())(List())(List(List())) == List(List())
+joinListsTail(List('a','b'))(List('c'))(List('d','e','f')) == List('a','b','c','d','e','f')
+joinListsTail(createList(0)(50000))(createList(50001)(100000))(createList(100001)(150000)) == createList(0)(150000)
