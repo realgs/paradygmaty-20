@@ -139,3 +139,43 @@ find2(List("aaa","bbb","aba","ccc","xer"),List("aa","ab","bb")) == List("aaa","b
 find(List("xxxaa","xxaaxx","xaaaxx","ssass"),List("aa")) == List("xxxaa","xxaaxx","xaaaxx")
 find2(List("xxxaa","xxaaxx","xaaaxx","ssass"),List("aa")) == List("xxxaa","xxaaxx","xaaaxx")
 
+// Zadanie 5 (złożonośc obliczeniowa -> liniowa, pamięciowa -> stała)
+def joinLists[A](f:List[A],s:List[A],t:List[A]):List[A]={
+  def joinListsHelper[A](f:List[A],s:List[A],merged:List[A]):List[A]={
+    (f,s) match{
+      case (Nil,Nil) => rev(merged)
+      case (Nil,_)   => joinListsHelper(f,s.tail,s.head::merged)
+      case _ => joinListsHelper(f.tail,s,f.head::merged)
+    }
+  }
+  joinListsHelper(joinListsHelper(f,s,Nil),t,Nil)
+}
+
+def joinLists2[A](f:List[A],s:List[A],t:List[A]):List[A]={
+  (f,s,t) match{
+    case (Nil,Nil,Nil) => Nil
+    case (head::tail,_,_) => head::joinLists2(tail,s,t)
+    case (Nil,head::tail,_) => head::joinLists2(f,tail,t)
+    case (Nil,Nil,head::tail) => head::joinLists2(f,s,tail)
+  }
+}
+
+
+joinLists(Nil,Nil,Nil) == Nil
+joinLists2(Nil,Nil,Nil) == Nil
+
+joinLists(List(1),Nil,Nil) == List(1)
+joinLists2(List(1),Nil,Nil) == List(1)
+
+joinLists(Nil,List(1),List(2)) == List(1,2)
+joinLists2(Nil,List(1),List(2)) == List(1,2)
+
+joinLists(List(1),Nil,List(2)) == List(1,2)
+joinLists2(List(1),Nil,List(2)) == List(1,2)
+
+joinLists(List(1),List(2),Nil) == List(1,2)
+joinLists2(List(1),List(2),Nil) == List(1,2)
+
+joinLists(List("a","b"),List("c","d"),List("e","f")) == List("a","b","c","d","e","f")
+joinLists2(List("a","b"),List("c","d"),List("e","f")) == List("a","b","c","d","e","f")
+
