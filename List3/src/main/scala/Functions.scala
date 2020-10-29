@@ -4,6 +4,24 @@ object Functions {
   private val mod = (x: Int, n: Int) => (x % n + n) % n
   private val isOdd = (x: Int) => mod(x, 2) == 1
 
+  def power(base: Int, exponent: Int): Int = {
+    @tailrec
+    def auxPower(exponent: Int, result: Int, power: Int): Int = {
+      if (exponent <= 0) result
+      else {
+        if (exponent % 2 == 1) auxPower(exponent >> 1, result * power, power * power)
+        else auxPower(exponent >> 1, result, power * power)
+      }
+    }
+    if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
+
+    if (exponent >= 0) {
+      auxPower(exponent, 1, base)
+    } else {
+      auxPower(-exponent, 1, 1 / base)
+    }
+  }
+
   @tailrec
   def fold_left[A, B](xs: List[A], accu: B)(f: (A, B) => B): B = {
     xs match {
@@ -46,7 +64,7 @@ object Functions {
   val strlen: String => Int = (s: String) => {
     fold_left_str(s, 0)((_, sum) => sum + 1)
   }
-
+  
 
   // Task 1
   val split: List[Int] => (List[Int], List[Int]) = xs => {
@@ -74,24 +92,6 @@ object Functions {
   }
 
   // Task 4
-  def power(base: Int, exponent: Int): Int = {
-    @tailrec
-    def auxPower(exponent: Int, result: Int, power: Int): Int = {
-      if (exponent <= 0) result
-      else {
-        if (exponent % 2 == 1) auxPower(exponent >> 1, result * power, power * power)
-        else auxPower(exponent >> 1, result, power * power)
-      }
-    }
-    if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
-
-    if (exponent >= 0) {
-      auxPower(exponent, 1, base)
-    } else {
-      auxPower(-exponent, 1, 1 / base)
-    }
-  }
-
   def add(u: Int, a: Int, c: Char): Int = {
     (u * a) + c.toInt
   }
