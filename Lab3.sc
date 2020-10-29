@@ -72,3 +72,23 @@ dlugosc(List(1)) == 1
 dlugosc(List("a","b","c","d","e")) == 5
 dlugosc(List(1.0,-2.0,3.0)) == 3
 
+// Zadanie 3 (złożonośc obliczeniowa -> liniowa, pamięciowa -> stała)
+
+def polacz[A](fir:List[A],sec:List[A]):List[A]={
+  def polaczHelper[A](lista:List[A],fir:List[A],sec:List[A]):List[A]={
+    (fir,sec) match{
+      case (_,Nil) => mergeList(rev(lista),fir)
+      case (Nil,_) => mergeList(rev(lista),sec)
+      case (h1::t1,h2::t2) => polaczHelper(h1::h2::lista,t1,t2)
+
+    }
+  }
+  polaczHelper(Nil,sec,fir)
+}
+
+polacz(Nil,Nil) == Nil
+polacz(Nil,List(1,2,3,4,5)) == List(1,2,3,4,5)
+polacz(List(1,2,3,4,5),Nil) == List(1,2,3,4,5)
+polacz(List("a","c","e"),List("b","d")) == List("a","b","c","d","e")
+polacz(List("a","c"),List("b","d","e")) == List("a","b","c","d","e")
+
