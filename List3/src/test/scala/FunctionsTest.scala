@@ -50,8 +50,30 @@ class FunctionsTest extends FunSuite {
     assert(Functions.interlace(Nil, List(1, 2, 3, 4, 5)) === List(1, 2, 3, 4, 5))
   }
 
-  test("isSubstring") {
-    assert(Functions.isSubstring("mm", "beta_alpha_gamma"))
+  test("isSubstring.beginningOccurrence") {
+    assert(Functions.isSubstring("beta", "beta_alpha_gamma"))
+  }
+
+  test("isSubstring.endOccurrence") {
+    assert(Functions.isSubstring("mma", "beta_alpha_gamma"))
+  }
+
+  test("isSubstring.middleOccurrence") {
+    assert(Functions.isSubstring("lpha", "beta_alpha_gamma"))
+  }
+
+  test("isSubstring.noOccurrence") {
+    assert(!Functions.isSubstring("kar", "beta_alpha_gamma"))
+  }
+
+  test("isSubstring.identicalString") {
+    assert(Functions.isSubstring("beta_alpha_gamma", "beta_alpha_gamma"))
+  }
+
+  test("find.example") {
+    assert(Functions.find("index0168",
+      List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
+      List("index0168202", "index0168211", "index0168210"))
   }
 
   test("joinLists.example") {

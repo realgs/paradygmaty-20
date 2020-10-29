@@ -43,22 +43,6 @@ object Functions {
     fold_left(xs, 0)((_, sum) => sum + 1)
   }
 
-  /*
-  def zip [A](xs: List[A], ys: List[A]): List[List[A]] = {
-    (xs, ys) match {
-      case (hx::tx, hy::ty) => List(hx, hy) :: zip(tx, ty)
-      case (Nil, Nil) => Nil
-      case (Nil, lst) => List(lst)
-      case (lst, Nil) => List(lst)
-    }
-  }
-
-  def flatten [A](xs: List[List[A]]): List[A] = {
-    fold_left(xs, List[A]())((accu, x) => x ++ accu)
-  }
-
-   */
-
   // Task 3
   def interlace[A](xs: List[A], ys: List[A]): List[A] = {
     (xs, ys) match {
@@ -78,7 +62,6 @@ object Functions {
         else auxPower(exponent >> 1, result, power * power)
       }
     }
-
     if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
 
     if (exponent >= 0) {
@@ -92,7 +75,6 @@ object Functions {
     (u * a) + c.toInt
   }
 
-  // 4 -> constant, find ways to not overflow
   def remove(u: Int, removeTerm: Int, c: Char): Int = {
     u - c.toInt * removeTerm
   }
@@ -101,7 +83,6 @@ object Functions {
     s.foldLeft(0)((rh, c) => add(rh, base, c))
   }
 
-  // Numerals are constants
   def nextHash(rh: Int, base: Int, removeTerm: Int, first: Char, next: Char): Int = {
     val removed = remove(rh, removeTerm, first)
     add(removed, base, next)
@@ -120,7 +101,7 @@ object Functions {
   }
 
   @tailrec
-  def isMatch(pattern: String, offsetS: String): Boolean = {
+  private def isMatch(pattern: String, offsetS: String): Boolean = {
     (pattern, offsetS) match {
       case ("", _) => true
       case _ => if (pattern.head == offsetS.head) isMatch(pattern.tail, offsetS.tail) else false
@@ -155,8 +136,13 @@ object Functions {
     auxSubstring(s, s, 0, 0)
   }
 
-  def filterMatch(pattern: String, xs: List[String]): List[String] = {
+  // Single pattern
+  def find(pattern: String, xs: List[String]): List[String] = {
     filter(xs)(x => isSubstring(pattern, x))
+  }
+
+  def find(patterns: List[String], xs: List[String]): List[String] = {
+    fold_left(patterns, List[String]())((pat, accu) => concatLists(accu, find(pat, xs)))
   }
 
   def concatLists[A](xs: List[A], ys: List[A]): List[A] = {
@@ -171,30 +157,4 @@ object Functions {
     val lst = List(ys, xs)
     fold_left(lst, zs)((xs, accu) => concatLists(xs, accu))
   }
-
-  /*
-  val splitOld: List[Int] => (List[Int], List[Int]) = xs => {
-    @tailrec
-    def auxSplit(xs: List[Int], left: List[Int], right: List[Int]): (List[Int], List[Int]) = {
-      xs match {
-        case Nil => (reverse(left), reverse(right))
-        case h :: t => {
-          if (h < 0) {
-            if (isOdd(h)) {
-              auxSplit(t, h :: left, h :: right)
-            } else {
-              auxSplit(t, h :: left, right)
-            }
-          } else {
-            auxSplit(t, left, right)
-          }
-        }
-      }
-    }
-
-
-
-    auxSplit(xs, List(), List())
-  }
-  */
 }
