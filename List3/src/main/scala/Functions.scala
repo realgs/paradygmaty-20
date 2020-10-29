@@ -28,7 +28,7 @@ object Functions {
   }
 
   // Task 2
-  def length [A](xs: List[A]): Int = {
+  def length[A](xs: List[A]): Int = {
     fold_left(xs, 0)((_, sum) => sum + 1)
   }
 
@@ -49,13 +49,42 @@ object Functions {
    */
 
   // Task 3
-  def interlace [A](xs: List[A], ys: List[A]): List[A] = {
+  def interlace[A](xs: List[A], ys: List[A]): List[A] = {
     (xs, ys) match {
-      case (hx::tx, hy::ty) => hx :: hy :: interlace(tx, ty)
+      case (hx :: tx, hy :: ty) => hx :: hy :: interlace(tx, ty)
       case (Nil, lst) => lst
       case (lst, Nil) => lst
     }
   }
+
+  /*
+  def add(u: Int, a: Int, prime: Int, c: Char): Int = {
+    mod((u * a) + c.toInt, prime)
+  }
+
+  def remove(u: Int, a: Int, prime: Int, c: Char): Int = {
+    mod(u - c.toInt * mod(math.pow(a, u.abs - 1).toInt, prime), prime)
+  }
+
+  def rollingHash(s: String): Int = {
+    s.foldLeft(0)((rh, c) => add(rh, 256, 101, c))
+  }
+
+  def nextHash(rh: Int, first: Char, next: Char): Int = {
+    val removed = remove(rh, 256, 101, first)
+    add(removed, 256, 101, next)
+  }
+
+  def isSubstring(pattern: String, s: String): Boolean = {
+    val x = add(0, 100, 23, 'a')
+    print(x)
+    print("\n")
+    val y = add(x, 100, 23, 'b')
+    print(y)
+    true
+  }
+
+   */
 
   /*
   val splitOld: List[Int] => (List[Int], List[Int]) = xs => {
