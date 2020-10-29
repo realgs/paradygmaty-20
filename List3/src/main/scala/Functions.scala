@@ -16,6 +16,17 @@ object Functions {
     fold_left(xs, List[A]())(_ :: _)
   }
 
+  def filter[A](xs: List[A])(predicate: A => Boolean): List[A] = {
+    @tailrec
+    def auxFilter (xs: List[A], accu: List[A]): List[A] = {
+      xs match {
+        case Nil => reverse(accu)
+        case h::t => if (predicate(h)) auxFilter(t, h :: accu) else auxFilter(t, accu)
+      }
+    }
+    auxFilter(xs, List[A]())
+  }
+
   // Task 1
   val split: List[Int] => (List[Int], List[Int]) = xs => {
     val (left, right) = fold_left(xs, (List[Int](), List[Int]()))((x, accu) => {
@@ -104,44 +115,48 @@ object Functions {
     }
   }
 
-  val strlen = (s: String) => {
+  val strlen: String => Int = (s: String) => {
     fold_left_str(s, 0)((_, sum) => sum + 1)
   }
 
-  def isOffsetEqual(s: String, offsetS: String): Boolean = {
-    print(s)
-    print("\n")
-    print(offsetS)
-    false
+  @tailrec
+  def isMatch(pattern: String, offsetS: String): Boolean = {
+    (pattern, offsetS) match {
+      case ("", _) => true
+      case _ => if (pattern.head == offsetS.head) isMatch(pattern.tail, offsetS.tail) else false
+    }
   }
 
   def isSubstring(pattern: String, s: String): Boolean = {
     val SYSTEM_BASE = 256
 
-    val len = strlen(pattern)
+    val len = strlen(pattern) // O(n)
     val removeTerm = power(SYSTEM_BASE, len - 1)
-    val hp = rollingHash(pattern, SYSTEM_BASE)
+    val hp = rollingHash(pattern, SYSTEM_BASE)  // O(n)
 
+    // O(m) at most
     @tailrec
-    def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Unit = {
+    def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Boolean = {
       if (i >= len) {
         if (rh == hp) {
-          isOffsetEqual(s, offsetS)
+          if (isMatch(pattern, offsetS)) return true
         }
         (s, offsetS) match {
-          case ("", _) => -1
-          case _ => auxSubstring(s.tail, offsetS.tail, nextHash(rh, SYSTEM_BASE, removeTerm, offsetS.head, s.head), i + 1)
+          case ("", _) => false
+          case _ => auxSubstring(s.tail, offsetS.tail, nextHash(rh, SYSTEM_BASE, removeTerm, offsetS.head, s.head), i)
         }
       } else {
         s match {
-          case "" => -2
+          case "" => false
           case _ => auxSubstring(s.tail, offsetS, add(rh, SYSTEM_BASE, s.head), i + 1)
         }
       }
     }
-
     auxSubstring(s, s, 0, 0)
-    false
+  }
+
+  def filterMatch(pattern: String, xs: List[String]): List[String] = {
+    filter(xs)(x => isSubstring(pattern, x))
   }
 
   def concatLists[A](xs: List[A], ys: List[A]): List[A] = {
