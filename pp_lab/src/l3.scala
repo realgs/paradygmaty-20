@@ -30,6 +30,40 @@ object l3 {
     else xs1.head :: combine2(xs2, xs1.tail)
 
   //ZADANIE 4
+  def find(xs: List[String], x: String): List[String] = {
+    if (xs == Nil) xs
+    else if (xs.head.contains(x)) xs.head :: find(xs.tail, x)
+    else find(xs.tail, x)
+  }
+
+  def findTail(xs: List[String], x: String): List[String] = {
+    @tailrec
+    def findTailRec(xs: List[String], x: String, curr: List[String]): List[String] = {
+      if (xs == Nil) curr
+      else if (xs.head.contains(x)) findTailRec(xs.tail, x, xs.head :: curr)
+      else findTailRec(xs.tail, x, curr)
+    }
+    findTailRec(xs, x, List())
+  }
+  def findMultiple(xs: List[String], ys: List[String]): List[String] = {
+    var flag = false
+    if (xs == Nil) return Nil
+    else for (str <- ys) if (xs.head.contains(str)) flag = true
+    if (flag) xs.head :: findMultiple(xs.tail, ys)
+    else findMultiple(xs.tail, ys)
+  }
+
+  /*def findMultipleTail(xs: List[String], ys: List[String]): List[String] = {
+    @tailrec
+    def findMultipleRec(xs: List[String], ys: List[String], result: List[String]): List[String] =
+      (xs, ys) match {
+        case (Nil, _) => myReverse(result)
+        case (_ :: tl, Nil) => findMultipleRec(tl, ys, result)
+        case (h1 :: t1, h2 :: t2) => if (contains(hd1, hd2)) innerFindManyTailRec(tl1, patterns, patterns, hd1 :: resultList)
+        else findMultipleRec(xs, t2, ys1, result)
+      }
+    findMultipleRec(xs, ys, List())
+  }*/
 
   //ZADANIE 5
   /*def combine3[A](xs1: List[A], xs2: List[A], xs3: List[A]): List[A] =
@@ -56,10 +90,14 @@ object l3 {
       case (Nil, _, _) => combine3Rec(xs1, xs2.tail, xs3, xs2.head :: curr)
       case _ => combine3Rec(xs1.tail, xs2, xs3, xs1.head :: curr)
     }
-    myReverse(combine3Rec(xs1, xs2, xs3, List()))
+    myReverse(combine3Rec(xs1, xs2, xs3, List().reverse))
   }
 
-  def myReverse[A](xs: List[A]): List[A] =
+  def myReverse[A](xs: List[A]): List[A] = {
     if (xs == Nil) Nil
-    else myReverse(xs.tail) appended xs.head
+    else myReverse(xs.tail) ::: List(xs.head)
+
+  /*def myContains(x: String, y: String): Boolean =
+
+  }*/
 }
