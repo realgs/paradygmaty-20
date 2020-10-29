@@ -51,15 +51,7 @@ class FunctionsTest extends FunSuite {
   }
 
   test("isSubstring") {
-    assert(Functions.isSubstring("alpha", "beta_alpha_gamma"))
-  }
-
-  test("rollingHash.1") {
-    assert(Functions.rollingHash("beta_") === 69)
-  }
-
-  test("rollingHash.2") {
-    assert(Functions.rollingHash("eta_a") === 88)
+    assert(Functions.isSubstring("e", "beta_alpha_gamma"))
   }
 
   test("joinLists.example") {

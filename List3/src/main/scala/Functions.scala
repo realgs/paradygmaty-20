@@ -58,22 +58,41 @@ object Functions {
   }
 
   // Task 4
+  def power(base: Int, exponent: Int): Int = {
+    @tailrec
+    def auxPower(exponent: Int, result: Int, power: Int): Int = {
+      if (exponent <= 0) result
+      else {
+        if (exponent % 2 == 1) auxPower(exponent >> 1, result * power, power * power)
+        else auxPower(exponent >> 1, result, power * power)
+      }
+    }
+    if (exponent == 0 && base == 0) throw new IllegalArgumentException("0 ** 0 is undefined")
 
-  def add(u: Int, a: Int, prime: Int, c: Char): Int = {
-    mod((u * a) + c.toInt, prime)
+    if (exponent >= 0) {
+      auxPower(exponent, 1, base)
+    } else {
+      auxPower(-exponent, 1, 1 / base)
+    }
   }
 
-  def remove(u: Int, a: Int, prime: Int, c: Char): Int = {
-    mod(u - c.toInt * mod(math.pow(a, 4).toInt, prime), prime)
+  def add(u: Int, a: Int, c: Char): Int = {
+    (u * a) + c.toInt
   }
 
-  def rollingHash(s: String): Int = {
-    s.foldLeft(0)((rh, c) => add(rh, 25, 23, c))
+  // 4 -> constant, find ways to not overflow
+  def remove(u: Int, removeTerm: Int, c: Char): Int = {
+    u - c.toInt * removeTerm
   }
 
-  def nextHash(rh: Int, first: Char, next: Char): Int = {
-    val removed = remove(rh, 25, 23, first)
-    add(removed, 25, 23, next)
+  def rollingHash(s: String, base: Int): Int = {
+    s.foldLeft(0)((rh, c) => add(rh, base, c))
+  }
+
+  // Numerals are constants
+  def nextHash(rh: Int, base: Int, removeTerm: Int, first: Char, next: Char): Int = {
+    val removed = remove(rh, removeTerm, first)
+    add(removed, base, next)
   }
 
   def fold_left_str[B](s: String, accu: B)(f: (Char, B) => B): B = {
@@ -95,8 +114,12 @@ object Functions {
   }
 
   def isSubstring(pattern: String, s: String): Boolean = {
+    val SYSTEM_BASE = 199
+
     val len = strlen(pattern)
-    val hp = rollingHash(pattern)
+    val removeTerm = power(SYSTEM_BASE, len - 1)
+    val hp = rollingHash(pattern, SYSTEM_BASE)
+
     def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Unit = {
       if (i >= len) {
         if (rh == hp) {
@@ -104,15 +127,16 @@ object Functions {
         }
         (s, offsetS) match {
           case ("", _) => -1
-          case _ => auxSubstring(s.tail, offsetS.tail, nextHash(rh, offsetS.head, s.head), i + 1)
+          case _ => auxSubstring(s.tail, offsetS.tail, nextHash(rh, SYSTEM_BASE, removeTerm, offsetS.head, s.head), i + 1)
         }
       } else {
         s match {
           case "" => -2
-          case _ => auxSubstring(s.tail, offsetS, add(rh, 25, 23, s.head), i + 1)
+          case _ => auxSubstring(s.tail, offsetS, add(rh, SYSTEM_BASE, s.head), i + 1)
         }
       }
     }
+
     auxSubstring(s, s, 0, 0)
     false
   }
