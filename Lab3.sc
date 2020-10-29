@@ -57,3 +57,18 @@ rozdzielListy(List(1,-2,3,-4)) == (List(-2,-4),Nil)
 rozdzielListy(List(-1,2,-3,4)) == (List(-1,-3),List(-1,-3))
 rozdzielListy(List(1.5,2.5,3.6,6.7)) == (Nil,Nil)
 
+// Zadanie 2 (złożoność czasowa - liniowa, złożoność pamięciowa - stała)
+
+def dlugosc[A](lista:List[A]):Int ={
+  def dlugoscHelper[A](lista:List[A],rozmiar:Int):Int ={
+    if (lista == Nil) rozmiar
+    else dlugoscHelper(lista.tail,rozmiar + 1)
+  }
+  dlugoscHelper(lista,0)
+}
+
+dlugosc(Nil) == 0
+dlugosc(List(1)) == 1
+dlugosc(List("a","b","c","d","e")) == 5
+dlugosc(List(1.0,-2.0,3.0)) == 3
+
