@@ -5,18 +5,47 @@ import scala.annotation.tailrec
 object L3 {
 
   //Własne implementacje funkcji pomocniczych
-  def contains(word1: String, word2: String): Boolean = {
+  def fillList(list: List[Int], i: Int, max: Int): List[Int] =
+    if (i < max) -1 :: fillList(list, i+1, max)
+    else list
+
+  @tailrec
+  def shifts(word: String, list: List[Int], i: Int, length: Int): List[Int] = {
+    if (i < length) shifts(word, setValueAt(list, getCharAt(word, i).toInt,i), i+1, length)
+    else list
+  }
+
+  def stringLength(word: String): Int = {
+    if (word == "") 0
+    else 1 + stringLength(word.tail)
+  }
+
+  def getCharAt(word: String, index: Int): Char = {
     @tailrec
-    def containsIter(word1: String, word2: String, checkString1: String, checkString2: String): Boolean =
-      (word1, word2) match {
-        case ("", "") => true
-        case ("", _) => false
-        case (_, "") => true
-        case (_, _) if word1 == word2 => true
-        case (_, _) => if (word1.head == word2.head) containsIter(word1.tail, word2.tail, checkString1, checkString2)
-                      else containsIter(checkString1.tail, checkString2, checkString1.tail, checkString2)
-      }
-    containsIter(word1, word2, word1, word2)
+    def stringIter(word: String, index: Int, i: Int): Char = {
+      if (index == i) word.head
+      else stringIter(word.tail, index, i+1)
+    }
+    stringIter(word, index, 0)
+  }
+
+  def getValueAt[T](list: List[T], index: Int): T = {
+    @tailrec
+    def stringIter(list: List[T], index: Int, i: Int): T = {
+      if (index == i) list.head
+      else stringIter(list.tail, index, i+1)
+    }
+    stringIter(list, index, 0)
+  }
+
+  def setValueAt[T](list: List[T], index: Int, newValue: T):List[T] = {
+    @tailrec
+    def iter(list: List[T], listLength: Int, index: Int, i: Int, newValue: T, resultList: List[T]): List[T] = {
+      if (i == index) iter(list.tail, listLength, index, i+1, newValue, newValue :: resultList)
+      else if (i == listLength) reverse(resultList)
+      else iter(list.tail,listLength, index, i+1, newValue, list.head :: resultList)
+    }
+    iter(list, countLength(list), index, 0, newValue, Nil)
   }
 
   def reverse[T](list: List[T]): List[T] = {
@@ -25,6 +54,31 @@ object L3 {
       if (list == Nil) resultList
       else reverseTail(list.tail, list.head :: resultList)
     reverseTail(list, Nil)
+  }
+
+  def contains(word1: String, word2: String): Boolean = {
+    def containsIter(word1: String, word2: String, length1: Int, length2: Int, list: List[Int], i: Int): Boolean = {
+      if (length1 - length2 < i) return false
+      else {
+        val j = length2 - 1
+        @tailrec
+        def shiftCorrectPosition(j: Int): Boolean = {
+          if (j >= 0 && getCharAt(word2, j) == getCharAt(word1, i+j)) shiftCorrectPosition(j - 1)
+          else {
+            def goOn(): Boolean = {
+              if (j < 0) true
+              else if (1 > j - getValueAt(list, getCharAt(word1, i + j))) containsIter(word1, word2, length1, length2, list, i + 1)
+              else containsIter(word1, word2, length1, length2, list, i + j - getValueAt(list, getCharAt(word1, i + j)))
+            }
+            if (goOn()) true
+            else false
+          }
+        }
+        if (shiftCorrectPosition(j)) return true
+      }
+      false
+    }
+    containsIter(word1, word2, stringLength(word1), stringLength(word2), shifts(word2, fillList(Nil, 0, 256), 0, stringLength(word2)), 0)
   }
 
   //Zadanie 1
