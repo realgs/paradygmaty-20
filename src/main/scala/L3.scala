@@ -56,4 +56,32 @@ object L3 extends App {
 
     concatenateListsHelper(Nil, firstList, secondList, true)
   }
+
+  // zadanie 5 (zwykła rekurencja)
+  def join[A](firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
+    if(secondList == Nil) thirdList
+    else if(firstList == Nil) secondList.head :: join(firstList, secondList.tail, thirdList)
+    else firstList.head :: join(firstList.tail, secondList, thirdList)
+  }
+
+  // zadanie 5 (rekurencja ogonowa)
+  def joinTail[A](firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
+    @tailrec
+    def joinTailHelper(resultList: List[A], firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
+      if(firstList == Nil && secondList == Nil && thirdList == Nil){
+        reverse(resultList)
+      }
+      else if(secondList == Nil) {
+        joinTailHelper(thirdList.head :: resultList, firstList, secondList, thirdList.tail)
+      }
+      else if(firstList == Nil) {
+        joinTailHelper(secondList.head :: resultList, firstList, secondList.tail, thirdList)
+      }
+      else {
+        joinTailHelper(firstList.head :: resultList, firstList.tail, secondList, thirdList)
+      }
+    }
+
+    joinTailHelper(Nil, firstList, secondList, thirdList)
+  }
 }
