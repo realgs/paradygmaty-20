@@ -57,34 +57,78 @@ object Functions {
     }
   }
 
-  /*
+  // Task 4
+
   def add(u: Int, a: Int, prime: Int, c: Char): Int = {
     mod((u * a) + c.toInt, prime)
   }
 
   def remove(u: Int, a: Int, prime: Int, c: Char): Int = {
-    mod(u - c.toInt * mod(math.pow(a, u.abs - 1).toInt, prime), prime)
+    mod(u - c.toInt * mod(math.pow(a, 4).toInt, prime), prime)
   }
 
   def rollingHash(s: String): Int = {
-    s.foldLeft(0)((rh, c) => add(rh, 256, 101, c))
+    s.foldLeft(0)((rh, c) => add(rh, 25, 23, c))
   }
 
   def nextHash(rh: Int, first: Char, next: Char): Int = {
-    val removed = remove(rh, 256, 101, first)
-    add(removed, 256, 101, next)
+    val removed = remove(rh, 25, 23, first)
+    add(removed, 25, 23, next)
+  }
+
+  def fold_left_str[B](s: String, accu: B)(f: (Char, B) => B): B = {
+    s match {
+      case "" => accu
+      case _ => fold_left_str(s.tail, f(s.head, accu))(f)
+    }
+  }
+
+  val strlen = (s: String) => {
+    fold_left_str(s, 0)((_, sum) => sum + 1)
+  }
+
+  def isOffsetEqual(s: String, offsetS: String): Boolean = {
+    print(s)
+    print("\n")
+    print(offsetS)
+    false
   }
 
   def isSubstring(pattern: String, s: String): Boolean = {
-    val x = add(0, 100, 23, 'a')
-    print(x)
-    print("\n")
-    val y = add(x, 100, 23, 'b')
-    print(y)
-    true
+    val len = strlen(pattern)
+    val hp = rollingHash(pattern)
+    def auxSubstring(s: String, offsetS: String, rh: Int, i: Int): Unit = {
+      if (i >= len) {
+        if (rh == hp) {
+          isOffsetEqual(s, offsetS)
+        }
+        (s, offsetS) match {
+          case ("", _) => -1
+          case _ => auxSubstring(s.tail, offsetS.tail, nextHash(rh, offsetS.head, s.head), i + 1)
+        }
+      } else {
+        s match {
+          case "" => -2
+          case _ => auxSubstring(s.tail, offsetS, add(rh, 25, 23, s.head), i + 1)
+        }
+      }
+    }
+    auxSubstring(s, s, 0, 0)
+    false
   }
 
-   */
+  def concatLists[A](xs: List[A], ys: List[A]): List[A] = {
+    xs match {
+      case Nil => ys
+      case h::t => h :: concatLists(t, ys)
+    }
+  }
+
+  // Task 5
+  def joinLists[A](xs: List[A], ys: List[A], zs: List[A]): List[A] = {
+    val lst = List(ys, xs)
+    fold_left(lst, zs)((xs, accu) => concatLists(xs, accu))
+  }
 
   /*
   val splitOld: List[Int] => (List[Int], List[Int]) = xs => {

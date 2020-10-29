@@ -49,4 +49,25 @@ class FunctionsTest extends FunSuite {
   test("interlace.secondEmpty") {
     assert(Functions.interlace(Nil, List(1, 2, 3, 4, 5)) === List(1, 2, 3, 4, 5))
   }
+
+  test("isSubstring") {
+    assert(Functions.isSubstring("alpha", "beta_alpha_gamma"))
+  }
+
+  test("rollingHash.1") {
+    assert(Functions.rollingHash("beta_") === 69)
+  }
+
+  test("rollingHash.2") {
+    assert(Functions.rollingHash("eta_a") === 88)
+  }
+
+  test("joinLists.example") {
+    assert(Functions.joinLists(List(5,4,3,2), List(1,0), List(9)) === List(5,4,3,2,1,0,9))
+  }
+
+  test("joinLists.simple") {
+    assert(Functions.joinLists(List(1, 2, 3, 4, 5), List(6, 7, 8, 9), List(10, 11)) ===
+      List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
+  }
 }
