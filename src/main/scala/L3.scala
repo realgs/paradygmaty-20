@@ -32,4 +32,28 @@ object L3 extends App {
     else if (list.tail == Nil) 1
     else 1 + length(list.tail)
   }
+
+  // zadanie 3
+  def concatenateLists[A](firstList: List[A], secondList: List[A]): List[A] = {
+    @tailrec
+    def concatenateListsHelper(resultList: List[A], firstList: List[A], secondList: List[A], takeFromFirstList: Boolean): List[A] = {
+      if (firstList == Nil && secondList == Nil) {
+        reverse(resultList)
+      }
+      else if (firstList == Nil) {
+        concatenateListsHelper(secondList.head :: resultList, Nil, secondList.tail, true)
+      }
+      else if (secondList == Nil) {
+        concatenateListsHelper(firstList.head :: resultList, firstList.tail, Nil, false)
+      }
+      else if (takeFromFirstList) {
+        concatenateListsHelper(firstList.head :: resultList, firstList.tail, secondList, false)
+      }
+      else {
+        concatenateListsHelper(secondList.head :: resultList, firstList, secondList.tail, true)
+      }
+    }
+
+    concatenateListsHelper(Nil, firstList, secondList, true)
+  }
 }
