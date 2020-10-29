@@ -49,6 +49,15 @@ object Lists {
   }
 
   //Zad 5
+  def mergeThreeListsRec[A] (list1: List[A], list2: List[A], list3: List[A]): List[A] = {
+    (list1, list2, list3) match {
+      case (Nil, Nil, Nil) => Nil
+      case (h::t, _, _) => h::mergeThreeListsRec(t, list2, list3)
+      case (_, h::t, _) => h::mergeThreeListsRec(Nil, t, list3)
+      case (_, _, h::t) => h::mergeThreeListsRec(Nil, Nil, t)
+    }
+  }
+
   def mergeThreeLists[A] (list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     @tailrec
     def mergeThreeListsTail(list1: List[A], list2: List[A], list3: List[A], mergedList: List[A]): List[A] = {

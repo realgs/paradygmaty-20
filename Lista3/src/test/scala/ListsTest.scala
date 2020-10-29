@@ -71,35 +71,67 @@ class ListsTest extends FunSuite{
   }
 
   //Zad 5 tests
-  test("mergeThreeLists.allEmpty"){
+  test("mergeThreeListsTail.allEmpty"){
     assert(Lists.mergeThreeLists(Nil, Nil, Nil) === Nil)
   }
 
-  test("mergeThreeLists.list1&2Empty"){
+  test("mergeThreeListsTail.list1&2Empty"){
     assert(Lists.mergeThreeLists(Nil, Nil, List(1,2,3)) === List(1,2,3))
   }
 
-  test("mergeThreeLists.list2&3Empty"){
+  test("mergeThreeListsTail.list2&3Empty"){
     assert(Lists.mergeThreeLists(List(1,2,3), Nil, Nil) === List(1,2,3))
   }
 
-  test("mergeThreeLists.list1&3Empty"){
+  test("mergeThreeListsTail.list1&3Empty"){
     assert(Lists.mergeThreeLists(Nil, List(1,2,3), Nil) === List(1,2,3))
   }
 
-  test("mergeThreeLists.list1Empty"){
+  test("mergeThreeListsTail.list1Empty"){
     assert(Lists.mergeThreeLists(Nil, List(0,9,8), List(1,2,3)) === List(0,9,8,1,2,3))
   }
 
-  test("mergeThreeLists.list2Empty"){
+  test("mergeThreeListsTail.list2Empty"){
     assert(Lists.mergeThreeLists(List(0,9,8), Nil, List(1,2,3)) === List(0,9,8,1,2,3))
   }
 
-  test("mergeThreeLists.list3Empty"){
+  test("mergeThreeListsTail.list3Empty"){
     assert(Lists.mergeThreeLists(List(1,2,3), List(0,9,8), Nil) === List(1,2,3,0,9,8))
   }
 
-  test("mergeThreeLists.allFull"){
+  test("mergeThreeListsTail.allFull"){
     assert(Lists.mergeThreeLists(List(0,9,8), List(4,5,6), List(1,2,3)) === List(0,9,8,4,5,6,1,2,3))
+  }
+
+  test("mergeThreeListsRec.allEmpty"){
+    assert(Lists.mergeThreeListsRec(Nil, Nil, Nil) === Nil)
+  }
+
+  test("mergeThreeListsRec.list1&2Empty"){
+    assert(Lists.mergeThreeListsRec(Nil, Nil, List(1,2,3)) === List(1,2,3))
+  }
+
+  test("mergeThreeListsRec.list2&3Empty"){
+    assert(Lists.mergeThreeListsRec(List(1,2,3), Nil, Nil) === List(1,2,3))
+  }
+
+  test("mergeThreeListsRec.list1&3Empty"){
+    assert(Lists.mergeThreeListsRec(Nil, List(1,2,3), Nil) === List(1,2,3))
+  }
+
+  test("mergeThreeListsRec.list1Empty"){
+    assert(Lists.mergeThreeListsRec(Nil, List(0,9,8), List(1,2,3)) === List(0,9,8,1,2,3))
+  }
+
+  test("mergeThreeListsRec.list2Empty"){
+    assert(Lists.mergeThreeListsRec(List(0,9,8), Nil, List(1,2,3)) === List(0,9,8,1,2,3))
+  }
+
+  test("mergeThreeListsRec.list3Empty"){
+    assert(Lists.mergeThreeListsRec(List(1,2,3), List(0,9,8), Nil) === List(1,2,3,0,9,8))
+  }
+
+  test("mergeThreeListsRec.allFull"){
+    assert(Lists.mergeThreeListsRec(List(0,9,8), List(4,5,6), List(1,2,3)) === List(0,9,8,4,5,6,1,2,3))
   }
 }
