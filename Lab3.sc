@@ -36,3 +36,24 @@ def stringEquals(f:String,s:String):Boolean={
   equals(f,s)
 }
 
+// Zadanie 1 (złożoność czasowa - liniowa, złożoność pamięciowa - stała)
+
+def rozdzielListy(lista:List[Double]):(List[Double],List[Double])={
+  def rozdzielListyHelper(lista:List[Double],f:List[Double],s:List[Double]):(List[Double],List[Double])= {
+    lista match {
+      case Nil => (rev(f), rev(s))
+      case head :: tail if head < 0 =>
+        if (head % 2 == 0) rozdzielListyHelper(tail,head::f,s)
+        else rozdzielListyHelper(tail,head::f,head::s)
+      case _ => rozdzielListyHelper(lista.tail,f,s)
+    }
+  }
+  rozdzielListyHelper(lista,Nil,Nil)
+}
+
+rozdzielListy(Nil) == (Nil,Nil)
+rozdzielListy(List(-1,-2,-3,-4)) == (List(-1,-2,-3,-4),List(-1,-3))
+rozdzielListy(List(1,-2,3,-4)) == (List(-2,-4),Nil)
+rozdzielListy(List(-1,2,-3,4)) == (List(-1,-3),List(-1,-3))
+rozdzielListy(List(1.5,2.5,3.6,6.7)) == (Nil,Nil)
+
