@@ -92,3 +92,50 @@ polacz(List(1,2,3,4,5),Nil) == List(1,2,3,4,5)
 polacz(List("a","c","e"),List("b","d")) == List("a","b","c","d","e")
 polacz(List("a","c"),List("b","d","e")) == List("a","b","c","d","e")
 
+// Zadanie 4
+
+def find(list:List[String],elem:List[String]):List[String]={
+  def compare(listElem:String,elem:List[String]):Boolean={
+    if(elem == Nil) false
+    else stringEquals(listElem,elem.head) || compare(listElem,elem.tail)
+  }
+  def findHelper(list:List[String],elem:List[String],result:List[String]):List[String]={
+    if (list == Nil || elem == Nil) rev(result)
+    else if(compare(list.head,elem)) findHelper(list.tail,elem,list.head::result)
+    else findHelper(list.tail,elem,result)
+  }
+  findHelper(list,elem,Nil)
+}
+
+def find2(list:List[String],elem:List[String]):List[String]= {
+  def compare(listElem:String,elem:List[String]):Boolean={
+    if(elem == Nil) false
+    else stringEquals(listElem,elem.head) || compare(listElem,elem.tail)
+  }
+
+  def findHelper(list:List[String],elem:List[String]):List[String]={
+    if (list == Nil || elem == Nil) Nil
+    else if(compare(list.head,elem)) list.head::findHelper(list.tail,elem)
+    else findHelper(list.tail,elem)
+  }
+  findHelper(list,elem)
+}
+
+find(Nil,Nil) == Nil
+find2(Nil,Nil) == Nil
+
+find(Nil,List("a")) == Nil
+find2(Nil,List("a")) == Nil
+
+find(List("a"),Nil) == Nil
+find2(List("a"),Nil) == Nil
+
+find(List("a","b","c","d"),List("e")) == Nil
+find2(List("a","b","c","d"),List("e")) == Nil
+
+find(List("aaa","bbb","aba","ccc","xer"),List("aa","ab","bb")) == List("aaa","bbb","aba")
+find2(List("aaa","bbb","aba","ccc","xer"),List("aa","ab","bb")) == List("aaa","bbb","aba")
+
+find(List("xxxaa","xxaaxx","xaaaxx","ssass"),List("aa")) == List("xxxaa","xxaaxx","xaaaxx")
+find2(List("xxxaa","xxaaxx","xaaaxx","ssass"),List("aa")) == List("xxxaa","xxaaxx","xaaaxx")
+
