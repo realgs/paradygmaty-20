@@ -56,7 +56,7 @@ class L3Test extends FunSuite {
     assert(L3.findMoreElem(List("1234", "23456", "34567", "90", "09876", "678", "5678"), List("345", "09", "1")) == List("1234", "23456", "34567", "09876"))
     assert(L3.findMoreElem(List(), List("ad", "3525", "53fsdg")) == List())
     assert(L3.findMoreElem(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List()) == List())
-    assert(L3.findMoreElem(List("index0169","index168202","index0168211","index168210","index169222","index169224"), List("index6", "82", "x0")) == List("index0169", "index168202","index0168211","index168210"))
+    assert(L3.findMoreElem(List("index0169","index168202","index0168211","index168210","index169222","index169224"), List("index6", "82", "x0", "202")) == List("index0169", "index168202","index0168211","index168210"))
   }
 
   test("Test for 'findMoreElemTail' function:") {
