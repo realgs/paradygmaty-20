@@ -1,5 +1,4 @@
 import scala.annotation.tailrec
-import Utils.reverse
 
 object Task5 {
     def join3ListsWithoutTailRec[A](list1: List[A], list2: List[A], list3: List[A]): List[A] =
@@ -19,6 +18,6 @@ object Task5 {
                 case (Nil, Nil, Nil) => accum
             }
 
-        reverse(join3ListsTail(list1, list2, list3, Nil))
+        Utils.reverse(join3ListsTail(list1, list2, list3, Nil))
     }
 }

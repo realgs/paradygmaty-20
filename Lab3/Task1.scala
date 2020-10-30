@@ -1,5 +1,4 @@
 import scala.annotation.tailrec
-import Utils.reverse
 
 object Task1 {
     def divide(list: List[Int]): (List[Int], List[Int]) = {
@@ -12,6 +11,6 @@ object Task1 {
                     ( if (hd<0 && (hd % 2 == -1)) hd::accumNegOdd else accumNegOdd ))
             }
         val (neg, negOdd) = divideTail(list, Nil, Nil)
-        (reverse(neg), reverse(negOdd))
+        (Utils.reverse(neg), Utils.reverse(negOdd))
     }
 }
