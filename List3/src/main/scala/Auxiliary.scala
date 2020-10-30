@@ -1,11 +1,8 @@
-import Functions.rollingHash
-
 import scala.annotation.tailrec
-import scala.collection.{mutable}
 
 object Auxiliary {
   private val mod = (x: Int, n: Int) => (x % n + n) % n
-  val isOdd = (x: Int) => mod(x, 2) == 1
+  val isOdd: Int => Boolean = (x: Int) => mod(x, 2) == 1
 
   def power(base: Int, exponent: Int): Int = {
     @tailrec
