@@ -1,3 +1,5 @@
+import com.sun.org.apache.bcel.internal.generic.GOTO
+
 import scala.annotation.tailrec
 
 object L3 extends App {
@@ -57,24 +59,86 @@ object L3 extends App {
     concatenateListsHelper(Nil, firstList, secondList, true)
   }
 
+  // zadanie 4
+  def contains(word: String, pattern: String): Boolean = {
+    @tailrec
+    def containsHelper(actualWord: String, actualPattern: String): Boolean = {
+      if (actualWord == "") false
+      else if (actualWord.head == actualPattern.head) {
+        if (actualPattern.tail == "") true
+        else containsHelper(actualWord.tail, actualPattern.tail)
+      }
+      else containsHelper(actualWord.tail, pattern)
+    }
+
+    if (pattern == "") true
+    else if (length(pattern.toList) > length(word.toList)) false
+    else containsHelper(word, pattern)
+  }
+
+  def containsMultiplePhrases(word: String, phrases: List[String]): Boolean = {
+    if (phrases == Nil) false
+    else if (contains(word, phrases.head)) true
+    else containsMultiplePhrases(word,phrases.tail)
+  }
+
+  // zadanie 4 bez N fraz (zwykła rekurencja)
+  def find(words: List[String], pattern: String): List[String] = {
+    if (words == Nil) Nil
+    else if (contains(words.head, pattern)) words.head :: find(words.tail, pattern)
+    else find(words.tail, pattern)
+  }
+
+  // zadanie 4 z N frazami (zwykła rekurencja)
+  def findMultiplePhrases(words: List[String], patterns: List[String]) : List[String] = {
+    if(words == Nil) Nil
+    else if(containsMultiplePhrases(words.head, patterns)) words.head :: findMultiplePhrases(words.tail, patterns)
+    else findMultiplePhrases(words.tail, patterns)
+  }
+
+  // zadanie 4 bez N fraz (rekurencja ogonowa)
+  def findTail(words: List[String], pattern: String): List[String] = {
+    @tailrec
+    def findHelper(resultList: List[String], words: List[String], pattern: String): List[String] = {
+      if (words == Nil) resultList
+      else if (contains(words.head, pattern)) findHelper(words.head :: resultList, words.tail, pattern)
+      else findHelper(resultList, words.tail, pattern)
+    }
+
+    findHelper(Nil, reverse(words), pattern)
+  }
+
+  // zadanie 4 z N frazami (rekurencja ogonowa)
+  def findMultiplePhrasesTail(words: List[String], patterns: List[String]) : List[String] = {
+    @tailrec
+    def findHelper(resultList: List[String], words: List[String], patterns: List[String]): List[String] = {
+      if (words == Nil) resultList
+      else if (containsMultiplePhrases(words.head, patterns)) findHelper(words.head :: resultList, words.tail, patterns)
+      else findHelper(resultList, words.tail, patterns)
+    }
+
+    findHelper(Nil, reverse(words), patterns)
+  }
+
+
   // zadanie 5 (zwykła rekurencja)
-  def join[A](firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
-    if(secondList == Nil) thirdList
-    else if(firstList == Nil) secondList.head :: join(firstList, secondList.tail, thirdList)
+  def join[A](firstList: List[A], secondList: List[A], thirdList: List[A]): List[A] = {
+    if (secondList == Nil) thirdList
+    else if (firstList == Nil) secondList.head :: join(firstList, secondList.tail, thirdList)
     else firstList.head :: join(firstList.tail, secondList, thirdList)
   }
 
   // zadanie 5 (rekurencja ogonowa)
-  def joinTail[A](firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
+  def joinTail[A](firstList: List[A], secondList: List[A], thirdList: List[A]): List[A] = {
     @tailrec
-    def joinTailHelper(resultList: List[A], firstList: List[A], secondList: List[A], thirdList: List[A]) : List[A] = {
-      if(firstList == Nil && secondList == Nil && thirdList == Nil){
+    def joinTailHelper(resultList: List[A], firstList: List[A], secondList: List[A], thirdList: List[A]): List[A] = {
+      if (firstList == Nil && secondList == Nil && thirdList == Nil) {
         reverse(resultList)
       }
-      else if(secondList == Nil) {
+      else if (secondList == Nil) {
         joinTailHelper(thirdList.head :: resultList, firstList, secondList, thirdList.tail)
       }
-      else if(firstList == Nil) {
+      else if (firstList == Nil) {
         joinTailHelper(secondList.head :: resultList, firstList, secondList.tail, thirdList)
       }
       else {
