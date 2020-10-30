@@ -66,7 +66,7 @@ class Functions extends App {
   def findTail(list: List[String], pattern: String): List[String] = {
     @scala.annotation.tailrec
     def findIter(elements: List[String], pattern: String, resultList: List[String]): List[String] = {
-      if (pattern == Nil || elements == Nil) resultList
+      if (pattern == Nil || elements == Nil) rev(resultList)
       else if (containsPattern(elements.head, pattern)) findIter(elements.tail, pattern, elements.head :: resultList)
       else findIter(elements.tail, pattern, resultList)
     }
@@ -75,14 +75,24 @@ class Functions extends App {
   }
 
   def findN(list: List[String], patternList: List[String]): List[String] = {
-    if (patternList == Nil || list == Nil) Nil
+    if (list == Nil) Nil
     else if (contains(list.head, patternList)) list.head :: findN(list.tail, patternList)
     else findN(list.tail, patternList)
   }
 
+  def findNTail(list: List[String], patternList: List[String]): List[String] = {
+    def findNIter(elements: List[String], patternList: List[String], resultList: List[String]): List[String] = {
+      if (elements == Nil) rev(resultList)
+      else if (contains(elements.head, patternList)) findNIter(elements.tail, patternList, elements.head :: resultList)
+      else findNIter(elements.tail, patternList, resultList)
+    }
+
+    findNIter(list, patternList, List())
+  }
+
   @scala.annotation.tailrec
   private def contains(element: String, pattern: List[String]): Boolean = {
-    if (element == Nil) false
+    if (pattern == Nil) false
     else if (containsPattern(element, pattern.head)) true
     else contains(element, pattern.tail)
   }

@@ -25,4 +25,28 @@ class tests {
     assert(testFunction.append(List(1, 2, 3), List()) == List(1, 2, 3))
     assert(testFunction.append(List("ala", "kota", "pieska"), List("ma", "i")) == List("ala", "ma", "kota", "i", "pieska"))
   }
+
+  @Test def testFunction4: Unit = {
+    //one pattern rec function
+    assert(testFunction.find(testList, "x") == testList)
+    assert(testFunction.find(Nil, "halko") == List())
+    assert(testFunction.find(testList, "168") == List("index0168202", "index0168211", "index0168210"))
+    assert(testFunction.find(testList, "indx") == List())
+    print(testFunction.find(testList, "index0168202") == List("index0168202"))
+
+    //one pattern tailrec function
+    assert(testFunction.findTail(testList, "x") == testList)
+    assert(testFunction.findTail(Nil, "halko") == List())
+    assert(testFunction.findTail(testList, "168") == List("index0168202", "index0168211", "index0168210"))
+    assert(testFunction.findTail(testList, "indx") == List())
+    print(testFunction.findTail(testList, "index0168202") == List("index0168202"))
+
+    //N patterns rec function
+    assert(testFunction.findN(testList, List("21", "68")) == List("index0168202", "index0168211", "index0168210"))
+    assert(testFunction.findN(testList, List("abba", "53")) == List())
+
+    //N patterns recTail function
+    assert(testFunction.findNTail(testList, List("21", "68")) == List("index0168202", "index0168211", "index0168210"))
+    assert(testFunction.findNTail(testList, List("abba", "53")) == List())
+  }
 }
