@@ -49,4 +49,12 @@ class tests {
     assert(testFunction.findNTail(testList, List("21", "68")) == List("index0168202", "index0168211", "index0168210"))
     assert(testFunction.findNTail(testList, List("abba", "53")) == List())
   }
+
+  @Test def testFunction5: Unit = {
+    assert(testFunction.joinLists(List(5,4,3,2), List(0,9), List(1)) == List(5,4,3,2,0,9,1))
+    assert(testFunction.joinLists(List(5,4,3,2), List(), List(1)) == List(5,4,3,2,1))
+
+    assert(testFunction.joinListsTail(List(5,4,3,2), List(0,9), List(1)) == List(5,4,3,2,0,9,1))
+    assert(testFunction.joinListsTail(List(5,4,3,2), List(), List(1)) == List(5,4,3,2,1))
+  }
 }
