@@ -134,4 +134,8 @@ class ListsTest extends FunSuite{
   test("mergeThreeListsRec.allFull"){
     assert(Lists.mergeThreeListsRec(List(0,9,8), List(4,5,6), List(1,2,3)) === List(0,9,8,4,5,6,1,2,3))
   }
+
+  test("mergeThreeListsRec.portal"){
+    assert(Lists.mergeThreeListsRec(List("the", "cake"), List("is", "a"), List("lie.")) === List("the", "cake", "is", "a", "lie."))
+  }
 }
