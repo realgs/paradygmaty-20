@@ -80,3 +80,37 @@ mergeLists(List(1,3),List('a','b'))
 mergeLists(List(1,3),List())
 mergeLists(List(),List(1))
 mergeLists(List(),List())
+
+//5
+// normal rec
+zlozonosc:
+obliczeniowa:O(n), n-suma dlugosci list
+pamieciowa:O(n), n-suma dlugosci list
+*/
+def joinLists[A](a: List[A], b: List[A], c: List[A]): List[A] = (a, b, c) match{
+    case(Nil, Nil, Nil) => Nil
+    case(ha::ta, _, _) => ha::joinLists(ta, b, c)
+    case(Nil, hb::tb, _)  => hb::joinLists(Nil, tb, c)
+    case(Nil, Nil, hc::tc) => hc::joinLists(Nil, Nil, tc)
+  }
+// tail rec
+/*
+zlozonosc:
+obliczeniowa:O(n), n-suma dlugosci list
+pamieciowa:O(1),
+*/
+def joinListsT[A](a:List[A],b:List[A],c:List[A]):List[A] = {
+  def help(a:List[A],b:List[A],c:List[A],acc:List[A]):List[A]= (a,b,c) match{
+    case (Nil,Nil,Nil) => listRev(acc)
+    case (ha::ta,_,_) => help(ta,b,c,ha::acc)
+    case(Nil, hb::tb, _)  => help(Nil, tb, c, hb::acc)
+    case(Nil, Nil, hc::tc) => help(Nil, Nil, tc, hc::acc)
+  }
+  help(a,b,c,Nil)
+}
+// 5 test
+joinListsT(List(1,2),List(3,4),List(5,6))
+joinListsT(List(1,2),List(),List(5,6))
+joinListsT(List(1,2),List(3,4),List())
+joinListsT(List(),List(3,4),List(5,6))
+joinListsT(List(),List(),List())
