@@ -12,6 +12,7 @@ object Functions {
   def divide(numbers: List[Int]): (List[Int], List[Int]) =
     (filter(numbers, (x: Int) => x < 0), filter(numbers, (x: Int) => x < 0 && x % 2 != 0))
 
+
   // Function 2.
   // time complexity = O(n) where n - list length
   // space complexity = O(1)
@@ -23,6 +24,7 @@ object Functions {
     lengthIter(list, 0)
   }
 
+
   // Function 3.
   // time complexity = O(n) where n - shorter list length
   // space complexity = O(n) where n - shorter list length
@@ -32,6 +34,7 @@ object Functions {
       case (_, Nil) => list1
       case (h1 :: t1, h2 :: t2) => h1 :: h2 :: append(t1, t2)
     }
+
 
   // Function 4.
   def stringContains(text: String, pattern: String): Boolean = {
@@ -77,6 +80,7 @@ object Functions {
       else findIter(patterns.tail, join(findSingle(elements, patterns.head), acc))
     deleteDuplications(findIter(patterns, Nil))
   }
+
 
   // Function 5.
   // time complexity = O(n) where n - sum of first list length and second list length
