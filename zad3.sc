@@ -23,7 +23,7 @@ def polacz(list1:List[Int], list2:List[Int]):List[Int] = {
   myReverse(polaczHelper(list1, list2, List(),0))
 }
 
-//Złożoność obliczeniowa O(2n), pamieciowa O(1)
+//Złożoność: list1.length = n, list2.length = m => obliczeniowa O(2(n+m)), pamieciowa O(1)
 polacz(List(5,4,3,2),List(1,2,3,4,5,6))
 polacz(List(),List(1,2,3,4,5,6))
 polacz(List(5,4,3,2),List())
