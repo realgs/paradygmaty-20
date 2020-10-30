@@ -20,7 +20,7 @@ def podziel(inputList:List[Int]):(List[Int],List[Int]) = {
                       else podzielHelper(t,accum)
     }
   val (x,y) = podzielHelper(inputList,(List(),List()))
-  (myReverse(x),myReverse(y))
+  (myReverse(x), myReverse(y))
 }
 
 podziel(List(-3,-6,8,-9,13))
