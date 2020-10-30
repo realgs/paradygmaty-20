@@ -15,8 +15,8 @@ def polacz(list1:List[Int], list2:List[Int]):List[Int] = {
   def polaczHelper(list1: List[Int], list2: List[Int], accum: List[Int], counter:Int):List[Int] =
     (list1,list2) match {
       case (Nil, Nil) => accum
-      case (Nil, h::t) => polaczHelper(Nil, t, h::accum,counter+1)
-      case (h::t, Nil) => polaczHelper(t, Nil, h::accum,counter+1)
+      case (Nil, h::t) => polaczHelper(Nil, t, h :: accum, counter+1)
+      case (h::t, Nil) => polaczHelper(t, Nil, h :: accum, counter+1)
       case (h :: t, h2 :: t2) => if (counter % 2 == 0) polaczHelper(t, list2, h :: accum, counter + 1)
                                  else polaczHelper(list1, t2, h2 :: accum, counter + 1)
     }
