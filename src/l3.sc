@@ -2,7 +2,18 @@
 
 //ZADANIE 1
 
+def divide(xs: List[Int]):(List[Int], List[Int])={
+  xs match{
+    case (Nil)=> (Nil, Nil);
+    case (h::t)=> if(h<0){
+      if(h%2!=0) (h::divide(t)._1,h::divide(t)._2)
+      else (h::divide(t)._1,divide(t)._2)
+    }else divide(t)
+  }
+}
 
+divide(List())==(List(), List());
+divide(List(-3, -6, 8, -9, 13))==(List(-3, -6, -9), List(-3, -9));
 
 //ZADANIE 2
 
