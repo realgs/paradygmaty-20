@@ -1,4 +1,7 @@
+import Functions.rollingHash
+
 import scala.annotation.tailrec
+import scala.collection.{mutable}
 
 object Auxiliary {
   private val mod = (x: Int, n: Int) => (x % n + n) % n
@@ -71,6 +74,15 @@ object Auxiliary {
     xs match {
       case Nil => ys
       case h :: t => h :: concatLists(t, ys)
+    }
+  }
+
+  // Returns true if x satisfies predicate for any argument, false otherwise
+  @tailrec
+  def anyMatchArguments[A, B](x: A, arguments: List[B])(predicate: (B, A) => Boolean): Boolean = {
+    arguments match {
+      case Nil => false
+      case h :: t => if (predicate(h, x)) true else anyMatchArguments(x, t)(predicate)
     }
   }
 }

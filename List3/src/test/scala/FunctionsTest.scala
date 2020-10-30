@@ -73,6 +73,10 @@ class FunctionsTest extends FunSuite {
     assert(!Functions.isSubstring("abc", "a" * 100000))
   }
 
+  test("isSubstrin.test") {
+    assert(Functions.isSubstring("aab", "abaaabbabbbaa"))
+  }
+
   test("find.example") {
     assert(Functions.find("index0168",
       List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
@@ -82,7 +86,13 @@ class FunctionsTest extends FunSuite {
   test("find.multipleExample") {
     assert(Functions.find(List("682", "0168202"),
       List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
-      List("index0168202", "index0168211", "index0168210"))
+      List("index0168210", "index0168211", "index0168202"))
+  }
+
+  test("find.multipleAllMatch") {
+    assert(Functions.find(List("index", "22"),
+      List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
+      List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224").reverse)
   }
 
   // Task 5
