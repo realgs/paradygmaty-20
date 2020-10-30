@@ -47,3 +47,4 @@ joinListsTail(List(),List(1,2,3),List(4,5,6))
 joinListsTail(List(1,2,3),List(),List(4,5,6))
 joinListsTail(List(1,2,3),List(4,5,6),List(7,8,9))
 joinListsTail(List(5,4,3,2),List(1,0),List(9))
+

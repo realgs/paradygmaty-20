@@ -27,3 +27,4 @@ podziel(List(-3,-6,8,-9,13))
 podziel(List())
 podziel(List(1,2,3,4,5,6,7,8,9))
 podziel(List(-1,-2,-3,-4,-5,-6,-7,-8,-9))
+

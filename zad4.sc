@@ -94,3 +94,4 @@ findElems(List("TuSprawdzenie", "NaPatterny", "WSrodku"),List("rawd", "tt"))
   poprzez pracę w jednym miejscu, w nieogonowej mamy znacznie dłuższy czas działania. Powodem są tworzone
   nowe wywołania na stosie, podczas gdy w rekursji ogonowej one nie występują
  */
+

@@ -30,3 +30,4 @@ polacz(List(5,4,3,2),List())
 polacz(List(),List())
 polacz(List(1,2,3,4,5,6),List())
 polacz(List(10,12,13,14,15,16,17,18),List(1,2,3,4,5,6))
+
