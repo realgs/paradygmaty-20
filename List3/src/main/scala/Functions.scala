@@ -102,8 +102,8 @@ object Functions {
     auxFind(xs, List())
   }
 
-  // Task 5: O(n + m) time; O(max(n, m)) space, where len(zs), len(ys) = n, m
+  // Task 5: O(n + m) time; O(max(n, m)) space, where len(xs), len(ys) = n, m
   def joinLists[A](xs: List[A], ys: List[A], zs: List[A]): List[A] = {
-    fold_left(List(ys, xs), zs)((xs, accu) => concatLists(xs, accu))
+    fold_left(List(ys, xs), zs)((lst, accu) => concatLists(lst, accu))
   }
 }
