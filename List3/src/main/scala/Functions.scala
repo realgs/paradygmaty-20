@@ -89,13 +89,13 @@ object Functions {
 
   // Multiple patterns (if patterns are of const len m, then we would be able to get O(n+m) time for a given x, len n)
   def find(patterns: List[String], xs: List[String]): List[String] = {
+    @tailrec
     def auxFind(xs: List[String], accu: List[String]): List[String] = {
       xs match {
         case Nil => accu
-        case h :: t => {
+        case h :: t =>
           if (anyMatchArguments(h, patterns)((pattern, s) => isSubstring(pattern, s))) auxFind(t, h :: accu)
           else auxFind(t, accu)
-        }
       }
     }
 
