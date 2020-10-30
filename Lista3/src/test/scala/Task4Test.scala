@@ -163,8 +163,12 @@ class Task4Test extends FunSuite {
     assert(Task4.findMatchManyRec(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("ocean", "index")) === List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"))
   }
 
-  test("findMatchManyRec.manyPatterns"){
+  test("findMatchManyRec.manyExactMatches"){
     assert(Task4.findMatchManyRec(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("index0168211", "index0169222", "index0169224", "index0168210")) === List("index0168211","index0168210","index0169222","index0169224"))
+  }
+
+  test("findMatchManyRec.manyPatterns"){
+    assert(Task4.findMatchManyRec(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("index0168211", "index0169222", "index016922", "index016821")) === List("index0168211","index0168210","index0169222","index0169224"))
   }
 
   //Task 4 main function (n patterns, tail recursive) tests
@@ -191,7 +195,11 @@ class Task4Test extends FunSuite {
     assert(Task4.findMatchMany(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("ocean", "index")) === List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"))
   }
 
-  test("findMatchMany.manyPatterns"){
+  test("findMatchMany.manyExactMatches"){
     assert(Task4.findMatchMany(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("index0168211", "index0169222", "index0169224", "index0168210")) === List("index0168211","index0168210","index0169222","index0169224"))
+  }
+
+  test("findMatchMany.manyPatterns"){
+    assert(Task4.findMatchMany(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("index0168211", "index0169222", "index016922", "index016821")) === List("index0168211","index0168210","index0169222","index0169224"))
   }
 }
