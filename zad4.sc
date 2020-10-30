@@ -1,10 +1,21 @@
 import scala.annotation.tailrec
 
-def append[A](list1:List[A], list2:List[A]):List[A] =
+@tailrec
+def contains[A](list1:List[A],elem:A):Boolean =
   list1 match {
-    case Nil => list2
-    case h :: t => h :: append(t,list2)
+    case Nil => false
+    case h :: t  => if (h == elem) true else contains(t,elem)
   }
+
+def appendNoRep[A](list1:List[A], list2:List[A]):List[A] = {
+  @tailrec
+  def appendNoRepHelper[A](list1:List[A], list2:List[A], accum:List[A]):List[A] =
+    list2 match {
+      case Nil => accum
+      case h :: t => if (contains(list1,h)) appendNoRepHelper(list1, t, accum) else appendNoRepHelper(list1, t, h :: accum)
+    }
+  appendNoRepHelper(list1,list2,list1)
+}
 
 def stringMatch(toCompare:String, pattern:String):Boolean = {
   if (toCompare.length < pattern.length || ((toCompare.length > pattern.length) && pattern.length == 0)) false
@@ -44,7 +55,6 @@ def find2(inputList:List[String], elem:String):List[String] =
 find(List("haha", "haha", "haha"),"ha")
 find(List("haha", "haha", "haha"),"aha")
 find(List("hahapatternwsrodku", "haha", "haha"),"patt")
-
 find(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"),"index0168")
 find(List("hehexd", "hehexd3", "nieto1234", "", "papa"),"hehexd")
 find(List("hehexd", "hehexd3", "nieto1234", "", "papa"),"eto")
@@ -52,7 +62,6 @@ find(List(),"")
 find(List(""),"")
 find(List("haha", "dziwna", "lista"),"")
 find(List("haha", "dziwna", "lista"),"nic")
-
 find2(List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224"),"index0168")
 find2(List("hehexd", "hehexd123", "nieto1234", "", "papa"),"hehexd")
 find2(List("hehexd", "hehexd123", "nieto1234", "", "papa"),"eto")
@@ -66,15 +75,22 @@ def findElems(inputList:List[String], elems:List[String]):List[String] = {
   def findElemsHelper(inputList:List[String], elems:List[String], accum:List[String]):List[String] = {
     elems match {
       case Nil => accum
-      case h :: t => findElemsHelper(inputList, t, append(accum, find(inputList, h)))
+      case h :: t => findElemsHelper(inputList, t, appendNoRep(accum, find(inputList, h)))
     }
   }
   findElemsHelper(inputList,elems,List())
 }
 
 findElems(List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224", "index0223", "index557"), List("index0168", "index0169"))
-findElems(List("hehexd", "hehexd123", "nieto1234", "", "papa"), List("hehexd", "eto", "nie"))
+findElems(List("hehexd", "hehexd123", "nieto1234", "", "papa"), List("hehexd", "eto", "nie","ehe"))
 findElems(List(), List(""))
 findElems(List(""), List("", "nie"))
 findElems(List("haha", "dziwna", "lista"),List("", "dziw"))
 findElems(List("haha", "haha", "haha"),List("ha", "aha"))
+findElems(List("TuSprawdzenie", "NaPatterny", "WSrodku"),List("rawd", "tt"))
+
+/*ODPOWIEDŹ DO PORÓWNANIA REKURSJI W ZAD4,5
+  Porównanie funkcji w rekurencji ogonowej i nieogonowej skutkuje: w ogonowej przyspieszenie szybkości działania
+  poprzez pracę w jednym miejscu, w nieogonowej mamy znacznie dłuższy czas działania. Powodem są tworzone
+  nowe wywołania na stosie, podczas gdy w rekursji ogonowej one nie występują
+ */

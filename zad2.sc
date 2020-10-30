@@ -10,6 +10,7 @@ def listLength[A](list: List[A]): Int = {
   listLengthHelper(list,0)
 }
 
+//Złożoność obliczeniowa O(n), pamięciowa O(1)
 listLength(List(1, 2, 3, 4, 5)) == 5
 listLength(List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')) == 8
 listLength(List(1, 2)) == 2
