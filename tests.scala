@@ -12,4 +12,12 @@ class tests {
     assert(testFunction.split(List(-1)) == (List(-1), List(-1)))
   }
 
+  @Test def testFunction2: Unit = {
+    assert(testFunction.length(List(5, 4, 3, 2)) == 4)
+    assert(testFunction.length(List()) == 0)
+    assert(testFunction.length(List('k', 'a', 'm', 'i', 'l', 's', 'l', 'i', 'm', 'a', 'k')) == 11)
+    assert(testFunction.length(List("elo")) == 1)
+  }
+
+
 }

@@ -28,7 +28,7 @@ class Functions extends App {
   }
 
   //exercise 2
-  def dlugosc[A](list: List[A]): Int = {
+  def length[A](list: List[A]): Int = {
     @scala.annotation.tailrec
     def lengthIter[A](list: List[A], length: Int): Int = {
       list match {
