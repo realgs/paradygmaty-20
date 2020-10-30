@@ -19,5 +19,10 @@ class tests {
     assert(testFunction.length(List("elo")) == 1)
   }
 
-
+  @Test def testFunction3: Unit = {
+    assert(testFunction.append(List(5, 4, 3, 2), List(1, 2, 3, 4, 5, 6)) == List(5, 1, 4, 2, 3, 3, 2, 4, 5, 6))
+    assert(testFunction.append(List(), List()) == List())
+    assert(testFunction.append(List(1, 2, 3), List()) == List(1, 2, 3))
+    assert(testFunction.append(List("ala", "kota", "pieska"), List("ma", "i")) == List("ala", "ma", "kota", "i", "pieska"))
+  }
 }

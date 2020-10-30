@@ -21,7 +21,7 @@ class Functions extends App {
         if (source.head % 2 != 0)
           splitIter(source.tail, source.head :: first, source.head :: second)
         else splitIter(source.tail, source.head :: first, second)
-      else splitIter(source.tail,first, second)
+      else splitIter(source.tail, first, second)
     }
 
     splitIter(listToMerge, List(), List())
@@ -41,15 +41,15 @@ class Functions extends App {
   }
 
   //exercise 3
-  def polacz[A](first: List[A], second: List[A]): List[A] = {
+  def append[A](first: List[A], second: List[A]): List[A] = {
     @scala.annotation.tailrec
-    def appendIter[A](first: List[A], second: List[A], appended: List[A]): List[A] = {
+    def appendIter[A](first: List[A], second: List[A], appendList: List[A]): List[A] = {
       (first, second) match {
-        case (Nil, Nil) => rev(appended)
-        case (Nil, _) => rev(appended) ::: second
-        case (_, Nil) => rev(appended) ::: first
+        case (Nil, Nil) => rev(appendList)
+        case (Nil, _) => rev(appendList) ::: second
+        case (_, Nil) => rev(appendList) ::: first
         case (_, _) =>
-          appendIter(first.tail, second.tail, first.head :: second.head :: appended)
+          appendIter(first.tail, second.tail, second.head :: first.head :: appendList)
       }
     }
 
