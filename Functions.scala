@@ -1,8 +1,6 @@
-import org.junit.jupiter.params.converter.JavaTimeConversionPattern
-
 class Functions extends App {
   //Helpers
-  def rev[A](list: List[A]): List[A] = {
+  private def rev[A](list: List[A]): List[A] = {
     @scala.annotation.tailrec
     def revIter[A](listToRev: List[A], list: List[A]): List[A] = {
       listToRev match {
@@ -14,22 +12,22 @@ class Functions extends App {
     revIter(list, List())
   }
 
-  //zadanie 1
-  def podziel(listToMerge: List[Int]): (List[Int], List[Int]) = {
+  //exercise 1
+  def split(listToMerge: List[Int]): (List[Int], List[Int]) = {
     @scala.annotation.tailrec
-    def split(source: List[Int], first: List[Int], second: List[Int]): (List[Int], List[Int]) = {
-      if (source == Nil) (first, second)
+    def splitIter(source: List[Int], first: List[Int], second: List[Int]): (List[Int], List[Int]) = {
+      if (source == Nil) (rev(first), rev(second))
       else if (source.head < 0)
-        if (source.head % 2 == 1)
-          split(source.tail, source.head :: first, source.head :: second)
-        else split(source.tail, source.head :: first, second)
-      else (first, second)
+        if (source.head % 2 != 0)
+          splitIter(source.tail, source.head :: first, source.head :: second)
+        else splitIter(source.tail, source.head :: first, second)
+      else splitIter(source.tail,first, second)
     }
 
-    split(listToMerge, List(), List())
+    splitIter(listToMerge, List(), List())
   }
 
-  //zadanie 2
+  //exercise 2
   def dlugosc[A](list: List[A]): Int = {
     @scala.annotation.tailrec
     def lengthIter[A](list: List[A], length: Int): Int = {
@@ -42,7 +40,7 @@ class Functions extends App {
     lengthIter(list, 0)
   }
 
-  //zadanie 3
+  //exercise 3
   def polacz[A](first: List[A], second: List[A]): List[A] = {
     @scala.annotation.tailrec
     def appendIter[A](first: List[A], second: List[A], appended: List[A]): List[A] = {
@@ -58,8 +56,7 @@ class Functions extends App {
     appendIter(first, second, List())
   }
 
-  //TODO clean code for ex 4 and N patterns
-  //zadanie 4
+  //exercise 4
   def find(list: List[String], pattern: String): List[String] = {
     if (pattern == Nil || list == Nil) Nil
     else if (containsPattern(list.head, pattern)) list.head :: find(list.tail, pattern)
@@ -75,6 +72,12 @@ class Functions extends App {
     }
 
     findIter(list, pattern, List())
+  }
+
+  def findN(list: List[String], patternList: List[String]): List[String] = {
+    if (patternList == Nil || list == Nil) Nil
+    else if (contains(list.head, patternList)) list.head :: findN(list.tail, patternList)
+    else findN(list.tail, patternList)
   }
 
   @scala.annotation.tailrec
@@ -96,7 +99,7 @@ class Functions extends App {
     containsPatternHelper(element.toList, pattern.toList)
   }
 
-  //zadanie 5
+  //exercise 5
   def joinLists[A](first: List[A], second: List[A], third: List[A]): List[A] = {
     (first, second, third) match {
       case (h :: t, _, _) => h :: joinLists(t, second, third)
