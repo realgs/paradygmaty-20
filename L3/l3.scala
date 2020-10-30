@@ -1,7 +1,50 @@
+// own list.reverse
+def listRev[A](list:List[A]):List[A]= {
+  def help(list:List[A],reversed:List[A]):List[A] = list match{
+    case Nil => reversed
+    case head::tail => help(tail,head::reversed)
+    }
+  help(list,Nil)
+}
+
+//1
+/*
+zlozonosc:
+obliczeniowa:O(n), n-dlugosc podanej listy
+pamieciowa:O(1),
+*/
+
+def checkNegative(n:Int):Boolean = {
+  n < 0
+}
+
+def checkOddNegative(n:Int):Boolean = {
+  (n < 0) && ((n%2)!=0 )
+}
+
+
+def splitList(list:List[Int]):(List[Int],List[Int]) = {
+  def help(list:List[Int],neg:List[Int],oddNeg:List[Int]):(List[Int],List[Int]) =list match {
+  case Nil => (listRev(neg),listRev(oddNeg))
+  case head::tail=>
+    if (checkOddNegative(head)) help(tail,head::neg,head::oddNeg)
+    else if (checkNegative(head)) help(tail,head::neg,oddNeg)
+    else  help(list.tail,neg,oddNeg)
+  }
+  help(list,Nil,Nil)
+}
+// 1 test
+splitList(List(-1,-2,-3,-4))
+splitList(List(1,-2,-3,4))
+splitList(List(1,2,3,4))
+splitList(List(0))
+splitList(List())
+
+
 //2
 /*
 zlozonosc:
-obliczeniowa:O(n), n-długosc podanej listy
+obliczeniowa:O(n), n-dlugosc podanej listy
 pamieciowa:O(1),
 */
 def listLenght[A](list:List[A]):Int = {
@@ -20,7 +63,7 @@ listLenght(List('a','b','c'))
 //3
 /*
 zlozonosc:
-obliczeniowa:O(n), n-długosc dłuższej listy
+obliczeniowa:O(n), n-dlugosc dluzszej listy
 pamieciowa:O(1),
 */
 def mergeLists[A](listA:List[A],listB:List[A]):List[A] = (listA,listB) match {
