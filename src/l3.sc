@@ -26,6 +26,17 @@ def reverseTwo[A](list1: List[A], list2: List[A]):(List[A], List[A])={
   inner(Nil, Nil, list1, list2)
 }
 
+def contains(main: String, substring: String): Boolean = {
+  (main, substring) match {
+    case (_, "")=> true
+    case ("", _)=> false
+    case (_, _)=> {
+      if(substring.head==main.head) contains(main.tail, substring.tail)
+      else false
+    }
+  }
+}
+
 //ZADANIE 1
 
 def divide(xs: List[Int]):(List[Int], List[Int])={
@@ -85,29 +96,27 @@ mergeTwoLists(List(1, 2, 3), List())==List(1, 2, 3);
 
 //ZADANIE 4
 
-def find[String](xs: List[String], elem: List[String]):List[String]={
+def find(elements: List[String], searched: String):List[String]={
   @tailrec
-  def inner(accum: List[String], list: List[String]):List[String]={
-    list match {
-      case Nil=> accum
+  def inner(elems: List[String], accum: List[String], s: String):List[String]={
+    elems match {
+      case Nil=> reverse(accum)
       case h::t=> {
-        @tailrec
-        def check(a: Int, length: Int, el: String, str: String):Boolean={
-          if(elem==Nil || a>=length) true
-          else if(el!=str.toString().charAt(a)) false
-          else check(a+1, length, el, str)
-        }
-        if(check(0, h.toString().length(), elem.head, h)) inner(h::accum, t)
-        else Nil
+        if(contains(h, s)) inner(t, h::accum, s)
+        else inner(t, accum, s)
       }
     }
   }
-  inner(Nil, elem)
+  inner(elements, Nil, searched)
 }
 
-find(List("index0169'", "index0168202", "index0168211",
+def findList(elements: List[String], searched: List[String]):List[String]={
+
+}
+
+find(List("index0169'", "index0169202", "index0168211",
   "index0168210", "index0169222", "index0169224"),
-  List("index0168"))==List("index0168211", "index0168210")
+  "index0168")==List("index0168211", "index0168210")
 
 //ZADANIE 5
 
