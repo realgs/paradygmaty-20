@@ -65,7 +65,10 @@ class L3 {
       else if(stringB.isEmpty) false
       else{
         if(stringB.head==patternB.head) strContainsHelper(stringB.tail,patternB.tail)
-        else strContainsHelper(stringB.tail,pattern)
+        else {
+          if(stringB.head==pattern.head) strContainsHelper(stringB.tail, pattern.tail)
+          else strContainsHelper(stringB.tail, pattern)
+        }
       }
     }
     if(pattern.isEmpty) true
