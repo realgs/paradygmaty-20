@@ -1,26 +1,24 @@
 import org.scalatest.FunSuite
 
 class FunctionsTest extends FunSuite {
-  test("fold_left.addition") {
-    assert(Functions.fold_left(List(1, 2, 3, 4), 0)(_ + _) === 10)
-  }
-
-  test("reverse.simpleList") {
-    assert(Functions.reverse(List(1, 2, 3, 4, 5)) === List(5, 4, 3, 2, 1))
-  }
-
-  test("reverse.emptyList") {
-    assert(Functions.reverse(List()) === List())
-  }
-
-  test("reverse.homogeneousLong") {
-    assert(Functions.reverse(List.fill(1)(200000)) === List.fill(1)(200000))
-  }
-
+  // Task 1
   test("split.example") {
     assert(Functions.split(List(-3, -6, 8, -9, 13)) === (List(-3, -6, -9), List(-3, -9)))
   }
 
+  test("split.emptyList") {
+    assert(Functions.split(Nil) === (Nil, Nil))
+  }
+
+  test("split.allNegativeEven") {
+    assert(Functions.split(List.fill(10000)(-2)) === (List.fill(10000)(-2), Nil))
+  }
+
+  test("split.allNegativeOdd") {
+    assert(Functions.split(List.fill(10000)(-3)) === (List.fill(10000)(-3), List.fill(10000)(-3)))
+  }
+
+  // Task 2
   test("length.emptyList") {
     assert(Functions.length(Nil) === 0)
   }
@@ -29,7 +27,7 @@ class FunctionsTest extends FunSuite {
     assert(Functions.length(List.fill(50000)(1)) === 50000)
   }
 
-  // Task 3, not tested properly
+  // Task 3
   test("interlace.example") {
     assert(Functions.interlace(List(5, 4, 3, 2), List(1, 2, 3, 4, 5, 6)) === List(5, 1, 4, 2, 3, 3, 2, 4, 5, 6))
   }
@@ -50,6 +48,7 @@ class FunctionsTest extends FunSuite {
     assert(Functions.interlace(Nil, List(1, 2, 3, 4, 5)) === List(1, 2, 3, 4, 5))
   }
 
+  // Task 4
   test("isSubstring.beginningOccurrence") {
     assert(Functions.isSubstring("beta", "beta_alpha_gamma"))
   }
@@ -70,6 +69,10 @@ class FunctionsTest extends FunSuite {
     assert(Functions.isSubstring("beta_alpha_gamma", "beta_alpha_gamma"))
   }
 
+  test("isSubstring.longString") {
+    assert(!Functions.isSubstring("abc", "a" * 100000))
+  }
+
   test("find.example") {
     assert(Functions.find("index0168",
       List("index0169", "index0168202", "index0168211", "index0168210", "index0169222", "index0169224")) ===
@@ -82,6 +85,7 @@ class FunctionsTest extends FunSuite {
       List("index0168202", "index0168211", "index0168210"))
   }
 
+  // Task 5
   test("joinLists.example") {
     assert(Functions.joinLists(List(5,4,3,2), List(1,0), List(9)) === List(5,4,3,2,1,0,9))
   }
