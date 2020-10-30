@@ -33,3 +33,4 @@ object Utils {
     containsHelper(element.toList, pattern.toList)
   }
 }
+
