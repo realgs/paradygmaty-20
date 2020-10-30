@@ -35,9 +35,14 @@ object Functions {
   def find(list: List[String], element: String) = {
     @tailrec
     def find(list: List[String], accumList: List[String]): List[String] =
-      if(list == Nil) accumList else find(list.tail, if(isSubString(element, list.head)) list.head :: accumList else accumList)
+      if(list == Nil) accumList else find(list.tail, if(list.head.contains(element)) list.head :: accumList else accumList)
     find(list, List())
   }
+
+  def join[A](first: List[A], second: List[A], third: List[A]) =
+    append(append(first, second), third)
+
+
 
   // Utility functions below
 
@@ -55,7 +60,9 @@ object Functions {
 
   def append[A](left: List[A], right: List[A]): List[A] =
     (left, right) match {
-      case (Nil, )
+      case (Nil, _) => right
+      case (_, Nil) => left
+      case (h :: t, _) => h :: append(t, right)
     }
 
 
