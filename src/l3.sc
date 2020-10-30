@@ -31,11 +31,31 @@ def contains(main: String, substring: String): Boolean = {
     case (_, "")=> true
     case ("", _)=> false
     case (_, _)=> {
-      if(substring.head==main.head) contains(main.tail, substring.tail)
-      else false
+      def ifPrefix(str1: String, str2: String):Boolean={
+        (str1, str2) match {
+          case ("", _)=> false
+          case (_, "")=> true
+          case (_, _)=> if(str1.head==str2.head) ifPrefix(str1.tail, str2.tail) else false
+        }
+      }
+      if(ifPrefix(main, substring)) true
+      else (ifPrefix(main.tail, substring.tail))
     }
   }
 }
+
+
+def containsAny(main: String, substrings: List[String]): Boolean = {
+  (main, substrings) match {
+    case ("", _)=> false
+    case (_, Nil)=> false
+    case (_, h::t)=> {
+      if(contains(main, h)) true
+      else containsAny(main, t)
+    }
+  }
+}
+
 
 //ZADANIE 1
 
@@ -98,25 +118,40 @@ mergeTwoLists(List(1, 2, 3), List())==List(1, 2, 3);
 
 def find(elements: List[String], searched: String):List[String]={
   @tailrec
-  def inner(elems: List[String], accum: List[String], s: String):List[String]={
+  def inner(elems: List[String], accum: List[String]):List[String]={
     elems match {
       case Nil=> reverse(accum)
       case h::t=> {
-        if(contains(h, s)) inner(t, h::accum, s)
-        else inner(t, accum, s)
+        if(contains(h, searched)) inner(t, h::accum)
+        else inner(t, accum)
       }
     }
   }
-  inner(elements, Nil, searched)
+  inner(elements, Nil)
 }
 
 def findList(elements: List[String], searched: List[String]):List[String]={
-
+  @tailrec
+  def inner(elems: List[String], patterns: List[String], accum: List[String]):List[String]={
+    if(patterns==Nil) Nil
+    elems match {
+      case Nil=> reverse(accum)
+      case h::t=> {
+        if(containsAny(h, patterns)) inner(t, patterns, h::accum)
+        else inner(t, patterns, accum)
+      }
+    }
+  }
+  inner(elements, searched, Nil)
 }
 
 find(List("index0169'", "index0169202", "index0168211",
   "index0168210", "index0169222", "index0169224"),
   "index0168")==List("index0168211", "index0168210")
+
+findList(List("index0169'", "index0167202", "index0168211",
+  "index0168210", "index0169222", "index0169224"),
+  List("index0168", "index0169"))
 
 //ZADANIE 5
 
