@@ -1,6 +1,6 @@
 import scala.annotation.tailrec
 
-class Functions {
+object Functions {
   //zadanie 1
   def split(list: List[Int]): (List[Int], List[Int]) = {
     @tailrec
@@ -52,7 +52,7 @@ class Functions {
     }
   }
 
-  def matchStringToElement(argument: String, element: String): Boolean = {
+  private def matchStringToElement(argument: String, element: String): Boolean = {
     if (stringLength(argument) == 0 && stringLength(element) == 0) return true
     else if (argument.length < element.length) return false;
     else matchStringToElementHelper(argument, element)
@@ -106,7 +106,7 @@ class Functions {
   }
 
   @tailrec
-  final def newListWithoutRepetition(list: List[String], returnList: List[String]): List[String] = {
+  private def newListWithoutRepetition(list: List[String], returnList: List[String]): List[String] = {
     if (list == Nil) reverse(returnList)
     else if (!contains(returnList, list.head)) newListWithoutRepetition(list.tail, list.head :: returnList)
     else newListWithoutRepetition(list.tail, returnList)
