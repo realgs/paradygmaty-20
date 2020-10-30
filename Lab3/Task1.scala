@@ -1,11 +1,17 @@
+import scala.annotation.tailrec
+import Utils.reverse
+
 object Task1 {
-    def divide(list: List[Int]): (List[Int], List[Int]) =
-        list match {
-            case Nil => (Nil, Nil)
-            case hd::tl => {
-                val (neg, negOdd) = divide(tl)
-                (( if (hd<0) hd::neg else neg ),
-                ( if (hd<0) hd::negOdd else negOdd ))
+    def divide(list: List[Int]): (List[Int], List[Int]) = {
+        @tailrec
+        def divideTail(list: List[Int], accumNeg: List[Int], accumNegOdd: List[Int]): (List[Int], List[Int]) =    
+            list match {
+                case Nil => (accumNeg, accumNegOdd)
+                case hd::tl => divideTail(tl,
+                    ( if (hd<0) hd::accumNeg else accumNeg ),
+                    ( if (hd<0 && (hd % 2 == -1)) hd::accumNegOdd else accumNegOdd ))
             }
-        }
+        val (neg, negOdd) = divideTail(list, Nil, Nil)
+        (reverse(neg), reverse(negOdd))
+    }
 }
