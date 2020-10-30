@@ -49,6 +49,18 @@ class FunctionsTest extends FunSuite {
   }
 
   // Task 4
+  test("isSubstring.emptyPattern") {
+    assert(Functions.isSubstring("", "aaaaabaaaabaaa"))
+  }
+
+  test("isSubstring.patternLongerThenString") {
+    assert(!Functions.isSubstring("aaaaaaa", "abc"))
+  }
+
+  test("isSubstring.emptyString") {
+    assert(!Functions.isSubstring("aaa", ""))
+  }
+
   test("isSubstring.beginningOccurrence") {
     assert(Functions.isSubstring("beta", "beta_alpha_gamma"))
   }
@@ -73,7 +85,7 @@ class FunctionsTest extends FunSuite {
     assert(!Functions.isSubstring("abc", "a" * 100000))
   }
 
-  test("isSubstrin.test") {
+  test("isSubstring.repeatingPatterPrefix") {
     assert(Functions.isSubstring("aab", "abaaabbabbbaa"))
   }
 
@@ -103,5 +115,13 @@ class FunctionsTest extends FunSuite {
   test("joinLists.simple") {
     assert(Functions.joinLists(List(1, 2, 3, 4, 5), List(6, 7, 8, 9), List(10, 11)) ===
       List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
+  }
+
+  test("joinLists.allEmpty") {
+    assert(Functions.joinLists(List(), List(), List()) === List())
+  }
+
+  test("joinLists.oneEmpty") {
+    assert(Functions.joinLists(List(), List(1, 2, 3, 4, 5), List(6, 7, 8, 9)) === List(1, 2, 3, 4, 5, 6, 7, 8, 9))
   }
 }
