@@ -23,7 +23,7 @@ def divide(list: List[Int]): (List[Int], List[Int]) = {
     if (list == Nil) (reverse(negative), reverse(negative_even))
     else if (list.head < 0)
       {
-        if (list.head % 2 == 0) divideRec(list.tail, list.head :: negative, list.head :: negative_even)
+        if (list.head % 2 != 0) divideRec(list.tail, list.head :: negative, list.head :: negative_even)
         else divideRec(list.tail, list.head :: negative, negative_even)
       }
     else divideRec(list.tail, negative, negative_even)
@@ -33,11 +33,12 @@ def divide(list: List[Int]): (List[Int], List[Int]) = {
 
 
 // testy
-divide(List(1, -2, 3, -4, -6, 7, -10)) == (List(-2, -4, -6, -10), List(-2, -4, -6, -10))
+divide(List(1, -2, 3, -4, -6, 7, -10)) == (List(-2, -4, -6, -10), Nil)
 divide(Nil) == (Nil, Nil)
 divide(List(1, 2, 3)) == (Nil, Nil)
-divide(List(-1, 2, -3, 4, -5)) == (List(-1, -3, -5), Nil)
+divide(List(-1, 2, -3, 4, -5)) == (List(-1, -3, -5), List(-1, -3, -5))
 divide(List(1, 2, -0)) == (Nil, Nil)
+divide(List(-2, -4, -3)) == (List(-2, -4, -3), List(-3))
 
 
 // Zadanie 2
