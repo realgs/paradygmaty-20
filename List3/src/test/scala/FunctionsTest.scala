@@ -109,7 +109,7 @@ class FunctionsTest extends FunSuite {
 
   // Task 5
   test("joinLists.example") {
-    assert(Functions.joinLists(List(5,4,3,2), List(1,0), List(9)) === List(5,4,3,2,1,0,9))
+    assert(Functions.joinLists(List(5, 4, 3, 2), List(1, 0), List(9)) === List(5, 4, 3, 2, 1, 0, 9))
   }
 
   test("joinLists.simple") {

@@ -77,7 +77,6 @@ object Auxiliary {
     }
   }
 
-  // Returns true if x satisfies predicate for any argument, false otherwise
   @tailrec
   def anyMatchArguments[A, B](x: A, arguments: List[B])(predicate: (B, A) => Boolean): Boolean = {
     arguments match {

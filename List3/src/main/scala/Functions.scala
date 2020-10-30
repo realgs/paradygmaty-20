@@ -36,7 +36,7 @@ object Functions {
     u - c.toInt * removeTerm
   }
 
-  def rollingHash(s: String, base: Int): Int = {
+  private def rollingHash(s: String, base: Int): Int = {
     s.foldLeft(0)((rh, c) => add(rh, base, c))
   }
 
