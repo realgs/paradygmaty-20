@@ -1,25 +1,64 @@
+import scala.annotation.tailrec
 //Lista 3 Maciej Kopiński
+
+//useful
+def reverse[A](list : List[A]) : List[A] = {
+  def inner(acc : List[A], list : List[A]) : List[A] = {
+    list match {
+      case Nil => acc
+      case (h :: t) => {
+        inner(h :: acc, t)
+      }
+    }
+  }
+  inner(Nil, list)
+}
+
+def reverseTwo[A](list1: List[A], list2: List[A]):(List[A], List[A])={
+  def inner(accum1: List[A], accum2: List[A], xs: List[A], ys: List[A]):(List[A], List[A])={
+    (xs, ys) match{
+      case (Nil, Nil)=> (accum1, accum2)
+      case (Nil, h::t)=> inner(accum1, h::accum2, xs, t)
+      case (h::t, Nil)=> inner(h::accum1, accum2, t, ys)
+      case (h1::t1, h2::t2)=> inner(h1::accum1, h2::accum2, t1, t2)
+    }
+  }
+  inner(Nil, Nil, list1, list2)
+}
 
 //ZADANIE 1
 
 def divide(xs: List[Int]):(List[Int], List[Int])={
-  xs match{
-    case (Nil)=> (Nil, Nil);
-    case (h::t)=> if(h<0){
-      if(h%2!=0) (h::divide(t)._1,h::divide(t)._2)
-      else (h::divide(t)._1,divide(t)._2)
-    }else divide(t)
+  @tailrec
+  def inner(accum1: List[Int], accum2: List[Int], list: List[Int]):(List[Int], List[Int])={
+    list match{
+      case (Nil)=> (accum1, accum2);
+      case (h::t)=> if(h<0){
+        if(h%2!=0) inner(h::accum1, h::accum2, t)
+        else inner(h::accum1,accum2, t)
+      }else inner(accum1, accum2, t)
+    }
   }
+  reverseTwo(inner(Nil, Nil, xs)._1, inner(Nil, Nil, xs)._2)
+  //
+
 }
 
 divide(List())==(List(), List());
 divide(List(-3, -6, 8, -9, 13))==(List(-3, -6, -9), List(-3, -9));
+divide(List(-2, -4))==(List(-2, -4), List());
+divide(List(1, 2, 0, 3))==(List(), List());
 
 //ZADANIE 2
 
-def listLength[A](xs: List[A]): Int=
-  if(xs==Nil) 0
-  else 1+listLength(xs.tail)
+def listLength[A](xs: List[A]): Int= {
+  @tailrec
+  def inner(acc: Int, x: List[A]):Int={
+    if(x==Nil) acc
+    else inner(acc+1, x.tail)
+  }
+  inner(0, xs);
+}
 
 listLength(List(1, 2, 3, 4))==4;
 listLength(List())==0;
@@ -27,11 +66,17 @@ listLength(List())==0;
 //ZADANIE 3
 
 def mergeTwoLists[A](xs: List[A], ys: List[A]): List[A]={
-  (xs, ys) match{
-    case (Nil, _)=> ys
-    case (_, Nil)=> xs
-    case(h1::t1, h2::t2)=> h1::h2::mergeTwoLists(t1, t2)
+  @tailrec
+  def inner(newList: List[A], list1: List[A], list2: List[A]):List[A]={
+    (list1, list2) match{
+      case (Nil, Nil)=> newList
+      case (Nil, h::t)=> inner(h::newList, Nil, t)
+      case (h::t, Nil)=> inner(h::newList, t, Nil)
+      case(h1::t1, h2::t2)=> inner(h2::h1::newList, t1, t2)
+    }
   }
+  reverse(inner(Nil, xs, ys))
+
 }
 
 mergeTwoLists(List(), List())==List();
@@ -40,22 +85,27 @@ mergeTwoLists(List(1, 2, 3), List())==List(1, 2, 3);
 
 //ZADANIE 4
 
-
+//def find[String](xs: List[String], elem: String):List[String]={
+//
+//}
 
 //ZADANIE 5
 
 def joinLists[A](list1: List[A], list2: List[A], list3: List[A]):List[A]={
-  (list1, list2, list3) match{
-    case (Nil, Nil, Nil)=> Nil
-    case (h::t, _, _)=> h::joinLists(t, list2, list3)
-    case (Nil, h::t, _)=> h::joinLists(Nil, t, list3)
-    case (Nil, Nil, h::t)=> h::joinLists(Nil, Nil, t)
+  @tailrec
+  def inner(newList: List[A], xs: List[A], ys: List[A], zs: List[A]):List[A] ={
+    (xs, ys, zs) match{
+      case (Nil, Nil, Nil)=> newList
+      case (h::t, _, _)=> inner(h::newList, t, ys, zs)
+      case (Nil, h::t, _)=> inner(h::newList, Nil, t, zs)
+      case (Nil, Nil, h::t)=> inner(h::newList, Nil, Nil, t)
+    }
   }
+  reverse(inner(Nil, list1, list2, list3))
 }
 
 joinLists(List(), List(), List())==List();
 joinLists(List(1, 2, 3), List(4, 5), List())==List(1, 2, 3, 4, 5);
 joinLists(List(), List(1, 2, 4), List(5, 6, 7))==List(1, 2, 4, 5, 6, 7);
 joinLists(List(5, 4, 3, 2), List(1, 0), List(9))==List(5, 4, 3, 2, 1, 0, 9);
-joinLists(List(), List(), List())==List();
 
