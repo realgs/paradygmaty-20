@@ -22,15 +22,19 @@ object Utils {
     else if(contains(element, phrases.head)) true
     else doesFit(element, phrases.tail)
 
-  def contains (element: String, pattern: String): Boolean = {
+  @tailrec
+  def contains(element: String, pattern: String): Boolean = {
     @tailrec
-    def containsHelper(elementChars: List[Char], patternChars: List[Char]): Boolean = {
-      if (elementChars == Nil && patternChars != Nil) false
-      else if (patternChars == Nil) true
-      else if (elementChars.head == patternChars.head) containsHelper(elementChars.tail, patternChars.tail)
-      else containsHelper(elementChars.tail, patternChars)
-    }
-    containsHelper(element.toList, pattern.toList)
+    def containsHelper(element: String, pattern: String): Boolean =
+      (element, pattern) match {
+        case (_,  "") => true
+        case ("", _) => false
+        case (_, _) => if(element.head == pattern.head) containsHelper(element.tail, pattern.tail) else false
+      }
+
+    if(element == "") false
+    else if(element.head == pattern.head && containsHelper(element.tail, pattern.tail)) true
+    else contains(element.tail, pattern)
   }
 }
 

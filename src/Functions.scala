@@ -79,6 +79,5 @@ object Functions {
       }
     joinListsHelper(List(), x, y, z)
   }
-
 }
 

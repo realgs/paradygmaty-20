@@ -1,4 +1,4 @@
-import Functions.{concatLists, findEl, findElement, findElements, findEls, listLength, joinLists, joinListsTail, splitElements}
+import Functions.{concatLists, findEl, findElement, findElements, findEls, joinLists, joinListsTail, listLength, splitElements}
 
 object Tests {
   def main(args: Array[String]): Unit = {
