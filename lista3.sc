@@ -169,8 +169,7 @@ joinTail(List("A"), List("B"), List(List(1, 2), List(3, 4))) == List("A", "B", L
 def join[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     if (list1 != Nil) list1.head :: join(list1.tail, list2, list3)
     else if (list2 != Nil) list2.head :: join(list1, list2.tail, list3)
-    else if (list3 != Nil) list3.head :: join(list1, list2, list3.tail)
-    else Nil
+    else list3
 }
 
 
