@@ -1,4 +1,4 @@
-import org.junit.platform.engine.FilterResult
+import org.junit.jupiter.params.converter.JavaTimeConversionPattern
 
 class Functions extends App {
   //Helpers
@@ -58,11 +58,49 @@ class Functions extends App {
     appendIter(first, second, List())
   }
 
+  //TODO clean code for ex 4 and N patterns
+  //zadanie 4
+  def find(list: List[String], pattern: String): List[String] = {
+    if (pattern == Nil || list == Nil) Nil
+    else if (containsPattern(list.head, pattern)) list.head :: find(list.tail, pattern)
+    else find(list.tail, pattern)
+  }
+
+  def findTail(list: List[String], pattern: String): List[String] = {
+    @scala.annotation.tailrec
+    def findIter(elements: List[String], pattern: String, resultList: List[String]): List[String] = {
+      if (pattern == Nil || elements == Nil) resultList
+      else if (containsPattern(elements.head, pattern)) findIter(elements.tail, pattern, elements.head :: resultList)
+      else findIter(elements.tail, pattern, resultList)
+    }
+
+    findIter(list, pattern, List())
+  }
+
+  @scala.annotation.tailrec
+  private def contains(element: String, pattern: List[String]): Boolean = {
+    if (element == Nil) false
+    else if (containsPattern(element, pattern.head)) true
+    else contains(element, pattern.tail)
+  }
+
+  private def containsPattern(element: String, pattern: String): Boolean = {
+    @scala.annotation.tailrec
+    def containsPatternHelper(element: List[Char], patternList: List[Char]): Boolean = {
+      if (patternList == Nil) true
+      else if (patternList != Nil && element == Nil) false
+      else if (element.head == patternList.head) containsPatternHelper(element.tail, patternList.tail)
+      else containsPatternHelper(element.tail, pattern.toList)
+    }
+
+    containsPatternHelper(element.toList, pattern.toList)
+  }
+
   //zadanie 5
-  def joinLists[A](first: List[A], second: List[A], third: List[A]): List[A] ={
+  def joinLists[A](first: List[A], second: List[A], third: List[A]): List[A] = {
     (first, second, third) match {
       case (h :: t, _, _) => h :: joinLists(t, second, third)
-      case (Nil, h::t, _) => h :: joinLists(first, t, third)
+      case (Nil, h :: t, _) => h :: joinLists(first, t, third)
       case (Nil, Nil, _) => third
     }
   }
@@ -71,12 +109,13 @@ class Functions extends App {
     @scala.annotation.tailrec
     def joinListsIter[A](first: List[A], second: List[A], third: List[A], result: List[A]): List[A] = {
       (first, second, third) match {
-        case (h :: t, _, _) => joinListsIter(t, second, third, h::result)
-        case (Nil, h::t, _) => joinListsIter(first, t, third, h::result)
-        case (Nil, Nil, h::t) => joinListsIter(first, second, t, h::result)
+        case (h :: t, _, _) => joinListsIter(t, second, third, h :: result)
+        case (Nil, h :: t, _) => joinListsIter(first, t, third, h :: result)
+        case (Nil, Nil, h :: t) => joinListsIter(first, second, t, h :: result)
         case (Nil, Nil, Nil) => rev(result)
       }
     }
+
     joinListsIter(first, second, third, List())
   }
 
