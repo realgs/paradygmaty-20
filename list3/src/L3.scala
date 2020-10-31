@@ -1,6 +1,18 @@
 import scala.annotation.tailrec
 
 object L3 {
+
+  //pomocnicze
+  def reverse[A](list: List[A]): List[A] = {
+    @scala.annotation.tailrec
+    def recTail(list: List[A], reversedList: List[A]): List[A] = {
+      if (list == Nil) reversedList
+      else recTail(list.tail, list.head :: reversedList)
+    }
+
+    recTail(list, Nil)
+  }
+
   //zadanie 1
   def podziel(list: List[Int]): (List[Int], List[Int]) = {
     def filter[A](list: List[A], pred: A => Boolean): List[A] =
@@ -36,12 +48,13 @@ object L3 {
   //zadanie 3
   def polacz[A](list1: List[A], list2: List[A]): List[A] = {
     @scala.annotation.tailrec
-    def tailRec(list1: List[A], list2: List[A], mergedList: List[A]): List[A] = {
-      if (list1 == Nil) {
-        if (list2 != Nil) return mergedList ++ list2
-        else return mergedList
+    def tailRec(l1: List[A], l2: List[A], mergedList: List[A]): List[A] = {
+      l1 match {
+        case Nil =>
+          if (l2 != Nil) tailRec(l2, l1, mergedList)
+          else reverse(mergedList)
+        case head :: tail => tailRec(l2, tail, head :: mergedList)
       }
-      else tailRec(list2, list1.tail, mergedList :+ list1.head)
     }
 
     tailRec(list1, list2, Nil)
@@ -85,24 +98,24 @@ object L3 {
     def findTailRec(list: List[String], pat: List[String], results: List[String]): List[String] = {
       list match {
         case Nil => results
-        case (head :: tail) => if (anyMatch(head, pat)) findTailRec(tail, pat, results :+ head) else findTailRec(tail, pat, results)
+        case (head :: tail) => if (anyMatch(head, pat)) findTailRec(tail, pat, head :: results) else findTailRec(tail, pat, results)
       }
     }
 
-    findTailRec(txtList, patterns, Nil)
+    findTailRec(reverse(txtList), patterns, Nil)
   }
 
   //zadanie 5
   //wersja z rekursją ogonową
-  def jointListsTail[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
+  def joinListsTail[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     @scala.annotation.tailrec
     def tailRec(l1: List[A], l2: List[A], l3: List[A], mergedList: List[A]): List[A] = {
       l1 match {
         case Nil =>
           if (l2 != Nil) tailRec(l2, l3, l1, mergedList)
           else if (l3 != Nil) tailRec(l3, l1, l2, mergedList)
-          else mergedList
-        case head :: tail => tailRec(tail, l2, l3, mergedList :+ head)
+          else reverse(mergedList)
+        case head :: tail => tailRec(tail, l2, l3, head :: mergedList)
       }
     }
 
@@ -110,16 +123,15 @@ object L3 {
   }
 
   //wersja bez rekursji ogonowej
-  def jointLists[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
+  def joinLists[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     list1 match {
       case Nil =>
-        if (list2 != Nil) jointLists(list2, list3, list1)
-        else if (list3 != Nil) jointLists(list3, list1, list2)
+        if (list2 != Nil) joinLists(list2, list3, list1)
+        else if (list3 != Nil) joinLists(list3, list1, list2)
         else Nil
-      case head :: tail => head :: jointLists(tail, list2, list3)
+      case head :: tail => head :: joinLists(tail, list2, list3)
     }
   }
 
 }
-
 
