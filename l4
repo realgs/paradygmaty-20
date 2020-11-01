@@ -1,0 +1,41 @@
+Deadline oddania listy 20.11.2020 20:20. Liczba punktów łącznie: 20.
+
+Proszę o komentarze z numerem zadania oraz liczbą punktów możliwą do osiągnięcia bezpośrednio nad funkcjami, które tego zadania dotyczą. Przykład: //Zad1 (3pkt)
+
+
+1) Napisz funkcję generującą drzewo o głębokości N (liczba poziomów drzewa), zawierającą losowe, dodatnie liczby całkowite z zadanego zakresu. Drzewo pełne. Proszę o testy(!)
+
+   Punkty: 3
+
+2) Napisz funkcję przyjmującą na wejściu dwa drzewa o tej samej głębokości wygenerowane przy użyciu powyższej funkcji i zwracającą drzewo składające się z różnicy ich elementów. Zwróć uwagę na wydajność rozwiązania.
+
+   Punkty: 3
+
+3) Napisz funkcję przyjmującą dwa pełne drzewa o tej samej głębokości i usuwającą powtarzające się wartości w określony sposób: jeśli wartość węzła i wszystkich jego potomków jest identyczna - usuń całą gałąź. Jeśli wartość węzła jest identyczna, a któryś z potomków się różni wstaw -1, potomków zostaw bez zmian. Funkcja ma zwracać dwa drzewa z usuniętymi w powyższy sposób duplikatami. Zaimplementuj przechodząc po drzewie wgłąb (Punkty: 1) i wszerz (Punkty: 3). Zwróć uwagę na wydajność rozwiązania.
+
+
+W poniższych zadaniach użyj podstawowej rekurencji.
+Użyj następującej definicji listy oraz listy leniwej:
+
+type 'a nlist = Koniec | Element of 'a * ('a nlist);;
+type 'a llist = LKoniec | LElement of 'a * (unit -> 'a llist);;
+
+4) Zdefiniuj funkcję "eachNElement" wybierającą co n-ty element listy leniwej,
+   zaczynając od elementu pierwszego kończąc na elemencie numer m(indeks m dotyczy listy pierwotnej, nie wynikowej). Proszę o testy(!)
+   Użyj strumieni przedstawionych na wykładzie
+
+   Przykłady:
+   [5;6;3;2;1], 2, 3 -> [5;3]
+   [5;6;3;2;1], 2, 4 -> [5;3]
+   Wyniki powinny być zapisane w postaci leniwej
+
+   Punkty: 5
+
+5) Zdefiniuj funkcję "ldzialanie" przyjmującą dwie listy leniwe i wykonującą podane działanie na elementach list. Obsłuż 4 podstawowe operacje matematyczne. Wynikiem jest lista leniwa. Proszę o testy(!)
+   Użyj strumieni przedstawionych na wykładzie
+
+   Przykład:
+   [1;2;3], [2;3;4;5] oraz + daje [3;5;7;5]
+   Wyniki powinny być zapisane w postaci leniwej
+
+   Punkty: 5
