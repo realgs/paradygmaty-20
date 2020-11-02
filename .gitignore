@@ -1,0 +1,13 @@
+#Po zakonczeniu sem dodac wszystkie listy i pushnac na maina wszystkie listy
+Lista1/
+Lista2/
+
+##inne
+PP_Lab/.bsp/
+PP_Lab/.idea/
+PP_Lab/build.sbt
+PP_Lab/project/
+PP_Lab/target/
+
+# Default ignored files
+/workspace.xml
