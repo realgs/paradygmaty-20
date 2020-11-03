@@ -1,4 +1,7 @@
-class FunctionsTest extends org.scalatest.funsuite.AnyFunSuite {
+import org.scalatest._
+import matchers.should._
+
+class FunctionsTest extends funsuite.AnyFunSuite with Matchers {
   test("split") {
     assert(Functions.split(List(-3,-6,8,-9,13)) === (List(-3,-6,-9), List(-3,-9)))
     assert(Functions.split(List(-2, -2, -2, -2)) === (List(-2, -2, -2, -2), List()))
@@ -23,8 +26,11 @@ class FunctionsTest extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test("find") {
-    assert(Functions.find(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), "index0168") ===
+    assert(Functions.find(List("index0169","index0168202","index0168211","index0168210","index0169222","index0169224"), List("index0168")) ===
       List("index0168210", "index0168211", "index0168202"))
+    assert(Functions.find(List("abc", "test", "cde"), List("xyz")) === List())
+    assert(Functions.find(List(), List("test")) === List())
+    assert(Functions.find(List("ind01", "ind02", "ind03", "ind03"), List("ind")) === List("ind03", "ind03", "ind02", "ind01"))
 
 
   }

@@ -32,14 +32,20 @@ object Functions {
     }
   }
 
-  def find(list: List[String], element: String) = {
-    @tailrec
-    def find(list: List[String], accumList: List[String]): List[String] =
-      if(list == Nil) accumList else find(list.tail, if(list.head.contains(element)) list.head :: accumList else accumList)
-    find(list, List())
+  def find(list: List[String], keywords: List[String]): List[String] = {
+    (list, keywords) match {
+      case(Nil, _) => Nil
+      case(_, Nil) => Nil
+      case(h :: t, _) => if(containsList(h, tokens = keywords)) h :: find(t, keywords)
+      else find(t, keywords)
+    }
   }
 
-  def join[A](first: List[A], second: List[A], third: List[A]) =
+  def findTail(list: List[String], keywords: List[String]): List[String] = {
+    ???
+  }
+
+  def join[A](first: List[A], second: List[A], third: List[A]): List[A] =
     append(append(first, second), third)
 
 
@@ -54,9 +60,28 @@ object Functions {
     reverseInner(list, List())
   }
 
-  @tailrec
-  def isSubString(string: String, text: String): Boolean =
-    if(text == "") false else if(string == text) true else isSubString(string, text.substring(1))
+  def containsList(string: String, tokens: List[String]): Boolean =
+    (string, tokens) match {
+      case (_, Nil) => false
+      case (string, h :: t) => if(contains(string, h)) true
+      else containsList(string, t)
+    }
+
+
+
+  def contains(string: String, token: String): Boolean = {
+    @scala.annotation.tailrec
+    def containsInner(currStr: List[Char], currToken: List[Char]): Boolean =
+      (currStr, currToken) match {
+        case(_, Nil) => true
+        case (Nil, _) => false
+        case(sH :: sT, tH :: tT) => if(sH == tH) containsInner(sT, tT)
+        else containsInner(sT, token.toList)
+      }
+
+    containsInner(string.toList, token.toList)
+  }
+
 
   def append[A](left: List[A], right: List[A]): List[A] =
     (left, right) match {
