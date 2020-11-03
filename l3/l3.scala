@@ -4,6 +4,7 @@ object l3 {
   //Lista3
 
   //Zadanie1
+  //Złożoność obliczeniowa O(n), gdzie n to ilość elementów listy xs
   def listSplit(xs: List[Int]): (List[Int], List[Int]) =
     xs match {
       case Nil => (Nil, Nil)
@@ -16,10 +17,12 @@ object l3 {
     }
 
   //Zadanie2
+  //Złożoność obliczeniowa O(n), gdzie n to ilość elementów listy xs
   def listLength[A](xs: List[A]): Int =
     if (xs.nonEmpty) 1 + listLength(xs.tail) else 0
 
   //Zadanie3
+  //Złożoność obliczeniowa O(n + m), gdzie n, m to ilość elementów w kolejno listach xs, ys
   def connect[A](xs: List[A], ys: List[A]): List[A] =
     (xs, ys) match {
       case (Nil, Nil) => Nil
@@ -29,6 +32,7 @@ object l3 {
     }
 
   //Zadanie5
+  //Złożoność obliczeniowa merge O(n), gdzie n to ilość elementów w liście xs
   def merge[A](xs: List[A], ys: List[A]): List[A] =
     (xs, ys) match {
       case (xs, Nil) => xs
@@ -36,6 +40,7 @@ object l3 {
       case (hx :: tx, ys) => hx :: merge(tx, ys)
     }
 
+  //Złożoność obliczeniowa joinLists to O(n + m), gdzie n, m to ilość elementów w kolejno listach xs, ys
   def joinLists[A](xs: List[A], ys: List[A], zs: List[A]): List[A] =
     merge(xs, merge(ys, zs))
 }
