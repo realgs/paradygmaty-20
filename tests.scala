@@ -33,6 +33,7 @@ class tests {
     assert(testFunction.find(testList, "168") == List("index0168202", "index0168211", "index0168210"))
     assert(testFunction.find(testList, "indx") == List())
     print(testFunction.find(testList, "index0168202") == List("index0168202"))
+    print(testFunction.find(testList, "24") == List("index0169224"))
 
     //one pattern tailrec function
     assert(testFunction.findTail(testList, "x") == testList)
@@ -40,6 +41,7 @@ class tests {
     assert(testFunction.findTail(testList, "168") == List("index0168202", "index0168211", "index0168210"))
     assert(testFunction.findTail(testList, "indx") == List())
     print(testFunction.findTail(testList, "index0168202") == List("index0168202"))
+    print(testFunction.findTail(testList, "24") == List("index0169224"))
 
     //N patterns rec function
     assert(testFunction.findN(testList, List("21", "68")) == List("index0168202", "index0168211", "index0168210"))

@@ -1,5 +1,7 @@
 class Functions extends App {
   //Helpers
+  //time complexity O(n), n - list.length
+  //space complexity O(1)
   private def rev[A](list: List[A]): List[A] = {
     @scala.annotation.tailrec
     def revIter[A](listToRev: List[A], list: List[A]): List[A] = {
@@ -13,6 +15,8 @@ class Functions extends App {
   }
 
   //exercise 1
+  //time complexity O(n),  n = listToMerge.length
+  //space complexity O(1) - tail recursion, optimizes stack frames, gets rid of extra calls
   def split(listToMerge: List[Int]): (List[Int], List[Int]) = {
     @scala.annotation.tailrec
     def splitIter(source: List[Int], first: List[Int], second: List[Int]): (List[Int], List[Int]) = {
@@ -28,6 +32,8 @@ class Functions extends App {
   }
 
   //exercise 2
+  //time complexity O(n),  n = list.length
+  //space complexity O(1)
   def length[A](list: List[A]): Int = {
     @scala.annotation.tailrec
     def lengthIter[A](list: List[A], length: Int): Int = {
@@ -41,6 +47,8 @@ class Functions extends App {
   }
 
   //exercise 3
+  //time complexity O(n+m), n = first.length, m = second.length
+  //space complexity O(1)
   def append[A](first: List[A], second: List[A]): List[A] = {
     @scala.annotation.tailrec
     def appendIter[A](first: List[A], second: List[A], appendList: List[A]): List[A] = {
@@ -57,12 +65,16 @@ class Functions extends App {
   }
 
   //exercise 4
+  //time complexity O(k(n+m)) , k = list.length, (n+m) because of usage of function containsPattern
+  //space complexity O(k) - no tail recursion and k stack frames
   def find(list: List[String], pattern: String): List[String] = {
     if (pattern == Nil || list == Nil) Nil
     else if (containsPattern(list.head, pattern)) list.head :: find(list.tail, pattern)
     else find(list.tail, pattern)
   }
 
+  //time complexity O(k(n+m)) , the same like find function
+  //space complexity O(1) - tail recursion
   def findTail(list: List[String], pattern: String): List[String] = {
     @scala.annotation.tailrec
     def findIter(elements: List[String], pattern: String, resultList: List[String]): List[String] = {
@@ -74,13 +86,18 @@ class Functions extends App {
     findIter(list, pattern, List())
   }
 
+  //time complexity O(n*m*s) - n = list.length, m = patternList.length, s - average length of String in list - comparing each element of list with whole patternList
+  //space complexity O(n)
   def findN(list: List[String], patternList: List[String]): List[String] = {
     if (list == Nil) Nil
     else if (contains(list.head, patternList)) list.head :: findN(list.tail, patternList)
     else findN(list.tail, patternList)
   }
 
+  //time complexity O(n*m*s)
+  //space complexity O(1)
   def findNTail(list: List[String], patternList: List[String]): List[String] = {
+    @scala.annotation.tailrec
     def findNIter(elements: List[String], patternList: List[String], resultList: List[String]): List[String] = {
       if (elements == Nil) rev(resultList)
       else if (contains(elements.head, patternList)) findNIter(elements.tail, patternList, elements.head :: resultList)
@@ -90,6 +107,7 @@ class Functions extends App {
     findNIter(list, patternList, List())
   }
 
+
   @scala.annotation.tailrec
   private def contains(element: String, pattern: List[String]): Boolean = {
     if (pattern == Nil) false
@@ -97,19 +115,27 @@ class Functions extends App {
     else contains(element, pattern.tail)
   }
 
+  //time complexity O(n+m), n = element.length, m = pattern.length
+  //worst case time complexity O(n*m) - rarely :)
+  //space complexity O(1)
   private def containsPattern(element: String, pattern: String): Boolean = {
     @scala.annotation.tailrec
     def containsPatternHelper(element: List[Char], patternList: List[Char]): Boolean = {
       if (patternList == Nil) true
       else if (patternList != Nil && element == Nil) false
       else if (element.head == patternList.head) containsPatternHelper(element.tail, patternList.tail)
-      else containsPatternHelper(element.tail, pattern.toList)
+      else false
     }
 
-    containsPatternHelper(element.toList, pattern.toList)
+    if (element == "") false
+    else if (element.head == pattern.head && containsPatternHelper(element.tail.toList, pattern.tail.toList)) true
+    else containsPattern(element.tail, pattern)
+
   }
 
   //exercise 5
+  //time complexity O(n + m) , n = first.length, m = second.length
+  //space complexity O(n+m)
   def joinLists[A](first: List[A], second: List[A], third: List[A]): List[A] = {
     (first, second, third) match {
       case (h :: t, _, _) => h :: joinLists(t, second, third)
@@ -118,6 +144,8 @@ class Functions extends App {
     }
   }
 
+  //time complexity O(n + m + k) , n = first.length, m = second.length, k = third.length
+  //space complexity O(1)
   def joinListsTail[A](first: List[A], second: List[A], third: List[A]): List[A] = {
     @scala.annotation.tailrec
     def joinListsIter[A](first: List[A], second: List[A], third: List[A], result: List[A]): List[A] = {
