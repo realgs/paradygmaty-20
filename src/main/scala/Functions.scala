@@ -10,7 +10,7 @@ object Functions {
         case _ :: t => splitInner(t, first, second)
       }
 
-    if(list == null) (Nil, Nil) else splitInner(list, List(), List())
+    if (list == null) (Nil, Nil) else splitInner(list, List(), List())
   }
 
   // O(n) = n
@@ -34,20 +34,29 @@ object Functions {
 
   def find(list: List[String], keywords: List[String]): List[String] = {
     (list, keywords) match {
-      case(Nil, _) => Nil
-      case(_, Nil) => Nil
-      case(h :: t, _) => if(containsList(h, tokens = keywords)) h :: find(t, keywords)
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (h :: t, _) => if (containsList(h, tokens = keywords)) h :: find(t, keywords)
       else find(t, keywords)
     }
   }
 
   def findTail(list: List[String], keywords: List[String]): List[String] = {
-    ???
+
+    @tailrec
+    def findInner(list: List[String], keywords: List[String], accum: List[String]): List[String] =
+      (list, keywords) match {
+        case (Nil, _) => reverse(accum)
+        case (_, Nil) => reverse(accum)
+        case (h :: t, _) => if (containsList(h, tokens = keywords)) findInner(t, keywords, h :: accum)
+        else findInner(t, keywords, accum)
+      }
+
+    findInner(list, keywords, List())
   }
 
   def join[A](first: List[A], second: List[A], third: List[A]): List[A] =
     append(append(first, second), third)
-
 
 
   // Utility functions below
@@ -60,22 +69,19 @@ object Functions {
     reverseInner(list, List())
   }
 
+  @tailrec
   def containsList(string: String, tokens: List[String]): Boolean =
-    (string, tokens) match {
-      case (_, Nil) => false
-      case (string, h :: t) => if(contains(string, h)) true
-      else containsList(string, t)
-    }
-
-
+    if(tokens == Nil) false
+    else if(contains(string, tokens.head)) true
+    else containsList(string, tokens.tail)
 
   def contains(string: String, token: String): Boolean = {
-    @scala.annotation.tailrec
+    @tailrec
     def containsInner(currStr: List[Char], currToken: List[Char]): Boolean =
       (currStr, currToken) match {
-        case(_, Nil) => true
+        case (_, Nil) => true
         case (Nil, _) => false
-        case(sH :: sT, tH :: tT) => if(sH == tH) containsInner(sT, tT)
+        case (sH :: sT, tH :: tT) => if (sH == tH) containsInner(sT, tT)
         else containsInner(sT, token.toList)
       }
 
@@ -89,7 +95,6 @@ object Functions {
       case (_, Nil) => left
       case (h :: t, _) => h :: append(t, right)
     }
-
 
 
 }
