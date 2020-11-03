@@ -103,7 +103,45 @@ class FunctionsTest extends funsuite.AnyFunSuite {
   }
 
   test("join") {
-    assert(join(List(5, 4, 3, 2), List(1, 0), List(9)) === List(5, 4, 3, 2, 1, 0, 9))
+    assertResult(List(5, 4, 3, 2, 1, 0, 9)) {
+      join(List(5, 4, 3, 2), List(1, 0), List(9))
+    }
+    assertResult(List(1, 2, 3, 4, 5, 6)) {
+      join(List(1, 2, 3), List(), List(4, 5, 6))
+    }
+    assertResult(List(1, 2, 3)) {
+      join(List(1, 2, 3), List(), List())
+    }
+    assertResult(List(1, 2, 3)) {
+      join(List(), List(1, 2, 3), List())
+    }
+    assertResult(List(1, 2, 3)) {
+      join(List(), List(), List(1, 2, 3))
+    }
+    assertResult(List()) {
+      join(List(), List(), List())
+    }
+  }
+
+  test("joinTail") {
+    assertResult(List(5, 4, 3, 2, 1, 0, 9)) {
+      joinTail(List(5, 4, 3, 2), List(1, 0), List(9))
+    }
+    assertResult(List(1, 2, 3, 4, 5, 6)) {
+      joinTail(List(1, 2, 3), List(), List(4, 5, 6))
+    }
+    assertResult(List(1, 2, 3)) {
+      joinTail(List(1, 2, 3), List(), List())
+    }
+    assertResult(List(1, 2, 3)) {
+      joinTail(List(), List(1, 2, 3), List())
+    }
+    assertResult(List(1, 2, 3)) {
+      joinTail(List(), List(), List(1, 2, 3))
+    }
+    assertResult(List()) {
+      joinTail(List(), List(), List())
+    }
   }
 
 }

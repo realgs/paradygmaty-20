@@ -56,7 +56,22 @@ object Functions {
   }
 
   def join[A](first: List[A], second: List[A], third: List[A]): List[A] =
-    append(append(first, second), third)
+    (first, second) match {
+      case (Nil, Nil) => third
+      case (Nil, h :: t) => h :: join(first, t, third)
+      case (h :: t, _) => h :: join(t, second, third)
+    }
+
+  def joinTail[A](first: List[A], second: List[A], third: List[A]): List[A] = {
+    @tailrec
+    def joinInner(first: List[A], second: List[A], accum: List[A]): List[A] =
+      (first, second) match {
+        case (Nil, Nil) => reverse(accum)
+        case (Nil, h :: t) => joinInner(first, t, h :: accum)
+        case (h :: t, _) => joinInner(t, second, h :: accum)
+      }
+    joinInner(joinInner(first, second, List()), third, List())
+  }
 
 
   // Utility functions below
@@ -71,8 +86,8 @@ object Functions {
 
   @tailrec
   def containsList(string: String, tokens: List[String]): Boolean =
-    if(tokens == Nil) false
-    else if(contains(string, tokens.head)) true
+    if (tokens == Nil) false
+    else if (contains(string, tokens.head)) true
     else containsList(string, tokens.tail)
 
   def contains(string: String, token: String): Boolean = {
@@ -87,14 +102,5 @@ object Functions {
 
     containsInner(string.toList, token.toList)
   }
-
-
-  def append[A](left: List[A], right: List[A]): List[A] =
-    (left, right) match {
-      case (Nil, _) => right
-      case (_, Nil) => left
-      case (h :: t, _) => h :: append(t, right)
-    }
-
 
 }
