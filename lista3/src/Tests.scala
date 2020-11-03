@@ -38,6 +38,7 @@ object Tests {
   def task4Test(): Unit = {
     println("Task 4 test:\nWithout tail rec")
     println(Functions.find(List(), "") == List())
+    println(Functions.find(List("papuga", "klaun", "kwiatek", "parawanu"), "au") == List("klaun"))
     println(Functions.find(List("aaaa", "bbbb", "c"), "") == List("aaaa", "bbbb", "c"))
     println(Functions.find(List(), "a") == List())
     println(Functions.find(List("malarz", "piosenkarz", "aktor", "arzyyyyy"), "arz") == List("malarz", "piosenkarz", "arzyyyyy"))
@@ -45,6 +46,7 @@ object Tests {
 
     println("With tail rec")
     println(Functions.find_Tail(List(), "") == List())
+    println(Functions.find_Tail(List("papuga", "klaun", "kwiatek", "parawanu"), "au") == List("klaun"))
     println(Functions.find_Tail(List("aaaa", "bbbb", "c"), "") == List("aaaa", "bbbb", "c"))
     println(Functions.find_Tail(List(), "a") == List())
     println(Functions.find_Tail(List("malarz", "piosenkarz", "aktor", "arzyyyyy"), "arz") == List("malarz", "piosenkarz", "arzyyyyy"))
@@ -52,6 +54,7 @@ object Tests {
 
     println("For list of elements, without tail rec")
     println(Functions.findEach(List(), List()) == List())
+    println(Functions.findEach(List("papuga", "klaun", "kwiatek", "parawanu"), List("au", "pa")) == List("klaun", "papuga", "parawanu"))
     println(Functions.findEach(List("aaaa", "bbbb", "c"), List("", "")) == List("aaaa", "bbbb", "c"))
     println(Functions.findEach(List(), List("a", "b")) == List())
     println(Functions.findEach(List("malarz", "piosenkarz", "aktor", "arzyyyyy", "tokarz"), List("arz", "to")) == List("malarz", "piosenkarz", "arzyyyyy", "tokarz", "aktor"))
@@ -59,6 +62,7 @@ object Tests {
 
     println("For list of elements, with tail rec")
     println(Functions.findEach_Tail(List(), List()) == List())
+    println(Functions.findEach_Tail(List("papuga", "klaun", "kwiatek", "parawanu"), List("au", "pa")) == List("klaun", "papuga", "parawanu"))
     println(Functions.findEach_Tail(List("aaaa", "bbbb", "c"), List("", "")) == List("aaaa", "bbbb", "c"))
     println(Functions.findEach_Tail(List(), List("a", "b")) == List())
     println(Functions.findEach_Tail(List("malarz", "piosenkarz", "aktor", "arzyyyyy", "tokarz"), List("arz", "to")) == List("malarz", "piosenkarz", "arzyyyyy", "tokarz", "aktor"))
@@ -85,3 +89,4 @@ object Tests {
     println(Functions.joinLists_TailRec(List(-1.4, 1.7, 1.9), List(2.11, -2.7, 22.5), List(300.4, 3.9, 3.1)) == List(-1.4, 1.7, 1.9, 2.11, -2.7, 22.5, 300.4, 3.9, 3.1))
   }
 }
+

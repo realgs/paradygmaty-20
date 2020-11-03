@@ -26,6 +26,7 @@ object Functions {
   }
 
   //zadanie 3
+  //zlozonosc obliczeniowa: O(2*(firstList.length + secondList.length)); zlozonosc pamieciowa: stala
   def merge[A](firstList: List[A], secondList: List[A]): List[A] = {
     @tailrec
     def mergeIter(firstList: List[A], secondList: List[A], returnList: List[A]): List[A] = {
@@ -47,14 +48,14 @@ object Functions {
       case ("", _) => return false
       case (_, "") => return true
       case (_, _) =>
-        if (argument.head == element.head) matchStringToElementHelper(argument.tail, element.tail)
+        if (argument.head == element.head && stringLength(element) == 1) return true
+        else if (argument.head == element.head && stringLength(argument) > 1 && stringLength(element) > 1 && argument.tail.head == element.tail.head) matchStringToElementHelper(argument.tail.tail, element.tail.tail)
         else matchStringToElementHelper(argument.tail, element)
     }
   }
 
   private def matchStringToElement(argument: String, element: String): Boolean = {
-    if (stringLength(argument) == 0 && stringLength(element) == 0) return true
-    else if (argument.length < element.length) return false;
+    if (argument.length < element.length) return false;
     else matchStringToElementHelper(argument, element)
   }
 
@@ -79,6 +80,7 @@ object Functions {
           else if (!contains(returnList, matches.head)) addMatchesToReturnList(matches.tail, matches.head :: returnList)
           else addMatchesToReturnList(matches.tail, returnList)
         }
+
         findEach_Tail_Iter(list, elements.tail, addMatchesToReturnList(find_Tail(list, elements.head), returnList))
       }
     }
@@ -99,6 +101,7 @@ object Functions {
           if (matches == Nil) Nil
           else matches.head :: createListWithRepetitions(matches.tail)
         }
+
         createListWithRepetitions(find(list, elements.head)) ::: findEach(list, elements.tail)
       }
     }
@@ -113,6 +116,7 @@ object Functions {
   }
 
   //zadanie 5
+  //zlozonosc obliczeniowa: O(firstList.length + secondList.length + thirdList.length); zlozonosc pamieciowa: stala
   def joinLists_TailRec[A](firstList: List[A], secondList: List[A], thirdList: List[A]): List[A] = {
     @tailrec
     def joinLists_TailRecIter(firstList: List[A], secondList: List[A], thirdList: List[A], returnList: List[A]): List[A] = {
@@ -126,6 +130,7 @@ object Functions {
     joinLists_TailRecIter(firstList, secondList, thirdList, Nil)
   }
 
+  //zlozonosc obliczeniowa: O(firstList.length + secondList.length); zlozonosc pamieciowa: T(firstList.length + secondList.length)
   def joinLists[A](firstList: List[A], secondList: List[A], thirdList: List[A]): List[A] = {
     (firstList, secondList, thirdList) match {
       case (head :: tail, _, _) => head :: joinLists(tail, secondList, thirdList)
@@ -162,3 +167,4 @@ object Functions {
     else contains(list.tail, element)
   }
 }
+
