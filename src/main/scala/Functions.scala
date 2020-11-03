@@ -25,14 +25,14 @@ object Functions {
 
   // O(n) = length of the smaller list
   def merge[A](first: List[A], second: List[A]): List[A] = {
-    if(first == Nil) second
-    else if(second == Nil) first
+    if (first == Nil) second
+    else if (second == Nil) first
     else first.head :: second.head :: merge(first.tail, second.tail)
   }
 
   def find(list: List[String], keywords: List[String]): List[String] = {
-    if(list == Nil) Nil
-    else if(containsList(list.head, tokens = keywords)) list.head :: find(list.tail, keywords)
+    if (list == Nil) Nil
+    else if (containsList(list.head, tokens = keywords)) list.head :: find(list.tail, keywords)
     else find(list.tail, keywords)
   }
 
@@ -40,9 +40,8 @@ object Functions {
 
     @tailrec
     def findInner(list: List[String], keywords: List[String], accum: List[String]): List[String] =
-      if(list == Nil) reverse(accum)
-      else if(containsList(list.head, tokens = keywords)) findInner(list.tail, keywords, list.head :: accum)
-      else findInner(list.tail, keywords, accum)
+      if (list == Nil) reverse(accum)
+      else findInner(list.tail, keywords, if (containsList(list.head, tokens = keywords)) list.head :: accum else accum)
 
     findInner(list, keywords, List())
   }
@@ -65,6 +64,7 @@ object Functions {
         case (Nil, h :: t, _) => joinInner(first, t, third, h :: accum)
         case (Nil, Nil, h :: t) => joinInner(first, second, t, h :: accum)
       }
+
     joinInner(first, second, third, List())
   }
 
@@ -92,8 +92,7 @@ object Functions {
       (currStr, currToken) match {
         case (_, Nil) => true
         case (Nil, _) => false
-        case (sH :: sT, tH :: tT) => if (sH == tH) containsInner(sT, tT)
-        else containsInner(sT, token.toList)
+        case (sH :: sT, tH :: tT) => containsInner(sT, if (sH == tH) tT else token.toList)
       }
 
     containsInner(string.toList, token.toList)
