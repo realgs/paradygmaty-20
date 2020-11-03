@@ -5,6 +5,8 @@ class Zad_1_2_3 {
   nieparzystych (każda liczba ma spełniać oba te warunki). Porządek elementów musi być zachowany.
   Elementy w listach mogą (i będą) się powielać. Wynik zwróć w postaci pary list.*/
 
+  //Złożoność: O(n); n - długość listy
+
   def findNegativeNumbers(list: List[Int]): (List[Int], List[Int]) =
     list match {
       case Nil => (Nil, Nil)
@@ -16,12 +18,16 @@ class Zad_1_2_3 {
   /*2) Napisz funkcję zwracającą długość dowolnej listy. Funkcja ma mieć jeden parametr.
       Jaką złożoności obliczeniową i pamięciową udało Ci się osiągnąć? */
 
+  //Złożoność: O(n)
+
   def findLength[A](list: List[A]): Int =
     if (list == Nil) 0
     else 1 + findLength(list.tail)
 
   /* 3) Napisz funkcję łączącą dwie podane listy. Elementy w liście wyjściowej mają występować naprzemiennie.
      Jaką złożoności obliczeniową i pamięciową udało Ci się osiągnąć?*/
+
+  //Złożoność: O(n + m)
 
   def mixLists [A](listA: List[A], listB: List[A]): List[A] =
     (listA, listB) match {

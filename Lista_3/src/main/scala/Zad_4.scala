@@ -11,16 +11,16 @@ class Zad_4 {
       case hd :: tl => hd :: ++(tl, lB)
     }
 
-  def contains (str: String, elem: String): Boolean = {
+  def contains (str: String, element: String): Boolean = {
     @scala.annotation.tailrec
     def helper(str: String, elem: String, started: Boolean): Boolean = {
       if (elem == null || elem == "") true
       else if (str == null || str == "") false
       else if (str.head == elem.head) helper(str.tail, elem.tail, started = true)
-      else if (str.head != elem.head && !started) helper(str.tail, elem, started = false)
-      else false
+      else if (str.head != elem.head && started) helper(str, element, started = false)
+      else helper(str.tail, elem, started = false)
     }
-    helper(str, elem, started = false)
+    helper(str, element, started = false)
   }
 
   def search (list: List[String], element: String): (List[String], List[String]) = {
