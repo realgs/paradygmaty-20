@@ -3,6 +3,7 @@ import scala.annotation.tailrec
 object Lists {
 
   //własna interpretacja funkcji reverse
+  //Złożoność obliczeniowa O(n), gdzie n = długość listy, złożoność pamięciowa O(1) - zoptymalizowana rekursja ogonowa
   def listReverse[A] (list: List[A]): List[A] = {
     @tailrec
     def listReverseTail(list: List[A], reverseList: List[A]): List[A] = {
@@ -13,6 +14,7 @@ object Lists {
   }
 
   //Zad 1
+  //Złożoność obliczeniowa O(n), gdzie n = długość listy + O(k) + O(j) ze względu na odwracanie list wynikowych, złożoność pamięciowa O(1) - zoptymalizowana rekursja ogonowa
   def findNegativeAndOddNegative (list: List[Double]): (List[Double], List[Double]) = {
     @tailrec
     def findNegativeAndOddNegativeTail (list: List[Double], negative: List[Double], oddNegative: List[Double]): (List[Double], List[Double]) = {
@@ -25,6 +27,7 @@ object Lists {
   }
 
   //Zad 2
+  //Złożoność obliczeniowa O(n), gdzie n = długość listy, złożoność pamięciowa O(1) - zoptymalizowana rekursja ogonowa
   def listLenght[A] (list: List[A]): Int = {
     @tailrec
     def listLengthTail(list: List[A], length: Int): Int = {
@@ -35,6 +38,7 @@ object Lists {
   }
 
   //Zad 3
+  //Złożoność obliczeniowa O(n), gdzie n = sumaryczna długość list + O(n) na odwrócenie listy wynikowej, złożoność pamięciowa O(1) - zoptymalizowana rekursja ogonowa
   def mergeTwoListsAlternately[A] (list1: List[A], list2: List[A]): List[A] = {
     @tailrec
     def mergeTwoListsAlternatelyTail(list1: List[A], list2: List[A], mergedList: List[A]): List[A] = {
@@ -49,6 +53,7 @@ object Lists {
   }
 
   //Zad 5
+  //Złożoność obliczeniowa O(n), gdzie n = sumaryczna długość 3 list, złożoność pamięciowa O(n) - n wywołań na stosie programu
   def mergeThreeListsRec[A] (list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     (list1, list2, list3) match {
       case (Nil, Nil, Nil) => Nil
@@ -58,6 +63,7 @@ object Lists {
     }
   }
 
+  //Złożoność obliczeniowa O(n), gdzie n = sumaryczna długość 3 list, złożoność pamięciowa O(1) - zoptymalizowana rekursja ogonowa
   def mergeThreeLists[A] (list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     @tailrec
     def mergeThreeListsTail(list1: List[A], list2: List[A], list3: List[A], mergedList: List[A]): List[A] = {
