@@ -12,6 +12,9 @@ object ExerciseFive {
       case (_, _, h3 :: t3) => h3 :: joinLists(list1, list2, t3)
     }
   }
+  // n = (size of first list) + (size of second list) + (size of third list)
+  // time complexity = O(n)
+  // space complexity = O(n)
 
   def joinListsWithTailRecursion[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
     @tailrec
@@ -25,5 +28,8 @@ object ExerciseFive {
     }
     joinListsTail(Nil, reverseList(list1), reverseList(list2), reverseList(list3))
   }
+  // n = (size of first list) + (size of second list) + (size of third list)
+  // time complexity = O(n)
+  // space complexity = O(1) because of tail recursion
 
 }

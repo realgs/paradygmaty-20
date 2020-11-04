@@ -12,5 +12,7 @@ object ExerciseTwo {
       }
     innerListSize(list, 0)
   }
+  // time complexity = O(n)
+  // space complexity is O(1) because of tail recursion
 
 }
