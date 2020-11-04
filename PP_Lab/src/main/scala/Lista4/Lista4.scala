@@ -9,13 +9,32 @@ object Lista4 extends App{
   // Exceptions
   class WrongValueOfArguments extends Exception
 
+  // Test Methods
+  def isTreeFull(tree: BT[Int]): Boolean = {
+    tree match {
+      case Empty => true
+      case Node(_, l, r) =>
+        def innerIsTreeFull(leftTree: BT[Int], rightTree: BT[Int]): Boolean ={
+          (leftTree, rightTree) match {
+            case(Empty, Empty) => true
+            case(Empty, Node(_, _, _)) => false
+            case(Node(_, _, _), Empty) => false
+            case(Node(_, l1, r1), Node(_, l2, r2)) => innerIsTreeFull(l1, r1) && innerIsTreeFull(l2, r2)
+          }
+      }
+        innerIsTreeFull(l, r)
+    }
+  }
+
   // Additional methods
 
 
 
   // zadanie 1 (3pkt)
+  // dla amountOfLevels == 0 zwraca drzewo z samym korzeniem z wartoscia - potomkami korzenia sa Empty
+  // dla amountOfLevels < 0 rzuca blad
   def createTree(amountOfLevels: Int, leftInterval: Int, rightInterval: Int): BT[Int] = {
-    if (amountOfLevels<0 || rightInterval<leftInterval) throw new WrongValueOfArguments
+    if (amountOfLevels < 0 || rightInterval < leftInterval) throw new WrongValueOfArguments
     val randomInt = scala.util.Random
     def innerCreateTree(levels: Int): BT[Int] = {
       if(levels == (-1)) Empty
