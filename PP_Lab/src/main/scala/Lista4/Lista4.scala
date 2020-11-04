@@ -6,8 +6,10 @@ object Lista4 extends App{
   case object Empty extends BT[Nothing]
   case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A]
 
+
   // Exceptions
   class WrongValueOfArguments extends Exception
+
 
   // Test Methods
   def isTreeFull(tree: BT[Int]): Boolean = {
@@ -26,8 +28,21 @@ object Lista4 extends App{
     }
   }
 
-  // Additional methods
-
+  def isTreeDepthRight(tree: BT[Int], expectedLevel: Int): Boolean = {
+    tree match {
+      case Empty => false
+      case Node(_, l, r) =>
+        def innerIsTreeDepthRight(leftTree: BT[Int], rightTree: BT[Int], level: Int): Boolean ={
+          (leftTree, rightTree) match {
+            case(Empty, Empty) => expectedLevel == 0
+            case(Empty, Node(_, _, _)) => false
+            case(Node(_, _, _), Empty) => false
+            case(Node(_, l1, r1), Node(_, l2, r2)) => innerIsTreeDepthRight(l1, r1, level-1) == innerIsTreeDepthRight(l2, r2, level-1)
+          }
+        }
+        innerIsTreeDepthRight(l, r, expectedLevel)
+    }
+  }
 
 
   // zadanie 1 (3pkt)
