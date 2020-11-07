@@ -25,5 +25,19 @@ object L3 extends App{
     }
 
   }
+  //zadanie 5
+
+  def z5 [A] (list1: List[A], list2: List[A], list3: List[A]): List[A] = {
+    list1 match
+    {
+      case (Nil) =>
+        if (list2 != Nil) z5(list2, list3, list1)
+        else if (list3 != Nil) z5(list3, list1, list2)
+        else Nil
+
+      case (head :: tail) => head :: z5(tail, list2, list3)
+    }
+  }
+
 
 }
