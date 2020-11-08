@@ -52,3 +52,23 @@ testTree(emptySubtractedTree)(0, 0)(0)
 testTree(oneNodeSubtractedTree)(-4, 3)(1)
 testTree(smallSubtractedTree)(-19, -1)(5)
 testTree(bigSubtractedTree)(-499, 999)(20)
+
+//Zad4 (5pkt)
+def from(value: Int):Stream[Int] = value#::from(value + 1)
+
+def eachNElement[A](stream: Stream[A])(n: Int)(m: Int): Stream[A] = {
+  if (n <= 0 || m < 0) throw new IllegalArgumentException("Wrong interval given!")
+  def createFilteredStream(stream: Stream[A])(result: Stream[A])(currentIndex : Int):Stream[A] = {
+    if(currentIndex == m) result.reverse
+    else if(stream.isEmpty) throw new Exception("Stream is too short!")
+    else if(currentIndex % n == 0) createFilteredStream(stream.tail)(stream.head#::result)(currentIndex + 1)
+    else createFilteredStream(stream.tail)(result)(currentIndex + 1)
+  }
+
+  createFilteredStream(stream)(stream.empty)(0)
+}
+
+eachNElement(Stream(5,6,3,2,1))(2)(3) == Stream(5,3)
+eachNElement(Stream(5,6,3,2,1))(2)(4) == Stream(5,3)
+eachNElement(Stream())(2)(0) == Stream()
+eachNElement(from(4))(2)(10) == Stream(4,6,8,10,12)
