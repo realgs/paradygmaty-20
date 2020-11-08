@@ -54,21 +54,35 @@ testTree(smallSubtractedTree)(-19, -1)(5)
 testTree(bigSubtractedTree)(-499, 999)(20)
 
 //Zad4 (5pkt)
-def from(value: Int):Stream[Int] = value#::from(value + 1)
+def from(value: Int): Stream[Int] = value #:: from(value + 1)
 
 def eachNElement[A](stream: Stream[A])(n: Int)(m: Int): Stream[A] = {
   if (n <= 0 || m < 0) throw new IllegalArgumentException("Wrong interval given!")
-  def createFilteredStream(stream: Stream[A])(result: Stream[A])(currentIndex : Int):Stream[A] = {
-    if(currentIndex == m) result.reverse
-    else if(stream.isEmpty) throw new Exception("Stream is too short!")
-    else if(currentIndex % n == 0) createFilteredStream(stream.tail)(stream.head#::result)(currentIndex + 1)
+
+  def createFilteredStream(stream: Stream[A])(result: Stream[A])(currentIndex: Int): Stream[A] = {
+    if (currentIndex == m) result.reverse
+    else if (stream.isEmpty) throw new Exception("Stream is too short!")
+    else if (currentIndex % n == 0) createFilteredStream(stream.tail)(stream.head #:: result)(currentIndex + 1)
     else createFilteredStream(stream.tail)(result)(currentIndex + 1)
   }
 
   createFilteredStream(stream)(stream.empty)(0)
 }
 
-eachNElement(Stream(5,6,3,2,1))(2)(3) == Stream(5,3)
-eachNElement(Stream(5,6,3,2,1))(2)(4) == Stream(5,3)
+eachNElement(Stream(5, 6, 3, 2, 1))(2)(3) == Stream(5, 3)
+eachNElement(Stream(5, 6, 3, 2, 1))(2)(4) == Stream(5, 3)
 eachNElement(Stream())(2)(0) == Stream()
-eachNElement(from(4))(2)(10) == Stream(4,6,8,10,12)
+eachNElement(from(4))(2)(10) == Stream(4, 6, 8, 10, 12)
+
+//Zad5 (5pkt)
+def ldzialanie[A](firstStream: Stream[A])(secondStream: Stream[A])(operator: (A,A) => A):Stream[A] = (firstStream,secondStream) match {
+  case (Stream(),Stream()) => Stream()
+  case (Stream(),_) => secondStream.head#::ldzialanie(Stream())(secondStream.tail)(operator)
+  case (_,Stream()) => firstStream.head#::ldzialanie(firstStream.tail)(Stream())(operator)
+  case _ => operator(firstStream.head,secondStream.head)#::ldzialanie(firstStream.tail)(secondStream.tail)(operator)
+}
+ldzialanie(Stream(0,1,2,3))(Stream())(_ - _) == Stream(0,1,2,3)
+ldzialanie(Stream(1,2,3))(Stream(2,3,4,5))(_ + _) == Stream(3,5,7,5)
+ldzialanie(Stream(1,-2,-3,4))(Stream(-1,2,-3,4,5))(_ * _) == Stream(-1,-4,9,16,5)
+ldzialanie(Stream(2,4,6,8))(Stream(2,2,2,2,3))(_ / _) == Stream(1,2,3,4,3)
+ldzialanie(Stream("Anna ","Beata ","Cecylia ","Dorota "))(Stream("Adam","Bogdan","Czeslaw","Dominik"))(_ + _) == Stream("Anna Adam","Beata Bogdan","Cecylia Czeslaw","Dorota Dominik")
