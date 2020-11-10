@@ -111,16 +111,19 @@ eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),100).toList
 eachNElement(LazyList.from(10),10).take(10).toList
 
 // 5) - 5pkt
-def ldzialanie[A](l1: LazyList[A], l2: LazyList[A], operation: (A, A) => A): LazyList[A] =
+def ldzialanie[A]( operation: (A, A) => A)(l1: LazyList[A], l2: LazyList[A]): LazyList[A] =
   (l1, l2) match {
-    case (hd1 #:: tl1, hd2 #:: tl2) => operation(hd1, hd2) #:: ldzialanie(tl1, tl2, operation)
+    case (hd1 #:: tl1, hd2 #:: tl2) => operation(hd1, hd2) #:: ldzialanie(operation)(tl1, tl2)
     case (l1, LazyList()) => l1
     case (LazyList(), l2) => l2
     case (_, _) => LazyList()
   }
 
 // Tests
-ldzialanie(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, 2, 3, -4, 5), (a: Double, b:Double) => a + b).toList
-ldzialanie(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, -2, 3, 4, 5), (a: Double, b:Double) => a - b).toList
-ldzialanie(LazyList(1.0, 2, 3), LazyList(1.0, 2, -3, -4, -5), (a: Double, b:Double) => a / b).toList
-ldzialanie(LazyList(1.0, -2, 3, -4, 5), LazyList(1.0, 2, 3), (a: Double, b:Double) => a * b).toList
+ldzialanie((a: Double, b:Double) => a + b)(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, 2, 3, -4, 5)).toList
+ldzialanie((a: Double, b:Double) => a - b)(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, -2, 3, 4, 5)).toList
+ldzialanie((a: Double, b:Double) => a / b)(LazyList(1.0, 2, 3), LazyList(1.0, 2, -3, -4, -5)).toList
+ldzialanie((a: Double, b:Double) => a * b)(LazyList(1.0, -2, 3, -4, 5), LazyList(1.0, 2, 3)).toList
+
+val addLists = ldzialanie((a: Double, b:Double) => a + b)(_,_)
+addLists(LazyList(1,2,3),LazyList(-1,-2,-3)).toList
