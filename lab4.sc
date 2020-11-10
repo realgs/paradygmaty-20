@@ -18,28 +18,6 @@ def getRandomNumber(range:(Int, Int)):Int = {
   rand.nextInt(range._2 - range._1 + 1) + range._1
 }
 
-// N-List
-sealed trait NList[+A]
-case object NKoniec extends NList[Nothing]
-case class NElement[+A](value: A, list: NList[A]) extends NList[A]
-
-// L-List
-sealed trait LList[+A]
-case object LKoniec extends LList[Nothing]
-case class LElement[+A](value: A, list: () => LList[A]) extends LList[A]
-
-def toLazyList[A](list: List[A]): LList[A] =
-  list match {
-    case Nil => LKoniec
-    case hd::tl => LElement(hd, ()=>toLazyList(tl))
-  }
-
-def toList[A](list: LList[A]):List[A] =
-  list match {
-    case LKoniec => Nil
-    case LElement(hd, tail) => hd :: toList(tail())
-  }
-
 // 1) - 3pkt
 def generateTree(depth: Int, range:(Int, Int)):BT[Int] = {
   if(depth <= 0)
@@ -88,44 +66,61 @@ def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
 // BFS
 def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) =
   (tree1, tree2) match {
-    case (_, _) => (Empty, Empty)
     case (Node(t1, t1l, t1r), Node(t2, t2l, t2r)) => {
       @tailrec
       def breadthBTInner(heap: List[(BT[Int],BT[Int])], res: (BT[Int],BT[Int])):(BT[Int],BT[Int]) = {
         heap match {
-          case Nil => res
           case (Empty, Empty)::tl => breadthBTInner(tl, res)
           case (Node(t1, t1l, t1r), Node(t2, t2l, t2r))::tl => breadthBTInner((t1l, t2l)::(t1r, t2r)::tl, (Empty, Empty))
+          case _ => res
         }
       }
       breadthBTInner(List((Node(t1, t1l, t1r), Node(t2, t2l, t2r))), (Empty,Empty))
     }
+    case (_, _) => (Empty, Empty)
   }
 
-// Tests
+// Test
 val ex3Tree1 = Node(2,Node(2,Node(2,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
 val ex3Tree2 = Node(1,Node(2,Node(1,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
 
 removeDuplicatesInTreesDFS(ex3Tree1, ex3Tree2)
+removeDuplicatesInTreesBFS(ex3Tree1, ex3Tree2)
 
 // 4) - 5pkt
-def eachNElement[A](list: LList[A], n:Int): LList[A] = {
+def eachNElement[A](list: LazyList[A], n:Int): LazyList[A] = {
   if(n <= 0)
-    throw new Exception("n has to has positive value.")
+    throw new Exception("n value has to be positive.")
 
-  def eachNElementInner(list: LList[A], k: Int): LList[A] =
+  def eachNElementInner(list: LazyList[A], k: Int): LazyList[A] =
     list match {
-      case LElement(value, tail) => if(k % n == 0) LElement(value, () => eachNElementInner(tail(), k + 1)) else eachNElementInner(tail(), k + 1)
-      case _ => LKoniec
+      case value #:: tail => if(k % n == 0) value #:: eachNElementInner(tail, k + 1) else eachNElementInner(tail, k + 1)
+      case _ => LazyList()
     }
 
   eachNElementInner(list, 0)
 }
 
 // Tests
-toList(eachNElement(toLazyList(List(1,2,3,4,5,6,7,8,9,10)), 2))
-toList(eachNElement(toLazyList(List(1,2,3,4,5,6,7,8,9,10)), 3))
-toList(eachNElement(toLazyList(List()), 3))
-//toList(eachNElement(toLazyList(List(1,2,3,4,5,6,7,8,9,10)), 0))
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),2).toList
+eachNElement(LazyList(),2).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),1).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),100).toList
+//eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),0).toList
+//eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),0).toList
+eachNElement(LazyList.from(10),10).take(10).toList
 
 // 5) - 5pkt
+def ldzialanie[A](l1: LazyList[A], l2: LazyList[A], operation: (A, A) => A): LazyList[A] =
+  (l1, l2) match {
+    case (hd1 #:: tl1, hd2 #:: tl2) => operation(hd1, hd2) #:: ldzialanie(tl1, tl2, operation)
+    case (l1, LazyList()) => l1
+    case (LazyList(), l2) => l2
+    case (_, _) => LazyList()
+  }
+
+// Tests
+ldzialanie(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, 2, 3, -4, 5), (a: Double, b:Double) => a + b).toList
+ldzialanie(LazyList(1.0, 2, 3, 4, 5), LazyList(1.0, -2, 3, 4, 5), (a: Double, b:Double) => a - b).toList
+ldzialanie(LazyList(1.0, 2, 3), LazyList(1.0, 2, -3, -4, -5), (a: Double, b:Double) => a / b).toList
+ldzialanie(LazyList(1.0, -2, 3, -4, 5), LazyList(1.0, 2, 3), (a: Double, b:Double) => a * b).toList
