@@ -65,50 +65,44 @@ def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
 
 // BFS
 def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) =
-  (tree1, tree2) match {
-    case (Node(t1, t1l, t1r), Node(t2, t2l, t2r)) => {
-      @tailrec
-      def breadthBTInner(heap: List[(BT[Int],BT[Int])], res: (BT[Int],BT[Int])):(BT[Int],BT[Int]) = {
-        heap match {
-          case (Empty, Empty)::tl => breadthBTInner(tl, res)
-          case (Node(t1, t1l, t1r), Node(t2, t2l, t2r))::tl => breadthBTInner((t1l, t2l)::(t1r, t2r)::tl, (Empty, Empty))
-          case _ => res
-        }
-      }
-      breadthBTInner(List((Node(t1, t1l, t1r), Node(t2, t2l, t2r))), (Empty,Empty))
-    }
-    case (_, _) => (Empty, Empty)
-  }
+  (Empty,Empty)
 
 // Test
-val ex3Tree1 = Node(2,Node(2,Node(2,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
-val ex3Tree2 = Node(1,Node(2,Node(1,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+val ex3Tree1 = Node(3,Node(2,Node(4,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+val ex3Tree2 = Node(1,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
 
 removeDuplicatesInTreesDFS(ex3Tree1, ex3Tree2)
 removeDuplicatesInTreesBFS(ex3Tree1, ex3Tree2)
 
 // 4) - 5pkt
-def eachNElement[A](list: LazyList[A], n:Int): LazyList[A] = {
+def eachNElement[A](list: LazyList[A], n:Int, m:Int): LazyList[A] = {
   if(n <= 0)
     throw new Exception("n value has to be positive.")
 
-  def eachNElementInner(list: LazyList[A], k: Int): LazyList[A] =
-    list match {
-      case value #:: tail => if(k % n == 0) value #:: eachNElementInner(tail, k + 1) else eachNElementInner(tail, k + 1)
-      case _ => LazyList()
-    }
+  def eachNElementInner(list: LazyList[A], k: Int): LazyList[A] = {
+    if(m == k)
+      LazyList()
+    else
+      list match {
+        case value #:: tail => if(k % n == 0) value #:: eachNElementInner(tail, k + 1) else eachNElementInner(tail, k + 1)
+        case _ => LazyList()
+      }
+  }
 
   eachNElementInner(list, 0)
 }
 
 // Tests
-eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),2).toList
-eachNElement(LazyList(),2).toList
-eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),1).toList
-eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),100).toList
+eachNElement(LazyList(5,6,3,2,1),2,3).toList
+eachNElement(LazyList(5,6,3,2,1),2,4).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),2,8).toList
+eachNElement(LazyList(),2,10).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),1,5).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),1,0).toList
+eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),100,100).toList
 //eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),0).toList
 //eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),0).toList
-eachNElement(LazyList.from(10),10).take(10).toList
+eachNElement(LazyList.from(10),10,100).toList
 
 // 5) - 5pkt
 def ldzialanie[A]( operation: (A, A) => A)(l1: LazyList[A], l2: LazyList[A]): LazyList[A] =
