@@ -1,4 +1,3 @@
-import scala.annotation.tailrec
 import scala.util.Random
 
 object Lista4 extends App {
@@ -40,5 +39,52 @@ object Lista4 extends App {
   println(tree3)
   println(tree4)
   //println(odejmijDrzewo(tree3, tree4))
+
+  // funkcja pomocnicza do LazyList
+  def nLazyListElemsToList[A](lazyLista:LazyList[A],n:Int):List[A]=
+    if(n>0 && lazyLista!=LazyList())
+      lazyLista.head::nLazyListElemsToList(lazyLista.tail, n-1)
+    else Nil
+
+  // zad 4 5pkt
+  def eachNElement[A](lista: LazyList[A],m:Int,n:Int):LazyList[A] = {
+    def eachNElementBody(lista: LazyList[A],a:Int,b:Int):LazyList[A]={
+      if(lista==LazyList()) LazyList()
+      else (a,b) match {
+        case (0,1) => LazyList(lista.head)
+        case (_,1) => LazyList()
+        case (0,_) => lista.head#::eachNElementBody(lista.tail,m-1,b-1)
+        case (_,_) => eachNElementBody(lista.tail,a-1,b-1)
+      }
+    }
+    if(m<1||n<1) throw new Exception("Zle parametry wejsciowe")
+    else if(lista==LazyList()) LazyList()
+    else lista.head#::eachNElementBody(lista.tail,m-1,n-1)
+  }
+
+  println(nLazyListElemsToList(eachNElement(LazyList(),2,3),20))
+  println(nLazyListElemsToList(eachNElement(LazyList(1,2,3,4,5,6,7,8,9),2,3),20))
+  println(nLazyListElemsToList(eachNElement(LazyList(1,2,3,4,5,6,7,8,9),2,4),20))
+  println(nLazyListElemsToList(eachNElement(LazyList(1,2,3,4,5,6,7,8,9),3,7),20))
+  println(nLazyListElemsToList(eachNElement(LazyList(1,2,3,4,5,6,7,8,9,10),3,20),20))
+
+  // zad 5 5pkt
+
+  val dodajInt = (x1:Int) => (x2:Int) => x1+x2
+  val odejmijInt = (x1:Int) => (x2:Int) => x1-x2
+  val pomnozInt = (x1:Int) => (x2:Int) => x1*x2
+  val podzielInt = (x1:Int) => (x2:Int) => x1+x2
+
+  def ldzialanie[A](lista1:LazyList[A],lista2:LazyList[A],operacja:A => A => A): LazyList[A] =
+    if(lista1==LazyList()) lista2
+    else if(lista2==LazyList()) lista1
+    else operacja(lista1.head)(lista2.head)#::ldzialanie(lista1.tail,lista2.tail,operacja)
+
+  println(nLazyListElemsToList(ldzialanie(LazyList(1,2,3,4),LazyList(1,2,3,4),dodajInt),20))
+  println(nLazyListElemsToList(ldzialanie(LazyList(1,2,3,4),LazyList(1,2,3,4),odejmijInt),20))
+  println(nLazyListElemsToList(ldzialanie(LazyList(1,2,3,4),LazyList(1,2,3,4),pomnozInt),20))
+  println(nLazyListElemsToList(ldzialanie(LazyList(1,2,3,4),LazyList(1,2,3,4),podzielInt),20))
+  println(nLazyListElemsToList(ldzialanie(LazyList(1,2,3,4),LazyList(1,2,3,4,5,6),dodajInt),20))
+
 
 }
