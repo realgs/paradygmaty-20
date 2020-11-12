@@ -10,4 +10,10 @@ object Functions {
         generateTree(depth - 1, valueMin, valueMax))
     }
   }
+  
+  def elementwiseDifference[A](t1: BTree[A], t2: BTree[A])(rootDiff: (BTree[A], BTree[A]) => A): BTree[A] = {
+    BTree(rootDiff(t1, t2),
+      elementwiseDifference(???, ???)(rootDiff),
+      elementwiseDifference(???, ???)(rootDiff))
+  }
 }
