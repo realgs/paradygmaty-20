@@ -27,4 +27,15 @@ object Functions {
         elementwiseDiff(t1.getRight.getOrElse(Empty), t2.getRight.getOrElse(Empty))(rootDiff))
     }
   }
+
+  // Task 4
+  def eachNElement[A](lxs: LazyList[A], n: Int): LazyList[A] = {
+    def auxChooseNTh(lxs: LazyList[A], step: Int): LazyList[A] = {
+      (step, lxs) match {
+        case (k, h #:: t) => if (k == n) h #:: auxChooseNTh(t, 1) else auxChooseNTh(t, k + 1)
+        case _ => LazyList()
+      }
+    }
+    if (n >= 1) auxChooseNTh(lxs, n) else throw new IllegalArgumentException("Parameter n out of bounds")
+  }
 }

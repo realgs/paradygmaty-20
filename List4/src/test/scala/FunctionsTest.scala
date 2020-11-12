@@ -13,4 +13,19 @@ class FunctionsTest extends FunSuite {
     val tRes = Functions.elementwiseDiff(t1, t2)(Functions.intRootDiff)
     print(tRes)
   }
+
+  test("eachNElement.second") {
+    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
+    assert(Functions.eachNElement(lxs, 2) === LazyList(1, 3, 5, 7))
+  }
+
+  test("eachNElement.third") {
+    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
+    assert(Functions.eachNElement(lxs, 3) === LazyList(1, 4, 7))
+  }
+
+  test("eachNElement.forth") {
+    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
+    assert(Functions.eachNElement(lxs, 4) === LazyList(1, 5))
+  }
 }
