@@ -15,7 +15,27 @@ def generateTree(n: Int,lB: Int, rB: Int): BT[Int]={
     genInner(n)
 }
 
-generateTree(2,1,3)
+def isTreeFull(tree: BT[Int]): Boolean={
+    def treeHeight(tree: BT[Int]): Int={
+        tree match {
+          case Empty()=>0
+          case Node(_,l,r)=>{
+            val h=treeHeight(l)
+            if(h==treeHeight(r))1+h
+            else 1
+          }
+        }
+    }
+    tree match {
+      case Empty()=>true
+      case Node(_, l, r)=>treeHeight(l)==treeHeight(r)
+    }
+}
+
+isTreeFull(generateTree(2,1,1))
+isTreeFull(generateTree(2,1,3))
+isTreeFull(generateTree(6,1,1))
+generateTree(0,1,1)==Empty()
 
 // Zadanie 2 (3pkt)
 def subtractionTree(xtree: BT[Int],ytree: BT[Int]): BT[Int]=
@@ -25,11 +45,12 @@ def subtractionTree(xtree: BT[Int],ytree: BT[Int]): BT[Int]=
     case (Node(x, xtl, xtr),Node(y, ytl, ytr))=>Node(x - y, subtractionTree(xtl, ytl), subtractionTree(xtr, ytr))
   }
 
+val pre1=Node(2,Node(3,Empty(),Empty()),Node(4,Empty(),Empty()))
+val pre2=Node(1,Node(2,Empty(),Empty()),Node(1,Empty(),Empty()))
 
-val v1=generateTree(2,1,3)
-val v2=generateTree(2,1,3)
-
-subtractionTree(v1,v2)
+subtractionTree(pre1,pre2)==Node(1,Node(1,Empty(),Empty()),Node(3,Empty(),Empty()))
+isTreeFull(subtractionTree(generateTree(2,1,3),generateTree(2,1,3)))
+subtractionTree(generateTree(4,9,9),generateTree(4,6,6))==generateTree(4,3,3)
 
 // Zadanie 3 (4pkt)
 def checkTree(xtree: BT[Int],ytree: BT[Int]): Boolean=
@@ -62,14 +83,15 @@ def removeDuplicate(check: (BT[Int],BT[Int])=>Boolean,xtree: BT[Int],ytree: BT[I
 def removeDuplicateDepth(xtree: BT[Int],ytree: BT[Int]): (BT[Int],BT[Int])=
   removeDuplicate(checkTree,xtree,ytree)
 
-val t12=generateTree(3,2,3)
-//val t2=generateTree(3,1,3)
 
 val t1: BT[Int] = Node(1,Node(2,Node(1,Empty(),Empty()),Node(3,Empty(),Empty())),Node(1,Node(2,Empty(),Empty()),Node(1,Empty(),Empty())))
 val t2: BT[Int] = Node(2,Node(1,Node(3,Empty(),Empty()),Node(3,Empty(),Empty())),Node(1,Node(1,Empty(),Empty()),Node(1,Empty(),Empty())))
+val full4tree= generateTree(4,4,4)
+val generatedTree=generateTree(4,5,8)
 
 removeDuplicateDepth(t1,t2)==(Node(1,Node(2,Node(1,Empty(),Empty()),Empty()),Node(-1,Node(2,Empty(),Empty()),Empty())),Node(2,Node(1,Node(3,Empty(),Empty()),Empty()),Node(-1,Node(1,Empty(),Empty()),Empty())))
 removeDuplicateDepth(t1,t1)==(Empty(),Empty())
+removeDuplicateDepth(full4tree,generatedTree)==(full4tree,generatedTree)
 
 def checkTreeB(xtree: BT[Int],ytree: BT[Int]): Boolean= {
   def checkTreeBQue(queue: List[(BT[Int],BT[Int])]): Boolean =
@@ -91,6 +113,7 @@ def removeDuplicateBreadth(xtree: BT[Int],ytree: BT[Int]): (BT[Int],BT[Int])=
 
 removeDuplicateBreadth(t1,t2)==(Node(1,Node(2,Node(1,Empty(),Empty()),Empty()),Node(-1,Node(2,Empty(),Empty()),Empty())),Node(2,Node(1,Node(3,Empty(),Empty()),Empty()),Node(-1,Node(1,Empty(),Empty()),Empty())))
 removeDuplicateBreadth(t1,t1)==(Empty(),Empty())
+removeDuplicateBreadth(full4tree,generatedTree)==(full4tree,generatedTree)
 
 // Zadanie 4 (5pkt)
 sealed trait nlist[A]
@@ -123,8 +146,11 @@ def eachNElement[A](lxs: llist[A],n: Int, m: Int): llist[A]= {
       }
 }
 
-tonList(eachNElement(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),2,3))
-
+tonList(eachNElement(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),2,3))==Element(1,Element(3,Koniec()))
+tonList(eachNElement(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),4,3))==Element(1,Koniec())
+tonList(eachNElement(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),2,1))==Element(1,Koniec())
+tonList(eachNElement(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),1,4))==Element(1,Element(2,Element(3,Koniec())))
+eachNElement(LKoniec[Int](),1,1)==LKoniec()
 
 // Zadanie 5 (5pkt)
 def ldzialanie[A](lxs: llist[A],lys: llist[A],op: A=>A=>A): llist[A]={
@@ -135,6 +161,9 @@ def ldzialanie[A](lxs: llist[A],lys: llist[A],op: A=>A=>A): llist[A]={
     }
 }
 
-tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),(a:Int)=>(b:Int)=>a+b))
-tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LKoniec[Int]())),LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),(a:Int)=>(b:Int)=>a+b))
-tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),LElement(1,()=>LElement(2,()=>LKoniec[Int]())),(a:Int)=>(b:Int)=>a+b))
+tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),(a:Int)=>(b:Int)=>a+b))==
+  Element(2,Element(4,Element(6,Koniec())))
+tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LKoniec[Int]())),LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),(a:Int)=>(b:Int)=>a+b))==
+  Element(2,Element(4,Element(3,Koniec())))
+tonList(ldzialanie(LElement(1,()=>LElement(2,()=>LElement(3,()=>LKoniec[Int]()))),LElement(1,()=>LElement(2,()=>LKoniec[Int]())),(a:Int)=>(b:Int)=>a-b))==
+  Element(0,Element(0,Element(3,Koniec())))
