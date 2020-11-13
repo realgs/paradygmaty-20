@@ -1,11 +1,25 @@
 import org.scalatest.FunSuite
 
+import scala.annotation.tailrec
+
 sealed trait BT[+A]
 case object Empty extends BT[Nothing]
 case class Node[+A](elem:A,left:BT[A],right:BT[A])extends BT[A]
 
 class L4Test extends FunSuite {
   val tested = new L4
+
+  //funkcje przydatne do testowania
+  def treeToList[A](tree:BT[A]):List[A] ={
+    def helper(treeList:List[BT[A]]):List[A] =
+      treeList match{
+        case Nil =>Nil
+        case Empty::tail => helper(tail)
+        case Node(value,leftTree,rightTree)::tail =>
+          value::helper(tail:::List(leftTree,rightTree))
+      }
+    helper(List(tree))
+  }
 
   def depthOfTree(tree:BT[Int]):Int = {
     def helper(tree: BT[Int], depth: Int): Int =
@@ -19,6 +33,7 @@ class L4Test extends FunSuite {
       }
       helper(tree,0)
   }
+
   def numberOfNodes(tree:BT[Int]):Int =
     tree match{
       case Node(_,left,right) => 1+numberOfNodes(left)+numberOfNodes(right)
@@ -40,7 +55,8 @@ class L4Test extends FunSuite {
     Math.pow(2,depthOfTree(tree))-1 == numberOfNodes(tree)
   }
 
-  test("GenerateFullTreeTest"){
+  // testy
+  test("Generate Full Tree Test"){
     val tree1 = tested.generateTree(15,40,120)
     assert(depthOfTree(tree1)==15)
     isInInterval(tree1,40,120)
@@ -55,5 +71,23 @@ class L4Test extends FunSuite {
     assert(depthOfTree(tree3)==1)
     isInInterval(tree3,0,1)
     assert(isFullTree(tree3))
+  }
+
+  test("Subtraction of Trees Test"){
+    val tree1 = tested.generateTree(11,5,20)
+    val tree1List = treeToList(tree1)
+    val tree2 = tested.generateTree(11, 0,10)
+    val tree2List = treeToList(tree2)
+
+    @tailrec
+    def check(xs1:List[Int], xs2:List[Int], xs3:List[Int]):Boolean ={
+      if(xs3==Nil) true
+      else if(xs1.head - xs2.head == xs3.head) check(xs1.tail,xs2.tail,xs3.tail)
+      else false
+    }
+    val tree3 = tested.subOfTrees(tree1,tree2)
+    val tree3List = treeToList(tree3)
+
+    assert(check(tree1List,tree2List,tree3List))
   }
 }
