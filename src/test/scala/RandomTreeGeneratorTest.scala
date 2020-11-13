@@ -14,6 +14,10 @@ class RandomTreeGeneratorTest extends FunSuite{
     assert(Lista4.generateRandomTree(1,1,1) == Node(1, Empty, Empty))
   }
 
+  test("negativeDepth") {
+    assertThrows[IllegalArgumentException](Lista4.generateRandomTree(-10,10,20))
+  }
+
   test("negativeBounds") {
     assertThrows[IllegalArgumentException](Lista4.generateRandomTree(4,-9,1))
   }
