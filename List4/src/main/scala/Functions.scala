@@ -36,7 +36,19 @@ object Functions {
   }
 
   def deleteDuplicates(lhs: BTree[Int], rhs: BTree[Int]): (BTree[Int], BTree[Int]) = {
-    ???
+    if (lhs.isLeaf && rhs.isLeaf) (Empty, Empty)
+    else {
+      // TODO: This is severely flawed
+      if (lhs.rootOption == rhs.rootOption) {
+        (lhs.getLeft.getOrElse(Empty).rootOption, lhs.getRight.getOrElse(Empty).rootOption, rhs.getLeft.getOrElse(Empty).rootOption, rhs.getRight.getOrElse(Empty).rootOption) match {
+          case (Some(x), None, Some(y), None) => (Vertex(-1, Vertex(x), Empty), Vertex(-1, Vertex(y), Empty))
+          case (None, Some(x), None, Some(y)) => (Vertex(-1, Empty, Vertex(x)), Vertex(-1, Empty, Vertex(y)))
+          case _ => ???
+        }
+      } else {
+        (lhs, rhs)
+      }
+    }
   }
 
   // Task 4
@@ -47,6 +59,7 @@ object Functions {
         case _ => LazyList()
       }
     }
+
     if (n >= 1) auxChooseNTh(lxs, n) else throw new IllegalArgumentException("Parameter n out of bounds")
   }
 

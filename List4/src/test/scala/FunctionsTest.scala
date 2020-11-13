@@ -31,6 +31,16 @@ class FunctionsTest extends FunSuite {
     println(actual.force)
   }
 
+  test("deleteDuplicates.test") {
+    val t1 = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    val t2 = Vertex(1, Vertex(2, Vertex(7), Vertex(9)), Vertex(3))
+
+    val (res1, res2) = Functions.deleteDuplicates(t1, t2)
+
+    println(res1)
+    println(res2)
+  }
+
 
   test("eachNElement.second") {
     val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
