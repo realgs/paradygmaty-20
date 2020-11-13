@@ -28,4 +28,12 @@ class FunctionsTest extends FunSuite {
     val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
     assert(Functions.eachNElement(lxs, 4) === LazyList(1, 5))
   }
+
+  test("apply.oneEmptyAddition") {
+    Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4)
+  }
+
+  test("apply.simpleAddition") {
+    Functions.apply(LazyList(1, 2), LazyList(3, 5))(_ + _) === LazyList(4, 7)
+  }
 }

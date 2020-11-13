@@ -38,4 +38,13 @@ object Functions {
     }
     if (n >= 1) auxChooseNTh(lxs, n) else throw new IllegalArgumentException("Parameter n out of bounds")
   }
+
+  // Task 5
+  def apply[A](lxs: LazyList[A], lys: LazyList[A])(func: (A, A) => A): LazyList[A] = {
+    (lxs, lys) match {
+      case (hx #:: tx, hy #:: ty) => func(hx, hy) #:: apply(tx, ty)(func)
+      case (lst, _) => lst
+      case (_, lst) => lst
+    }
+  }
 }
