@@ -14,6 +14,24 @@ class FunctionsTest extends FunSuite {
     print(tRes)
   }
 
+  test("tree.lazyTraversal1") {
+    val t1 = BTree(4, Vertex(2), Vertex(7, Vertex(5), Empty))
+    val t2 = BTree(1, Vertex(-2), Vertex(2, Vertex(5), Empty))
+    val trav1 = Functions.bottomUpDFS(t1)
+    val trav2 = Functions.bottomUpDFS(t2)
+
+    println(trav1.force)
+    println(trav2.force)
+  }
+
+  test("tree.lazyTraversal2") {
+    val t = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    val actual = Functions.bottomUpDFS(t)
+
+    println(actual.force)
+  }
+
+
   test("eachNElement.second") {
     val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
     assert(Functions.eachNElement(lxs, 2) === LazyList(1, 3, 5, 7))

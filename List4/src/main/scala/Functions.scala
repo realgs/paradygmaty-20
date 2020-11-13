@@ -28,6 +28,17 @@ object Functions {
     }
   }
 
+  def bottomUpDFS[A](t: BTree[A]): LazyList[A] = {
+    t match {
+      case Vertex(v, l, r) => bottomUpDFS(l) #::: v #:: bottomUpDFS(r)
+      case Empty => LazyList()
+    }
+  }
+
+  def deleteDuplicates(lhs: BTree[Int], rhs: BTree[Int]): (BTree[Int], BTree[Int]) = {
+    ???
+  }
+
   // Task 4
   def eachNElement[A](lxs: LazyList[A], n: Int): LazyList[A] = {
     def auxChooseNTh(lxs: LazyList[A], step: Int): LazyList[A] = {
