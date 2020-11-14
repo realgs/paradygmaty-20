@@ -35,19 +35,37 @@ object Lista4 extends App {
 
   // zadanie 4 (5 punktów)
   def eachNElement(lazyList: LazyList[Int], n: Int, m: Int): LazyList[Int] = {
-    def helper(lazyList: LazyList[Int], currentIndex: Int) : LazyList[Int] = lazyList match {
+    def helper(lazyList: LazyList[Int], currentIndex: Int): LazyList[Int] = lazyList match {
       case LazyList() => LazyList()
       case head #:: tail => {
-        if(currentIndex > (m-1)) LazyList()
-        else if(currentIndex % n == 0) head #:: helper(tail, currentIndex + 1)
+        if (currentIndex > (m - 1)) LazyList()
+        else if (currentIndex % n == 0) head #:: helper(tail, currentIndex + 1)
         else helper(tail, currentIndex + 1)
       }
     }
 
-    if(n < 0 || m < 0) throw new IllegalArgumentException("Input parameters is not allowed to be negative")
+    if (n < 0 || m < 0) throw new IllegalArgumentException("Input parameters is not allowed to be negative")
 
-    if(n == 0) LazyList()
-    else if(n == 1) lazyList
+    if (n == 0) LazyList()
+    else if (n == 1) lazyList
     else helper(lazyList, 0)
+  }
+
+  // zadanie 5 (5 punktów)
+  def lazyOperation(lazyList1: LazyList[Int], lazyList2: LazyList[Int], operation: Char): LazyList[Int] = {
+    def helper(lazyList1: LazyList[Int], lazyList2: LazyList[Int]): LazyList[Int] = (lazyList1, lazyList2) match {
+      case (LazyList(), LazyList()) => LazyList()
+      case (lazyList1, LazyList()) => lazyList1
+      case (LazyList(), lazyList2) => lazyList2
+      case (head1 #:: tail1, head2 #:: tail2) => operation match {
+        case '+' => (head1 + head2) #:: helper(tail1, tail2)
+        case '-' => (head1 - head2) #:: helper(tail1, tail2)
+        case '*' => (head1 * head2) #:: helper(tail1, tail2)
+        case '/' => (head1 / head2) #:: helper(tail1, tail2)
+        case _ => throw new IllegalArgumentException("Unsupported operation")
+      }
+    }
+
+    helper(lazyList1, lazyList2)
   }
 }
