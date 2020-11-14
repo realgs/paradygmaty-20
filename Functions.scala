@@ -46,8 +46,22 @@ class Functions {
   def diff(first: BT[Int], second: BT[Int]): BT[Int] =
     (first, second) match {
       case (Leaf(), Leaf()) => Leaf()
-      case (Node(firstElem, l1, r1), Node(secondElem, l2, r2)) => Node(firstElem - secondElem,diff(l1, l2), diff(r1, r2))
+      case (Node(firstElem, l1, r1), Node(secondElem, l2, r2)) => Node(firstElem - secondElem, diff(l1, l2), diff(r1, r2))
     }
 
+  //zadanie 4 (5pkt)
+  def eachNElement[A](list: LazyList[A], n: Int, m: Int): LazyList[A] = {
+    if (n < 1 || m < 0) throw new Exception("Invalid arguments")
 
+    def eachNElementIter[A](list: LazyList[A], counter: Int): LazyList[A] = {
+      if (counter == m) LazyList()
+      else list match {
+        case value #:: tail =>
+          if (counter % n == 0) value #:: eachNElementIter(tail, counter + 1)
+          else eachNElementIter(tail, counter + 1)
+        case _ => LazyList()
+      }
+    }
+    eachNElementIter(list, 0)
+  }
 }
