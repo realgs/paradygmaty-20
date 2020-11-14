@@ -67,7 +67,8 @@ object Lista4Trees extends App {
         }
       compareLevels(leftBT, rightBT)
     }
-    else false
+    else
+      false
   }
 
   //////////////////////////////////////////////////zadania////////////////////////////////////////////////////////////////
@@ -91,6 +92,7 @@ object Lista4Trees extends App {
 
 
   // zadanie 2 (3pkt)
+  // zlozonosc obliczeniowa - liniowa: O(n) - operacje trzeba wykonac dla kazdego wezla
   def subtractTrees(leftTree: BT[Int], rightTree: BT[Int]): BT[Int] = {
     if (!chceckIfMatch(leftTree, rightTree))
       throw new WrongTreesLevel
@@ -105,6 +107,7 @@ object Lista4Trees extends App {
 
   // zadanie 3 (wgłab 1 pkt, wszerz 3 pkt)
   // wglab DFS
+  // zlozonosc obliczeniowa - liniowa: O(n) - operacje trzeba wykonac dla kazdego wezla
   def compareTreesDFS(leftTree: BT[Int], rightTree: BT[Int]): (BT[Int], BT[Int]) = {
     if (!chceckIfMatch(leftTree, rightTree))
       throw new WrongTreesLevel
@@ -135,7 +138,6 @@ object Lista4Trees extends App {
   }
 
 
-
   //wszerz BFS
   def ifSubTreesEqualsBFS(left: BT[Int], right: BT[Int]) : Boolean= {
     @tailrec
@@ -153,6 +155,12 @@ object Lista4Trees extends App {
     innerEquals(List(left), List(right))
   }
 
+  // zlozonosc obliczeniowa:
+  // - w najlepszym przypadku O(n): np. drzewa identyczne lub rozniace sie tylko korzeniem
+  // - w najgorszym O(n^2): np. drzewa z wszystkimi elementami roznymi (dla kazdego wezla wywolywane bedzie ifSubTreesEqualsBFS() o zlozonosci O(n))
+  //   kub takie gdzie wezly rozniace sie beda blisko liscie i daleko od korzenia (pod katem glebokosci)
+  // usprawnienie - jezeli wezly maja taka sama wartosc, ale ich rodzice maja rozne wartosci, to wezlowi mozemy przypisac od razu -1 (nie dotyczy lisci) bez sprawdzania ifSubTreesEqualsBFS()
+  // ze wzglebdu na budowe algorytmu
   def compareTreesBFS(leftTree: BT[Int], rightTree: BT[Int]): (BT[Int], BT[Int]) = {
     if (!chceckIfMatch(leftTree, rightTree))
       throw new WrongTreesLevel
