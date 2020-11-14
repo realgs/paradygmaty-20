@@ -30,3 +30,24 @@ breadthBT(createTree(3,100))
 //breadthBT(createTree(3,-1))
 //breadthBT(createTree(-1,100))
 breadthBT(createTree(3,0))
+val treeONE = createTree(3,5)
+val treeTWO = createTree(3,5)
+breadthBT(treeONE)
+breadthBT(treeTWO)
+
+//zad2 3pkt
+
+def createTree2(tree1:BT[Int],tree2:BT[Int]):BT[Int] = {
+  def createTree2Helper(tree1:BT[Int],tree2:BT[Int]):BT[Int] =
+    (tree1,tree2) match {
+      case (Empty,Empty) => Empty
+      case (Node(val1,lSubtree1,rSubtree1),Node(val2,lSubtree2,rSubtree2)) => Node(val1-val2,createTree2Helper(lSubtree1,lSubtree2),createTree2Helper(rSubtree1,rSubtree2))
+    }
+  createTree2Helper(tree1,tree2)
+}
+
+val treeOUTPUT = createTree2(treeONE,treeTWO)
+breadthBT(treeOUTPUT)
+
+//zad3 1pkt
+
