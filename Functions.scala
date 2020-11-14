@@ -62,6 +62,28 @@ class Functions {
         case _ => LazyList()
       }
     }
+
     eachNElementIter(list, 0)
   }
+
+  //zadanie 5 (5pkt)
+  def ldzialanie(first: LazyList[Int], second: LazyList[Int], operator: Char): LazyList[Int] = {
+    operator match {
+      case '+' => ldzialanieHelper((a: Int, b: Int) => a + b)(first, second)
+      case '-' => ldzialanieHelper((a: Int, b: Int) => a - b)(first, second)
+      case '*' => ldzialanieHelper((a: Int, b: Int) => a * b)(first, second)
+      case '/' => ldzialanieHelper((a: Int, b: Int) => a / b)(first, second)
+      case _ => throw new Exception("Incorrect operator")
+    }
+  }
+
+  private def ldzialanieHelper[A](operation: (A, A) => A)(first: LazyList[A], second: LazyList[A]): LazyList[A] = {
+    (first, second) match {
+      case (val1 #:: tailFirst, val2 #:: tailSecond) => operation(val1, val2) #:: ldzialanieHelper(operation)(tailFirst, tailSecond)
+      case (first, LazyList()) => first
+      case (LazyList(), second) => second
+      case (_, _) => LazyList()
+    }
+  }
+
 }
