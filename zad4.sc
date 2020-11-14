@@ -1,4 +1,4 @@
-//zad4 5pkt
+//zad4 (5pkt)
 
 def eachNElement[A](list:LazyList[A],n:Int,m:Int):LazyList[A] = {
   if (n < 0 || m < 0) throw new Exception("invalid arguments")
@@ -23,3 +23,4 @@ eachNElement(lfib,2,10).force
 eachNElement(lfib,3,10).force
 eachNElement(LazyList(),3,3).force
 eachNElement(LazyList(1,2,3,4,5,6),2,3).force
+

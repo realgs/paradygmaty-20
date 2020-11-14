@@ -1,3 +1,5 @@
+//zad5 (5pkt)
+
 def ldzialanie(list1:LazyList[Int],list2:LazyList[Int],operator:String):LazyList[Int] = {
   operator match {
     case "+" => def add(list1: LazyList[Int], list2: LazyList[Int]): LazyList[Int] =
@@ -54,3 +56,4 @@ ldzialanie(lfib,lfib,"-").take(5).force
 ldzialanie(lfib,lfib,"*").take(5).force
 ldzialanie(lfib,lfib,"/").take(5).force
 //ldzialanie(lfib,lfib,"^").take(5).force
+

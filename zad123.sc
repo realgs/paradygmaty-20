@@ -1,4 +1,4 @@
-//zad 1 3pkt
+//zad 1 (3pkt)
 
 sealed trait BT[+A] //
 case object Empty extends BT[Nothing] //konstruktor wartosci
@@ -15,7 +15,7 @@ def createTree(depth:Int,maxValue:Int):BT[Int] = {
     else Node(generator.nextInt(maxValue+1),createTreeHelper(depth-1),createTreeHelper(depth-1))
   createTreeHelper(depth)
 }
-
+//Metoda do przeszukiwania drzewa wszerz
 def breadthBT[A](tree: BT[A]): List[A] = {
   def breadthBThelp[A](nodeQueue: List[BT[A]]): List[A] =
     nodeQueue match {
@@ -35,8 +35,8 @@ val treeTWO = createTree(3,5)
 breadthBT(treeONE)
 breadthBT(treeTWO)
 
-//zad2 3pkt
-//Zlozonosc liniowa, po kazdym elemencie przejde dokladnie raz
+//zad2 (3pkt)
+
 def createTree2(tree1:BT[Int],tree2:BT[Int]):BT[Int] = {
   def createTree2Helper(tree1:BT[Int],tree2:BT[Int]):BT[Int] =
     (tree1,tree2) match {
@@ -49,7 +49,7 @@ def createTree2(tree1:BT[Int],tree2:BT[Int]):BT[Int] = {
 val treeOUTPUT = createTree2(treeONE,treeTWO)
 breadthBT(treeOUTPUT)
 
-//zad3 1pkt
+//zad3 (1pkt)
 
 def removeDupl(tree1:BT[Int],tree2:BT[Int]):(BT[Int],BT[Int]) = {
   def removeDuplHelp(tree1:BT[Int],tree2:BT[Int]):(BT[Int],BT[Int]) =
@@ -59,8 +59,6 @@ def removeDupl(tree1:BT[Int],tree2:BT[Int]):(BT[Int],BT[Int]) = {
         val left = removeDuplHelp(lSubtree1,lSubtree2)
         val right = removeDuplHelp(rSubtree1,rSubtree2)
 
-        //if (left._1 == Empty && left._2 == Empty && right._1 == Empty && right._2 == Empty && val1 != val2) (Node(val1,Empty,Empty),Node(val2,Empty,Empty))
-        //else if (left._1 == Empty && left._2 == Empty && right._1 == Empty && right._2 == Empty && val1 == val2) (Empty,Empty) Node(-1,Empty,Empty),Node(-1,Empty,Empty)
         if (left._1 == left._2 && right._1 == right._2 && val1 == val2) (Empty,Empty)
         else if ( (left._1 != left._2 || right._1 != right._2) && val1 == val2 ) (Node(-1,left._1,right._1),Node(-1,left._2,right._2))
         else (Node(val1,left._1,right._1),Node(val2,left._2,right._2))
@@ -171,3 +169,4 @@ val testtree4 = Node(1,
 val output3 = removeDupl(testtree1,testtree4)
 breadthBT(output3._1)
 breadthBT(output3._2)
+
