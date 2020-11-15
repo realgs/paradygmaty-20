@@ -55,7 +55,7 @@ def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
       val (t1Left, t2Left) = removeDuplicatesInTreesDFS(t1l, t2l)
       val (t1Right, t2Right) = removeDuplicatesInTreesDFS(t1r, t2r)
 
-      if(t1Left == Empty && t2Left == Empty && t1Right == Empty && t2Right == Empty)
+      if(t1 == t2 && t1Left == Empty && t2Left == Empty && t1Right == Empty && t2Right == Empty)
         (Empty, Empty)
       else
         (Node(if(t1 == t2) -1 else t1, t1Left, t1Right), Node(if(t1 == t2) -1 else t2, t2Left, t2Right))
@@ -64,15 +64,49 @@ def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
   }
 
 // BFS
-def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) =
-  (Empty,Empty)
+def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) = {
+  def removeDuplicatesInTreesBFSInner(queue: List[(BT[Int],BT[Int])]):List[(BT[Int],BT[Int])] =
+    queue match {
+      case Nil => Nil
+      case (Empty, Empty)::tl => (Empty, Empty) :: removeDuplicatesInTreesBFSInner(tl)
+      case (Node(val1,left1,right1),Node(val2,left2,right2))::tl => (Node(if(val1 == val2) -1 else val1, Empty, Empty), Node(if(val1 == val2) -1 else val2, Empty, Empty)) :: removeDuplicatesInTreesBFSInner(tl ::: List((left1,left2),(right1, right2)))
+    }
 
-// Test
-val ex3Tree1 = Node(3,Node(2,Node(4,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
-val ex3Tree2 = Node(1,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+  def buildBFS(queue: List[(BT[Int],BT[Int])]):(BT[Int],BT[Int]) =
+    queue match {
+      case Nil => (Empty, Empty)
+      case (Empty, Empty)::_ => (Empty, Empty)
+      case (Node(val1,_,_),Node(val2,_,_))::tl => {
+        val (treeLeft1,treeLeft2)::(treeRight1,treeRight2)::newTl = tl
 
-removeDuplicatesInTreesDFS(ex3Tree1, ex3Tree2)
-removeDuplicatesInTreesBFS(ex3Tree1, ex3Tree2)
+          val (t1Left, t2Left) = buildBFS((treeLeft1,treeLeft2) :: newTl)
+          val (t1Right, t2Right) = buildBFS((treeRight1,treeRight2) :: newTl.tail.tail)
+
+          if(val1 == val2 && t1Left == Node(-1, Empty, Empty) && t2Left == Node(-1, Empty, Empty) && t1Right == Node(-1, Empty, Empty) && t2Right == Node(-1, Empty, Empty))
+            (Empty, Empty)
+          else
+            (Node(val1, if(t1Left == Node(-1, Empty, Empty)) Empty else t1Left, if(t1Right == Node(-1, Empty, Empty)) Empty else t1Right), Node(val2, if(t2Left == Node(-1, Empty, Empty)) Empty else t2Left, if(t2Right == Node(-1, Empty, Empty)) Empty else t2Right))
+      }
+    }
+
+  buildBFS(removeDuplicatesInTreesBFSInner(List((tree1,tree2))))
+}
+
+// Tests
+val ex3Test1Tree1 = Node(3,Node(2,Node(4,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+val ex3Test1Tree2 = Node(3,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+
+removeDuplicatesInTreesDFS(ex3Test1Tree1, ex3Test1Tree2)
+removeDuplicatesInTreesBFS(ex3Test1Tree1, ex3Test1Tree2)
+
+val ex3Test2Tree1 = Node(1,Node(2, Node(3, Node(4,Empty, Node(5,Empty,Empty)),Empty), Empty),Node(3,Empty, Empty))
+val ex3Test2Tree2 = Node(1,Node(2, Node(3, Node(4,Empty, Node(5,Empty,Empty)),Empty), Empty),Node(3,Empty, Empty))
+
+removeDuplicatesInTreesDFS(ex3Test2Tree1, ex3Test2Tree2)
+removeDuplicatesInTreesBFS(ex3Test2Tree1, ex3Test2Tree2)
+
+removeDuplicatesInTreesDFS(Empty, Empty)
+removeDuplicatesInTreesBFS(Empty, Empty)
 
 // 4) - 5pkt
 def eachNElement[A](list: LazyList[A], n:Int, m:Int): LazyList[A] = {
