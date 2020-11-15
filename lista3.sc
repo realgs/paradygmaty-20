@@ -22,10 +22,10 @@ def divide(list: List[Int]): (List[Int], List[Int]) = {
                 negative_even: List[Int]): (List[Int], List[Int]) = {
     if (list == Nil) (reverse(negative), reverse(negative_even))
     else if (list.head < 0)
-      {
-        if (list.head % 2 != 0) divideRec(list.tail, list.head :: negative, list.head :: negative_even)
-        else divideRec(list.tail, list.head :: negative, negative_even)
-      }
+    {
+      if (list.head % 2 != 0) divideRec(list.tail, list.head :: negative, list.head :: negative_even)
+      else divideRec(list.tail, list.head :: negative, negative_even)
+    }
     else divideRec(list.tail, negative, negative_even)
   }
   divideRec(list, Nil, Nil)
@@ -42,13 +42,15 @@ divide(List(-2, -4, -3)) == (List(-2, -4, -3), List(-3))
 
 
 // Zadanie 2
+// Złożoność obliczeniowa - O(n) n- długość listy
+// Złożoność pamięciowa - O(1)
 def length[A](list: List[A]): Int = {
   @scala.annotation.tailrec
   def lengthRec(list: List[A], n: Int): Int =
-    {
-        if (list == Nil) n
-        else lengthRec(list.tail, n + 1)
-    }
+  {
+    if (list == Nil) n
+    else lengthRec(list.tail, n + 1)
+  }
   lengthRec(list, 0)
 }
 
@@ -61,6 +63,8 @@ length(List(List(1, 2, 3))) == 1
 
 
 // Zadanie 3
+// Złożoność obliczeniowa - O(n + m) n- długość list1, m- długość list2 
+// Złożoność pamięciowa - O(1)
 def concatenate[A](list1: List[A], list2: List[A]): List[A] = {
   @scala.annotation.tailrec
   def mergeRec(list1: List[A], list2: List[A], result: List[A]): List[A] = {
@@ -84,6 +88,8 @@ concatenate(List(1, 2, 3, 4), List(-1, -2, -3, -4)) == List(1, -1, 2, -2, 3, -3,
 
 
 // Zadanie 4 a
+// Złożoność obliczeniowa - O(k^2 * m * n + l) - k- długość stringa, m- ilość elementów w list, n- ilość fraz, l- długość listy wynikowej
+// Złożoność pamięciowa - O(1)
 def comparePatternTail(text: String, pattern: String): Boolean = {
   @scala.annotation.tailrec
   def comparePatternTailRec(compared_text: String, compared_pattern: String, text_accumulator: String): Boolean = {
@@ -125,6 +131,8 @@ findNPhrasesTail(List("Klucz", "Wyklucz", "Zaklocenia", "Pokolenia", "ziemniak")
 
 
 // Zadanie 4 b
+// Złożoność obliczeniowa - O(k^2 * m * n) - k- długość stringa, m- ilość elementów w list, n- ilość fraz
+// Złożoność pamięciowa - O(l) - l- długośc listy wynikowej
 def findNPhrases(list: List[String], phrases: List[String]): List[String] = {
   if (list == Nil) Nil
   else if (findAny(list.head, phrases)) list.head :: findNPhrases(list.tail, phrases)
@@ -145,6 +153,8 @@ findNPhrases(List("Klucz", "Wyklucz", "Zaklocenia", "Pokolenia", "ziemniak"), Li
 
 
 // Zadanie 5 a
+// Złożoność obliczeniowa - O(n + m + k) - n długość list1, m- długość list2, k- długość list3
+// Złożoność pamięciowa - O(1)
 def joinTail[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
   @scala.annotation.tailrec
   def joinRec(list1: List[A], list2: List[A], list3: List[A], result: List[A]): List[A] = {
@@ -167,10 +177,12 @@ joinTail(List("A"), List("B"), List(List(1, 2), List(3, 4))) == List("A", "B", L
 
 
 // Zadanie 5 b
+// Złożoność obliczeniowa - O(n + m + 1) - k- długość list3
+// Złożoność pamięciowa - O(n + m) - n długość list1, m- długość list2,
 def join[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
-    if (list1 != Nil) list1.head :: join(list1.tail, list2, list3)
-    else if (list2 != Nil) list2.head :: join(list1, list2.tail, list3)
-    else list3
+  if (list1 != Nil) list1.head :: join(list1.tail, list2, list3)
+  else if (list2 != Nil) list2.head :: join(list1, list2.tail, list3)
+  else list3
 }
 
 
