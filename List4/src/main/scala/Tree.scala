@@ -30,6 +30,10 @@ sealed trait BTree[+A] {
   def getLeft: Option[BTree[A]]
 
   def getRight: Option[BTree[A]]
+
+  def leftRoot: Option[A]
+
+  def rightRoot: Option[A]
 }
 
 object BTree {
@@ -50,6 +54,10 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
   override def getLeft: Some[BTree[A]] = Some(left)
 
   override def getRight: Some[BTree[A]] = Some(right)
+
+  override def leftRoot: Option[A] = getLeft.getOrElse(Empty).rootOption
+
+  override def rightRoot: Option[A] = getRight.getOrElse(Empty).rootOption
 }
 
 object Vertex {
@@ -66,4 +74,8 @@ case object Empty extends BTree[Nothing] {
   override def getLeft: Option[BTree[Nothing]] = None
 
   override def getRight: Option[BTree[Nothing]] = None
+
+  override def leftRoot: Option[Nothing] = None
+
+  override def rightRoot: Option[Nothing] = None
 }

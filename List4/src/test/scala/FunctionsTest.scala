@@ -25,22 +25,56 @@ class FunctionsTest extends FunSuite {
   }
 
   test("tree.lazyTraversal2") {
-    val t = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
     val actual = Functions.bottomUpDFS(t)
 
     println(actual.force)
   }
 
-  test("deleteDuplicates.test") {
-    val t1 = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    val t2 = Vertex(1, Vertex(2, Vertex(7), Vertex(9)), Vertex(3))
+  test("deleteDuplicates.singleNodeIdentical") {
+    val (t1, t2) = (Vertex(5), Vertex(5))
+    val res = Functions.deleteDuplicates(t1, t2)
+
+    assert(res === (Empty, Empty))
+  }
+
+  test("deleteDuplicates.singleNodeDifferent") {
+    val (t1, t2) = (Vertex(3), Vertex(5))
+    val res = Functions.deleteDuplicates(t1, t2)
+
+    assert(res === (Vertex(3), Vertex(5)))
+  }
+
+  test("deleteDuplicates.threeNodesOneIdentical") {
+    val t1 = BTree(1, Vertex(2), Vertex(3))
+    val t2 = BTree(1, Vertex(5), Vertex(3))
+
+    val res = Functions.deleteDuplicates(t1, t2)
+
+    assert(res === (BTree(-1, Vertex(2), Empty), BTree(-1, Vertex(5), Empty)))
+  }
+
+  test("deleteDuplicates.notFullThreeLevel") {
+    val t1 = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    val t2 = BTree(1, Vertex(2, Vertex(7), Vertex(9)), Vertex(3))
 
     val (res1, res2) = Functions.deleteDuplicates(t1, t2)
 
-    println(res1)
-    println(res2)
+    assert(res1 === BTree(-1, Vertex(-1, Vertex(8), Empty), Empty)
+      && res2 === BTree(-1, Vertex(-1, Vertex(7), Empty), Empty))
   }
 
+  test("deleteDuplicates.fullTreeLevel") {
+    val t1 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
+    val t2 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(6), Vertex(9)))
+
+    val expected1 = BTree(-1, Empty, Vertex(-1, Vertex(7), Empty))
+    val expected2 = BTree(-1, Empty, Vertex(-1, Vertex(6), Empty))
+
+    val (res1, res2) = Functions.deleteDuplicates(t1, t2)
+
+    assert(res1 === expected1, res2 === expected2)
+  }
 
   test("eachNElement.second") {
     val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)

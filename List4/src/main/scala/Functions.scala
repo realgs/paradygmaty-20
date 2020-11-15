@@ -35,18 +35,24 @@ object Functions {
     }
   }
 
-  def deleteDuplicates(lhs: BTree[Int], rhs: BTree[Int]): (BTree[Int], BTree[Int]) = {
-    if (lhs.isLeaf && rhs.isLeaf) (Empty, Empty)
+  def deleteDuplicates(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+    if (t1.isLeaf && t2.isLeaf) {
+      if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+    }
     else {
-      // TODO: This is severely flawed
-      if (lhs.rootOption == rhs.rootOption) {
-        (lhs.getLeft.getOrElse(Empty).rootOption, lhs.getRight.getOrElse(Empty).rootOption, rhs.getLeft.getOrElse(Empty).rootOption, rhs.getRight.getOrElse(Empty).rootOption) match {
-          case (Some(x), None, Some(y), None) => (Vertex(-1, Vertex(x), Empty), Vertex(-1, Vertex(y), Empty))
-          case (None, Some(x), None, Some(y)) => (Vertex(-1, Empty, Vertex(x)), Vertex(-1, Empty, Vertex(y)))
-          case _ => ???
+      if (t1.rootOption == t2.rootOption) {
+        val lhs = deleteDuplicates(t1.getLeft.get, t2.getLeft.get)
+        val rhs = deleteDuplicates(t1.getRight.get, t2.getRight.get)
+
+        (lhs, rhs) match {
+          case ((Empty, Empty), (Empty, Empty)) => (Empty, Empty)
+          case ((Empty, a), (Empty, b)) => (Empty, BTree(-1, a, b))
+          case ((a, Empty), (b, Empty)) => (BTree(-1, a, b), Empty)
+          case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
         }
+        // (BTree(-1, lhs._1, rhs._1), BTree(-1, lhs._2, rhs._2))
       } else {
-        (lhs, rhs)
+        deleteDuplicates(t1, t2)
       }
     }
   }
