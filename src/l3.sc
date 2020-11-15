@@ -3,6 +3,7 @@ import scala.annotation.tailrec
 
 //useful
 def reverse[A](list : List[A]) : List[A] = {
+  @tailrec
   def inner(acc : List[A], list : List[A]) : List[A] = {
     list match {
       case Nil => acc
@@ -15,6 +16,7 @@ def reverse[A](list : List[A]) : List[A] = {
 }
 
 def reverseTwo[A](list1: List[A], list2: List[A]):(List[A], List[A])={
+  @tailrec
   def inner(accum1: List[A], accum2: List[A], xs: List[A], ys: List[A]):(List[A], List[A])={
     (xs, ys) match{
       case (Nil, Nil)=> (accum1, accum2)
@@ -26,6 +28,7 @@ def reverseTwo[A](list1: List[A], list2: List[A]):(List[A], List[A])={
   inner(Nil, Nil, list1, list2)
 }
 
+//zlozonosc czasowa i pamieciowa liniowa
 def contains(main: String, substring: String): Boolean = {
   (main, substring) match {
     case (_, "")=> true
@@ -44,7 +47,7 @@ def contains(main: String, substring: String): Boolean = {
   }
 }
 
-
+//zlozonosc kwadratowa
 def containsAny(main: String, substrings: List[String]): Boolean = {
   (main, substrings) match {
     case ("", _)=> false
@@ -59,6 +62,8 @@ def containsAny(main: String, substrings: List[String]): Boolean = {
 
 //ZADANIE 1
 
+//zlozonosc czasowa liniowa wzgledem listy wejsciowej
+//zlozonosc pamieciowa stala
 def divide(xs: List[Int]):(List[Int], List[Int])={
   @tailrec
   def inner(accum1: List[Int], accum2: List[Int], list: List[Int]):(List[Int], List[Int])={
@@ -82,6 +87,8 @@ divide(List(1, 2, 0, 3))==(List(), List());
 
 //ZADANIE 2
 
+//zlozonosc pamieciowa stala
+//zlozonosc czasowa liniowa
 def listLength[A](xs: List[A]): Int= {
   @tailrec
   def inner(acc: Int, x: List[A]):Int={
@@ -96,6 +103,8 @@ listLength(List())==0;
 
 //ZADANIE 3
 
+//zlozonosc pamieciowa stala
+//zlozonosc czasowa liniowa
 def mergeTwoLists[A](xs: List[A], ys: List[A]): List[A]={
   @tailrec
   def inner(newList: List[A], list1: List[A], list2: List[A]):List[A]={
@@ -116,6 +125,8 @@ mergeTwoLists(List(1, 2, 3), List())==List(1, 2, 3);
 
 //ZADANIE 4
 
+//zlozonosc pamieciowa stala
+//zlozonosc czasowa m*n
 def find(elements: List[String], searched: String):List[String]={
   @tailrec
   def inner(elems: List[String], accum: List[String]):List[String]={
@@ -130,6 +141,8 @@ def find(elements: List[String], searched: String):List[String]={
   inner(elements, Nil)
 }
 
+//zlozonosc pamieciowa kwadratowa
+//zlozonosc czasowa m*n^2
 def findList(elements: List[String], searched: List[String]):List[String]={
   @tailrec
   def inner(elems: List[String], patterns: List[String], accum: List[String]):List[String]={
@@ -155,6 +168,8 @@ findList(List("index0169'", "index0167202", "index0168211",
 
 //ZADANIE 5
 
+//zlozonosc pamieciowa stala
+//zlozonosc czasowa liniowa
 def joinLists[A](list1: List[A], list2: List[A], list3: List[A]):List[A]={
   @tailrec
   def inner(newList: List[A], xs: List[A], ys: List[A], zs: List[A]):List[A] ={
