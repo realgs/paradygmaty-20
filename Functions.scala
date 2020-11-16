@@ -1,38 +1,53 @@
+import scala.collection.View.Empty
 import scala.util.Random
 
+sealed trait BT[+A]
+case object Empty extends BT[Nothing]
+case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A]
+
 class Functions {
-
-  sealed trait BT[A]
-
-  case class Leaf[A]() extends BT[A]
-
-  case class Node[A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
-
   val r = new Random()
+  //for testing purposes
+  val firstTestTree = Node(10,Node(12,Node(6,Empty,Empty),Node(13,Empty,Empty)),Node(6,Node(1,Empty,Empty),Node(12,Empty,Empty)))
+  val secondTestTree = Node(2,Node(7,Node(8,Empty,Empty),Node(7,Empty,Empty)),Node(2,Node(9,Empty,Empty),Node(9,Empty,Empty)))
+  val resultTree = Node(8,Node(5,Node(-2,Empty,Empty),Node(6,Empty,Empty)),Node(4,Node(-8,Empty,Empty),Node(3,Empty,Empty)))
 
   //zadanie 1 (3pkt)
   def generateTree(depth: Int, x: Int, y: Int): BT[Int] = {
     if (depth < 1) throw new Exception("Depth must be higher than 0!")
-    else if (y > x || y < 0 || x < 0) throw new Exception("Incorrect range!")
+    else if (y < x || y < 0 || x < 0) throw new Exception("Incorrect range!")
     else getNode(depth, x, y)
   }
 
   private def getNode(depth: Int, x: Int, y: Int): BT[Int] = {
     depth match {
-      case 0 => Leaf()
+      case 0 => Empty
       case i => Node(r.nextInt(y - x) + x, getNode(i - 1, x, y), getNode(i - 1, x, y))
 
     }
   }
 
-  private def checkDepth(tree: BT[Int]): Int = {
+  def checkDepth(tree: BT[Int]): Int = {
     def helper(tree: BT[Int], depth: Int): Int =
       tree match {
-        case Leaf() => depth
+        case Empty => depth
         case Node(_, left, _) => helper(left, depth + 1)
       }
 
     helper(tree, 0)
+  }
+
+  //for testing purposes
+  def isTreeFull(tree: BT[Int]): Boolean = {
+    def checkSubtree(subtree: BT[Int]): Boolean =
+      subtree match {
+        case Empty => true
+        case Node(_, Empty, Empty) => true
+        case Node(_, Empty, _) => false
+        case Node(_, _, Empty) => false
+        case Node(_, left, right) => (checkDepth(left) == checkDepth(right)) & checkSubtree(left) & checkSubtree(right)
+      }
+    checkSubtree(tree)
   }
 
   //zadanie 2 (3pkt)
@@ -43,9 +58,9 @@ class Functions {
     else throw new Exception("Invalid arguments")
   }
 
-  def diff(first: BT[Int], second: BT[Int]): BT[Int] =
+  private def diff(first: BT[Int], second: BT[Int]): BT[Int] =
     (first, second) match {
-      case (Leaf(), Leaf()) => Leaf()
+      case (Empty, Empty) => Empty
       case (Node(firstElem, l1, r1), Node(secondElem, l2, r2)) => Node(firstElem - secondElem, diff(l1, l2), diff(r1, r2))
     }
 

@@ -1,24 +1,29 @@
-import scala.reflect.internal.Depth
+import org.junit.jupiter.api.{Assertions, Test}
 
-class Functions {
+class Tests {
+  val testFunction = new Functions
 
-  sealed trait BT[A]
+  sealed trait BT[+A]
+  case object Empty extends BT[Nothing]
+  case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A]
 
-  case class Leaf[A]() extends BT[A]
+  @Test def testFunction1 = {
+    //testing if tree depth is correct
+    assert(testFunction.checkDepth(testFunction.generateTree(1,1,10)) == 1)
+    assert(testFunction.checkDepth(testFunction.generateTree(5,1,10)) == 5)
+    assert(testFunction.checkDepth(testFunction.generateTree(10,2,3)) == 10)
 
-  case class Node[A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
+    //testing incorrect arguments
+    Assertions.assertThrows(classOf[Exception],() => testFunction.generateTree(-1, 1, 5))
+    Assertions.assertThrows(classOf[Exception],() => testFunction.generateTree(4, 4, 2))
 
-  //zadanie 1 (3pkt)
-  def generateTree(depth: Int, x: Int, y: Int): BT[Int] = {
-    if (depth < 1) throw new Exception("Depth must be higher than 0!")
-    else if(y>x) throw new Exception("Incorrect range!")
-    else getNode(depth, x, y)
+    //testing if tree is full
+    assert(testFunction.isTreeFull(testFunction.generateTree(3, 1, 5)))
+    assert(testFunction.isTreeFull(testFunction.generateTree(7, 1, 3)))
   }
 
-  private def getNode(depth: Int, x: Int, y: Int): BT[Int] = {
-    depth match {
-      case 0 => Leaf()
-      case i => Node(i, getNode(i-1), getNode(i-1))
-    }
+  @Test def testFunction2 = {
+    assert(testFunction.diffTrees(testFunction.firstTestTree, testFunction.secondTestTree) == testFunction.resultTree)
+
   }
 }
