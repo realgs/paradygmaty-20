@@ -1,3 +1,5 @@
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlTree.A
+
 import scala.annotation.tailrec
 
 //Lista 4 Maciej Kopiński
@@ -20,7 +22,8 @@ def depth(tree: BT[Int]): Int={
 
 //lista
 sealed trait LList[+A]
-//case object
+case object LNil extends LList[Nothing]
+case class LElement[+A](elem: A, llist: () => LList[A])
 
 //Zadanie 1
 
@@ -69,7 +72,13 @@ def deleteDuplicates(first: BT[Int], sexond: BT[Int]): (BT[Int], BT[Int])={
 //Zadanie 4
 
 def eachNElement[A](stream: Stream[A], n: Int, m: Int): Stream[A]={
+  def inner(position: Int, counter: Int, s: Stream[A]): Stream[A]={
+    if(position==m){
+      Stream()
+    }else{
 
+    }
+  }
 }
 
 //Zadanie 5
