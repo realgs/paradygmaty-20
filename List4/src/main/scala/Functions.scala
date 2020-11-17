@@ -1,3 +1,4 @@
+import scala.collection.immutable.Queue
 import scala.util.Random
 
 object Functions {
@@ -50,11 +51,14 @@ object Functions {
           case ((a, Empty), (b, Empty)) => (BTree(-1, a, b), Empty)
           case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
         }
-        // (BTree(-1, lhs._1, rhs._1), BTree(-1, lhs._2, rhs._2))
       } else {
         deleteDuplicates(t1, t2)
       }
     }
+  }
+
+  def toBFSList[A](tree: BTree[A], reverse: Boolean): List[A] = {
+    ???
   }
 
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
