@@ -1,4 +1,3 @@
-import scala.collection.immutable.Queue
 import scala.util.Random
 
 object Functions {
@@ -57,11 +56,13 @@ object Functions {
     }
   }
 
-  def toBFSList[A](tree: BTree[A], reverse: Boolean): List[A] = {
-    ???
-  }
-
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+    // Not exception safe
+    val depth = Helper.treeDepth(t1)
+
+    val bfs1 = t1.toBfsList.reverse
+    val bfs2 = t2.toBfsList.reverse
+
     ???
   }
 

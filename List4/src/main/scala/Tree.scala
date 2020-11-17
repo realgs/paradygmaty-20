@@ -34,6 +34,9 @@ sealed trait BTree[+A] {
   def leftRoot: Option[A]
 
   def rightRoot: Option[A]
+
+  def toBfsList: List[A]
+
 }
 
 object BTree {
@@ -58,6 +61,19 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
   override def leftRoot: Option[A] = getLeft.getOrElse(Empty).rootOption
 
   override def rightRoot: Option[A] = getRight.getOrElse(Empty).rootOption
+
+  override def toBfsList: List[A] = {
+    def auxBFS(queue: List[BTree[A]]): List[A] = {
+      queue match {
+        case Nil => Nil
+        case Empty :: t => auxBFS(t)
+        case Vertex(v, l, r) :: t => v :: auxBFS(t ::: List(l, r))
+      }
+    }
+
+    auxBFS(List(this))
+  }
+
 }
 
 object Vertex {
@@ -78,4 +94,6 @@ case object Empty extends BTree[Nothing] {
   override def leftRoot: Option[Nothing] = None
 
   override def rightRoot: Option[Nothing] = None
+
+  override def toBfsList: List[Nothing] = Nil
 }

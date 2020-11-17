@@ -33,6 +33,11 @@ class FunctionsTest extends FunSuite {
     println(actual.force)
   }
 
+  test("toBFSList.test") {
+    val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    assert(t.toBfsList === List(1, 2, 3, 8, 9))
+  }
+
   test("deleteDuplicates.singleNodeIdentical") {
     val (t1, t2) = (Vertex(5), Vertex(5))
     val res = Functions.deleteDuplicates(t1, t2)
