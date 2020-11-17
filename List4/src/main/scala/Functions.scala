@@ -23,8 +23,8 @@ object Functions {
   def elementwiseDiff(t1: BTree[Int], t2: BTree[Int])(rootDiff: (BTree[Int], BTree[Int]) => Option[Int]): BTree[Int] = {
     if (rootDiff(t1, t2).isEmpty) Empty
     else {
-      BTree(rootDiff(t1, t2).get, elementwiseDiff(t1.getLeft.getOrElse(Empty), t2.getLeft.getOrElse(Empty))(rootDiff),
-        elementwiseDiff(t1.getRight.getOrElse(Empty), t2.getRight.getOrElse(Empty))(rootDiff))
+      BTree(rootDiff(t1, t2).get, elementwiseDiff(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))(rootDiff),
+        elementwiseDiff(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))(rootDiff))
     }
   }
 
@@ -35,15 +35,15 @@ object Functions {
     }
   }
 
-  def deleteDuplicates(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
     if (t1.isLeaf && t2.isLeaf) {
       if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
     }
     else {
-      if (t1.rootOption == t2.rootOption) {
-        val lhs = deleteDuplicates(t1.getLeft.get, t2.getLeft.get)
-        val rhs = deleteDuplicates(t1.getRight.get, t2.getRight.get)
+      val lhs = deleteDuplicatesBFS(t1.leftOption.get, t2.leftOption.get)
+      val rhs = deleteDuplicatesBFS(t1.rightOption.get, t2.rightOption.get)
 
+      if (t1.rootOption == t2.rootOption) {
         (lhs, rhs) match {
           case ((Empty, Empty), (Empty, Empty)) => (Empty, Empty)
           case ((Empty, a), (Empty, b)) => (Empty, BTree(-1, a, b))
@@ -51,20 +51,81 @@ object Functions {
           case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
         }
       } else {
-        deleteDuplicates(t1, t2)
+        (BTree(t1.rootOption.get, lhs._1, rhs._1), BTree(t2.rootOption.get, lhs._2, rhs._2))
       }
     }
   }
 
-  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+  /*
+  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): Unit = {
     // Not exception safe
     val depth = Helper.treeDepth(t1)
 
     val bfs1 = t1.toBfsList.reverse
     val bfs2 = t2.toBfsList.reverse
+    /*
+        def aux2(bfs1: List[Int], bfs2: List[Int], even: Boolean, count: Int, depth: Int): (List[Int], List[Int]) = {
+          if (count * 2 > depth) aux2(bfs1, bfs2, even = true, 0, depth - 1)
+          else {
+            (bfs1, bfs2) match {
+              case (h1 :: t1, h2 :: t2) => if (h1 == h2) aux2(t1, t2, !even, count + 1, depth) else ???
+            }
+          }
+        }
 
-    ???
+
+
+        def aux(q1: List[BTree[Int]], q2: List[BTree[Int]]) = {
+          (q1, q2) match {
+            case (Vertex(x, lhs1, rhs1) :: t1, Vertex(y, lhs2, rhs2) :: t2) => {
+              if (x == y) {
+                (Vertex(None, lhs1, lhs2), Vertex(None, rhs1, rhs2))
+              }
+
+            }
+          }
+        }
+
+     */
   }
+
+  def auxBFS(t: BTree[Int], compareTo: BTree[Int]): BTree[Int] = {
+    if (t.isLeaf & compareTo.isLeaf) {
+      if (t.rootOption == compareTo.rootOption) Empty else t
+    }
+    else {
+      if (t.rootOption == compareTo.rootOption) {
+        val lhs = auxBFS(t.getLeft.get, compareTo.getLeft.get)
+        val rhs = auxBFS(t.getRight.get, compareTo.getRight.get)
+
+        () =>
+
+
+      }
+    }
+  }
+
+  def aux1(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+    if (t1.isLeaf && t2.isLeaf) {
+      if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+    }
+    else {
+      if (t1.rootOption == t2.rootOption) {
+        val lhs = () => aux1(t1.getLeft.get, t2.getLeft.get)
+        val rhs = () => aux1(t1.getRight.get, t2.getRight.get)
+
+        (lhs(), rhs()) match {
+          case ((Empty, Empty), (Empty, Empty)) => (Empty, Empty)
+          case ((Empty, a), (Empty, b)) => (Empty, BTree(-1, a, b))
+          case ((a, Empty), (b, Empty)) => (BTree(-1, a, b), Empty)
+          case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
+        }
+      } else {
+        aux1(t1, t2)
+      }
+    }
+  }
+  */
 
   // Task 4
   def eachNElement[A](lxs: LazyList[A], n: Int): LazyList[A] = {

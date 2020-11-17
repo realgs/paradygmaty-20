@@ -38,49 +38,71 @@ class FunctionsTest extends FunSuite {
     assert(t.toBfsList === List(1, 2, 3, 8, 9))
   }
 
-  test("deleteDuplicates.singleNodeIdentical") {
+  test("diff.differentDepths") {
+    val (t1, t2) = (BTree(5), BTree(3, Vertex(2), Vertex(1)))
+    val actual = Functions.elementwiseDiff(t1, t2)(Functions.intRootDiff)
+
+    assert(actual === Vertex(2))
+  }
+
+  test("deleteDuplicatesBFS.singleNodeIdentical") {
     val (t1, t2) = (Vertex(5), Vertex(5))
-    val res = Functions.deleteDuplicates(t1, t2)
+    val res = Functions.deleteDuplicatesBFS(t1, t2)
 
     assert(res === (Empty, Empty))
   }
 
-  test("deleteDuplicates.singleNodeDifferent") {
+  test("deleteDuplicatesBFS.singleNodeDifferent") {
     val (t1, t2) = (Vertex(3), Vertex(5))
-    val res = Functions.deleteDuplicates(t1, t2)
+    val res = Functions.deleteDuplicatesBFS(t1, t2)
 
     assert(res === (Vertex(3), Vertex(5)))
   }
 
-  test("deleteDuplicates.threeNodesOneIdentical") {
+  test("deleteDuplicatesBFS.threeNodesOneIdentical") {
     val t1 = BTree(1, Vertex(2), Vertex(3))
     val t2 = BTree(1, Vertex(5), Vertex(3))
 
-    val res = Functions.deleteDuplicates(t1, t2)
+    val res = Functions.deleteDuplicatesBFS(t1, t2)
 
     assert(res === (BTree(-1, Vertex(2), Empty), BTree(-1, Vertex(5), Empty)))
   }
 
-  test("deleteDuplicates.notFullThreeLevel") {
+  test("deleteDuplicatesBFS.notFullThreeLevel") {
     val t1 = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
     val t2 = BTree(1, Vertex(2, Vertex(7), Vertex(9)), Vertex(3))
 
-    val (res1, res2) = Functions.deleteDuplicates(t1, t2)
+    val (res1, res2) = Functions.deleteDuplicatesBFS(t1, t2)
 
     assert(res1 === BTree(-1, Vertex(-1, Vertex(8), Empty), Empty)
       && res2 === BTree(-1, Vertex(-1, Vertex(7), Empty), Empty))
   }
 
-  test("deleteDuplicates.fullTreeLevel") {
+  test("deleteDuplicatesBFS.fullTreeLevel") {
+    val t1 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
+    val t2 = BTree(1, Vertex(7, Vertex(3), Vertex(2)), Vertex(4, Vertex(6), Vertex(9)))
+
+    val expected1 = BTree(-1, Vertex(5), Vertex(-1, Vertex(7), Empty))
+    val expected2 = BTree(-1, Vertex(7), Vertex(-1, Vertex(6), Empty))
+
+    val (res1, res2) = Functions.deleteDuplicatesBFS(t1, t2)
+
+    assert(res1 === expected1, res2 === expected2)
+  }
+
+  test("deleteDuplicatesLazy.fullTreeLevel") {
     val t1 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
     val t2 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(6), Vertex(9)))
 
     val expected1 = BTree(-1, Empty, Vertex(-1, Vertex(7), Empty))
     val expected2 = BTree(-1, Empty, Vertex(-1, Vertex(6), Empty))
 
-    val (res1, res2) = Functions.deleteDuplicates(t1, t2)
+    /*
+    val (res1, res2) = Functions.aux1(t1, t2)
 
     assert(res1 === expected1, res2 === expected2)
+
+     */
   }
 
   test("eachNElement.second") {

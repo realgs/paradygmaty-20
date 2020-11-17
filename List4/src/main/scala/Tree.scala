@@ -27,9 +27,9 @@ sealed trait BTree[+A] {
 
   def isLeaf: Boolean
 
-  def getLeft: Option[BTree[A]]
+  def leftOption: Option[BTree[A]]
 
-  def getRight: Option[BTree[A]]
+  def rightOption: Option[BTree[A]]
 
   def leftRoot: Option[A]
 
@@ -54,13 +54,13 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
 
   override def isLeaf: Boolean = left == Empty && right == Empty
 
-  override def getLeft: Some[BTree[A]] = Some(left)
+  override def leftOption: Some[BTree[A]] = Some(left)
 
-  override def getRight: Some[BTree[A]] = Some(right)
+  override def rightOption: Some[BTree[A]] = Some(right)
 
-  override def leftRoot: Option[A] = getLeft.getOrElse(Empty).rootOption
+  override def leftRoot: Option[A] = leftOption.getOrElse(Empty).rootOption
 
-  override def rightRoot: Option[A] = getRight.getOrElse(Empty).rootOption
+  override def rightRoot: Option[A] = rightOption.getOrElse(Empty).rootOption
 
   override def toBfsList: List[A] = {
     def auxBFS(queue: List[BTree[A]]): List[A] = {
@@ -87,9 +87,9 @@ case object Empty extends BTree[Nothing] {
 
   override def isLeaf: Boolean = false
 
-  override def getLeft: Option[BTree[Nothing]] = None
+  override def leftOption: Option[BTree[Nothing]] = None
 
-  override def getRight: Option[BTree[Nothing]] = None
+  override def rightOption: Option[BTree[Nothing]] = None
 
   override def leftRoot: Option[Nothing] = None
 
