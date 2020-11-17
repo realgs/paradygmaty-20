@@ -19,8 +19,8 @@ object Utils {
     isTreeFullHelper(tree)
   }
 
-  val fib: LazyList[Double] = {
-    def fibHelper(a: Double, b: Double): LazyList[Double] =
+  val fib: LazyList[Int] = {
+    def fibHelper(a: Int, b: Int): LazyList[Int] =
       a #:: fibHelper(b, a + b)
     fibHelper(0, 1)
   }

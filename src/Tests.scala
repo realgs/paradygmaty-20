@@ -102,10 +102,10 @@ object Tests {
     println(eachNElement(LazyList(1, 2, 3), 2, 0).toList == List())
 
     println(fib.take(16).toList)
-    println(eachNElement(fib.take(16), 3, 12).toList == List(0.0, 2.0, 8.0, 34.0))
-    println(eachNElement(fib.take(16), 2, 4).toList == List(0.0, 1.0))
-    println(eachNElement(fib.take(30), 5, 15).toList == List(0.0, 5.0, 55.0))
-    println(eachNElement(fib.take(30), 5, 16).toList == List(0.0, 5.0, 55.0, 610.0))
+    println(eachNElement(fib.take(16), 3, 12).toList == List(0, 2, 8, 34))
+    println(eachNElement(fib.take(16), 2, 4).toList == List(0, 1))
+    println(eachNElement(fib.take(30), 5, 15).toList == List(0, 5, 55))
+    println(eachNElement(fib.take(30), 5, 16).toList == List(0, 5, 55, 610))
 
     println(eachNElement(LazyList("What", "time", "is", "it"), 1, 4).toList == List("What", "time", "is", "it"))
     println(eachNElement(LazyList("Test", "tes", "te", "t", ""), 2, 4).toList == List("Test", "te"))
