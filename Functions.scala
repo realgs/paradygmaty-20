@@ -1,16 +1,20 @@
-import scala.collection.View.Empty
 import scala.util.Random
 
-sealed trait BT[+A]
-case object Empty extends BT[Nothing]
-case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A]
 
 class Functions {
+
+  sealed trait BT[+A]
+
+  case object Empty extends BT[Nothing]
+
+  case class Node[+A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
+
   val r = new Random()
+
   //for testing purposes
-  val firstTestTree = Node(10,Node(12,Node(6,Empty,Empty),Node(13,Empty,Empty)),Node(6,Node(1,Empty,Empty),Node(12,Empty,Empty)))
-  val secondTestTree = Node(2,Node(7,Node(8,Empty,Empty),Node(7,Empty,Empty)),Node(2,Node(9,Empty,Empty),Node(9,Empty,Empty)))
-  val resultTree = Node(8,Node(5,Node(-2,Empty,Empty),Node(6,Empty,Empty)),Node(4,Node(-8,Empty,Empty),Node(3,Empty,Empty)))
+  val firstTestTree = Node(10, Node(12, Node(6, Empty, Empty), Node(13, Empty, Empty)), Node(6, Node(1, Empty, Empty), Node(12, Empty, Empty)))
+  val secondTestTree = Node(2, Node(7, Node(8, Empty, Empty), Node(7, Empty, Empty)), Node(2, Node(9, Empty, Empty), Node(9, Empty, Empty)))
+  val resultTree = Node(8, Node(5, Node(-2, Empty, Empty), Node(6, Empty, Empty)), Node(4, Node(-8, Empty, Empty), Node(3, Empty, Empty)))
 
   //zadanie 1 (3pkt)
   def generateTree(depth: Int, x: Int, y: Int): BT[Int] = {
@@ -47,6 +51,7 @@ class Functions {
         case Node(_, _, Empty) => false
         case Node(_, left, right) => (checkDepth(left) == checkDepth(right)) & checkSubtree(left) & checkSubtree(right)
       }
+
     checkSubtree(tree)
   }
 
@@ -61,8 +66,70 @@ class Functions {
   private def diff(first: BT[Int], second: BT[Int]): BT[Int] =
     (first, second) match {
       case (Empty, Empty) => Empty
-      case (Node(firstElem, l1, r1), Node(secondElem, l2, r2)) => Node(firstElem - secondElem, diff(l1, l2), diff(r1, r2))
+      case (Node(v1, l1, r1), Node(v2, l2, r2)) => Node(v1 - v2, diff(l1, l2), diff(r1, r2))
     }
+
+  //zadanie 3(1+3pkt)
+  def deleteDuplicatesDFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+    if (checkDepth(first) == checkDepth(second)) DFS(first, second)
+    else throw new Exception("Depths must be equal")
+  }
+
+  private def DFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+    (first, second) match {
+      case (Node(v1, Empty, Empty), Node(v2, Empty, Empty)) => if (v1 == v2) (Empty, Empty) else (Node(v1, Empty, Empty), Node(v2, Empty, Empty))
+      case (Node(v1, l1, r1), Node(v2, l2, r2)) => {
+        val (l1Tree, l2Tree) = DFS(l1, l2)
+        val (r1Tree, r2Tree) = DFS(r1, r2)
+        (l1Tree, l2Tree, r1Tree, r2Tree) match {
+          case (Empty, Empty, Empty, Empty) => if (v1 == v2) (Empty, Empty) else (Node(v1, Empty, Empty), Node(v2, Empty, Empty))
+          case (l1, l2, r1, r2) => if (v1 == v2) (Node(-1, l1, r1), Node(-1, l2, r2)) else (Node(v1, l1, r1), Node(v2, l2, r2))
+        }
+      }
+    }
+  }
+
+
+  def deleteDuplicatesBFS(firstTree: BT[Int], secondTree: BT[Int]): (BT[Int], BT[Int]) = {
+    if (checkDepth(firstTree) == checkDepth(secondTree) & isTreeFull(firstTree) & isTreeFull(secondTree)) BFS(firstTree, secondTree)
+    else throw new Exception("Depths must be equal")
+  }
+
+  def BFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+    (first, second) match {
+      case (Node(v1, l1, r1), Node(v2, l2, r2)) => {
+        val areLeftSubTreesEqual = isTreeBFSEqual(l1, l2)
+        val areRightSubTreesEqual = isTreeBFSEqual(r1, r2)
+        (areLeftSubTreesEqual, areRightSubTreesEqual) match {
+          case (true, true) => if (v1 == v2) (Empty, Empty) else (Node(v1, Empty, Empty), Node(v2, Empty, Empty))
+          case (false, false) =>
+            val (ll1, lr2) = BFS(l1, l2)
+            val (rl1, rl2) = BFS(r1, r2)
+            (Node(if (v1 == v2) -1 else v1, ll1, rl1), Node(if (v1 == v2) -1 else v2, lr2, rl2))
+          case (true, false) =>
+            val (lTree, rTree) = BFS(r1, r2)
+            (Node(if (v1 == v2) -1 else v1, Empty, lTree), Node(if (v1 == v2) -1 else v2, Empty, rTree))
+          case (false, true) =>
+            val (lTree, rTree) = BFS(l1, l2)
+            (Node(if (v1 == v2) -1 else v1, lTree, Empty), Node(if (v1 == v2) -1 else v2, rTree, Empty))
+        }
+      }
+
+    }
+  }
+
+  def isTreeBFSEqual[A](first: BT[A], second: BT[A]): Boolean = {
+    def breadthInner[A](firstQueue: List[BT[A]], secondQueue: List[BT[A]]): Boolean =
+      (firstQueue, secondQueue) match {
+        case (Nil, Nil) => true
+        case (Empty :: t1, Empty :: t2) => breadthInner(t1, t2)
+        case (Node(v1, l1, r1) :: t1, Node(v2, l2, r2) :: t2) =>
+          (v1 == v2) & breadthInner(t1 ::: List(l1, r1), t2 ::: List(l2, r2))
+        case (_, _) => false
+      }
+
+    breadthInner(List(first), List(second))
+  }
 
   //zadanie 4 (5pkt)
   def eachNElement[A](list: LazyList[A], n: Int, m: Int): LazyList[A] = {
