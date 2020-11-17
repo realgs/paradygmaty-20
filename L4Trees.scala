@@ -5,9 +5,7 @@ import scala.annotation.tailrec
 object L4Trees {
 
   sealed trait BT[+A]
-
   case object Empty extends BT[Nothing]
-
   case class Node[+A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
 
   //Zadanie 1(3pkt)
@@ -90,15 +88,6 @@ object L4Trees {
   }
 
   //Zadanie 3(1pkt - depthBT, 3pkt - breadthBT)
-  val t: BT[Int] = Node(1, Node(2, Empty, Empty), Node(3, Empty, Empty))
-  val t2: BT[Int] = Node(1, Node(4, Empty, Empty), Node(3, Empty, Empty))
-  val t3: BT[Int] = Node(1, Node(2, Node(4, Node(6, Empty, Empty), Node(7, Empty, Empty)), Node(5, Node(8, Empty, Empty), Node(9, Empty, Empty))), Node(3, Node(10, Node(12, Empty, Empty), Node(13, Empty, Empty)), Node(11, Node(14, Empty, Empty), Node(15, Empty, Empty))))
-  val t4: BT[Int] = Node(1, Node(2, Node(4, Node(6, Empty, Empty), Node(7, Empty, Empty)), Node(5, Node(8, Empty, Empty), Node(9, Empty, Empty))), Node(3, Node(9, Node(12, Empty, Empty), Node(13, Empty, Empty)), Node(11, Node(13, Empty, Empty), Node(17, Empty, Empty))))
-  val t5: BT[Int] = Node(1, Node(1, Node(-5,Empty, Empty), Node(-27, Empty, Empty)), Node(6, Node(18,Empty, Empty), Node(1, Empty, Empty)))
-  val t6: BT[Int] = Node(8, Node(9, Node(6,Empty, Empty), Node(27, Empty, Empty)), Node(10, Node(19,Empty, Empty), Node(0, Empty, Empty)))
-  val t7: BT[Int] = Node(1, Empty, Empty)
-  val t8: BT[Int] = Node(8, Empty, Empty)
-
   //funkcja do zadania 3 za pomocą przejścia w głąb(1pkt)
   def repeatingNodesDepth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) =
     if (!ifFullTree(tree1) || !ifFullTree(tree2) || checkDepth(tree1, 0) != checkDepth(tree2, 0)) throw new Exception("The tree isn't full tree or they don't have the same depth")

@@ -1,14 +1,9 @@
 import org.scalatest.FunSuite
 import List4.L4Trees
 import List4.L4LazyLists
-import org.scalatest.Matchers.convertToAnyShouldWrapper
-import org.scalatest.Matchers.be
+import List4.TreesToTest
 
 class L4Test extends FunSuite {
-
-  sealed trait BT[+A]
-  case object Empty extends BT[Nothing]
-  case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A]
 
   test("Test for 'createTree' and 'substractionNode' functions:") {
     val t = L4Trees.createTree(4, 0, 20)
@@ -24,29 +19,21 @@ class L4Test extends FunSuite {
   }
 
   test("Test for 'repeatingNodesDepth' function:") {
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t3, L4Trees.t4) == (Node(-1, Empty, Node(-1, Node(10, Empty, Empty), Node(-1, Node(14, Empty, Empty), Node(15, Empty, Empty)))), Node(-1, Empty, Node(-1, Node(9, Empty, Empty), Node(-1, Node(13, Empty, Empty), Node(17, Empty, Empty))))))
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t, L4Trees.t2) == (Node(-1, Node(2, Empty, Empty), Empty), Node(-1, Node(4, Empty, Empty), Empty)))
-    //val (tree1: BT[Int], tree2:BT[Int]) = (Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty)))))
-    val tree1: BT[Int] = Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty))))
-    val tree3 = L4Trees.repeatingNodesDepth(L4Trees.t3, L4Trees.t4)
-    println(tree1 == tree3._1)
-    //L4Trees.repeatingNodesDepth(L4Trees.t3, L4Trees.t4) shouldEqual ((Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty))))))
-    //L4Trees.repeatingNodesDepth(L4Trees.t3, L4Trees.t4) should be((Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty))))))
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t3, L4Trees.t4) == (Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty))))))
-    //(Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty))))) == (Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty)))))
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t5, L4Trees.t6) == (Node(1, Node(1, Node(-5, Empty, Empty), Node(-27, Empty, Empty)), Node(6, Node(18, Empty, Empty), Node(1, Empty, Empty))), Node(8, Node(9, Node(6, Empty, Empty), Node(27, Empty, Empty)), Node(10, Node(19, Empty, Empty), Node(0, Empty, Empty)))))
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t7, L4Trees.t7) == (Empty, Empty))
-    //assert(L4Trees.repeatingNodesDepth(L4Trees.t7, L4Trees.t8) == (Node(1, Empty, Empty), Node(8, Empty, Empty)))
-    assertThrows[Exception](L4Trees.repeatingNodesDepth(L4Trees.t5, L4Trees.t4))
+    assert(L4Trees.repeatingNodesDepth(TreesToTest.treeInput1, TreesToTest.treeInput2) == (TreesToTest.treeOutput1, TreesToTest.treeOutput2))
+    assert(L4Trees.repeatingNodesDepth(TreesToTest.treeInput3, TreesToTest.treeInput4) == (TreesToTest.treeOutput3, TreesToTest.treeOutput4))
+    assert(L4Trees.repeatingNodesDepth(TreesToTest.treeInput5, TreesToTest.treeInput6) == (TreesToTest.treeOutput5, TreesToTest.treeOutput6))
+    assert(L4Trees.repeatingNodesDepth(TreesToTest.treeInput7, TreesToTest.treeInput8) == TreesToTest.treeOutput7)
+    assertThrows[Exception](L4Trees.repeatingNodesDepth(TreesToTest.treeInput5, TreesToTest.treeInput4))
+    assertThrows[Exception](L4Trees.repeatingNodesDepth(TreesToTest.treeInput5, TreesToTest.treeInput9))
   }
 
   test("Test for 'repeatingNodesBreadth' function:") {
-    //assert(L4Trees.repeatingNodesBreadth(L4Trees.t, L4Trees.t2) == (Node(-1, Node(2, Empty, Empty), Empty), Node(-1, Node(4, Empty, Empty), Empty)))
-    //assert(L4Trees.repeatingNodesBreadth(L4Trees.t3, L4Trees.t4) == (Node(-1,Empty,Node(-1,Node(10,Empty,Empty),Node(-1,Node(14,Empty,Empty),Node(15,Empty,Empty)))),Node(-1,Empty,Node(-1,Node(9,Empty,Empty),Node(-1,Node(13,Empty,Empty),Node(17,Empty,Empty))))))
-    //assert(L4Trees.repeatingNodesBreadth(L4Trees.t5, L4Trees.t6) == (Node(1, Node(1, Node(-5, Empty, Empty), Node(-27, Empty, Empty)), Node(6, Node(18, Empty, Empty), Node(1, Empty, Empty))), Node(8, Node(9, Node(6, Empty, Empty), Node(27, Empty, Empty)), Node(10, Node(19, Empty, Empty), Node(0, Empty, Empty)))))
-    //assert(L4Trees.repeatingNodesBreadth(L4Trees.t7, L4Trees.t7) == (Empty, Empty))
-    //assert(L4Trees.repeatingNodesBreadth(L4Trees.t7, L4Trees.t8) == (Node(1, Empty, Empty), Node(8, Empty, Empty)))
-    assertThrows[Exception](L4Trees.repeatingNodesBreadth(L4Trees.t5, L4Trees.t4))
+    assert(L4Trees.repeatingNodesBreadth(TreesToTest.treeInput1, TreesToTest.treeInput2) == (TreesToTest.treeOutput1, TreesToTest.treeOutput2))
+    assert(L4Trees.repeatingNodesBreadth(TreesToTest.treeInput3, TreesToTest.treeInput4) == (TreesToTest.treeOutput3, TreesToTest.treeOutput4))
+    assert(L4Trees.repeatingNodesBreadth(TreesToTest.treeInput5, TreesToTest.treeInput6) == (TreesToTest.treeOutput5, TreesToTest.treeOutput6))
+    assert(L4Trees.repeatingNodesBreadth(TreesToTest.treeInput7, TreesToTest.treeInput8) == TreesToTest.treeOutput7)
+    assertThrows[Exception](L4Trees.repeatingNodesBreadth(TreesToTest.treeInput5, TreesToTest.treeInput4))
+    assertThrows[Exception](L4Trees.repeatingNodesBreadth(TreesToTest.treeInput5, TreesToTest.treeInput9))
   }
 
   test("Test for 'eachNElement' function:") {
