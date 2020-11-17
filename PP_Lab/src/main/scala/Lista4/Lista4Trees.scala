@@ -158,7 +158,6 @@ object Lista4Trees extends App {
   // zlozonosc obliczeniowa:
   // - w najlepszym przypadku O(n): np. drzewa identyczne lub rozniace sie tylko korzeniem
   // - w najgorszym O(n^2): np. drzewa z wszystkimi elementami roznymi (dla kazdego wezla wywolywane bedzie ifSubTreesEqualsBFS() o zlozonosci O(n))
-  //   lub takie gdzie wezly rozniace sie beda blisko liscie i daleko od korzenia (pod katem glebokosci)
   def compareTreesBFS(leftTree: BT[Int], rightTree: BT[Int]): (BT[Int], BT[Int]) = {
     if (!chceckIfMatch(leftTree, rightTree)) throw new WrongTreesLevel
     else{
