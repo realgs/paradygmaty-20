@@ -57,6 +57,10 @@ object Functions {
     }
   }
 
+  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+    ???
+  }
+
   // Task 4
   def eachNElement[A](lxs: LazyList[A], n: Int): LazyList[A] = {
     def auxChooseNTh(lxs: LazyList[A], step: Int): LazyList[A] = {
