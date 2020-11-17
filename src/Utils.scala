@@ -37,3 +37,4 @@ object Utils {
 
   val ^ : (String, String) => String = (a, b) => a + b
 }
+

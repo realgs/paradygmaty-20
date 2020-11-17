@@ -134,3 +134,4 @@ object Tests {
     println(ldzialanie(LazyList("Ti", "t", "d", "i"), LazyList("me", "o", "o", "t"), Utils.^).toList == List("Time", "to", "do", "it"))
   }
 }
+
