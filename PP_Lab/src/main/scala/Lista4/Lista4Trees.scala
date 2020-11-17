@@ -158,117 +158,40 @@ object Lista4Trees extends App {
   // zlozonosc obliczeniowa:
   // - w najlepszym przypadku O(n): np. drzewa identyczne lub rozniace sie tylko korzeniem
   // - w najgorszym O(n^2): np. drzewa z wszystkimi elementami roznymi (dla kazdego wezla wywolywane bedzie ifSubTreesEqualsBFS() o zlozonosci O(n))
-  //   kub takie gdzie wezly rozniace sie beda blisko liscie i daleko od korzenia (pod katem glebokosci)
-  // usprawnienie - jezeli wezly maja taka sama wartosc, ale ich rodzice maja rozne wartosci, to wezlowi mozemy przypisac od razu -1 (nie dotyczy lisci) bez sprawdzania ifSubTreesEqualsBFS()
-  // ze wzglebdu na budowe algorytmu
+  //   lub takie gdzie wezly rozniace sie beda blisko liscie i daleko od korzenia (pod katem glebokosci)
   def compareTreesBFS(leftTree: BT[Int], rightTree: BT[Int]): (BT[Int], BT[Int]) = {
-    if (!chceckIfMatch(leftTree, rightTree))
-      throw new WrongTreesLevel
-    else {
-      def innerCompare(firstTree: BT[Int], secondTree: BT[Int], firstTreeParentVal: Int, secondTreeParentVal: Int): (BT[Int], BT[Int]) = {
-        (firstTree, secondTree) match {
-          //doszlismy do lisci
-          case (Node(firstVal, Empty, Empty), Node(secondVal, Empty, Empty)) =>
-            if (firstVal == secondVal) {
-              (Empty, Empty)
-            }
-            else {
-              (Node(firstVal, Empty, Empty), Node(secondVal, Empty, Empty))
-            }
-          // doszlismy do zwyklego wezla
-          case (Node(firstVal, firstLeftSubTree, firstRightSubTree), Node(secondVal, secondLeftSubTree, secondRightSubTree)) =>
-            if (firstVal == secondVal) {
-              if (firstTreeParentVal == secondTreeParentVal) {
-                (ifSubTreesEqualsBFS(firstLeftSubTree, secondLeftSubTree), ifSubTreesEqualsBFS(firstRightSubTree, secondRightSubTree)) match {
-                  // obydwa poddrzewa sa rowne
-                  case(true, true) => (Node(-1, Empty, Empty), Node(-1, Empty, Empty))
-                  // lewe poddrzewa sa rowne, prawe sie roznia
-                  case(true, false) =>
-                    val (firstTreeRightSubTree, secondTreeRightSubtree) = innerCompare(firstRightSubTree, secondRightSubTree, -1, -1)
-                    (Node(-1, Empty, firstTreeRightSubTree), Node(-1, Empty, secondTreeRightSubtree))
-                  // lewe poddrzewa sa rozne, prawe rowne
-                  case (false, true) =>
-                    val (firstTreeLeftSubTree, secondTreeLeftSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree, -1, -1)
-                    (Node(-1, firstTreeLeftSubTree, Empty), Node(-1, secondTreeLeftSubTree, Empty))
-                  // obydwa poddrzewa sa rozne
-                  case (false, false) =>
-                    val (firstTreeLeftSubTree, secondTreeLeftSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree, -1, -1)
-                    val (firstTreeRightSubTree, secondTreeRightSubtree) = innerCompare(firstRightSubTree, secondRightSubTree, -1, -1)
-                    (Node(-1, firstTreeLeftSubTree, firstTreeRightSubTree), Node(-1, secondTreeLeftSubTree, secondTreeRightSubtree))
-                }
-              }
-              else {
-                val (firstTreeLeftSubTree, secondTreeLeftSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree, -1, -1)
-                val (firstTreeRightSubTree, secondTreeRightSubtree) = innerCompare(firstRightSubTree, secondRightSubTree, -1, -1)
-                (Node(-1, firstTreeLeftSubTree, firstTreeRightSubTree), Node(-1, secondTreeLeftSubTree, secondTreeRightSubtree))
-              }
-            }
-            else {
-              (ifSubTreesEqualsBFS(firstLeftSubTree, secondLeftSubTree), ifSubTreesEqualsBFS(firstRightSubTree, secondRightSubTree)) match {
-                // obydwa poddrzewa sa rowne
-                case(true, true) => (Node(firstVal, Empty, Empty), Node(secondVal, Empty, Empty))
-                // lewe poddrzewa sa rowne, prawe sie roznia
-                case(true, false) =>
-                  val (firstTreeRightSubTree, secondTreeRightSubtree) = innerCompare(firstRightSubTree, secondRightSubTree, firstVal, secondVal)
-                  (Node(firstVal, Empty, firstTreeRightSubTree), Node(secondVal, Empty, secondTreeRightSubtree))
-                // lewe poddrzewa sa rozne, prawe rowne
-                case (false, true) =>
-                  val (firstTreeLeftSubTree, secondTreeLeftSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree, firstVal, secondVal)
-                  (Node(firstVal, firstTreeLeftSubTree, Empty), Node(firstVal, secondTreeLeftSubTree, Empty))
-                // obydwa poddrzewa sa rozne
-                case (false, false) =>
-                  val (firstTreeLeftSubTree, secondTreeLeftSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree, firstVal, secondVal)
-                  val (firstTreeRightSubTree, secondTreeRightSubtree) = innerCompare(firstRightSubTree, secondRightSubTree, firstVal, secondVal)
-                  (Node(firstVal, firstTreeLeftSubTree, firstTreeRightSubTree), Node(secondVal, secondTreeLeftSubTree, secondTreeRightSubtree))
-              }
-            }
-        }
-      }
-      innerCompare(leftTree, rightTree, 0, 0)
-    }
-  }
-
-  /*def compareTreesBFS(leftTree: BT[Int], rightTree: BT[Int]): (BT[Int], BT[Int]) = {
-    if (!chceckIfMatch(leftTree, rightTree))
-      throw new WrongTreesLevel
-    else {
-      def innerCompare(left: BT[Int], right: BT[Int]): (BT[Int], BT[Int]) = {
+    if (!chceckIfMatch(leftTree, rightTree)) throw new WrongTreesLevel
+    else{
+      def innerCompare(left: BT[Int], right: BT[Int]): (BT[Int], BT[Int]) ={
         val Node(firstVal, firstLeftSubTree, firstRightSubTree) = left
         val Node(secondVal, secondLeftSubTree, secondRightSubTree) = right
 
-       (ifSubTreesEqualsBFS(firstLeftSubTree, secondLeftSubTree), ifSubTreesEqualsBFS(firstRightSubTree, secondRightSubTree)) match {
+        (ifSubTreesEqualsBFS(firstLeftSubTree, secondLeftSubTree), ifSubTreesEqualsBFS(firstRightSubTree, secondRightSubTree)) match {
           // obydwa poddrzewa sa rowne
-          case(true, true) => if (firstVal == secondVal)
-                                (Empty, Empty)
-                              else
-                                (Node(firstVal, Empty, Empty), Node(secondVal, Empty, Empty))
+          case(true, true) => if (firstVal == secondVal) (Empty, Empty)
+          else (Node(firstVal, Empty, Empty), Node(secondVal, Empty, Empty))
+
           // lewe poddrzewa sa rowne, prawe sie roznia
           case(true, false) =>
             val (leftSubTree, rightSubTree) = innerCompare(firstRightSubTree, secondRightSubTree)
-            if (firstVal == secondVal)
-              (Node(-1, Empty, leftSubTree), Node(-1, Empty, rightSubTree))
-            else
-              (Node(firstVal, Empty, leftSubTree), Node(secondVal, Empty, rightSubTree))
+            if (firstVal == secondVal) (Node(-1, Empty, leftSubTree), Node(-1, Empty, rightSubTree))
+            else (Node(firstVal, Empty, leftSubTree), Node(secondVal, Empty, rightSubTree))
+
           // lewe poddrzewa sa rozne, prawe rowne
           case (false, true) =>
             val (leftSubTree, rightSubTree) = innerCompare(firstLeftSubTree, secondLeftSubTree)
-            if (firstVal == secondVal)
-              (Node(-1, leftSubTree, Empty), Node(-1, rightSubTree, Empty))
-            else
-              (Node(firstVal, leftSubTree, Empty), Node(secondVal, rightSubTree, Empty))
+            if (firstVal == secondVal) (Node(-1, leftSubTree, Empty), Node(-1, rightSubTree, Empty))
+            else (Node(firstVal, leftSubTree, Empty), Node(secondVal, rightSubTree, Empty))
 
           // obydwa poddrzewa sa rozne
           case (false, false) =>
-            val (leftSubTreeLeft, rightSubTreeLeft) = innerCompare(firstLeftSubTree, secondLeftSubTree)
             val (leftSubTreeRight, rightSubTreeRight) = innerCompare(firstRightSubTree, secondRightSubTree)
-            if (firstVal == secondVal)
-              (Node(-1, leftSubTreeLeft, leftSubTreeRight), Node(-1, rightSubTreeLeft, rightSubTreeRight))
-            else
-              (Node(firstVal, leftSubTreeLeft, leftSubTreeRight), Node(secondVal, rightSubTreeLeft, rightSubTreeRight))
+            val (leftSubTreeLeft, rightSubTreeLeft) = innerCompare(firstLeftSubTree, secondLeftSubTree)
+            if (firstVal == secondVal) (Node(-1, leftSubTreeLeft, leftSubTreeRight), Node(-1, rightSubTreeLeft, rightSubTreeRight))
+            else (Node(firstVal, leftSubTreeLeft, leftSubTreeRight), Node(secondVal, rightSubTreeLeft, rightSubTreeRight))
         }
       }
       innerCompare(leftTree, rightTree)
     }
-  }*/
-
+  }
 }
