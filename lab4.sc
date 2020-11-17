@@ -18,6 +18,36 @@ def getRandomNumber(range:(Int, Int)):Int = {
   rand.nextInt(range._2 - range._1 + 1) + range._1
 }
 
+// Check tree height
+def treeHeight(tree: BT[Int]):Int =
+  tree match {
+    case Empty => 0
+    case Node(_, Empty, Empty) => 0
+    case Node(_, left, right) => 1 + {
+        val leftHeight = treeHeight(left)
+        val rightHeight = treeHeight(right)
+
+        if(leftHeight < rightHeight)
+          rightHeight
+        else
+          leftHeight
+    }
+  }
+
+// Check if tree is full
+def treeFull(tree: BT[Int]):Boolean = {
+  def treeFullInner(tree: BT[Int]):Boolean =
+    tree match {
+      case Empty => true
+      case Node(_ , Empty, Empty) => true
+      case Node(_ , Empty, _) => false
+      case Node(_ , left, Empty) => treeFullInner(left)
+      case Node(_ , left, right) => treeFullInner(left) && treeFullInner(right)
+    }
+
+  treeFullInner(tree)
+}
+
 // 1) - 3pkt
 def generateTree(depth: Int, range:(Int, Int)):BT[Int] = {
   if(depth <= 0)
@@ -35,20 +65,33 @@ generateTree(2, (10, 20))
 generateTree(3, (10, 20))
 
 // 2) - 3pkt
-def subtractTrees(tree1: BT[Int], tree2: BT[Int]):BT[Int] =
-  (tree1, tree2) match {
-    case (Node(t1, t1l, t1r), Node(t2, t2l, t2r)) => Node(t1 - t2, subtractTrees(t1l, t2l), subtractTrees(t1r, t2r))
-    case (_, _) => Empty
-  }
+def subtractTrees(tree1: BT[Int], tree2: BT[Int]):BT[Int] = {
+  if(!treeFull(tree1) || !treeFull(tree2))
+    throw new Exception("Both trees have to be full")
+  else if(treeHeight(tree1) != treeHeight(tree2))
+    throw new Exception("Both trees have to have same height")
+  else
+    (tree1, tree2) match {
+      case (Node(t1, t1l, t1r), Node(t2, t2l, t2r)) => Node(t1 - t2, subtractTrees(t1l, t2l), subtractTrees(t1r, t2r))
+      case (_, _) => Empty
+    }
+}
 
 var ex2Tree1 = generateTree(3, (10, 50))
 var ex2Tree2 = generateTree(3, (40, 100))
 
 subtractTrees(ex2Tree1, ex2Tree2)
+subtractTrees(Empty, Empty)
+//subtractTrees(Node(10, Empty, Empty), Node(10, Node(1,Empty, Empty), Empty))
 
 // 3) - 4pkt
 // DFS
 def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) =
+  if(!treeFull(tree1) || !treeFull(tree2))
+    throw new Exception("Both trees have to be full")
+  else if(treeHeight(tree1) != treeHeight(tree2))
+    throw new Exception("Both trees have to have same height")
+  else
   (tree1, tree2) match {
     case (Node(t1, Empty, Empty), Node(t2, Empty, Empty)) => if(t1 == t2) (Empty, Empty) else (Node(t1, Empty, Empty),Node(t2, Empty, Empty))
     case (Node(t1, t1l, t1r), Node(t2, t2l, t2r)) => {
@@ -96,7 +139,12 @@ def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
       }
     }
 
-  buildBFS(removeDuplicatesInTreesBFSInner(List((tree1,tree2))))
+  if(!treeFull(tree1) || !treeFull(tree2))
+    throw new Exception("Both trees have to be full")
+  else if(treeHeight(tree1) != treeHeight(tree2))
+    throw new Exception("Both trees have to have same height")
+  else
+    buildBFS(removeDuplicatesInTreesBFSInner(List((tree1,tree2))))
 }
 
 // Tests
@@ -106,8 +154,8 @@ val ex3Test1Tree2 = Node(3,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(
 removeDuplicatesInTreesDFS(ex3Test1Tree1, ex3Test1Tree2)
 removeDuplicatesInTreesBFS(ex3Test1Tree1, ex3Test1Tree2)
 
-val ex3Test2Tree1 = Node(1,Node(2, Node(3, Node(4,Empty, Node(5,Empty,Empty)),Empty), Empty),Node(3,Empty, Empty))
-val ex3Test2Tree2 = Node(1,Node(2, Node(3, Node(4,Empty, Node(5,Empty,Empty)),Empty), Empty),Node(3,Empty, Empty))
+val ex3Test2Tree1 = Node(2,Node(2,Node(2,Empty,Empty),Node(1,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(2,Empty,Empty)))
+val ex3Test2Tree2 = Node(1,Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)),Node(1,Node(1,Empty,Empty),Node(1,Empty,Empty)))
 
 removeDuplicatesInTreesDFS(ex3Test2Tree1, ex3Test2Tree2)
 removeDuplicatesInTreesBFS(ex3Test2Tree1, ex3Test2Tree2)
@@ -167,4 +215,4 @@ ldzialanie((a: Double, b:Double) => a / b)(LazyList(1.0, 2, 3), LazyList(1.0, 2,
 ldzialanie((a: Double, b:Double) => a * b)(LazyList(1.0, -2, 3, -4, 5), LazyList(1.0, 2, 3)).toList
 
 val addLists = ldzialanie((a: Double, b:Double) => a + b)(_,_)
-addLists(LazyList(1,2,3),LazyList(-1,-2,-3)).toList
+addLists(LazyList(1,2,3), LazyList(-1,-2,-3)).toList
