@@ -35,13 +35,13 @@ object Functions {
     }
   }
 
-  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+  def deleteDuplicatesDFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
     if (t1.isLeaf && t2.isLeaf) {
       if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
     }
     else {
-      val lhs = deleteDuplicatesBFS(t1.leftOption.get, t2.leftOption.get)
-      val rhs = deleteDuplicatesBFS(t1.rightOption.get, t2.rightOption.get)
+      val lhs = deleteDuplicatesDFS(t1.leftOption.get, t2.leftOption.get)
+      val rhs = deleteDuplicatesDFS(t1.rightOption.get, t2.rightOption.get)
 
       if (t1.rootOption == t2.rootOption) {
         (lhs, rhs) match {
@@ -54,6 +54,48 @@ object Functions {
         (BTree(t1.rootOption.get, lhs._1, rhs._1), BTree(t2.rootOption.get, lhs._2, rhs._2))
       }
     }
+  }
+
+  def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]) = {
+    /*
+    def auxBFS(t: BTree[Int]): List[BTree[Int]] = {
+      (t.leftOption, t.rightOption) match {
+        case (Some(l), Some(r)) => l :: r :: auxBFS(l) ::: auxBFS(r)
+        case (Some(x), None) =>
+        case _ => Nil
+      }
+
+    }
+
+     */
+
+    def auxBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+      if (t1.isLeaf & t2.isLeaf) {
+        if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+      }
+      else {
+        (t1.leftOption, t1.rightOption, t2.leftOption, t2.rightOption) match {
+          case (Some(l1), Some(r1), Some(l2), Some(r2)) => {
+            val ((leftSub1, rightSub1), (leftSub2, rightSub2)) = (auxBFS(l1, l2), auxBFS(r1, r2))
+
+            (t1.rootOption == t2.rootOption, t1.leftOption, t1.rightOption, t2.leftOption, t2.rightOption) match {
+              case (true, None, None, None, None) => (Empty, Empty)
+              case (true, Some(x), None, Some(y), None) => (BTree(-1, x, Empty), BTree(-1, x, Empty))
+              case (true, None, Some(x), None, Some(y)) => (BTree(-1, Empty, x), BTree(-1, Empty, y))
+              case (true, Some(x), Some(a), Some(y), Some(b)) => (BTree(-1, x, y), BTree(-1, a, b))
+              case (false, _, _, _, _) => (t1, t2)
+            }
+          }
+
+        }
+
+
+      }
+
+
+    }
+    // Deal with root before
+    auxBFS(t1, t2)
   }
 
   /*

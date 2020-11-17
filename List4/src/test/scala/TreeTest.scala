@@ -18,7 +18,7 @@ class TreeTest extends FunSuite {
   }
 
   test("tree.leftSubtreeSingleRoot") {
-    assert(Vertex(5, Empty, Empty).leftOption === Some(Empty))
+    assert(Vertex(5, Empty, Empty).leftOption === None)
   }
 
   test("tree.leftSubtreeNonempty") {
@@ -28,6 +28,6 @@ class TreeTest extends FunSuite {
 
   test("tree.leftSubtreeFull") {
     val t = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    assert(t.leftOption.value === Vertex(2, Vertex(8), Vertex(9)))
+    assert(t.leftOption.get === Vertex(2, Vertex(8), Vertex(9)))
   }
 }

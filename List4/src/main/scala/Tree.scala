@@ -54,9 +54,9 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
 
   override def isLeaf: Boolean = left == Empty && right == Empty
 
-  override def leftOption: Some[BTree[A]] = Some(left)
+  override def leftOption: Option[BTree[A]] = if (isLeaf) None else Some(left)
 
-  override def rightOption: Some[BTree[A]] = Some(right)
+  override def rightOption: Option[BTree[A]] = if (isLeaf) None else Some(right)
 
   override def leftRoot: Option[A] = leftOption.getOrElse(Empty).rootOption
 
