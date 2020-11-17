@@ -49,7 +49,40 @@ class L4 {
     }
 
   //wszerz
-  //def sameElemDelBreadth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) ={}
+  def checkSubTree(queue:List[(BT[Int],BT[Int])]):Boolean =
+    queue match{
+      case Nil => true
+      case (Empty,Empty)::tail => checkSubTree(tail)
+      case (Node(v1,l1,r1),Node(v2,l2,r2))::tail =>
+        if(v1==v2) checkSubTree(tail:::List((l1,l2),(r1,r2)))
+        else false
+      case(_,_)::_ => throw new Exception("Incorrect Tree")
+    }
+
+  def sameElemDelBreadth(tree1:BT[Int],tree2:BT[Int]):(BT[Int],BT[Int]) ={
+    def delete(t1:BT[Int],t2:BT[Int]):(BT[Int],BT[Int]) ={
+      val Node(v1,l1,r1) = t1
+      val Node(v2,l2,r2) = t2
+      val (x,y) = if(v1==v2) (-1,-1) else (v1,v2)
+
+      (checkSubTree(List((l1,l2))),checkSubTree(List((r1,r2))))match{
+        case (true,true) =>
+          if(x == -1 && y == -1) (Empty,Empty)
+          else (Node(x,Empty,Empty),Node(y,Empty,Empty))
+        case (true,false) =>
+          val (right1,right2) = delete(r1,r2)
+          (Node(x,Empty,right1),Node(y,Empty,right2))
+        case (false,true) =>
+          val (left1,left2) = delete(l1,l2)
+          (Node(x,left1,Empty),Node(y,left2,Empty))
+        case (false,false) =>
+          val (left1,left2) = delete(l1,l2)
+          val (right1,right2) = delete(r1,r2)
+          (Node(x,left1,right1),Node(y,left2,right2))
+      }
+    }
+    delete(tree1,tree2)
+  }
 
   //zadanie 4 (5 pkt)
   def eachNElement(lazyList: llist[Int], n: Int, m: Int): llist[Int] = {

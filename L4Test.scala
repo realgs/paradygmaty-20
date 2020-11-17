@@ -132,6 +132,50 @@ class L4Test extends FunSuite {
       Node(10, Node(-1, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(-1, Node(60, Empty, Empty), Empty))
       ))
 
+    //test3 (głębokość 3) wszystkie te same
+    val tree5 = Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty)))
+
+    assert(tested.sameElemDelDepth(tree5,tree5)==(Empty,Empty))
+
+    //test4 (głębokość 3) wszystkie różne
+    val tree6 = Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty)))
+    val tree7 = Node(10, Node(20, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(50, Node(60, Empty, Empty), Node(70, Empty, Empty)))
+
+    assert(tested.sameElemDelDepth(tree6,tree7)==
+      (Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty))),
+      Node(10, Node(20, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(50, Node(60, Empty, Empty), Node(70, Empty, Empty)))))
+  }
+
+  test("Delete Same Elements Breadth Test") {
+    //test1 (głębokość 2)
+    val tree1 = Node(1, Node(2, Empty, Empty), Node(4, Empty, Empty))
+    val tree2 = Node(1, Node(2, Empty, Empty), Node(3, Empty, Empty))
+
+    assert(tested.sameElemDelBreadth(tree1, tree2) == (Node(-1, Empty, Node(4, Empty, Empty)),
+      Node(-1, Empty, Node(3, Empty, Empty))))
+
+    //test2 (głębokość 3)
+    val tree3 = Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty)))
+    val tree4 = Node(10, Node(2, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(5, Node(60, Empty, Empty), Node(7, Empty, Empty)))
+
+    assert(tested.sameElemDelBreadth(tree3,tree4)== (
+      Node(1, Node(-1, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(-1, Node(6, Empty, Empty), Empty)),
+      Node(10, Node(-1, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(-1, Node(60, Empty, Empty), Empty))
+    ))
+
+    //test3 (głębokość 3) wszystkie te same
+    val tree5 = Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty)))
+
+    assert(tested.sameElemDelBreadth(tree5,tree5)==(Empty,Empty))
+
+    //test4 (głębokość 3) wszystkie różne
+    val tree6 = Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty)))
+    val tree7 = Node(10, Node(20, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(50, Node(60, Empty, Empty), Node(70, Empty, Empty)))
+
+    assert(tested.sameElemDelBreadth(tree6,tree7)==
+      (Node(1, Node(2, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(5, Node(6, Empty, Empty), Node(7, Empty, Empty))),
+        Node(10, Node(20, Node(30, Empty, Empty), Node(40, Empty, Empty)), Node(50, Node(60, Empty, Empty), Node(70, Empty, Empty)))))
+
   }
 
   test("Each N Element Test") {
