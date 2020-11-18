@@ -1,3 +1,6 @@
+import scala.annotation.tailrec
+import scala.collection.immutable.Queue
+
 sealed trait BTree[+A] {
   def rootOption: Option[A]
 
@@ -43,15 +46,18 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
   override def rightRoot: Option[A] = rightOption.getOrElse(Empty).rootOption
 
   override def toBfsList: List[A] = {
-    def auxBFS(queue: List[BTree[A]]): List[A] = {
-      queue match {
-        case Nil => Nil
-        case Empty :: t => auxBFS(t)
-        case Vertex(v, l, r) :: t => v :: auxBFS(t ::: List(l, r))
+    @tailrec
+    def auxBFS(q: Queue[BTree[A]])(acc: List[A]): List[A] = {
+      if (q.isEmpty) acc.reverse
+      else {
+        q.dequeue match {
+          case (Empty, queue) => auxBFS(queue)(acc)
+          case (Vertex(data, l, r), queue) => auxBFS(queue.enqueue(l).enqueue(r))(data :: acc)
+        }
       }
     }
 
-    auxBFS(List(this))
+    auxBFS(Queue(this))(Nil)
   }
 
   override def depth: Int = {

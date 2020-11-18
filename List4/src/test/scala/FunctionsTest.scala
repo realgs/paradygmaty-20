@@ -1,6 +1,7 @@
 import org.scalatest.FunSuite
 
 class FunctionsTest extends FunSuite {
+  // Task 1
   test("generateTree.emptyTreeDepth") {
     val t = Functions.generateTree(-1, 1, 8)
     assert(t === Empty)
@@ -15,6 +16,13 @@ class FunctionsTest extends FunSuite {
   test("generateTree.testDepth") {
     val t = Functions.generateTree(2, 1, 100)
     assert(t.depth == 2)
+  }
+
+  // Task 2
+  test("elementwiseDiff.bothEmpty") {
+    val actual = Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff)
+
+    assert(actual === Empty)
   }
 
   test("elementwiseDiff.fullTree") {
@@ -40,11 +48,6 @@ class FunctionsTest extends FunSuite {
     val t = Functions.generateTree(1, 0, 10)
     print(Helper.treeDepth(t))
     assert(Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff) === Empty)
-  }
-
-  test("toBFSList.test") {
-    val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    assert(t.toBfsList === List(1, 2, 3, 8, 9))
   }
 
   test("diff.differentDepths") {
@@ -122,15 +125,28 @@ class FunctionsTest extends FunSuite {
     println(res2)
   }
 
-  test("deleteDuplicates.randomCompare") {
+  test("*deleteDuplicatesDFS.speedTest") {
+    val DEPTH = 10
+    val t1 = Functions.generateTree(DEPTH, 1, 14)
+    val t2 = Functions.generateTree(DEPTH, 1, 14)
+
+    val actual = Functions.deleteDuplicatesDFS(t1, t2)
+  }
+
+  test("*deleteDuplicatesBFS.speedTest") {
+    val DEPTH = 10
+    val t1 = Functions.generateTree(DEPTH, 1, 14)
+    val t2 = Functions.generateTree(DEPTH, 1, 14)
+
+    val actual = Functions.deleteDuplicatesBFS(t1, t2)
+  }
+
+  test("*deleteDuplicates.randomCompare") {
     val t1 = Functions.generateTree(10, 1, 14)
     val t2 = Functions.generateTree(10, 1, 14)
 
     val expected = Functions.deleteDuplicatesDFS(t1, t2)
     val actual = Functions.deleteDuplicatesBFS(t1, t2)
-
-    println(t1)
-    println(t2)
 
     assert(actual === expected)
   }

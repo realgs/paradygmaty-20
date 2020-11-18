@@ -9,6 +9,10 @@ class TreeTest extends FunSuite {
     assert(BTree().isEmpty)
   }
 
+  test("tree.isEmptyFullTree") {
+    assert(!Vertex(5, Vertex(2), Vertex(1)).isEmpty)
+  }
+
   test("tree.emptyIsLeaf") {
     assert(!Empty.isLeaf)
   }
@@ -63,5 +67,39 @@ class TreeTest extends FunSuite {
   test("tree.leftSubtreeFull") {
     val t = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
     assert(t.leftOption === Some(Vertex(2, Vertex(8), Vertex(9))))
+  }
+
+  test("tree.leftRightRootEmpty") {
+    assert(Empty.leftRoot === None)
+    assert(Empty.rightRoot === None)
+  }
+
+  test("tree.leftRightRootSingleVertex") {
+    assert(Vertex(5).leftRoot === None)
+    assert(Vertex(5).rightRoot === None)
+  }
+
+  test("tree.leftRightRootFullTree") {
+    val t = Vertex(5, Vertex(2), Vertex(1))
+    assert(t.leftRoot === Some(2))
+    assert(t.rightRoot === Some(1))
+  }
+
+  test("toBFSList.empty") {
+    assert(Empty.toBfsList === List())
+  }
+
+  test("toBFSList.singleVertex") {
+    assert(Vertex(5).toBfsList === List(5))
+  }
+
+  test("toBFSList.fullTree") {
+    val t = BTree(4, Vertex(2, Vertex(7), Vertex(13)), Vertex(7, Vertex(5), Vertex(8)))
+    assert(t.toBfsList === List(4, 2, 7, 7, 13, 5, 8))
+  }
+
+  test("toBFSList.notFullTree") {
+    val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
+    assert(t.toBfsList === List(1, 2, 3, 8, 9))
   }
 }
