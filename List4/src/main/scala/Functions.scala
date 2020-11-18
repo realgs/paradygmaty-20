@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 import scala.util.Random
 
 object Functions {
@@ -61,6 +62,7 @@ object Functions {
     val bfs2 = t2.toBfsList.reverse
     val depth = Helper.treeDepth(t1)
 
+    @tailrec
     def auxdeleteBFS(xs: List[Int], ys: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(curDepth: Int): (BTree[Any], BTree[Any]) = {
       if (curDepth < 0) return (lowL.head, lowR.head)
 
@@ -69,6 +71,7 @@ object Functions {
       val right = ys.take(power).reverse
 
       val next = Helper.formTree(left, right)(lowL, lowR)(Nil, Nil)
+
       auxdeleteBFS(Helper.tailOffset(xs)(power), Helper.tailOffset(ys)(power))(next._1, next._2)(curDepth - 1)
     }
 
