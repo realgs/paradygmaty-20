@@ -1,9 +1,20 @@
 import org.scalatest.FunSuite
 
 class FunctionsTest extends FunSuite {
-  test("tree.test") {
-    val t = Functions.generateTree(2, 0, 25)
-    print(t)
+  test("generateTree.emptyTreeDepth") {
+    val t = Functions.generateTree(-1, 1, 8)
+    assert(t === Empty)
+  }
+
+  test("generateTree.zeroDepthTree") {
+    val t = Functions.generateTree(0, 1, 2)
+    assert(t.depth === 0)
+    assert(t.isLeaf)
+  }
+
+  test("generateTree.testDepth") {
+    val t = Functions.generateTree(2, 1, 100)
+    assert(t.depth == 2)
   }
 
   test("tree.diff") {
@@ -24,23 +35,6 @@ class FunctionsTest extends FunSuite {
     val t = Functions.generateTree(1, 0, 10)
     print(Helper.treeDepth(t))
     assert(Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff) === Empty)
-  }
-
-  test("tree.lazyTraversal1") {
-    val t1 = BTree(4, Vertex(2), Vertex(7, Vertex(5), Empty))
-    val t2 = BTree(1, Vertex(-2), Vertex(2, Vertex(5), Empty))
-    val trav1 = Functions.bottomUpDFS(t1)
-    val trav2 = Functions.bottomUpDFS(t2)
-
-    println(trav1.force)
-    println(trav2.force)
-  }
-
-  test("deleteDuplicatesBFS.test") {
-    val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    val actual = Functions.bottomUpDFS(t)
-
-    println(actual.force)
   }
 
   test("toBFSList.test") {
@@ -106,8 +100,8 @@ class FunctionsTest extends FunSuite {
 
     val (res1, res2) = Functions.deleteDuplicatesBFS(t1, t2)
 
-    println(res1)
-    println(res2)
+    assert(res1 === BTree(-1, Vertex(2), Empty))
+    assert(res2 === BTree(-1, Vertex(5), Empty))
   }
 
   test("deleteDuplicatesBFS.fullTreeLevel") {
@@ -133,7 +127,7 @@ class FunctionsTest extends FunSuite {
     println(t1)
     println(t2)
 
-    // assert(actual === expected)
+    assert(actual === expected)
   }
 
   test("eachNElement.second") {

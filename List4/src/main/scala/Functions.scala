@@ -2,11 +2,9 @@ import scala.annotation.tailrec
 import scala.util.Random
 
 object Functions {
-  Random.setSeed(0)
-
   // Task 1
   def generateTree(depth: Int, valueMin: Int, valueMax: Int): BTree[Int] = {
-    if (depth == 0) Empty
+    if (depth == -1) Empty
     else {
       BTree(Random.between(valueMin, valueMax), generateTree(depth - 1, valueMin, valueMax),
         generateTree(depth - 1, valueMin, valueMax))
@@ -24,15 +22,10 @@ object Functions {
   def elementwiseDiff(t1: BTree[Int], t2: BTree[Int])(rootDiff: (BTree[Int], BTree[Int]) => Option[Int]): BTree[Int] = {
     if (rootDiff(t1, t2).isEmpty) Empty
     else {
-      BTree(rootDiff(t1, t2).get, elementwiseDiff(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))(rootDiff),
-        elementwiseDiff(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))(rootDiff))
-    }
-  }
-
-  def bottomUpDFS[A](t: BTree[A]): LazyList[A] = {
-    t match {
-      case Vertex(v, l, r) => bottomUpDFS(l) #::: v #:: bottomUpDFS(r)
-      case Empty => LazyList()
+      BTree(rootDiff(t1, t2).get,
+        elementwiseDiff(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))(rootDiff),
+        elementwiseDiff(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))(rootDiff)
+      )
     }
   }
 
@@ -60,10 +53,10 @@ object Functions {
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Any], BTree[Any]) = {
     val bfs1 = t1.toBfsList.reverse
     val bfs2 = t2.toBfsList.reverse
-    val depth = Helper.treeDepth(t1)
+    val depth = t1.depth
 
     @tailrec
-    def auxdeleteBFS(xs: List[Int], ys: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(curDepth: Int): (BTree[Any], BTree[Any]) = {
+    def auxDelete(xs: List[Int], ys: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(curDepth: Int): (BTree[Any], BTree[Any]) = {
       if (curDepth < 0) return (lowL.head, lowR.head)
 
       val power = Math.pow(2, curDepth).toInt
@@ -72,10 +65,10 @@ object Functions {
 
       val next = Helper.formTree(left, right)(lowL, lowR)(Nil, Nil)
 
-      auxdeleteBFS(Helper.tailOffset(xs)(power), Helper.tailOffset(ys)(power))(next._1, next._2)(curDepth - 1)
+      auxDelete(Helper.tailOffset(xs)(power), Helper.tailOffset(ys)(power))(next._1, next._2)(curDepth - 1)
     }
 
-    auxdeleteBFS(bfs1, bfs2)(List.fill(Math.pow(2, depth).toInt)(Empty), List.fill(Math.pow(2, depth).toInt)(Empty))(depth - 1)
+    auxDelete(bfs1, bfs2)(List.fill(Math.pow(2, depth + 1).toInt)(Empty), List.fill(Math.pow(2, depth + 1).toInt)(Empty))(depth)
   }
 
 

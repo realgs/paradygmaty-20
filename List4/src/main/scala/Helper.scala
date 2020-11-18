@@ -1,18 +1,9 @@
 import scala.annotation.tailrec
 
 object Helper {
-  // TODO Change this
   def treeDepth[A](t: BTree[A]): Int = t match {
-    case Empty => 0
+    case Empty => -1
     case Vertex(_, l, r) => 1 + (treeDepth(l) max treeDepth(r))
-  }
-
-  def splitListPowers[A](xs: List[A], base: Int): List[List[A]] = {
-    if (base <= 0) Nil
-
-    xs match {
-      case h :: t => List(h) :: splitListPowers(t, base)
-    }
   }
 
   def tailOffset[A](xs: List[A])(n: Int): List[A] = {
@@ -28,7 +19,7 @@ object Helper {
   @tailrec
   def formTree[Int](upL: List[Int], upR: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(accL: List[BTree[Any]], accR: List[BTree[Any]]): (List[BTree[Any]], List[BTree[Any]]) = {
     (upL, upR) match {
-      case (t1 :: tailL, t2 :: tailR) => {
+      case (t1 :: tailL, t2 :: tailR) =>
         val List(leftSub1, rightSub1) = lowL.take(2)
         val List(leftSub2, rightSub2) = lowR.take(2)
 
@@ -43,8 +34,6 @@ object Helper {
         else {
           formTree(tailL, tailR)(tailOffset(lowL)(2), tailOffset(lowR)(2))(Vertex(t1, leftSub1, rightSub1) :: accL, Vertex(t2, leftSub2, rightSub2) :: accR)
         }
-
-      }
       case (Nil, Nil) => (accL.reverse, accR.reverse)
       case _ => throw new IllegalArgumentException("Tree depth error")
     }

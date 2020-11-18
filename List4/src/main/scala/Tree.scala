@@ -103,5 +103,5 @@ case object Empty extends BTree[Nothing] {
 
   override def toBfsList: List[Nothing] = Nil
 
-  override def depth: Int = 0
+  override def depth: Int = -1
 }

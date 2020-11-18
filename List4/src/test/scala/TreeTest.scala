@@ -9,6 +9,19 @@ class TreeTest extends FunSuite {
     assert(BTree().isEmpty)
   }
 
+  test("tree.emptyIsLeaf") {
+    assert(!Empty.isLeaf)
+  }
+
+  test("tree.singleVertexIsLeaf") {
+    assert(Vertex(9).isLeaf)
+  }
+
+  test("tree.fullTreeIsLeaf") {
+    val t = Vertex(1, Vertex(2), Vertex(3))
+    assert(!t.isLeaf)
+  }
+
   test("tree.emptyRootOption") {
     assert(Empty.rootOption === None)
   }
@@ -18,7 +31,7 @@ class TreeTest extends FunSuite {
     assert(Empty.rightOption === None)
   }
 
-  test("tree.singleRootOption") {
+  test("tree.singleVertexRootOption") {
     assert(Vertex(5).rootOption === Some(5))
   }
 
@@ -26,10 +39,6 @@ class TreeTest extends FunSuite {
     val t = Vertex(5)
     assert(t.leftOption === None)
     assert(t.rightOption === None)
-  }
-
-  test("tree.singleVertexRootOption") {
-    assert(Vertex(5).rootOption === Some(5))
   }
 
   test("tree.leftSubtreeEmpty") {
@@ -45,8 +54,14 @@ class TreeTest extends FunSuite {
     assert(t.leftOption === Some(Vertex(2)))
   }
 
+  test("tree.fullTreeLeftRightOption") {
+    val t = Vertex(5, Vertex(1), Vertex(7))
+    assert(t.leftOption === Some(Vertex(1)))
+    assert(t.rightOption === Some(Vertex(7)))
+  }
+
   test("tree.leftSubtreeFull") {
     val t = Vertex(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    assert(t.leftOption.get === Vertex(2, Vertex(8), Vertex(9)))
+    assert(t.leftOption === Some(Vertex(2, Vertex(8), Vertex(9))))
   }
 }
