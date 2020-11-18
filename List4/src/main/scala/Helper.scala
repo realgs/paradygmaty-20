@@ -12,7 +12,16 @@ object Helper {
     }
   }
 
-  def formTree[Int](upL: List[Int], upR: List[Int])(lowL: List[BTree[Int]], lowR: List[BTree[Int]])(accL: List[BTree[Any]], accR: List[BTree[Any]]): (List[BTree[Any]], List[BTree[Any]]) = {
+  def tailOffset[A](xs: List[A])(n: Int): List[A] = {
+    def auxTail(xs: List[A], current: Int): List[A] = {
+      if (current == n) xs
+      else auxTail(xs.tail, current + 1)
+    }
+    auxTail(xs, 0)
+  }
+
+  // Note returns nodes in reversed order
+  def formTree[Int](upL: List[Int], upR: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(accL: List[BTree[Any]], accR: List[BTree[Any]]): (List[BTree[Any]], List[BTree[Any]]) = {
     (upL, upR) match {
       case (t1 :: tailL, t2 :: tailR) => {
         val List(leftSub1, rightSub1) = lowL.take(2)
