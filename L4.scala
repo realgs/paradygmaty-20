@@ -25,6 +25,7 @@ class L4 {
   }
 
   //zadanie 2 (3 pkt)
+  // Złożoność obliczeniowa O(n), gdzie n - ilość węzłów w drzewie
   def subOfTrees(tree1: BT[Int], tree2: BT[Int]): BT[Int] =
     (tree1, tree2) match {
       case (Node(v1, l1, r1), Node(v2, l2, r2)) => Node(v1 - v2, subOfTrees(l1, l2), subOfTrees(r1, r2))
@@ -34,6 +35,7 @@ class L4 {
 
   //zadanie 3 (4 pkt)
   //wgłąb
+  // Złożoność obliczeniowa O(n), gdzie n - ilość węzłów w drzewie
   def sameElemDelDepth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) =
     (tree1, tree2) match {
       case (Node(v1, l1, r1), Node(v2, l2, r2)) =>
@@ -49,6 +51,8 @@ class L4 {
     }
 
   //wszerz
+  // Gdy drzewa róźnią się całkowicie (pesymistyczna) O(n^2) (n-ilość węzłów w drzewie)
+  // Gdy drzewa są takie same (optymistyczna) O(n) (n-ilość węzłów w drzewie)
   def checkSubTree(queue:List[(BT[Int],BT[Int])]):Boolean =
     queue match{
       case Nil => true
