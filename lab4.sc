@@ -104,31 +104,44 @@ def removeDuplicatesInTreesDFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
 
 // BFS
 def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]) = {
-  def removeDuplicatesInTreesBFSInner(queue: List[(BT[Int],BT[Int])]):List[(BT[Int],BT[Int])] =
+  def generateBFSArray(queue: List[(BT[Int],BT[Int])]):List[(BT[Int],BT[Int])] =
     queue match {
       case Nil => Nil
-      case (Empty, Empty)::tl => (Empty, Empty) :: removeDuplicatesInTreesBFSInner(tl)
-      case (Node(val1,left1,right1),Node(val2,left2,right2))::tl => (Node(if(val1 == val2) -1 else val1, Empty, Empty), Node(if(val1 == val2) -1 else val2, Empty, Empty)) :: removeDuplicatesInTreesBFSInner(tl ::: List((left1,left2),(right1, right2)))
+      case (Empty, Empty)::tl => (Empty, Empty) :: generateBFSArray(tl)
+      case (Node(val1,left1,right1),Node(val2,left2,right2))::tl => (Node(if(val1 == val2) -1 else val1, Empty, Empty), Node(if(val1 == val2) -1 else val2, Empty, Empty)) :: generateBFSArray(tl ::: List((left1,left2),(right1, right2)))
     }
 
+  def buildTreeFromBFSArray(index:Int, list: List[(BT[Int],BT[Int])]):(BT[Int],BT[Int]) = {
+    if(index - 1 < list.length){
+      val (left1, left2) = buildTreeFromBFSArray(index * 2, list)
+      val (right1, right2) = buildTreeFromBFSArray(index * 2 + 1, list)
+      (list(index - 1), (left1, right1), (left2, right2)) match {
+        case ((Empty, Empty), _, _) => (Empty, Empty)
+        case ((Node(-1,Empty,Empty), Node(-1,Empty,Empty)), (Empty, Empty), (Empty, Empty)) => (Empty, Empty)
+        case ((Node(val1,_,_), Node(val2,_,_)), (left1, right1), (left2, right2)) => (Node(val1, left1, right1), Node(val2, left2, right2))
+      }
+    } else
+      (Empty, Empty)
+  }
 
   if(!treeFull(tree1) || !treeFull(tree2))
     throw new Exception("Both trees have to be full")
   else if(treeHeight(tree1) != treeHeight(tree2))
     throw new Exception("Both trees have to have same height")
   else
-    removeDuplicatesInTreesBFSInner(List((tree1,tree2))).head
+    buildTreeFromBFSArray(1,generateBFSArray(List((tree1,tree2))))
+
 }
 
 // Tests
 val ex3Test1Tree1 = Node(3,Node(2,Node(4,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
-val ex3Test1Tree2 = Node(3,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+val ex3Test1Tree2 = Node(2,Node(2,Node(5,Empty,Empty),Node(2,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)))
 
 removeDuplicatesInTreesDFS(ex3Test1Tree1, ex3Test1Tree2)
 removeDuplicatesInTreesBFS(ex3Test1Tree1, ex3Test1Tree2)
 
-val ex3Test2Tree1 = Node(2,Node(2,Node(2,Empty,Empty),Node(1,Empty,Empty)),Node(2,Node(1,Empty,Empty),Node(2,Empty,Empty)))
-val ex3Test2Tree2 = Node(1,Node(2,Node(1,Empty,Empty),Node(1,Empty,Empty)),Node(1,Node(1,Empty,Empty),Node(1,Empty,Empty)))
+val ex3Test2Tree1 = generateTree(3, (1, 2))
+val ex3Test2Tree2 = generateTree(3, (1, 2))
 
 removeDuplicatesInTreesDFS(ex3Test2Tree1, ex3Test2Tree2)
 removeDuplicatesInTreesBFS(ex3Test2Tree1, ex3Test2Tree2)
