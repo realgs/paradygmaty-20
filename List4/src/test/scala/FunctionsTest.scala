@@ -114,8 +114,8 @@ class FunctionsTest extends FunSuite {
   }
 
   test("deleteDuplicates.randomCompare") {
-    val t1 = Functions.generateTree(4, 1, 14)
-    val t2 = Functions.generateTree(4, 1, 14)
+    val t1 = Functions.generateTree(10, 1, 14)
+    val t2 = Functions.generateTree(10, 1, 14)
 
     val expected = Functions.deleteDuplicatesDFS(t1, t2)
     val actual = Functions.deleteDuplicatesBFS(t1, t2)
@@ -123,8 +123,7 @@ class FunctionsTest extends FunSuite {
     println(t1)
     println(t2)
 
-    println(actual._1)
-    println(expected._1)
+    assert(actual === expected)
 
     /*
     val (res1, res2) = Functions.aux1(t1, t2)
