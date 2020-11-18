@@ -32,7 +32,7 @@ object Helper {
             case (Empty, Empty, Empty, Empty) => formTree(tailL, tailR)(lowL.tail.tail, lowR.tail.tail)(Empty :: accL, Empty :: accR)
             case (l1, Empty, l2, Empty) =>  formTree(tailL, tailR)(lowL.tail.tail, lowR.tail.tail)(Vertex(-1, l1, Empty) :: accL, Vertex(-1, l2, Empty) :: accR)
             case (Empty, r1, Empty, r2) => formTree(tailL, tailR)(lowL.tail.tail, lowR.tail.tail)(Vertex(-1, Empty, r1) :: accL, Vertex(-1, Empty, r2) :: accR)
-            case _ => formTree(tailL, tailR)(lowL.tail.tail, lowR.tail.tail)(Vertex(t1, leftSub1, rightSub1) :: accL, Vertex(t2, leftSub2, rightSub2) :: accR)
+            case _ => formTree(tailL, tailR)(lowL.tail.tail, lowR.tail.tail)(Vertex(-1, leftSub1, rightSub1) :: accL, Vertex(-1, leftSub2, rightSub2) :: accR)
           }
         }
         else {

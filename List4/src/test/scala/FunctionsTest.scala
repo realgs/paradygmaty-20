@@ -113,12 +113,18 @@ class FunctionsTest extends FunSuite {
     println(res2)
   }
 
-  test("deleteDuplicatesLazy.fullTreeLevel") {
-    val t1 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
-    val t2 = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(6), Vertex(9)))
+  test("deleteDuplicates.randomCompare") {
+    val t1 = Functions.generateTree(4, 1, 14)
+    val t2 = Functions.generateTree(4, 1, 14)
 
-    val expected1 = BTree(-1, Empty, Vertex(-1, Vertex(7), Empty))
-    val expected2 = BTree(-1, Empty, Vertex(-1, Vertex(6), Empty))
+    val expected = Functions.deleteDuplicatesDFS(t1, t2)
+    val actual = Functions.deleteDuplicatesBFS(t1, t2)
+
+    println(t1)
+    println(t2)
+
+    println(actual._1)
+    println(expected._1)
 
     /*
     val (res1, res2) = Functions.aux1(t1, t2)
