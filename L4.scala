@@ -51,7 +51,7 @@ class L4 {
     }
 
   //wszerz
-  // Gdy drzewa róźnią się całkowicie (pesymistyczna) O(n^2) (n-ilość węzłów w drzewie)
+  // Gdy drzewa różnią się tylko w ostanim rzędzie (pesymistyczna) O(n^2) (n-ilość węzłów w drzewie)
   // Gdy drzewa są takie same (optymistyczna) O(n) (n-ilość węzłów w drzewie)
   def checkSubTree(queue:List[(BT[Int],BT[Int])]):Boolean =
     queue match{
