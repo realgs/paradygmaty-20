@@ -66,23 +66,30 @@ mergeTrees(t1, t2)
 //Zadanie 3
 
 def deleteDuplicates(first: BT[Int], sexond: BT[Int]): (BT[Int], BT[Int])={
-
+  (Empty, Empty)
 }
 
 //Zadanie 4
 
-def eachNElement[A](stream: Stream[A], n: Int, m: Int): Stream[A]={
-  def inner(position: Int, counter: Int, s: Stream[A]): Stream[A]={
-    if(position==m){
-      Stream()
-    }else{
-
+def eachNElement[A](llist: LazyList[A], n: Int, m: Int): LazyList[A]={
+  def inner(position: Int, counter: Int, l: LazyList[A]): LazyList[A]={
+    l match {
+      case LazyList() => LazyList()
+      case h#::t => if(position==m && counter==n) h#::LazyList()
+      else if(position==m && counter!=n) LazyList()
+      else if(counter==n) h#::inner(position+1, 1, t)
+      else inner(position+1, counter+1, t)
     }
   }
+  llist.head#::inner(1, 1, llist.tail)
 }
+
+eachNElement(LazyList(1, 2, 3, 4, 5, 6, 7, 8, 9), 2, 8).toList
+eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3).toList
+eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4).toList
 
 //Zadanie 5
 
-def ldzialanie(stream1: Stream[Int], stream2: Stream[Int], function: Int): Stream[Int]={
-
+def ldzialanie(list1: LazyList[Int], list2: LazyList[Int], function: Int): LazyList[Int]={
+  LazyList()
 }
