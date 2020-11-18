@@ -17,18 +17,23 @@ class FunctionsTest extends FunSuite {
     assert(t.depth == 2)
   }
 
-  test("tree.diff") {
+  test("elementwiseDiff.fullTree") {
+    val t1 = BTree(4, Vertex(2, Vertex(7), Vertex(13)), Vertex(7, Vertex(5), Vertex(8)))
+    val t2 = BTree(1, Vertex(-2, Vertex(1), Vertex(9)), Vertex(2, Vertex(5), Vertex(3)))
+
+    val actual = Functions.elementwiseDiff(t1, t2)(Functions.intRootDiff)
+    val expected = BTree(3, Vertex(4, Vertex(6), Vertex(4)), Vertex(5, Vertex(0), Vertex(5)))
+
+    assert(actual === expected)
+  }
+
+  test("elementwiseDiff.notFullTree") {
     val t1 = BTree(4, Vertex(2), Vertex(7, Vertex(5), Empty))
     val t2 = BTree(1, Vertex(-2), Vertex(2, Vertex(5), Empty))
 
-    val res = Functions.elementwiseDiff(t1, t2)(Functions.intRootDiff)
-    print(res)
+    val actual = Functions.elementwiseDiff(t1, t2)(Functions.intRootDiff)
 
-    assert(res === BTree(3, Vertex(4), Vertex(5, Vertex(0), Empty)))
-  }
-
-  test("elementwiseDiff.empty") {
-    assert(Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff) === Empty)
+    assert(actual === BTree(3, Vertex(4), Vertex(5, Vertex(0), Empty)))
   }
 
   test("elementwiseDiff.oneEmptyOneFull") {
