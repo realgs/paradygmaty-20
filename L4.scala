@@ -81,7 +81,11 @@ class L4 {
           (Node(x,left1,right1),Node(y,left2,right2))
       }
     }
-    delete(tree1,tree2)
+    (tree1,tree2) match{
+      case (Empty,Empty) => (Empty,Empty)
+      case (Node(_,_,_),Node(_,_,_)) => delete(tree1,tree2)
+      case (_,_) => throw new Exception("Incorrect Tree")
+    }
   }
 
   //zadanie 4 (5 pkt)
