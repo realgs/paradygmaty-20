@@ -90,6 +90,17 @@ eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4).toList
 
 //Zadanie 5
 
-def ldzialanie(list1: LazyList[Int], list2: LazyList[Int], function: Int): LazyList[Int]={
-  LazyList()
+def ldzialanie(list1: LazyList[Double], list2: LazyList[Double], function: (Double, Double) => Double): LazyList[Double]={
+  (list1, list2) match {
+    case (LazyList(), LazyList()) => LazyList()
+    case (LazyList(), _) => list2
+    case (_, LazyList()) => list1
+    case (h1#::t1, h2#::t2) => function(h1, h2)#::ldzialanie(t1, t2, function)
+  }
 }
+
+def add(a: Double, b: Double): Double={
+  a+b
+}
+
+ldzialanie(LazyList(1, 2, 3), LazyList(2, 3, 4, 5), add).toList
