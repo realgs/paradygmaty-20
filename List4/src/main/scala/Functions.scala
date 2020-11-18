@@ -107,28 +107,83 @@ object Functions {
 
     // INCOMPLETE
     def auxBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
-      if (!(t1.isEmpty && t2.isEmpty)) {
-        val a = auxBFS(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))
-        val b = auxBFS(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))
+      if (t1.isLeaf && t2.isLeaf) {
+        if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
       }
 
-      // Only full trees
-      (t1.leftOption, t1.rightOption, t2.leftOption, t2.rightOption) match {
-        case (None, None, None, None) =>
-          if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
-        case (Some(x), Some(y), Some(a), Some(b)) =>
-          (x.rootOption == a.rootOption, y.rootOption == b.rootOption) match {
-            case (true, true) => (Empty, Empty)
-            case (true, false) => (BTree(t1.rootOption.get, Empty, y), BTree(t1.rootOption.get, Empty, b))
-            case (false, true) => (BTree(t1.rootOption.get, x, Empty), BTree(t1.rootOption.get, a, Empty))
-            case _ => (t1, t2)
+      else {
+        val (leftSub1, leftSub2) = auxBFS(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))
+        val (rightSub1, rightSub2) = auxBFS(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))
+        // (BTree(-256, leftSub1, rightSub1), BTree(256, leftSub2, rightSub2))
+
+        if (t1.rootOption == t2.rootOption) {
+          (t1.leftOption, t1.rightOption, t2.leftOption, t2.rightOption) match {
+            case _ => ???
+          }
         }
+
+        // Only full trees
+        (leftSub1, rightSub1, leftSub2, rightSub2) match {
+          case (Empty, Empty, Empty, Empty) =>
+            if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+          case (x, y, a, b) =>
+            if (t1.rootOption == t2.rootOption && t1.rootOption.get != -1) {
+              (x.rootOption == a.rootOption, y.rootOption == b.rootOption) match {
+                case (true, true) => (Empty, Empty)
+                case (true, false) => (BTree(-1, Empty, y), BTree(-1, Empty, b))
+                case (false, true) => (BTree(-1, x, Empty), BTree(-1, a, Empty))
+                case _ => (BTree(-1, x, a), BTree(-1, y, b))
+              }
+            } else {
+              (x.rootOption == a.rootOption, y.rootOption == b.rootOption) match {
+                case (true, true) => (Vertex(t1.rootOption.get), Vertex(t2.rootOption.get))
+                case (true, false) => (BTree(t1.rootOption.get, Empty, y), BTree(t2.rootOption.get, Empty, b))
+                case (false, true) => (BTree(t1.rootOption.get, x, Empty), BTree(t2.rootOption.get, a, Empty))
+                case _ => (BTree(t1.rootOption.get, x, a), BTree(t2.rootOption.get, y, b))
+                // (BTree(t1.rootOption.get, leftSub1, rightSub1), BTree(t2.rootOption.get, leftSub2, rightSub2))
+              }
+            }
+        }
+
+
       }
 
     }
 
     auxBFS(t1, t2)
   }
+
+  /*
+  def auxBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+      if (t1.isEmpty && t2.isEmpty) (Empty, Empty)
+
+      else{
+        val (leftSub1, leftSub2) = auxBFS(t1.leftOption.getOrElse(Empty), t2.leftOption.getOrElse(Empty))
+        val (rightSub1, rightSub2) = auxBFS(t1.rightOption.getOrElse(Empty), t2.rightOption.getOrElse(Empty))
+        (BTree(-256, leftSub1, rightSub1), BTree(256, leftSub2, rightSub2))
+
+
+        // Only full trees
+        (t1.leftOption, t1.rightOption, t2.leftOption, t2.rightOption) match {
+          case (None, None, None, None) =>
+            if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+          case (Some(x), Some(y), Some(a), Some(b)) =>
+            (x.rootOption == a.rootOption, y.rootOption == b.rootOption) match {
+              case (true, true) => (Empty, Empty)
+              case (true, false) => (BTree(t1.rootOption.get, Empty, y), BTree(t1.rootOption.get, Empty, b))
+              case (false, true) => (BTree(t1.rootOption.get, x, Empty), BTree(t1.rootOption.get, a, Empty))
+              case _ => (t1, t2)
+            }
+        }
+
+
+      }
+
+    }
+
+    auxBFS(t1, t2)
+  }
+   */
 
 
   // Deal with root before
