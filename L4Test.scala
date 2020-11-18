@@ -34,6 +34,7 @@ class L4Test extends FunSuite {
     assert(L4Trees.repeatingNodesBreadth(TreesToTest.treeInput7, TreesToTest.treeInput8) == TreesToTest.treeOutput7)
     assertThrows[Exception](L4Trees.repeatingNodesBreadth(TreesToTest.treeInput5, TreesToTest.treeInput4))
     assertThrows[Exception](L4Trees.repeatingNodesBreadth(TreesToTest.treeInput5, TreesToTest.treeInput9))
+    L4Trees.repeatingNodesBreadth(TreesToTest.treeInput3, TreesToTest.treeInput4)
   }
 
   test("Test for 'eachNElement' function:") {

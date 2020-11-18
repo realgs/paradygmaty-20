@@ -47,7 +47,7 @@ object L4Trees {
   def checkDepth(tree: BT[Int], actualDepth: Int): Int =
     tree match {
       case Empty => actualDepth
-      case Node(_, l, r) => checkDepth(l, actualDepth + 1)
+      case Node(_, l, _) => checkDepth(l, actualDepth + 1)
     }
 
   //funkcja pomocnicza do sprawdzenia czy drzewo jest pełne
@@ -105,6 +105,31 @@ object L4Trees {
       }
     }
 
+  //Funkcja do zadania 3 z zastosowaniem przejścia wszerz(3pkt)
+  def repeatingNodesBreadth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
+    def repeatingNodesBreadthIter(tree1: BT[Int], tree2: BT[Int], numberOfNode: Int): (List[(Int, Int)], List[(Int, Int)]) = {
+      (tree1, tree2) match {
+        case (Empty, Empty) => (Nil, Nil)
+        case (Node(v1, l1, r1), Node(v2, l2, r2)) => if (v1 == v2 & ifSameSubtree(tree1, tree2)) (Nil, Nil)
+        else if (v1 == v2) ((-1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._1 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._1, (-1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._2 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._2)
+        else ((v1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._1 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._1, (v2, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._2 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._2)
+      }
+    }
+    val list = repeatingNodesBreadthIter(tree1, tree2, 1)
+    (listToTree(1, countNodes(tree1), list._1), listToTree(1, countNodes(tree2), list._2))
+  }
+
+  //funkcja pomocnicza sprawdzająca czy węzeł ma te same poddrzewa
+  def ifSameSubtree(tree1: BT[Int], tree2: BT[Int]): Boolean = {
+    def ifSameSubtreeIter(queue: List[(BT[Int], BT[Int])]): Boolean =
+      queue match {
+        case Nil => true
+        case (Empty, Empty) :: _ => true
+        case (Node(v1,l1,r1), Node(v2,l2,r2)) :: t => if (v1 == v2 && ifSameSubtreeIter(t ::: List((l1,l2), (r1,r2)))) true else false
+      }
+    ifSameSubtreeIter(List((tree1, tree2)))
+  }
+
   //funkcja pomocnicza sprawdzająca czy lista zawiera daną liczbę i zwracająca jej index
   @tailrec
   def checkIfContains(list: List[(Int, Int)], number: Int, index: Int): Int =
@@ -126,45 +151,5 @@ object L4Trees {
   def listToTree(actualNode: Int, numberOfNodes: Int, listOfNodes: List[(Int,Int)]): BT[Int] = {
     if (actualNode > numberOfNodes || checkIfContains(listOfNodes, actualNode, 0) == -1) return Empty
     Node(getValueAt(listOfNodes, checkIfContains(listOfNodes, actualNode, 0))._1, listToTree(actualNode*2, numberOfNodes, listOfNodes), listToTree(actualNode*2+1, numberOfNodes, listOfNodes))
-  }
-
-  //Funkcja do zadania 3 z zastosowaniem przejścia wszerz(3pkt)
-  def repeatingNodesBreadth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
-    if (!ifFullTree(tree1) || !ifFullTree(tree2) || checkDepth(tree1, 0) != checkDepth(tree2, 0)) throw new Exception("The tree isn't full tree or they don't have the same depth")
-    else {
-      @tailrec
-      def createSubtreeQueueIter(queue: List[(BT[Int], BT[Int])], resultqueue: List[(BT[Int], BT[Int])]): List[(BT[Int], BT[Int])] =
-        queue match {
-          case Nil => resultqueue
-          case (Empty, Empty) :: t => createSubtreeQueueIter(t, resultqueue)
-          case (Node(_, l1, r1), Node(_, l2, r2)) :: t => createSubtreeQueueIter(t ::: List((l1, l2), (r1, r2)), if (l1 == Empty) resultqueue else resultqueue ::: List((l1, l2), (r1, r2)))
-        }
-
-      val queueOfTrees1 = createSubtreeQueueIter(List((tree1, tree2)), List((tree1, tree2)))
-      val numberOfNodes = countNodes(tree1)
-
-      @tailrec
-      def repeatingNodesBreadthIter(numberOfNode: Int, ifDuplicate: Boolean, queueOfTrees: List[(BT[Int], BT[Int])], queue: List[(BT[Int], BT[Int])], actualCheckedTree: (BT[Int], BT[Int]), finalTree1: List[(Int, Int)], finalTree2: List[(Int, Int)]): (List[(Int, Int)], List[(Int, Int)]) = {
-        if (queueOfTrees.length == 1) {
-          actualCheckedTree match {
-            case (Node(v1, _, _), Node(v2, _, _)) => if (v1 == v2) (finalTree1.reverse, finalTree2.reverse)
-            else (((v1, numberOfNode) :: finalTree1).reverse, ((v2, numberOfNode) :: finalTree2).reverse)
-          }
-        }
-        else if (queueOfTrees.length < 1) (finalTree1.reverse, finalTree2.reverse)
-        else {
-          actualCheckedTree match {
-            case (Empty, Empty) => if (queue.isEmpty) repeatingNodesBreadthIter(numberOfNode + 1, false, queueOfTrees.tail, queueOfTrees.tail, queueOfTrees.tail.head, finalTree1, finalTree2)
-            else repeatingNodesBreadthIter(numberOfNode, ifDuplicate, queueOfTrees, queue.tail, queue.tail.head, finalTree1, finalTree2)
-            case (Node(v1, _, _), Node(v2, _, _)) => if (v1 == v2 & !queue.tail.isEmpty) repeatingNodesBreadthIter(numberOfNode, true, queueOfTrees, queue.tail, queue.tail.head, finalTree1, finalTree2)
-            else if (v1 == v2 & queue.tail.isEmpty) repeatingNodesBreadthIter(numberOfNode + 1, false, queueOfTrees.tail, createSubtreeQueueIter(List((queueOfTrees.tail.head._1, queueOfTrees.tail.head._2)), List((queueOfTrees.tail.head._1, queueOfTrees.tail.head._2))), queueOfTrees.tail.head, finalTree1, finalTree2)
-            else if (ifDuplicate) repeatingNodesBreadthIter(numberOfNode + 1, false, queueOfTrees.tail, createSubtreeQueueIter(List((queueOfTrees.tail.head._1, queueOfTrees.tail.head._2)), List((queueOfTrees.tail.head._1, queueOfTrees.tail.head._2))), queueOfTrees.tail.head, (-1, numberOfNode) :: finalTree1, (-1, numberOfNode) :: finalTree2)
-            else repeatingNodesBreadthIter(numberOfNode + 1, false, queueOfTrees.tail, queueOfTrees.tail, queueOfTrees.tail.head, (v1, numberOfNode) :: finalTree1, (v2, numberOfNode) :: finalTree2)
-          }
-        }
-      }
-      val list = repeatingNodesBreadthIter(1, false, queueOfTrees1, queueOfTrees1, queueOfTrees1.head, Nil, Nil)
-      (listToTree(1, numberOfNodes, list._1), listToTree(1, numberOfNodes, list._2))
-    }
   }
 }
