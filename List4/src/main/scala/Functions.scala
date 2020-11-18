@@ -56,7 +56,7 @@ object Functions {
     val depth = t1.depth
 
     @tailrec
-    def auxDelete(xs: List[Int], ys: List[Int])(lowL: List[BTree[Any]], lowR: List[BTree[Any]])(curDepth: Int): (BTree[Any], BTree[Any]) = {
+    def auxDelete(xs: List[Int], ys: List[Int])(lowL: List[BTree[Int]], lowR: List[BTree[Int]])(curDepth: Int): (BTree[Int], BTree[Int]) = {
       if (curDepth < 0) return (lowL.head, lowR.head)
 
       val power = Math.pow(2, curDepth).toInt
