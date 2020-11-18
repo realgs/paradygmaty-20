@@ -5,8 +5,27 @@ class TreeTest extends FunSuite {
     assert(BTree() === Empty)
   }
 
+  test("tree.isEmpty") {
+    assert(BTree().isEmpty)
+  }
+
   test("tree.emptyRootOption") {
     assert(Empty.rootOption === None)
+  }
+
+  test("tree.emptyLeftRightOption") {
+    assert(Empty.leftOption === None)
+    assert(Empty.rightOption === None)
+  }
+
+  test("tree.singleRootOption") {
+    assert(Vertex(5).rootOption === Some(5))
+  }
+
+  test("tree.singleLeftRightOption") {
+    val t = Vertex(5)
+    assert(t.leftOption === None)
+    assert(t.rightOption === None)
   }
 
   test("tree.singleVertexRootOption") {

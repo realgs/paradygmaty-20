@@ -37,6 +37,8 @@ sealed trait BTree[+A] {
 
   def toBfsList: List[A]
 
+  def depth: Int
+
 }
 
 object BTree {
@@ -74,6 +76,10 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
     auxBFS(List(this))
   }
 
+  override def depth: Int = {
+    1 + left.depth max right.depth
+  }
+
 }
 
 object Vertex {
@@ -96,4 +102,6 @@ case object Empty extends BTree[Nothing] {
   override def rightRoot: Option[Nothing] = None
 
   override def toBfsList: List[Nothing] = Nil
+
+  override def depth: Int = 0
 }
