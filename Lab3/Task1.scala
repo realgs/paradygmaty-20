@@ -1,6 +1,8 @@
 import scala.annotation.tailrec
 
 object Task1 {
+    // złożoność czasowa liniowa O(n), gdzie n - długość listy wejściowej
+    // złożoność pamięciowa stała O(1)
     def divide(list: List[Int]): (List[Int], List[Int]) = {
         @tailrec
         def divideTail(list: List[Int], accumNeg: List[Int], accumNegOdd: List[Int]): (List[Int], List[Int]) =    

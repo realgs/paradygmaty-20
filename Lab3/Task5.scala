@@ -1,6 +1,8 @@
 import scala.annotation.tailrec
 
 object Task5 {
+    // złożoność czasowa O(m+n), gdzie m - długość list1, n - długość list2
+    // złożoność pamięciowa O(m+n), gdzie m - długość list1, n - długość list2
     def join3ListsWithoutTailRec[A](list1: List[A], list2: List[A], list3: List[A]): List[A] =
         (list1, list2, list3) match {
             case (Nil, Nil, _) => list3
@@ -8,6 +10,8 @@ object Task5 {
             case (hd::tl, _, _) => hd::join3ListsWithoutTailRec(tl, list2, list3)
         }
 
+    // złożoność czasowa O(m+n+k), gdzie m - długość list1, n - długość list2, k - długość list3
+    // złożoność pamięciowa O(1)
     def join3ListsWithTailRec[A](list1: List[A], list2: List[A], list3: List[A]): List[A] = {
         @tailrec
         def join3ListsTail[A](list1: List[A], list2: List[A], list3: List[A], accum: List[A]): List[A] =
