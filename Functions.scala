@@ -1,6 +1,5 @@
 import scala.util.Random
 
-
 class Functions {
 
   sealed trait BT[+A]
@@ -11,10 +10,6 @@ class Functions {
 
   val r = new Random()
 
-  //for testing purposes
-  val firstTestTree = Node(10, Node(12, Node(6, Empty, Empty), Node(13, Empty, Empty)), Node(6, Node(1, Empty, Empty), Node(12, Empty, Empty)))
-  val secondTestTree = Node(2, Node(7, Node(8, Empty, Empty), Node(7, Empty, Empty)), Node(2, Node(9, Empty, Empty), Node(9, Empty, Empty)))
-  val resultTree = Node(8, Node(5, Node(-2, Empty, Empty), Node(6, Empty, Empty)), Node(4, Node(-8, Empty, Empty), Node(3, Empty, Empty)))
 
   //zadanie 1 (3pkt)
   def generateTree(depth: Int, x: Int, y: Int): BT[Int] = {
@@ -31,16 +26,6 @@ class Functions {
     }
   }
 
-  def checkDepth(tree: BT[Int]): Int = {
-    def helper(tree: BT[Int], depth: Int): Int =
-      tree match {
-        case Empty => depth
-        case Node(_, left, _) => helper(left, depth + 1)
-      }
-
-    helper(tree, 0)
-  }
-
   //for testing purposes
   def isTreeFull(tree: BT[Int]): Boolean = {
     def checkSubtree(subtree: BT[Int]): Boolean =
@@ -53,6 +38,16 @@ class Functions {
       }
 
     checkSubtree(tree)
+  }
+
+  def checkDepth(tree: BT[Int]): Int = {
+    def helper(tree: BT[Int], depth: Int): Int =
+      tree match {
+        case Empty => depth
+        case Node(_, left, _) => helper(left, depth + 1)
+      }
+
+    helper(tree, 0)
   }
 
   //zadanie 2 (3pkt)
@@ -155,6 +150,16 @@ class Functions {
       case '-' => ldzialanieHelper((a: Int, b: Int) => a - b)(first, second)
       case '*' => ldzialanieHelper((a: Int, b: Int) => a * b)(first, second)
       case '/' => ldzialanieHelper((a: Int, b: Int) => a / b)(first, second)
+      case _ => throw new Exception("Incorrect operator")
+    }
+  }
+
+  def ldzialanieD(first: LazyList[Double], second: LazyList[Double], operator: Char): LazyList[Double] = {
+    operator match {
+      case '+' => ldzialanieHelper((a: Double, b: Double) => a + b)(first, second)
+      case '-' => ldzialanieHelper((a: Double, b: Double) => a - b)(first, second)
+      case '*' => ldzialanieHelper((a: Double, b: Double) => a * b)(first, second)
+      case '/' => ldzialanieHelper((a: Double, b: Double) => a / b)(first, second)
       case _ => throw new Exception("Incorrect operator")
     }
   }

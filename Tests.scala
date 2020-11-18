@@ -22,7 +22,10 @@ class Tests {
   }
 
   @Test def testFunction2 = {
-    assert(testFunction.diffTrees(testFunction.firstTestTree, testFunction.secondTestTree) == testFunction.resultTree)
+    val firstTestTree = Node(10, Node(12, Node(6, Empty, Empty), Node(13, Empty, Empty)), Node(6, Node(1, Empty, Empty), Node(12, Empty, Empty)))
+    val secondTestTree = Node(2, Node(7, Node(8, Empty, Empty), Node(7, Empty, Empty)), Node(2, Node(9, Empty, Empty), Node(9, Empty, Empty)))
+    val resultTree = Node(8, Node(5, Node(-2, Empty, Empty), Node(6, Empty, Empty)), Node(4, Node(-8, Empty, Empty), Node(3, Empty, Empty)))
+    assert(testFunction.diffTrees(firstTestTree, secondTestTree) == resultTree)
   }
 
   @Test def testFunction3 = {
@@ -38,5 +41,24 @@ class Tests {
     assert(testFunction.deleteDuplicatesBFS(tree1, tree2) == result)
   }
 
+  @Test def testFunction4 = {
+    assert(testFunction.eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3) == LazyList(5, 3))
+    assert(testFunction.eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4) == LazyList(5, 3))
+    assert(testFunction.eachNElement(LazyList('h', 'e', 'j', 'k', 'a'), 2, 5) == LazyList('h', 'j', 'a'))
+    assert(testFunction.eachNElement(LazyList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0), 5, 0) == LazyList())
+    assert(testFunction.eachNElement(LazyList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0), 5, 8) == LazyList(1,6))
 
+  }
+
+  @Test def testFunction5 = {
+    //testing int
+    assert(testFunction.ldzialanie(LazyList(1,2,3), LazyList(2,3,4,5), '+') == LazyList(3,5,7,5))
+    assert(testFunction.ldzialanie(LazyList(1,2,3), LazyList(2,3,4,5), '-') == LazyList(-1,-1,-1,5))
+    assert(testFunction.ldzialanie(LazyList(1,2,3), LazyList(2,3,4,5), '*') == LazyList(2,6,12,5))
+
+    //testing double
+    assert(testFunction.ldzialanieD(LazyList(1,2,3), LazyList(2,3,4,5), '+') == LazyList(3,5,7,5))
+    assert(testFunction.ldzialanieD(LazyList(1,2,3), LazyList(2,3,4,5), '-') == LazyList(-1,-1,-1,5))
+    assert(testFunction.ldzialanieD(LazyList(1,2,3), LazyList(2,3,4,5), '*') == LazyList(2,6,12,5))
+  }
 }
