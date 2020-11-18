@@ -107,16 +107,28 @@ object L4Trees {
 
   //Funkcja do zadania 3 z zastosowaniem przejścia wszerz(3pkt)
   def repeatingNodesBreadth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
-    def repeatingNodesBreadthIter(tree1: BT[Int], tree2: BT[Int], numberOfNode: Int): (List[(Int, Int)], List[(Int, Int)]) = {
-      (tree1, tree2) match {
-        case (Empty, Empty) => (Nil, Nil)
-        case (Node(v1, l1, r1), Node(v2, l2, r2)) => if (v1 == v2 & ifSameSubtree(tree1, tree2)) (Nil, Nil)
-        else if (v1 == v2) ((-1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._1 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._1, (-1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._2 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._2)
-        else ((v1, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._1 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._1, (v2, numberOfNode) :: repeatingNodesBreadthIter(l1,l2,2*numberOfNode)._2 ::: repeatingNodesBreadthIter(r1,r2, 2*numberOfNode+1)._2)
+    if (!ifFullTree(tree1) || !ifFullTree(tree2) || checkDepth(tree1, 0) != checkDepth(tree2, 0)) throw new Exception("The tree isn't full tree or they don't have the same depth")
+    else {
+      def repeatingNodesBreadthIter(tree1: BT[Int], tree2: BT[Int], queue: List[(BT[Int], BT[Int])], numberOfNode: Int, even: Int): (List[(Int, Int)], List[(Int, Int)]) = {
+        queue match {
+          case Nil => (Nil, Nil)
+          case (Empty, Empty) :: _ => (Nil, Nil)
+          case (Node(v1, l1, r1), Node(v2, l2, r2)) :: t => if (v1 == v2 & ifSameSubtree(tree1, tree2)) if (t == Nil) (Nil, Nil) else repeatingNodesBreadthIter(queue.tail.head._1, queue.tail.head._2, queue.tail, if (l1 == Empty) numberOfNode else numberOfNode+1, even+1)
+          else if (v1 == v2) {
+            val queue2 = queue.tail ::: List((l1,l2), (r1,r2))
+            val result = repeatingNodesBreadthIter(queue2.head._1, queue2.head._2, queue2, if (l1 == Empty) numberOfNode else if (even % 2 == 0) 2*numberOfNode else 2*numberOfNode+1, even+1)
+            ((-1, numberOfNode) :: result._1, (-1, numberOfNode) :: result._2)
+          } else {
+            val queue2 = queue ::: List((l1,l2), (r1,r2))
+            val result = repeatingNodesBreadthIter(queue2.tail.head._1, queue2.tail.head._2, queue2.tail, numberOfNode+1, even+1)
+            ((v1, numberOfNode) :: result._1, (v2, numberOfNode) :: result._2)
+          }
+        }
       }
+
+      val list = repeatingNodesBreadthIter(tree1, tree2, List((tree1, tree2)), 1, 0)
+      (listToTree(1, countNodes(tree1), list._1), listToTree(1, countNodes(tree2), list._2))
     }
-    val list = repeatingNodesBreadthIter(tree1, tree2, 1)
-    (listToTree(1, countNodes(tree1), list._1), listToTree(1, countNodes(tree2), list._2))
   }
 
   //funkcja pomocnicza sprawdzająca czy węzeł ma te same poddrzewa
