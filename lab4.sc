@@ -22,7 +22,6 @@ def getRandomNumber(range:(Int, Int)):Int = {
 def treeHeight(tree: BT[Int]):Int =
   tree match {
     case Empty => 0
-    case Node(_, Empty, Empty) => 0
     case Node(_, left, right) => 1 + {
         val leftHeight = treeHeight(left)
         val rightHeight = treeHeight(right)
@@ -34,26 +33,23 @@ def treeHeight(tree: BT[Int]):Int =
     }
   }
 
+// Count nodes in the tree
+def countNodes(tree: BT[Int]):Int =
+  tree match {
+    case Empty => 0
+    case Node(_, left, right) => 1 + countNodes(left) + countNodes(right)
+  }
+
+
 // Check if tree is full
 def treeFull(tree: BT[Int]):Boolean = {
-  def treeFullInner(tree: BT[Int]):Boolean =
-    tree match {
-      case Empty => true
-      case Node(_ , Empty, Empty) => true
-      case Node(_ , Empty, _) => false
-      case Node(_ , left, Empty) => treeFullInner(left)
-      case Node(_ , left, right) => treeFullInner(left) && treeFullInner(right)
-    }
-
-  treeFullInner(tree)
+  countNodes(tree) == (Math.pow(2, treeHeight(tree)) - 1)
 }
 
 // 1) - 3pkt
 def generateTree(depth: Int, range:(Int, Int)):BT[Int] = {
   if(depth <= 0)
     Empty
-  else if(depth == 1)
-    Node(getRandomNumber(range), Empty, Empty)
   else
     Node(getRandomNumber(range), generateTree(depth - 1, range), generateTree(depth - 1, range))
 }
@@ -115,36 +111,13 @@ def removeDuplicatesInTreesBFS(tree1: BT[Int], tree2: BT[Int]):(BT[Int], BT[Int]
       case (Node(val1,left1,right1),Node(val2,left2,right2))::tl => (Node(if(val1 == val2) -1 else val1, Empty, Empty), Node(if(val1 == val2) -1 else val2, Empty, Empty)) :: removeDuplicatesInTreesBFSInner(tl ::: List((left1,left2),(right1, right2)))
     }
 
-  def buildBFS(queue: List[(BT[Int],BT[Int])]):(BT[Int],BT[Int]) =
-    queue match {
-      case Nil => (Empty, Empty)
-      case (Empty, Empty)::_ => (Empty, Empty)
-      case (Node(val1,_,_),Node(val2,_,_))::tl => {
-          val (treeLeft1,treeLeft2)::(treeRight1,treeRight2)::newTl = tl
-
-          var newTlWithout2FirstEl: List[(BT[Int], BT[Int])] = Nil
-          if(newTl != Nil && newTl.tail != Nil) {
-            newTlWithout2FirstEl = newTl.tail.tail
-          }else if(newTl != Nil) {
-            newTlWithout2FirstEl = newTl.tail
-          }
-
-          val (t1Left, t2Left) = buildBFS((treeLeft1,treeLeft2) :: newTl)
-          val (t1Right, t2Right) = buildBFS((treeRight1,treeRight2) :: newTlWithout2FirstEl)
-
-          if(val1 == val2 && t1Left == Node(-1, Empty, Empty) && t2Left == Node(-1, Empty, Empty) && t1Right == Node(-1, Empty, Empty) && t2Right == Node(-1, Empty, Empty))
-            (Empty, Empty)
-          else
-            (Node(val1, if(t1Left == Node(-1, Empty, Empty)) Empty else t1Left, if(t1Right == Node(-1, Empty, Empty)) Empty else t1Right), Node(val2, if(t2Left == Node(-1, Empty, Empty)) Empty else t2Left, if(t2Right == Node(-1, Empty, Empty)) Empty else t2Right))
-      }
-    }
 
   if(!treeFull(tree1) || !treeFull(tree2))
     throw new Exception("Both trees have to be full")
   else if(treeHeight(tree1) != treeHeight(tree2))
     throw new Exception("Both trees have to have same height")
   else
-    buildBFS(removeDuplicatesInTreesBFSInner(List((tree1,tree2))))
+    removeDuplicatesInTreesBFSInner(List((tree1,tree2))).head
 }
 
 // Tests
