@@ -1,25 +1,3 @@
-/*
-sealed trait Tree[+A] {
-  def rootOption: Option[A]
-  def isEmpty: Boolean
-}
-
-case class NonEmptyTree[+A](root: A, left: Tree[A], right: Tree[A]) extends Tree[A] {
-  def rootOption: Some[A] = Some(root)
-  def isEmpty = false
-}
-
-object NonEmptyTree {
-  def apply[A](root: A, left: Tree[A], right: Tree[A]): NonEmptyTree[A] = NonEmptyTree(root, left, right)
-}
-
-case object EmptyTree extends Tree[Nothing] {
-  def rootOption: Option[Nothing] = None
-  def isEmpty = true
-}
-
- */
-
 sealed trait BTree[+A] {
   def rootOption: Option[A]
 
