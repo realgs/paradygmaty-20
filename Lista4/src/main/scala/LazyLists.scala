@@ -17,6 +17,12 @@ object LazyLists {
 
   //Zad 5 (5pkt)
   def + (x: Double, y: Double): Double = x + y
+  def - (x: Double, y: Double): Double = x - y
+  def * (x: Double, y: Double): Double = x * y
+  def / (x: Double, y: Double): Double = {
+    if (y == 0.0) throw new Exception("Division by 0!")
+    else x / y
+  }
 
   def ldzialanie(l1: LazyList[Double], l2: LazyList[Double], operation: (Double, Double) => Double): LazyList[Double] = {
     (l1, l2) match{
