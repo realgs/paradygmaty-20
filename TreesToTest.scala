@@ -23,6 +23,4 @@ object TreesToTest {
   val treeOutput5 = treeInput5
   val treeOutput6 = treeInput6
   val treeOutput7 = (Empty, Empty)
-
-
 }
