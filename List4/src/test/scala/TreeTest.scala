@@ -1,6 +1,10 @@
 import org.scalatest.FunSuite
 
 class TreeTest extends FunSuite {
+  test("tree.vertexBTreeConstructor") {
+    assert(Vertex(9) === BTree(9))
+  }
+
   test("tree.empty") {
     assert(BTree() === Empty)
   }
@@ -83,6 +87,18 @@ class TreeTest extends FunSuite {
     val t = Vertex(5, Vertex(2), Vertex(1))
     assert(t.leftRoot === Some(2))
     assert(t.rightRoot === Some(1))
+  }
+
+  test("depth.empty") {
+    assert(Empty.depth === -1)
+  }
+
+  test("depth.singleVertex") {
+    assert(Vertex(4).depth === 0)
+  }
+
+  test("depth.unbalancedTree") {
+    assert(Vertex(0, Vertex(1, Vertex(2), Empty), Empty).depth === 2)
   }
 
   test("toBFSList.empty") {

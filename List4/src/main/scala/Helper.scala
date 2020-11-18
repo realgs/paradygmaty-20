@@ -1,11 +1,6 @@
 import scala.annotation.tailrec
 
 object Helper {
-  def treeDepth[A](t: BTree[A]): Int = t match {
-    case Empty => -1
-    case Vertex(_, l, r) => 1 + (treeDepth(l) max treeDepth(r))
-  }
-
   def tailOffset[A](xs: List[A])(n: Int): List[A] = {
     @tailrec
     def auxTail(xs: List[A], current: Int): List[A] = {

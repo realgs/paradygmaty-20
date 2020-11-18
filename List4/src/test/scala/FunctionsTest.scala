@@ -46,7 +46,6 @@ class FunctionsTest extends FunSuite {
 
   test("elementwiseDiff.oneEmptyOneFull") {
     val t = Functions.generateTree(1, 0, 10)
-    print(Helper.treeDepth(t))
     assert(Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff) === Empty)
   }
 
@@ -57,6 +56,7 @@ class FunctionsTest extends FunSuite {
     assert(actual === Vertex(2))
   }
 
+  // Task 3
   test("deleteDuplicatesBFS.singleNodeIdentical") {
     val (t1, t2) = (Vertex(5), Vertex(5))
     val res = Functions.deleteDuplicatesDFS(t1, t2)
@@ -125,7 +125,7 @@ class FunctionsTest extends FunSuite {
     println(res2)
   }
 
-  test("*deleteDuplicatesDFS.speedTest") {
+  test("deleteDuplicatesDFS.speedTest*") {
     val DEPTH = 10
     val t1 = Functions.generateTree(DEPTH, 1, 14)
     val t2 = Functions.generateTree(DEPTH, 1, 14)
@@ -133,7 +133,7 @@ class FunctionsTest extends FunSuite {
     val actual = Functions.deleteDuplicatesDFS(t1, t2)
   }
 
-  test("*deleteDuplicatesBFS.speedTest") {
+  test("deleteDuplicatesBFS.speedTest*") {
     val DEPTH = 10
     val t1 = Functions.generateTree(DEPTH, 1, 14)
     val t2 = Functions.generateTree(DEPTH, 1, 14)
@@ -141,7 +141,7 @@ class FunctionsTest extends FunSuite {
     val actual = Functions.deleteDuplicatesBFS(t1, t2)
   }
 
-  test("*deleteDuplicates.randomCompare") {
+  test("deleteDuplicates.randomCompare*") {
     val t1 = Functions.generateTree(10, 1, 14)
     val t2 = Functions.generateTree(10, 1, 14)
 
@@ -151,6 +151,7 @@ class FunctionsTest extends FunSuite {
     assert(actual === expected)
   }
 
+  // Task 4
   test("eachNElement.second") {
     val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
     assert(Functions.eachNElement(lxs, 2) === LazyList(1, 3, 5, 7))
@@ -166,6 +167,7 @@ class FunctionsTest extends FunSuite {
     assert(Functions.eachNElement(lxs, 4) === LazyList(1, 5))
   }
 
+  // Task5
   test("apply.oneEmptyAddition") {
     Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4)
   }
