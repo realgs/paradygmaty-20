@@ -36,30 +36,4 @@ object Helper {
       case _ => throw new IllegalArgumentException("Tree depth error")
     }
   }
-
-  def lazyTreeBuilder[A](t: BTree[A]): BTree[() => A] = {
-    t.rootOption match {
-      case None => Empty
-      case Some(x) => BTree(() => x, lazyTreeBuilder(t.leftOption.getOrElse(Empty)), lazyTreeBuilder(t.rightOption.getOrElse(Empty)))
-    }
-  }
-
-  def bfsBacktrackDiscover[A](t1: BTree[A], t2: BTree[A])(func: (A, A) => (A, A)): (() => BTree[A], () => BTree[A]) = {
-    def auxBFS(q1: Queue[BTree[A]], q2: Queue[BTree[A]])(accL: () => BTree[A], accR: () => BTree[A]): Unit = {
-      if (q1.isEmpty && q2.isEmpty) (accL, accR)
-      else {
-        (q1.dequeue, q2.dequeue) match {
-          case ((Vertex(x, lhs1, rhs1), q1m), (Vertex(y, lhs2, rhs2), q2m)) => {
-            auxBFS(q1m.enqueue(lhs1).enqueue(rhs1), q2m.enqueue(lhs2).enqueue(rhs2))(accL(), () => Vertex(y, lhs2, rhs2))
-            val roots = func(x, y)
-          }
-          case ((Empty, q1m), (Empty, q2m)) => {
-            auxBFS(q1m, q2m)(accL, accR)
-          }
-          case _ => throw new IllegalArgumentException("Tree structure mismatch")
-        }
-      }
-    }
-    auxBFS(Queue(t1), Queue(t2))(() => Empty, () => Empty)
-  }
 }

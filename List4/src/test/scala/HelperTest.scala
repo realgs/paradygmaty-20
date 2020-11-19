@@ -18,23 +18,4 @@ class HelperTest extends FunSuite{
 
     assert(res === (List(Vertex(5), Vertex(-1,Vertex(7),Empty)),List(Vertex(7), Vertex(-1,Vertex(6),Empty))))
   }
-
-  test("lazyBuilder.test") {
-    val t = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
-
-    val lT = Helper.lazyTreeBuilder(t)
-    print(lT)
-  }
-
-  test("backtrack.test") {
-    val t = BTree(1, Vertex(5, Vertex(3), Vertex(2)), Vertex(4, Vertex(7), Vertex(9)))
-
-    val lT = Helper.lazyTreeBuilder(t)
-  }
-
-  test("fullLazy") {
-    val t = () => Vertex(5, () => Vertex(1), () => Vertex(6))
-
-    print(t())
-  }
 }
