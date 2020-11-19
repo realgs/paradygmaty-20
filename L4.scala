@@ -24,6 +24,17 @@ object L4 {
     }
     helper(List(tree))
   }
-  
+
+  // Zad 2 3pkt.
+  def generateTreeOfDifference(firstTree:BT[Int],secondTree:BT[Int]):BT[Int]={
+    def helper(fTree:BT[Int],sTree:BT[Int]):BT[Int]={
+      (fTree,sTree) match{
+        case (Empty,Empty) => Empty
+        case (Empty,_) | (_,Empty) => throw new Exception("Drzewa nie są sobie równe")
+        case (Node(v1,l1,r1),Node(v2,l2,r2)) => Node(v1-v2,helper(l1,l2),helper(r1,r2))
+      }
+    }
+    helper(firstTree,secondTree)
+  }
 }
 
