@@ -86,6 +86,9 @@ class TreesTest extends FunSuite {
   test("removeSameValuesBFS.emptyTrees"){
     assert(Trees.removeSameValuesBFS(Trees.Empty, Trees.Empty) === (Trees.Empty, Trees.Empty))
   }
+  test("removeSameValuesBFS.emptySecondTree"){
+    assertThrows[Exception](Trees.removeSameValuesBFS(Trees.generateTree(3, 5, 8), Trees.generateTree(0, 6, 9)))
+  }
   test("removeSameValuesBFS.unequalTrees"){
     assertThrows[Exception](Trees.removeSameValuesBFS(Trees.generateTree(3, 5, 8), Trees.generateTree(2, 6, 9)))
   }

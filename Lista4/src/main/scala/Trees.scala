@@ -44,17 +44,20 @@ object Trees {
 
   //Zad 3 (1 pkt dfs, 3 pkt bfs)
   def removeSameValuesDFS (tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
-    if(getHeight(tree1) != getHeight(tree2) || !isTreeFull(tree1) || !isTreeFull(tree2))
-      throw new Exception("Trees not full or equal in height!")
-    else (tree1, tree2) match {
+      def innerDFSRemove (tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
+      (tree1, tree2) match {
       case (Empty, Empty) => (Empty, Empty)
       case (Node(val1, left1, right1), Node(val2, left2, right2)) =>
-        val (subLeft1, subLeft2) = removeSameValuesDFS(left1, left2)
-        val (subRight1, subRight2) = removeSameValuesDFS(right1, right2)
+        val (subLeft1, subLeft2) = innerDFSRemove(left1, left2)
+        val (subRight1, subRight2) = innerDFSRemove(right1, right2)
         if(val1 == val2 && subLeft1 == Empty && subRight1 == Empty) (Empty, Empty)
         else if(val1 == val2) (Node(-1, subLeft1, subRight1), Node(-1, subLeft2, subRight2))
         else (Node(val1, subLeft1, subRight1), Node(val2, subLeft2, subRight2))
+      }
     }
+    if(getHeight(tree1) != getHeight(tree2) || !isTreeFull(tree1) || !isTreeFull(tree2))
+      throw new Exception("Trees not full or equal in height!")
+    else innerDFSRemove(tree1, tree2)
   }
 
   @tailrec
@@ -68,7 +71,7 @@ object Trees {
     }
   }
 
-  def removeSameValuesBFS (Tree1: BT[Int], Tree2: BT[Int]): (BT[Int], BT[Int]) ={
+  def removeSameValuesBFS (tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) ={
     def innerBFSRemove (tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
       val Node(val1, left1, right1) = tree1
       val Node(val2, left2, right2) = tree2
@@ -91,10 +94,10 @@ object Trees {
           else (Node(val1, subLeft1, subRight1), Node(val2, subLeft2, subRight2))
       }
     }
-    if(getHeight(Tree1) != getHeight(Tree2) || !isTreeFull(Tree1) || !isTreeFull(Tree2))
+    if(getHeight(tree1) != getHeight(tree2) || !isTreeFull(tree1) || !isTreeFull(tree2))
       throw new Exception("Trees not full or equal in height!")
-    else if (Tree1 == Empty) (Empty, Empty)
-    else innerBFSRemove(Tree1, Tree2)
+    else if (tree1 == Empty) (Empty, Empty)
+    else innerBFSRemove(tree1, tree2)
   }
 
 }
