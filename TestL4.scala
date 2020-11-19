@@ -5,6 +5,8 @@ object TestL4 {
     testyZadanie1()
     // Testy zadanie 2 3pkt.
     testyZadanie2()
+    // Testy zadanie 3 4pkt.
+    testyZadanie3()
   }
 
   def testyZadanie1(): Unit ={
@@ -24,6 +26,26 @@ object TestL4 {
     println("Test 3 zadanie 2: " + (breadthSearch(generateTreeOfDifference(generateTree((0,0),3),generateTree((0,0),3))) == List(0,0,0,0,0,0,0)))
     println("Test 4 zadanie 2: " + (breadthSearch(generateTreeOfDifference(generateTree((1,10),10),generateTree((1,10),10))).size == 1023))
     println("Test 5 zadanie 2: " + (generateTreeOfDifference(tree,tree2) == testResult) + "\n")
+  }
+  def testyZadanie3(): Unit ={
+    val simpleTree = Node(1,Node(2,Empty,Empty),Node(3,Empty,Empty))
+    val simpleTree2 = Node(1,Node(3,Empty,Empty),Node(3,Empty,Empty))
+    val simpleTestResult = (Node(-1,Node(2,Empty,Empty),Empty),Node(-1,Node(3,Empty,Empty),Empty))
+
+    val tree = Node(5,Node(3,Node(1,Empty,Empty),Node(2,Empty,Empty)),Node(4,Node(0,Empty,Empty),Node(2,Empty,Empty)))
+    val tree2 = Node(10,Node(2,Node(1,Empty,Empty),Node(3,Empty,Empty)),Node(4,Node(0,Empty,Empty),Node(3,Empty,Empty)))
+
+    val testResult = (Node(5,Node(3,Empty,Node(2,Empty,Empty)),Node(-1,Empty,Node(2,Empty,Empty))),
+      Node(10,Node(2,Empty,Node(3,Empty,Empty)),Node(-1,Empty,Node(3,Empty,Empty))))
+
+    println("Test 1 Zadanie 3: " + (eraseDuplicatesDepthSearch(Empty,Empty) == (Empty,Empty))+ " " +
+      (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(Empty,Empty)) == (Empty,Empty)))
+    println("Test 2 Zadanie 3: " + (eraseDuplicatesDepthSearch(simpleTree,simpleTree) == (Empty,Empty))+ " " +
+      (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(simpleTree,simpleTree)) == (Empty,Empty)))
+    println("Test 3 Zadanie 3: " + (eraseDuplicatesDepthSearch(simpleTree,simpleTree2) == simpleTestResult)+ " " +
+      (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(simpleTree,simpleTree2)) == simpleTestResult))
+    println("Test 4 Zadanie 3: " + (eraseDuplicatesDepthSearch(tree,tree2) == testResult)+ " " +
+      (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(tree,tree2)) == testResult)+"\n")
   }
 }
 
