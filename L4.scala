@@ -118,5 +118,24 @@ object L4 {
     else if(element % 2 == 1) element :: getListOfOddNumbers(element + 1,maksElement)
     else getListOfOddNumbers(element + 1,maksElement)
   }
+
+  // Zadanie 5 5pkt.
+  def ldzialanie[A](lpierwsza:LazyList[A],ldruga:LazyList[A],operacja:(A,A)=>A):LazyList[A]={
+    (lpierwsza,ldruga) match {
+      case (LazyList(),LazyList()) => LazyList()
+      case (list1,LazyList()) => list1
+      case (LazyList(),list2) => list2
+      case (list1,list2)  => operacja(list1.head,list2.head)#::ldzialanie(list1.tail,list2.tail,operacja)
+    }
+  }
+
+  def sumLists(firstList:List[Int],secondList:List[Int]):List[Int]={
+    (firstList,secondList) match{
+      case (Nil,Nil) => Nil
+      case (f1,Nil) => f1
+      case (Nil,f2) => f2
+      case (h1::t1,h2::t2) => (h1 + h2) :: sumLists(t1,t2)
+    }
+  }
 }
 

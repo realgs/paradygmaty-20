@@ -9,6 +9,8 @@ object TestL4 {
     testyZadanie3()
     // Testy zadanie 4 5pkt.
     testyZadanie4()
+    // Testy zadanie 5 5pkt.
+    testyZadanie5()
   }
 
   def testyZadanie1(): Unit ={
@@ -57,6 +59,18 @@ object TestL4 {
     println("Test 5 zadanie 4: " + (eachNElement(LazyList(1,2,3),3,0).toList == List()))
     println("Test 6 zadanie 4: " + (eachNElement(getInfiniteLazyList(2),2,10000).toList == getListOfEvenNumbers(2,10000)))
     println("Test 7 zadanie 4: " + (eachNElement(getInfiniteLazyList(1),2,10000).toList == getListOfOddNumbers(1,10000))+"\n")
+  }
+  def testyZadanie5(): Unit ={
+    println("Test 1 zadanie 5: " + (ldzialanie(LazyList(),LazyList(),(x:Int,y:Int) => x + y).toList == List()))
+    println("Test 2 zadanie 5: " + (ldzialanie(LazyList(),LazyList(1,2,3),(x:Int,y:Int) => x + y).toList == List(1,2,3)))
+    println("Test 3 zadanie 5: " + (ldzialanie(LazyList(1,2,3),LazyList(),(x:Int,y:Int) => x + y).toList == List(1,2,3)))
+    println("Test 4 zadanie 5: " + (ldzialanie(LazyList(1.0,2.0,3.0),LazyList(2.0,3.0,4.0,5.0),(x:Double,y:Double) => x + y).toList == List(3.0,5.0,7.0,5.0)))
+    println("Test 5 zadanie 5: " + (ldzialanie(LazyList(2.0,3.0,4.0,5.0),LazyList(1.0,2.0,3.0),(x:Double,y:Double) => x - y).toList == List(1.0,1.0,1.0,5.0)))
+    println("Test 6 zadanie 5: " + (ldzialanie(LazyList(1.0,2.0,3.0),LazyList(2.0,3.0,4.0,5.0),(x:Double,y:Double) => x * y).toList == List(2.0,6.0,12.0,5.0)))
+    println("Test 7 zadanie 5: " + (ldzialanie(LazyList(2.0,3.0,4.0,5.0),LazyList(1.0,2.0,4.0,10.0),(x:Double,y:Double) => x / y).toList == List(2.0,1.5,1.0,0.5)))
+    println("Test 8 zadanie 5: " + (ldzialanie(LazyList("a","b","c","d"),LazyList("e","f","g","h"),(x:String,y:String) => x+y).toList == List("ae","bf","cg","dh")))
+    println("Test 9 zadanie 5: " + (ldzialanie(eachNElement(getInfiniteLazyList(1),2,5000),eachNElement(getInfiniteLazyList(2),2,5000),(x:Int,y:Int) => x + y).toList ==
+      sumLists(getListOfEvenNumbers(1,5000),getListOfOddNumbers(1,5000))))
   }
 }
 
