@@ -36,4 +36,15 @@ object Helper {
       case _ => throw new IllegalArgumentException("Tree depth error")
     }
   }
+
+  def isFull[A](t: BTree[A]): Boolean = t match {
+    case Empty => true
+    case Vertex(_, l, r) =>
+      def auxIsFull(left: BTree[A], right: BTree[A]): Boolean = (left, right) match {
+        case (Vertex(_, lhs1, rhs1), Vertex(_, lhs2, rhs2)) => auxIsFull(lhs1, rhs1) & auxIsFull(lhs2, rhs2)
+        case (Empty, Empty) => true
+        case _ => false
+      }
+      auxIsFull(l, r)
+  }
 }

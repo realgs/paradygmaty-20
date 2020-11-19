@@ -5,17 +5,26 @@ class FunctionsTest extends FunSuite {
   test("generateTree.emptyTreeDepth") {
     val t = Functions.generateTree(-1, 1, 8)
     assert(t === Empty)
+    assert(Helper.isFull(t))
+  }
+
+  test("generateTree.negativeDepth") {
+    val t = Functions.generateTree(-5, 1, 100)
+    assert(t === Empty)
+    assert(Helper.isFull(t))
   }
 
   test("generateTree.zeroDepthTree") {
     val t = Functions.generateTree(0, 1, 2)
     assert(t.depth === 0)
+    assert(Helper.isFull(t))
     assert(t.isLeaf)
   }
 
-  test("generateTree.testDepth") {
+  test("generateTree.positiveDepth") {
     val t = Functions.generateTree(2, 1, 100)
     assert(t.depth == 2)
+    assert(Helper.isFull(t))
   }
 
   // Task 2

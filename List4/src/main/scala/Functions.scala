@@ -4,7 +4,7 @@ import scala.util.Random
 object Functions {
   // Task 1
   def generateTree(depth: Int, valueMin: Int, valueMax: Int): BTree[Int] = {
-    if (depth == -1) Empty
+    if (depth <= -1) Empty
     else {
       BTree(Random.between(valueMin, valueMax), generateTree(depth - 1, valueMin, valueMax),
         generateTree(depth - 1, valueMin, valueMax))

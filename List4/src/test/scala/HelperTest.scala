@@ -18,4 +18,17 @@ class HelperTest extends FunSuite{
 
     assert(res === (List(Vertex(5), Vertex(-1,Vertex(7),Empty)),List(Vertex(7), Vertex(-1,Vertex(6),Empty))))
   }
+
+  test("isFull.emptyTree") {
+    assert(Helper.isFull(Empty))
+  }
+
+  test("isFull.singleRoot") {
+    assert(Helper.isFull(Vertex(5)))
+  }
+
+  test("isFull.onlyLeftNodes") {
+    assert(!Helper.isFull(Vertex(5, Vertex(4, Vertex(3), Empty), Empty)))
+  }
+
 }
