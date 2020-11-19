@@ -88,5 +88,35 @@ object L4 {
     }
     (helper(breadthSearchQueues._1,1),helper(breadthSearchQueues._2,1))
   }
+
+  // Zad 4 5pkt.
+  def eachNElement[A](list:LazyList[A],n:Int,m:Int):LazyList[A]={
+    def helper(list:LazyList[A],i:Int,m:Int):LazyList[A]={
+      (n==i,m) match{
+        case (true,0) => list.head#::LazyList()
+        case (false,0) => LazyList()
+        case (true,_) => list.head#::helper(list.tail,1,m-1)
+        case (false,_) => helper(list.tail,i+1,m-1)
+      }
+    }
+    if(m <= 0) LazyList()
+    else helper(list,n,m-1)
+  }
+
+  // Nieskończona lista liczb całkowitych od 1
+  def getInfiniteLazyList(element:Int):LazyList[Int] = element#::getInfiniteLazyList(element + 1)
+
+  // Lista liczba parzystych od element do maksElement włącznie
+  def getListOfEvenNumbers(element:Int,maksElement:Int):List[Int] = {
+    if(element > maksElement) Nil
+    else if(element % 2 == 0) element :: getListOfEvenNumbers(element + 1,maksElement)
+    else getListOfEvenNumbers(element + 1,maksElement)
+  }
+
+  def getListOfOddNumbers(element:Int,maksElement:Int):List[Int] = {
+    if(element > maksElement) Nil
+    else if(element % 2 == 1) element :: getListOfOddNumbers(element + 1,maksElement)
+    else getListOfOddNumbers(element + 1,maksElement)
+  }
 }
 

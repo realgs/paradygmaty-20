@@ -7,6 +7,8 @@ object TestL4 {
     testyZadanie2()
     // Testy zadanie 3 4pkt.
     testyZadanie3()
+    // Testy zadanie 4 5pkt.
+    testyZadanie4()
   }
 
   def testyZadanie1(): Unit ={
@@ -46,6 +48,15 @@ object TestL4 {
       (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(simpleTree,simpleTree2)) == simpleTestResult))
     println("Test 4 Zadanie 3: " + (eraseDuplicatesDepthSearch(tree,tree2) == testResult)+ " " +
       (extractTreesFromBreadthQueue(eraseDuplicatesBreadthSearch(tree,tree2)) == testResult)+"\n")
+  }
+  def testyZadanie4(): Unit ={
+    println("Test 1 zadanie 4: " + (eachNElement(LazyList(5,6,3,2,1),2,3).toList == List(5,3)))
+    println("Test 2 zadanie 4: " + (eachNElement(LazyList(5,6,3,2,1),2,4).toList == List(5,3)))
+    println("Test 3 zadanie 4: " + (eachNElement(LazyList("A","B","C","D","E","F"),1,3).toList == List("A","B","C")))
+    println("Test 4 zadanie 4: " + (eachNElement(LazyList(1.2,2.4,3.1),0,3).toList == List(1.2)))
+    println("Test 5 zadanie 4: " + (eachNElement(LazyList(1,2,3),3,0).toList == List()))
+    println("Test 6 zadanie 4: " + (eachNElement(getInfiniteLazyList(2),2,10000).toList == getListOfEvenNumbers(2,10000)))
+    println("Test 7 zadanie 4: " + (eachNElement(getInfiniteLazyList(1),2,10000).toList == getListOfOddNumbers(1,10000))+"\n")
   }
 }
 
