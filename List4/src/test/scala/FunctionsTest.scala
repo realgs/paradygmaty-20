@@ -57,20 +57,6 @@ class FunctionsTest extends FunSuite {
   }
 
   // Task 3
-  test("deleteDuplicatesBFS.singleNodeIdentical") {
-    val (t1, t2) = (Vertex(5), Vertex(5))
-    val res = Functions.deleteDuplicatesDFS(t1, t2)
-
-    assert(res === (Empty, Empty))
-  }
-
-  test("deleteDuplicatesBFS.singleNodeDifferent") {
-    val (t1, t2) = (Vertex(3), Vertex(5))
-    val res = Functions.deleteDuplicatesDFS(t1, t2)
-
-    assert(res === (Vertex(3), Vertex(5)))
-  }
-
   test("deleteDuplicatesDFS.threeNodesOneIdentical") {
     val t1 = BTree(1, Vertex(2), Vertex(3))
     val t2 = BTree(1, Vertex(5), Vertex(3))
@@ -102,6 +88,20 @@ class FunctionsTest extends FunSuite {
     assert(res1 === expected1, res2 === expected2)
   }
 
+  test("deleteDuplicatesBFS.singleNodeIdentical") {
+    val (t1, t2) = (Vertex(5), Vertex(5))
+    val res = Functions.deleteDuplicatesDFS(t1, t2)
+
+    assert(res === (Empty, Empty))
+  }
+
+  test("deleteDuplicatesBFS.singleNodeDifferent") {
+    val (t1, t2) = (Vertex(3), Vertex(5))
+    val res = Functions.deleteDuplicatesDFS(t1, t2)
+
+    assert(res === (Vertex(3), Vertex(5)))
+  }
+
   test("deleteDuplicatesBFS.threeNodesOneIdentical") {
     val t1 = BTree(1, Vertex(2), Vertex(3))
     val t2 = BTree(1, Vertex(5), Vertex(3))
@@ -121,32 +121,70 @@ class FunctionsTest extends FunSuite {
 
     val (res1, res2) = Functions.deleteDuplicatesBFS(t1, t2)
 
-    println(res1)
-    println(res2)
+    assert(res1 === expected1)
+    assert(res2 === expected2)
   }
 
   // Task 4
-  test("eachNElement.second") {
-    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
-    assert(Functions.eachNElement(lxs, 2) === LazyList(1, 3, 5, 7))
+  test("eachNElement.empty") {
+    val lxs = LazyList()
+    assert(Functions.eachNElement(lxs, 2, 5) === LazyList())
   }
 
-  test("eachNElement.third") {
-    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
-    assert(Functions.eachNElement(lxs, 3) === LazyList(1, 4, 7))
+  test("eachNElement.illegalStep") {
+    assertThrows[IllegalArgumentException] {
+      Functions.eachNElement(LazyList(1, 2, 3), 0, 5)
+    }
   }
 
-  test("eachNElement.forth") {
-    val lxs = LazyList(1, 2, 3, 4, 5, 6, 7)
-    assert(Functions.eachNElement(lxs, 4) === LazyList(1, 5))
+  test("eachNElement.illegalEndIndex") {
+    assertThrows[IllegalArgumentException] {
+      Functions.eachNElement(LazyList(1, 2, 3, 7, 5), 2, -2)
+    }
+  }
+
+  test("eachNElement.example1") {
+    val lxs = LazyList(5, 6, 3, 2, 1)
+    assert(Functions.eachNElement(lxs, 2, 3) === LazyList(5, 3))
+  }
+
+  test("eachNElement.example2") {
+    val lxs = LazyList(5, 6, 3, 2, 1)
+    assert(Functions.eachNElement(lxs, 2, 4) === LazyList(5, 3))
+  }
+
+  test("eachNElement.example3") {
+    val lxs = LazyList(5, 6, 3, 2, 1)
+    assert(Functions.eachNElement(lxs, 2, 14) === LazyList(5, 3, 1))
+  }
+
+  test("eachNElement.limitSmallerThenStep") {
+    val lxs = LazyList(5, 6, 3, 2, 1, 3, 4, 7, 9)
+    assert(Functions.eachNElement(lxs, 4, 2) === LazyList(5))
+  }
+
+  test("eachNElement.bothBiggerThenListSize") {
+    val lxs = LazyList(5, 6, 3, 2, 1, 3, 4, 7, 9)
+    assert(Functions.eachNElement(lxs, 12, 15) === LazyList(5))
   }
 
   // Task5
   test("apply.oneEmptyAddition") {
-    Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4)
+    val res = Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _)
+    assert(Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4))
   }
 
-  test("apply.simpleAddition") {
-    Functions.apply(LazyList(1, 2), LazyList(3, 5))(_ + _) === LazyList(4, 7)
+  test("apply.addition") {
+    assert(Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ + _) === LazyList(4, 7, 3, 5))
+  }
+
+  test("apply.multiplication") {
+    assert(Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ * _) === LazyList(3, 10, 0, -14))
+  }
+
+  test("apply.divisionByZero") {
+    assertThrows[ArithmeticException] {
+      Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ / _).force
+    }
   }
 }

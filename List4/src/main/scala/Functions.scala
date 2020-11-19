@@ -72,23 +72,27 @@ object Functions {
   }
 
   // Task 4
-  def eachNElement[A](lxs: LazyList[A], n: Int): LazyList[A] = {
-    def auxChooseNTh(lxs: LazyList[A], step: Int): LazyList[A] = {
+  def eachNElement[A](lxs: LazyList[A], n: Int, m: Int): LazyList[A] = {
+    def auxChooseNTh(lxs: LazyList[A], step: Int, currentIndex: Int): LazyList[A] = {
+      if (currentIndex == m) return LazyList()
       (step, lxs) match {
-        case (k, h #:: t) => if (k == n) h #:: auxChooseNTh(t, 1) else auxChooseNTh(t, k + 1)
+        case (k, h #:: t) =>
+          if (k == n) h #:: auxChooseNTh(t, 1, currentIndex + 1) else auxChooseNTh(t, k + 1, currentIndex + 1)
         case _ => LazyList()
       }
     }
 
-    if (n >= 1) auxChooseNTh(lxs, n) else throw new IllegalArgumentException("Parameter n out of bounds")
+    if (n >= 1 && m >= 1) auxChooseNTh(lxs, n, 0)
+    else throw new IllegalArgumentException("Parameter n out of bounds")
   }
 
   // Task 5
   def apply[A](lxs: LazyList[A], lys: LazyList[A])(func: (A, A) => A): LazyList[A] = {
+    val LazyNil = LazyList.empty
     (lxs, lys) match {
       case (hx #:: tx, hy #:: ty) => func(hx, hy) #:: apply(tx, ty)(func)
-      case (lst, _) => lst
-      case (_, lst) => lst
+      case (lst, LazyNil) => lst
+      case (LazyNil, lst) => lst
     }
   }
 }
