@@ -26,7 +26,7 @@ class BinaryTrees {
     }
   }
 
- // Zad 3) wgłąb (Punkty: 1) i wszerz (Punkty: 3)
+ // Zad 3) Wgłąb (Punkty: 1); wszerz (Punkty: 3)
 
   def deleteCopiesDFS(firstT: BT[Int], secondT: BT[Int]): (BT[Int], BT[Int]) = {
     (firstT, secondT) match {

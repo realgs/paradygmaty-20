@@ -4,7 +4,7 @@ class BinaryTrees_Test extends AnyFunSuite {
 
   val BT = new BinaryTrees
 
-  //zadanie 1
+  //Zadanie 1
   test("Test depth; treeGenerator function") {
     assert(BT.maxDepth(BT.treeGenerator(3, 10)) == 3)
   }
@@ -13,6 +13,7 @@ class BinaryTrees_Test extends AnyFunSuite {
     assert(BT.countLeafs(BT.treeGenerator(3, 10)) == 8)
   }
 
+  //Zadanie 2
   test("Test root; treesSubtraction function") {
     val t1 = BT.treeGenerator(2, 10)
     val t2 = BT.treeGenerator(2, 10)
@@ -35,6 +36,7 @@ class BinaryTrees_Test extends AnyFunSuite {
     }
   }
 
+  //Zadanie 3
   test("Test deleteCopiesDFS function") {
     val t1 = BT.Node(1, BT.Node(5, BT.Leaf(2), BT.Leaf(8)), BT.Node(9, BT.Leaf(6), BT.Leaf(4)))
     val t2 = BT.Node(1, BT.Node(5, BT.Leaf(7), BT.Leaf(9)), BT.Node(9, BT.Leaf(6), BT.Leaf(4)))

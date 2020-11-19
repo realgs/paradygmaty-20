@@ -4,7 +4,7 @@ class LazyLists_Test extends AnyFunSuite {
 
   val LL = new LazyLists
 
-  //zadanie 1
+  //Zadanie 4
   test("Test for ints; eachNElement function") {
     val lxs = LazyList(5, 6, 3, 2, 1)
     assert(LL.eachNElement(lxs, 2, 3) == LazyList(5, 3))
@@ -22,6 +22,7 @@ class LazyLists_Test extends AnyFunSuite {
     assert(LL.eachNElement(LazyList(), 2, 3) == LazyList())
   }
 
+  //Zadanie 5
   test("Test empty list; doOperation function") {
     assert(LL.doOperation(LazyList(), LazyList(1, 2, 3), "add") == LazyList())
     assert(LL.doOperation(LazyList(1, 2, 3), LazyList(), "add") == LazyList())

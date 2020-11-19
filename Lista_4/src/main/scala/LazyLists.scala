@@ -1,21 +1,21 @@
 class LazyLists {
 
-// Zad 4) Punkty: 5
+  // Zad 4) Punkty: 5
 
-def eachNElement [A](lxs: LazyList[A], k: Int, toN: Int): LazyList[A] = {
-  if(k < 1) throw new IllegalArgumentException
-  else {
-    def helper(count: Int, n: Int, llist: LazyList[A]): LazyList[A] =
-      (count, n, llist) match {
-        case (_, _, LazyList()) => LazyList()
-        case (1, 1, hd #:: _) => LazyList(hd)
-        case (_, 1, _ #:: _) => LazyList()
-        case (1, _, hd #:: tl) => hd #:: helper(k, n - 1, tl)
-        case (_, _, _ #:: tl) => helper(count - 1, n - 1, tl)
-      }
-    helper(1, toN, lxs)
+  def eachNElement [A](lxs: LazyList[A], k: Int, toN: Int): LazyList[A] = {
+    if(k < 1) throw new IllegalArgumentException
+    else {
+      def helper(count: Int, n: Int, llist: LazyList[A]): LazyList[A] =
+        (count, n, llist) match {
+          case (_, _, LazyList()) => LazyList()
+          case (1, 1, hd #:: _) => LazyList(hd)
+          case (_, 1, _ #:: _) => LazyList()
+          case (1, _, hd #:: tl) => hd #:: helper(k, n - 1, tl)
+          case (_, _, _ #:: tl) => helper(count - 1, n - 1, tl)
+        }
+      helper(1, toN, lxs)
+    }
   }
-}
 
   // Zad 5) Punkty: 5
 
