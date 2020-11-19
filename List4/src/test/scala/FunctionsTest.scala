@@ -97,6 +97,15 @@ class FunctionsTest extends FunSuite {
     assert(res1 === expected1, res2 === expected2)
   }
 
+  test("deleteDuplicatesDFS.oneFullOneEmpty") {
+    val t1 = Empty
+    val t2 = BTree(1, Vertex(7, Vertex(3), Vertex(2)), Vertex(4, Vertex(6), Vertex(9)))
+
+    assertThrows[Exception] {
+      Functions.deleteDuplicatesDFS(t1, t2)
+    }
+  }
+
   test("deleteDuplicatesBFS.singleNodeIdentical") {
     val (t1, t2) = (Vertex(5), Vertex(5))
     val res = Functions.deleteDuplicatesDFS(t1, t2)

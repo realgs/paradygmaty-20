@@ -30,24 +30,28 @@ object Functions {
   }
 
   def deleteDuplicatesDFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
-    if (t1.isLeaf && t2.isLeaf) {
-      if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
-    }
-    else {
-      val lhs = deleteDuplicatesDFS(t1.leftOption.get, t2.leftOption.get)
-      val rhs = deleteDuplicatesDFS(t1.rightOption.get, t2.rightOption.get)
+    require(t1.depth == t2.depth)
+    def auxDeleteDFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
+      if (t1.isLeaf && t2.isLeaf) {
+        if (t1.rootOption == t2.rootOption) (Empty, Empty) else (t1, t2)
+      }
+      else {
+        val lhs = deleteDuplicatesDFS(t1.leftOption.get, t2.leftOption.get)
+        val rhs = deleteDuplicatesDFS(t1.rightOption.get, t2.rightOption.get)
 
-      if (t1.rootOption == t2.rootOption) {
-        (lhs, rhs) match {
-          case ((Empty, Empty), (Empty, Empty)) => (Empty, Empty)
-          case ((Empty, a), (Empty, b)) => (Empty, BTree(-1, a, b))
-          case ((a, Empty), (b, Empty)) => (BTree(-1, a, b), Empty)
-          case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
+        if (t1.rootOption == t2.rootOption) {
+          (lhs, rhs) match {
+            case ((Empty, Empty), (Empty, Empty)) => (Empty, Empty)
+            case ((Empty, a), (Empty, b)) => (Empty, BTree(-1, a, b))
+            case ((a, Empty), (b, Empty)) => (BTree(-1, a, b), Empty)
+            case ((x, a), (y, b)) => (BTree(-1, x, y), BTree(-1, a, b))
+          }
+        } else {
+          (BTree(t1.rootOption.get, lhs._1, rhs._1), BTree(t2.rootOption.get, lhs._2, rhs._2))
         }
-      } else {
-        (BTree(t1.rootOption.get, lhs._1, rhs._1), BTree(t2.rootOption.get, lhs._2, rhs._2))
       }
     }
+    auxDeleteDFS(t1, t2)
   }
 
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Any], BTree[Any]) = {

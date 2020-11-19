@@ -1,7 +1,4 @@
-import javax.swing.plaf.basic.BasicFormattedTextFieldUI
-
 import scala.annotation.tailrec
-import scala.collection.immutable.Queue
 
 object Helper {
   def tailOffset[A](xs: List[A])(n: Int): List[A] = {
@@ -15,7 +12,7 @@ object Helper {
   }
 
   @tailrec
-  def formTree(upL: List[Int], upR: List[Int])(lowL: List[BTree[Int]], lowR: List[BTree[Int]])(accL: List[BTree[Int]], accR: List[BTree[Int]]): (List[BTree[Int]], List[BTree[Int]]) = {
+  def formTree(upL: List[Int], upR: List[Int])(lowL: List[BTree[Int]], lowR: List[BTree[Int]]) (accL: List[BTree[Int]], accR: List[BTree[Int]]): (List[BTree[Int]], List[BTree[Int]]) = {
     (upL, upR) match {
       case (t1 :: tailL, t2 :: tailR) =>
         val List(leftSub1, rightSub1) = lowL.take(2)
