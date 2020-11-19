@@ -18,5 +18,4 @@ object HelperFunctions {
       }
     helper(tree, 0)
   }
-
 }

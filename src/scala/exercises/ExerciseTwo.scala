@@ -4,6 +4,7 @@ import scala.helper.HelperFunctions.depth
 import scala.trees._
 
 object ExerciseTwo {
+  //Zad2 (3pkt)
   def createSubtractionTree(firstTree: BT[Int], secondTree: BT[Int]): BT[Int] = {
     def helper(fstTree: BT[Int], sndTree: BT[Int]): BT[Int] = {
       (fstTree, sndTree) match {
