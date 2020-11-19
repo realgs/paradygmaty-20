@@ -102,20 +102,20 @@ class TreeTest extends FunSuite {
   }
 
   test("toBFSList.empty") {
-    assert(Empty.toBfsList === List())
+    assert(Empty.toReversedBfsList === List())
   }
 
   test("toBFSList.singleVertex") {
-    assert(Vertex(5).toBfsList === List(5))
+    assert(Vertex(5).toReversedBfsList === List(5))
   }
 
   test("toBFSList.fullTree") {
     val t = BTree(4, Vertex(2, Vertex(7), Vertex(13)), Vertex(7, Vertex(5), Vertex(8)))
-    assert(t.toBfsList === List(4, 2, 7, 7, 13, 5, 8))
+    assert(t.toReversedBfsList === List(4, 2, 7, 7, 13, 5, 8))
   }
 
   test("toBFSList.notFullTree") {
     val t = BTree(1, Vertex(2, Vertex(8), Vertex(9)), Vertex(3))
-    assert(t.toBfsList === List(1, 2, 3, 8, 9))
+    assert(t.toReversedBfsList === List(1, 2, 3, 8, 9))
   }
 }

@@ -125,20 +125,28 @@ class FunctionsTest extends FunSuite {
     println(res2)
   }
 
+  def time[R](block: => R): R = {
+    val t0 = System.nanoTime()
+    val result = block    // call-by-name
+    val t1 = System.nanoTime()
+    println("Elapsed time: " + (t1 - t0) + "ns")
+    result
+  }
+
   test("deleteDuplicatesDFS.speedTest*") {
     val DEPTH = 10
     val t1 = Functions.generateTree(DEPTH, 1, 14)
     val t2 = Functions.generateTree(DEPTH, 1, 14)
 
-    val actual = Functions.deleteDuplicatesDFS(t1, t2)
+    time { Functions.deleteDuplicatesDFS(t1, t2) }
   }
 
   test("deleteDuplicatesBFS.speedTest*") {
-    val DEPTH = 10
-    val t1 = Functions.generateTree(DEPTH, 1, 14)
-    val t2 = Functions.generateTree(DEPTH, 1, 14)
+    val DEPTH = 20
+    val t1 = Functions.generateTree(DEPTH, 1, 100)
+    val t2 = Functions.generateTree(DEPTH, 1, 100)
 
-    val actual = Functions.deleteDuplicatesBFS(t1, t2)
+    time { Functions.deleteDuplicatesBFS(t1, t2) }
   }
 
   test("deleteDuplicates.randomCompare*") {

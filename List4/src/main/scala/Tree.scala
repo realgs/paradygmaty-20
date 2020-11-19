@@ -16,7 +16,7 @@ sealed trait BTree[+A] {
 
   def rightRoot: Option[A]
 
-  def toBfsList: List[A]
+  def toReversedBfsList: List[A]
 
   def depth: Int
 
@@ -45,10 +45,10 @@ case class Vertex[A](data: A, left: BTree[A], right: BTree[A]) extends BTree[A] 
 
   override def rightRoot: Option[A] = rightOption.getOrElse(Empty).rootOption
 
-  override def toBfsList: List[A] = {
+  override def toReversedBfsList: List[A] = {
     @tailrec
     def auxBFS(q: Queue[BTree[A]])(acc: List[A]): List[A] = {
-      if (q.isEmpty) acc.reverse
+      if (q.isEmpty) acc
       else {
         q.dequeue match {
           case (Empty, queue) => auxBFS(queue)(acc)
@@ -85,7 +85,7 @@ case object Empty extends BTree[Nothing] {
 
   override def rightRoot: Option[Nothing] = None
 
-  override def toBfsList: List[Nothing] = Nil
+  override def toReversedBfsList: List[Nothing] = Nil
 
   override def depth: Int = -1
 }

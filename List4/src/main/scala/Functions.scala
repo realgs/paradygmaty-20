@@ -51,8 +51,8 @@ object Functions {
   }
 
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Any], BTree[Any]) = {
-    val bfs1 = t1.toBfsList.reverse
-    val bfs2 = t2.toBfsList.reverse
+    val bfs1 = t1.toReversedBfsList
+    val bfs2 = t2.toReversedBfsList
     val depth = t1.depth
 
     @tailrec
