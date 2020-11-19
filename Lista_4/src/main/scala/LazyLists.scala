@@ -1,8 +1,6 @@
 class LazyLists {
 
-/*4) Zdefiniuj funkcję "eachNElement" wybierającą co n-ty element listy leniwej,
-  zaczynając od elementu pierwszego kończąc na elemencie numer m(indeks m dotyczy listy pierwotnej, nie wynikowej).
-  Punkty: 5*/
+// Zad 4) Punkty: 5
 
 def eachNElement [A](lxs: LazyList[A], k: Int, toN: Int): LazyList[A] = {
   if(k < 1) throw new IllegalArgumentException
@@ -19,9 +17,7 @@ def eachNElement [A](lxs: LazyList[A], k: Int, toN: Int): LazyList[A] = {
   }
 }
 
-  /*5) Zdefiniuj funkcję "ldzialanie" przyjmującą dwie listy leniwe i wykonującą podane działanie na elementach list.
-  Obsłuż 4 podstawowe operacje matematyczne. Wynikiem jest lista leniwa. Proszę o testy(!)
-  Punkty: 5*/
+  // Zad 5) Punkty: 5
 
   def add[A : Integral](a1: A, a2: A): A = implicitly[Integral[A]].plus(a1, a2)
   def subtract[A : Integral](a1: A, a2: A): A = implicitly[Integral[A]].minus(a1, a2)

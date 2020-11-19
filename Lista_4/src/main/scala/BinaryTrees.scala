@@ -5,37 +5,7 @@ class BinaryTrees {
   case class Leaf[+A](value: A) extends BT[A]
   case class Node[+A](value: A, left: BT[A], right: BT[A]) extends BT[A]
 
-  //Funkcje do testów
-
-  //funkcja sprawdzająca głębokość drzewa
-  def maxDepth [A] (root: BT[A]): Int = {
-    root match {
-      case Node(_, l, r) => Math.max(maxDepth(l), maxDepth(r)) + 1
-      case _ => 0
-    }
-  }
-
-  //funkcja licząca liście drzewa
-  def countLeafs [A] (root: BT[A]): Int = {
-    root match {
-      case Leaf(_) => 1
-      case Node(_, left, right) => countLeafs(left) + countLeafs(right)
-      case Empty => 0
-    }
-  }
-
-  //funkcja zwracająca wartość korzenia drzewa
-  def rootValue [A] (root: BT[A]): A = {
-    root match {
-      case Leaf(value) => value
-      case Node(value, _, _) => value
-      case Empty => throw new IllegalArgumentException
-    }
-  }
-
-  /*  1) Napisz funkcję generującą drzewo o głębokości N (liczba poziomów drzewa), zawierającą losowe,
-  dodatnie liczby całkowite z zadanego zakresu. Drzewo pełne. Proszę o testy(!)
-    Punkty: 3 */
+  // Zad 1) Punkty: 3
 
   def treeGenerator (depth: Int, range: Int): BT[Int] =
     if(depth < 0 || range < 1) throw new IllegalArgumentException
@@ -46,9 +16,7 @@ class BinaryTrees {
       }
     }
 
- /* 2) Napisz funkcję przyjmującą na wejściu dwa drzewa o tej samej głębokości wygenerowane przy użyciu powyższej
- funkcji i zwracającą drzewo składające się z różnicy ich elementów. Zwróć uwagę na wydajność rozwiązania.
-    Punkty: 3 */
+ // Zad 2) Punkty: 3
 
   def treesSubtraction (firstT: BT[Int], secondT: BT[Int]): BT[Int] = {
     (firstT, secondT) match {
@@ -58,11 +26,7 @@ class BinaryTrees {
     }
   }
 
- /* 3) Napisz funkcję przyjmującą dwa pełne drzewa o tej samej głębokości i usuwającą powtarzające się wartości w
- określony sposób: jeśli wartość węzła i wszystkich jego potomków jest identyczna - usuń całą gałąź.
- Jeśli wartość węzła jest identyczna, a któryś z potomków się różni wstaw -1, potomków zostaw bez zmian.
- Funkcja ma zwracać dwa drzewa z usuniętymi w powyższy sposób duplikatami. Zaimplementuj przechodząc po
- drzewie wgłąb (Punkty: 1) i wszerz (Punkty: 3). Zwróć uwagę na wydajność rozwiązania.*/
+ // Zad 3) wgłąb (Punkty: 1) i wszerz (Punkty: 3)
 
   def deleteCopiesDFS(firstT: BT[Int], secondT: BT[Int]): (BT[Int], BT[Int]) = {
     (firstT, secondT) match {
@@ -128,5 +92,31 @@ class BinaryTrees {
     helper (List(firstT), List(secondT))
   }
 
+  //Funkcje do testów
+  //funkcja sprawdzająca głębokość drzewa
+  def maxDepth [A] (root: BT[A]): Int = {
+    root match {
+      case Node(_, l, r) => Math.max(maxDepth(l), maxDepth(r)) + 1
+      case _ => 0
+    }
+  }
+
+  //funkcja licząca liście drzewa
+  def countLeafs [A] (root: BT[A]): Int = {
+    root match {
+      case Leaf(_) => 1
+      case Node(_, left, right) => countLeafs(left) + countLeafs(right)
+      case Empty => 0
+    }
+  }
+
+  //funkcja zwracająca wartość korzenia drzewa
+  def rootValue [A] (root: BT[A]): A = {
+    root match {
+      case Leaf(value) => value
+      case Node(value, _, _) => value
+      case Empty => throw new IllegalArgumentException
+    }
+  }
 
 }
