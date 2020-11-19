@@ -21,8 +21,8 @@ class TreesTest extends FunSuite {
   }
   test("createTree.EmptyTree"){
     val tree = Trees.generateTree(0, 10, 22)
-    assert(Trees.getHeight(Trees.Empty) === 0)
-    assert(Trees.isTreeFull(Trees.Empty))
+    assert(Trees.getHeight(tree) === 0)
+    assert(Trees.isTreeFull(tree))
   }
 
   //task 2 tests
@@ -69,5 +69,25 @@ class TreesTest extends FunSuite {
   }
 
   //task 3 BFS tests
+  test("removeSameValuesBFS.1"){
+    val tree1 = Trees.Node(1, Trees.Node(2, Trees.Node(4, Trees.Empty, Trees.Empty), Trees.Node(5, Trees.Empty, Trees.Empty)), Trees.Node(3, Trees.Node(6, Trees.Empty, Trees.Empty), Trees.Node(7, Trees.Empty, Trees.Empty)))
+    val tree2 = Trees.Node(1, Trees.Node(3, Trees.Node(4, Trees.Empty, Trees.Empty), Trees.Node(6, Trees.Empty, Trees.Empty)), Trees.Node(3, Trees.Node(6, Trees.Empty, Trees.Empty), Trees.Node(7, Trees.Empty, Trees.Empty)))
+    val (result1, result2) = Trees.removeSameValuesBFS(tree1, tree2)
+    assert(result1 == Trees.Node(-1, Trees.Node(2, Trees.Empty, Trees.Node(5, Trees.Empty, Trees.Empty)), Trees.Empty))
+    assert(result2 == Trees.Node(-1, Trees.Node(3, Trees.Empty, Trees.Node(6, Trees.Empty, Trees.Empty)), Trees.Empty))
+  }
+  test("removeSameValuesBFS.2"){
+    val tree1 = Trees.Node(1, Trees.Node(1, Trees.Empty, Trees.Empty), Trees.Node(1, Trees.Empty, Trees.Empty))
+    val tree2 = Trees.Node(1, Trees.Node(1, Trees.Empty, Trees.Empty), Trees.Node(1, Trees.Empty, Trees.Empty))
+    val (result1, result2) = Trees.removeSameValuesBFS(tree1, tree2)
+    assert(result1 == Trees.Empty)
+    assert(result2 == Trees.Empty)
+  }
+  test("removeSameValuesBFS.emptyTrees"){
+    assert(Trees.removeSameValuesBFS(Trees.Empty, Trees.Empty) === (Trees.Empty, Trees.Empty))
+  }
+  test("removeSameValuesBFS.unequalTrees"){
+    assertThrows[Exception](Trees.removeSameValuesBFS(Trees.generateTree(3, 5, 8), Trees.generateTree(2, 6, 9)))
+  }
 
 }

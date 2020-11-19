@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 import scala.util.Random
 
 object Trees {
@@ -54,6 +55,46 @@ object Trees {
         else if(val1 == val2) (Node(-1, subLeft1, subRight1), Node(-1, subLeft2, subRight2))
         else (Node(val1, subLeft1, subRight1), Node(val2, subLeft2, subRight2))
     }
+  }
+
+  @tailrec
+  def subtreesCompareBFS (queue: List[(BT[Int], BT[Int])]): Boolean = {
+    queue match {
+      case Nil => true
+      case (Empty, Empty) :: tail => subtreesCompareBFS(tail)
+      case (Node(val1, left1, right1), Node(val2, left2, right2)) :: tail =>
+        if(val1 == val2) subtreesCompareBFS(tail ::: List((left1, left2), (right1, right2)))
+        else false
+    }
+  }
+
+  def removeSameValuesBFS (Tree1: BT[Int], Tree2: BT[Int]): (BT[Int], BT[Int]) ={
+    def innerBFSRemove (tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
+      val Node(val1, left1, right1) = tree1
+      val Node(val2, left2, right2) = tree2
+      (subtreesCompareBFS(List((left1, left2))), subtreesCompareBFS(List((right1, right2)))) match{
+        case (true, true) =>
+          if(val1 == val2) (Empty, Empty)
+          else (Node(val1, Empty, Empty), Node(val2, Empty, Empty))
+        case (true, false) =>
+          val (subRight1, subRight2) = innerBFSRemove(right1, right2)
+          if(val1 == val2) (Node(-1, Empty, subRight1), Node(-1, Empty, subRight2))
+          else (Node(val1, Empty, subRight1), Node(val2, Empty, subRight2))
+        case (false, true) =>
+          val (subLeft1, subLeft2) = innerBFSRemove(left1, left2)
+          if(val1 == val2) (Node(-1, subLeft1, Empty), Node(-1, subLeft2, Empty))
+          else (Node(val1, subLeft1, Empty), Node(val2, subLeft2, Empty))
+        case (false, false) =>
+          val (subLeft1, subLeft2) = innerBFSRemove(left1, left2)
+          val (subRight1, subRight2) = innerBFSRemove(right1, right2)
+          if(val1 == val2) (Node(-1, subLeft1, subRight1), Node(-1, subLeft2, subRight2))
+          else (Node(val1, subLeft1, subRight1), Node(val2, subLeft2, subRight2))
+      }
+    }
+    if(getHeight(Tree1) != getHeight(Tree2) || !isTreeFull(Tree1) || !isTreeFull(Tree2))
+      throw new Exception("Trees not full or equal in height!")
+    else if (Tree1 == Empty) (Empty, Empty)
+    else innerBFSRemove(Tree1, Tree2)
   }
 
 }
