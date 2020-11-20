@@ -9,6 +9,7 @@ case class Node[+A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
 
 
 // Binary Tree helpers
+// breadth-first-search (tested in class)
 def breadth[A](tree: BT[A]): List[A] =
 {
   def breadthBTRec(queue: List[BT[A]]): List[A] =
@@ -22,6 +23,7 @@ def breadth[A](tree: BT[A]): List[A] =
 }
 
 
+// generate full tree with rule (function that takes int n and returns int)
 def generateTreeWithRule(rule: Int => Int)(n: Int): BT[Int] =
 {
   if (n == 0) Empty
@@ -35,6 +37,7 @@ breadth(generateTreeWithRule((a: Int) => a * 2)(2)) == List(4, 2, 2)
 breadth(generateTreeWithRule((a: Int) => -1)(3)) == List(-1, -1, -1, -1, -1, -1, -1)
 
 
+// calculate tree height
 def treeHeight[A](tree: BT[A]): Int =
 {
   tree match
@@ -51,6 +54,7 @@ treeHeight(Empty) == 0
 treeHeight(Node(1, Empty, Node(2, Empty, Empty))) == 2
 
 
+// check if tree is full
 def isFull[A](tree: BT[A]): Boolean =
 {
   tree match
@@ -70,21 +74,15 @@ isFull(Node(1, Node(1, Empty, Empty), Node(1, Empty, Empty)))
 
 
 // Zadanie 1 (3 pkt)
-def getRandomInt(a: Int, b: Int): Int =
-{
-  if ((a <= 0) || (b <= 0)) throw new Exception("a and b has to be poisitive")
-  else if (b <= a) throw new Exception("b has to be greater than a")
-  else Random.between(a, b)
-}
-
-
 def generateTree(n: Int, a: Int, b: Int): BT[Int] =
 {
   if (n < 0) throw new Exception("Tree height cannot be negative")
+  if ((a <= 0) || (b <= 0)) throw new Exception("a and b has to be poisitive")
+  if (b <= a) throw new Exception("b has to be greater than a")
   def generateTree(depth: Int): BT[Int] =
   {
     if (depth == 0) Empty
-    else Node(getRandomInt(a, b), generateTree(depth - 1), generateTree(depth - 1))
+    else Node(Random.between(a, b), generateTree(depth - 1), generateTree(depth - 1))
   }
   generateTree(n)
 }
@@ -123,6 +121,8 @@ breadth(generateDifferenceTree(
   Node(12, Node(5, Empty, Empty), Node(17, Empty, Empty)),
   Node(10, Node(3, Empty, Empty), Node(-12, Empty, Empty))
 )) == List(2, 2, 29)
+try {generateDifferenceTree(Empty, Empty)} catch {case e : Throwable => e.printStackTrace()}
+try {generateDifferenceTree(Node(1, Empty, Empty), Node(0, Node(1, Empty, Empty), Node(1, Empty, Empty)))} catch {case e : Throwable => e.printStackTrace()}
 
 
 // Zadanie 3 a (1 pkt)
@@ -167,27 +167,25 @@ try {dropDuplicatesDFS(Empty, Empty) == (Empty, Empty)} catch {case e : Throwabl
 
 
 // Zadanie 3 b (3 pkt)
-def breadthSame(tree1: BT[Int], tree2: BT[Int]): Boolean =
-{
-  def breadthSameRec(queue: List[(BT[Int], BT[Int])]): Boolean =
-  {
-    queue match
-    {
-      case (Empty, Empty) :: tail => breadthSameRec(tail)
-      case (Node(a, leftChild1, rightChild1), Node(b, leftChild2, rightChild2)) :: tail =>
-        if (a == b) breadthSameRec(tail ::: List((leftChild1, leftChild2), (rightChild1, rightChild2)))
-        else false
-      case _ => true
-    }
-  }
-  breadthSameRec(List((tree1, tree2)))
-}
-
-
 def dropDuplicatesBFS(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) =
 {
   if (!isFull(tree1) || !isFull(tree2)) throw new Exception("Trees has to be full")
   if (treeHeight(tree1) != treeHeight(tree2)) throw new Exception("Trees has to be same size")
+  def breadthSame(tree1: BT[Int], tree2: BT[Int]): Boolean =
+  {
+    def breadthSameRec(queue: List[(BT[Int], BT[Int])]): Boolean =
+    {
+      queue match
+      {
+        case (Empty, Empty) :: tail => breadthSameRec(tail)
+        case (Node(a, leftChild1, rightChild1), Node(b, leftChild2, rightChild2)) :: tail =>
+          if (a == b) breadthSameRec(tail ::: List((leftChild1, leftChild2), (rightChild1, rightChild2)))
+          else false
+        case _ => true
+      }
+    }
+    breadthSameRec(List((tree1, tree2)))
+  }
   def dropDuplicatesBFSRec(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) =
   {
     (tree1, tree2) match
