@@ -187,21 +187,21 @@ class FunctionsTest extends FunSuite {
   }
 
   // Task5
-  test("apply.oneEmptyAddition") {
-    assert(Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4))
+  test("zipApply.oneEmptyAddition") {
+    assert(Functions.zipApply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4))
   }
 
-  test("apply.addition") {
-    assert(Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ + _) === LazyList(4, 7, 3, 5))
+  test("zipApply.addition") {
+    assert(Functions.zipApply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ + _) === LazyList(4, 7, 3, 5))
   }
 
-  test("apply.multiplication") {
-    assert(Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ * _) === LazyList(3, 10, 0, -14))
+  test("zipApply.multiplication") {
+    assert(Functions.zipApply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ * _) === LazyList(3, 10, 0, -14))
   }
 
-  test("apply.divisionByZero") {
+  test("zipApply.divisionByZero") {
     assertThrows[ArithmeticException] {
-      Functions.apply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ / _).force
+      Functions.zipApply(LazyList(1, 2, 3, 7), LazyList(3, 5, 0, -2))(_ / _).force
     }
   }
 }

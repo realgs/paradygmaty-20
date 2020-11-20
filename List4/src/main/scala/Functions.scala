@@ -95,10 +95,10 @@ object Functions {
   }
 
   // Task 5 (5 pkt)
-  def apply[A](lxs: LazyList[A], lys: LazyList[A])(func: (A, A) => A): LazyList[A] = {
+  def zipApply[A](lxs: LazyList[A], lys: LazyList[A])(func: (A, A) => A): LazyList[A] = {
     val LazyNil = LazyList.empty
     (lxs, lys) match {
-      case (hx #:: tx, hy #:: ty) => func(hx, hy) #:: apply(tx, ty)(func)
+      case (hx #:: tx, hy #:: ty) => func(hx, hy) #:: zipApply(tx, ty)(func)
       case (lst, LazyNil) => lst
       case (LazyNil, lst) => lst
     }
