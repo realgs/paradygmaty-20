@@ -18,4 +18,15 @@ object HelperFunctions {
       }
     helper(tree, 0)
   }
+
+  def isAFullTree[A](tree: BT[A]): Boolean = {
+    tree match {
+      case Empty => true
+      case Node(_, l, r) => depth(l) == depth(r) && isAFullTree(l) && isAFullTree(r)
+    }
+  }
+
+  def areTreesValidForThisTask[A](firstTree: BT[A], secondTree: BT[A]): Boolean = {
+    depth(firstTree) == depth(secondTree) && isAFullTree(firstTree) && isAFullTree(secondTree)
+  }
 }

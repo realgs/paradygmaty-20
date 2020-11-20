@@ -1,6 +1,6 @@
 package scala.exercises
 
-import scala.helper.HelperFunctions.depth
+import scala.helper.HelperFunctions.areTreesValidForThisTask
 import scala.trees._
 
 object ExerciseTwo {
@@ -12,6 +12,6 @@ object ExerciseTwo {
         case (Node(fstValue, fstLeft, fstRight), Node(sndValue, sndLeft, sndRight)) => Node(fstValue - sndValue, helper(fstLeft, sndLeft), helper(fstRight, sndRight))
       }
     }
-    if (depth(firstTree) == depth(secondTree)) helper(firstTree, secondTree) else throw new IllegalArgumentException
+    if (areTreesValidForThisTask(firstTree, secondTree)) helper(firstTree, secondTree) else throw new IllegalArgumentException
   }
 }

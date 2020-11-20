@@ -20,6 +20,6 @@ object ExerciseThree {
           }
       }
     }
-    if (depth(firstTree) == depth(secondTree)) helper(firstTree, secondTree) else throw new IllegalArgumentException
+    if (areTreesValidForThisTask(firstTree, secondTree)) helper(firstTree, secondTree) else throw new IllegalArgumentException
   }
 }

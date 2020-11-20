@@ -17,6 +17,12 @@ class ExerciseThreeTests extends AnyFlatSpec {
     val firstTree3 = Node(5, Node(2, Empty, Empty), Node(4, Empty, Empty))
     val secondTree3 = Node(5, Node(2, Empty, Empty), Node(3, Empty, Empty))
     assert(removeDuplicatesDepth(firstTree3, secondTree3) == (Node(-1, Node(2, Empty, Empty), Node(4, Empty, Empty)), Node(-1, Node(2, Empty, Empty), Node(3, Empty, Empty))))
+
+    val firstTree4 = Node(1, Node(2, Node(4, Node(8, Empty, Empty), Node(9, Empty, Empty)), Node(5, Node(10, Empty, Empty), Node(11, Empty, Empty))), Node(3, Node(6, Node(12, Empty, Empty), Node(13, Empty, Empty)), Node(7, Node(14, Empty, Empty), Node(15, Empty, Empty))))
+    val secondTree4 = Node(0, Node(1, Node(3, Node(7, Empty, Empty), Node(8, Empty, Empty)), Node(4, Node(9, Empty, Empty), Node(10, Empty, Empty))), Node(2, Node(6, Node(11, Empty, Empty), Node(12, Empty, Empty)), Node(7, Node(14, Empty, Empty), Node(15, Empty, Empty))))
+    assert(removeDuplicatesDepth(firstTree4, secondTree4) ==
+      (Node(1,Node(2,Node(4,Node(8,Empty,Empty),Node(9,Empty,Empty)),Node(5,Node(10,Empty,Empty),Node(11,Empty,Empty))),Node(3,Node(-1,Node(12,Empty,Empty),Node(13,Empty,Empty)),Empty)),
+        Node(0,Node(1,Node(3,Node(7,Empty,Empty),Node(8,Empty,Empty)),Node(4,Node(9,Empty,Empty),Node(10,Empty,Empty))),Node(2,Node(-1,Node(11,Empty,Empty),Node(12,Empty,Empty)),Empty))))
   }
 
   "Exercise 3 function" should "return tuple of Empty's for tuple of Empty trees" in {
