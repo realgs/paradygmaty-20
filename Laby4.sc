@@ -48,3 +48,15 @@ val t6 = subTree(t4,t5)
 breadthBT(t4)
 breadthBT(t5)
 breadthBT(t6)
+
+//zad 4 5 pkt
+
+def eachNElement(list: LazyList[Int], n:Int, m:Int) : LazyList[Int] = {
+  if(m>0)
+    return list.head#::eachNElement(list.drop(n),n,m-n)
+  else return LazyList()
+}
+val l=LazyList(5,6,3,2,1)
+eachNElement(l,2,3).force
+eachNElement(l,2,4).force
+
