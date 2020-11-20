@@ -62,6 +62,13 @@ object Tests {
     println(deleteDuplicatesDFS(tree3_11, tree3_11) == (Empty, Empty))
     println(deleteDuplicatesDFS(Empty, Empty) == (Empty, Empty))
 
+    println(deleteDuplicatesBFS(tree3_1, tree3_2) == (tree3_3, tree3_4))
+    println(deleteDuplicatesBFS(tree3_5, tree3_6) == (tree3_7, tree3_8))
+    println(deleteDuplicatesBFS(tree3_9, tree3_10) == (tree3_11, tree3_12))
+    println(deleteDuplicatesBFS(tree3_1, tree3_1) == (Empty, Empty))
+    println(deleteDuplicatesBFS(tree3_11, tree3_11) == (Empty, Empty))
+    println(deleteDuplicatesBFS(Empty, Empty) == (Empty, Empty))
+
     // Task 4
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3).toList == List(5, 3))
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4).toList == List(5, 3))

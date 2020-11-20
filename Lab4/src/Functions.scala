@@ -1,5 +1,7 @@
 import Utils._
 
+import scala.annotation.tailrec
+
 object Functions {
 
   // Task 1 (3 pkt)
@@ -41,6 +43,49 @@ object Functions {
     if(!isFullTree(tree1) || !isFullTree(tree2)) throw new IllegalArgumentException("both trees must be full")
     else if(height(tree1) != height(tree2)) throw new IllegalArgumentException("both trees must be the same height")
     else delete(tree1, tree2)
+  }
+
+  def deleteDuplicatesBFS(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): (BinaryTree[Int], BinaryTree[Int]) = {
+
+    def ifDuplicatesBFS(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): Boolean = {
+      @tailrec
+      def BFS(queue: List[(BinaryTree[Int], BinaryTree[Int])]): Boolean = queue match {
+        case Nil => true
+        case (Empty, Empty) :: _ => true
+        case (Node(v1, left1, right1), Node(v2, left2, right2)) :: tail => v1 == v2 && BFS(tail ::: List((left1, left2), (right1, right2)))
+      }
+      BFS(List((tree1, tree2)))
+    }
+
+    def constructTree(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): (BinaryTree[Int], BinaryTree[Int]) =
+      (tree1, tree2) match {
+        case (Empty, Empty) => (Empty, Empty)
+        case (Node(v1, left1, right1), Node(v2, left2, right2)) =>
+          if (ifDuplicatesBFS(left1, left2) && ifDuplicatesBFS(right1, right2)) {
+
+            if (v1 == v2) (Empty, Empty) else (Node(v1, Empty, Empty), Node(v2, Empty, Empty))
+
+          } else if (ifDuplicatesBFS(left1, left2)) {
+
+            val (newRightTree1, newRightTree2) = constructTree(right1, right2)
+            (Node(if (v1 == v2) -1 else v1, Empty, newRightTree1), Node(if (v1 == v2) -1 else v2, Empty, newRightTree2))
+
+          } else if (ifDuplicatesBFS(right1, right2)) {
+
+            val (newLeftTree1, newLeftTree2) = constructTree(left1, left2)
+            (Node(if (v1 == v2) -1 else v1, newLeftTree1, Empty), Node(if (v1 == v2) -1 else v2, newLeftTree2, Empty))
+
+          } else {
+
+            val (newLeftTree1, newLeftTree2) = constructTree(left1, left2)
+            val (newRightTree1, newRightTree2) = constructTree(right1, right2)
+            (Node(if (v1 == v2) -1 else v1, newLeftTree1, newRightTree1), Node(if (v1 == v2) -1 else v2, newLeftTree2, newRightTree2))
+          }
+      }
+
+    if(!isFullTree(tree1) || !isFullTree(tree2)) throw new IllegalArgumentException("both trees must be full")
+    else if(height(tree1) != height(tree2)) throw new IllegalArgumentException("both trees must be the same height")
+    else constructTree(tree1, tree2)
   }
 
   // Task 4 (5 pkt)
