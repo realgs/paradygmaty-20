@@ -67,6 +67,12 @@ object Functions {
   }
 
   // Zadanie 4 (5 pkt)
+  def intLazyListGenerator(): LazyList[Int] = {
+    def generator(i: Int): LazyList[Int] =
+      i #:: generator(i + 1)
+    generator(1)
+  }
+
   def eachNElement[A](list: LazyList[A], n: Int, m: Int): LazyList[A] = {
     def eachNElementHelper(list: LazyList[A], i: Int): LazyList[A] =
       if(list.isEmpty || i >= m) LazyList()
