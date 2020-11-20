@@ -1,5 +1,6 @@
 import jdk.javadoc.internal.doclets.formats.html.markup.HtmlTree.A
 
+import scala.::
 import scala.annotation.tailrec
 
 //Lista 4 Maciej Kopiński
@@ -14,7 +15,10 @@ def depth(tree: BT[Int]): Int={
   def inner(n: Int, t: BT[Int]): Int={
     t match {
       case Empty => n
-      case Node(e, l, r) => inner(n+1, l)
+      case Node(e, l, r) => {
+        if(inner(n + 1, l)>inner(n + 1, r)) inner(n + 1, l)
+        else inner(n + 1, r)
+      }
     }
   }
   inner(0, tree)
@@ -58,27 +62,56 @@ def mergeTrees(first: BT[Int], second: BT[Int]): BT[Int]={
   }
 }
 
-val t1=createTree(5, 3, 8)
-val t2=createTree(5, 1, 6)
+val tt1=createTree(5, 3, 8)
+val tt2=createTree(5, 1, 6)
 
-mergeTrees(t1, t2)
+
+
+mergeTrees(tt1, tt2)
 
 //Zadanie 3
 
 //BFS (3 pkt)
 
+def breadthBT(bt1 : BT[Int], bt2 : BT[Int]) : (List[BT[Int]], List[BT[Int]])={
+  def inner(queue : List[(BT[Int], BT[Int])]) : (List[BT[Int]], List[BT[Int]])={
+    queue match {
+      case Nil => (Nil, Nil)
+      case (Empty, Empty)::t => ((Empty)::inner(t)._1, (Empty)::inner(t)._2)
+      case (Node(v1, l1, r1), Node(v2, l2, r2))::t=> (Node(v1, l1, r1)::inner(t)._1, Node(v2, l2, r2)::inner(t)._2)
+    }
+  }
+  inner(List((bt1, bt2)))
+}
+
+
+def checkLists(l1: List[BT[Int]], l2: List[BT[Int]]): (List[BT[Int]], List[BT[Int]])={
+  val a1=l1.toArray
+  val a2=l2.toArray
+  (Nil, Nil)
+}
+
+def createTreeFromList(list: List[BT[Int]]): BT[Int]={
+  def inner(index: Int, list: List[BT[Int]]): BT[Int]={
+    val i=index
+    val arr=list.toArray
+    val node=arr(0)
+      arr(index) match {
+        case Empty => Empty
+        case Node(v, l, r) => Node(v, if(2*i+1>arr.length) Empty else inner(2*i+1, list), if(2*i+2>arr.length) Empty else inner(2*i+2, list))
+      }
+  }
+  inner(0, list)
+}
+
 def deleteDuplicatesBFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int])={
   if(depth(first)!=depth(second)){
     throw new Exception("Rozne glebokosci drzew!")
   }else{
-    def inner[A](bt1 : BT[A], bt2 : BT[A]) : (BT[A], BT[A])={
-      (Empty, Empty)
-    }
-    inner(first, second)
+    (createTreeFromList(checkLists(breadthBT(first, second)._1, breadthBT(first, second)._2)._1), createTreeFromList(checkLists(breadthBT(first, second)._1, breadthBT(first, second)._2)._2))
   }
 }
 
-def createTree
 
 //DFS (1 pkt)
 
@@ -143,6 +176,8 @@ val t2 = Node(1,
     Empty
   )
 )
+
+breadthBT(t1, t2)
 
 deleteDuplicatesDFS(t1, t2);
 
