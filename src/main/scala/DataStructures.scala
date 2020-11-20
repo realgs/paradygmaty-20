@@ -25,6 +25,7 @@ object DataStructures {
   }
 
   //Zad2 (3pkt)
+  // O(2n)
   def subtractTrees(first: BT[Int], second: BT[Int]): BT[Int] =
     (first, second) match {
       case (Node(v1, l1, r1), Node(v2, l2, r2)) => Node(v1 - v2, subtractTrees(l1, l2), subtractTrees(r1, r2))
@@ -32,10 +33,36 @@ object DataStructures {
       case (_, _) => throw new IllegalArgumentException("Trees don't have the same depth or one of them is not full!")
     }
 
-  //Zad3 (4pkt)
-  //  def removeDuplicates (first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+  //Zad3 (1 + 3 pkt)
+  def removeDuplicatesDFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+    (first, second) match {
+      case (Node(v1, l1, r1), Node(v2, l2, r2)) =>
+        val left = removeDuplicatesDFS(l1, l2)
+        val right = removeDuplicatesDFS(r1, r2)
 
-  //  }
+        if(v1 == v2)
+          if(left == (Empty, Empty) && right == (Empty, Empty))
+            (Empty, Empty)
+          else
+            (Node(-1, left._1, right._1), Node(-1, left._2, right._2))
+        else
+          (Node(v1, left._1, right._1), Node(v2, left._2, right._2))
+
+      case (Empty, Empty) => (Empty, Empty)
+      case (_, _) => throw new IllegalArgumentException("Trees don't have the same depth or one of them is not full!")
+
+    }
+  }
+
+//  def removeDuplicatesBFS(first: BT[Int], second: BT[Int]): (BT[Int], BT[Int]) = {
+//    def traverse(first_queue: List[BT[Int]], second_queue: List[BTT[Int]])
+//    (first, second) match {
+//
+//
+//    }
+//  }
+
+
 
   def breadthBT[A](bt: BT[A]): List[A] = {
     @scala.annotation.tailrec

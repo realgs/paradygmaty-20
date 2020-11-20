@@ -12,8 +12,8 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
       generateTree(1, new Random(100), 1, 100)
     }
     assertResult(Node(26, Node(20, Node(14, Empty, Empty), Node(22, Empty, Empty)), Node(11, Node(16, Empty, Empty), Node(27, Empty, Empty)))) {
-      /** 26
-       * 20        11
+      /**       26
+       *   20        11
        * 14  22    16  27
        */
       generateTree(3, new Random(100), 10, 30)
@@ -42,25 +42,24 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
       subtractTrees(first, second)
     }
 
-
     assertResult(Node(-15, Node(-24, Node(-18, Empty, Empty), Node(8, Empty, Empty)), Node(-20, Node(11, Empty, Empty), Node(14, Empty, Empty)))) {
       val rand = new Random(123)
       val first = generateTree(3, rand, 10, 50)
-      /** 27
-       * 21        28
+      /**       27
+       *    21      28
        * 31  33    35  32
        */
       val second = generateTree(3, rand, 10, 50)
 
-      /** 42
-       * 45        48
+      /**       42
+       *    45       48
        * 49  25    24  18
        */
 
       subtractTrees(first, second)
 
-      /** -15
-       * -24      -20
+      /**       -15
+       *    -24      -20
        * -18  8    11  14
        */
     }
@@ -78,6 +77,29 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
       val first = Node(1, Node(2, Empty, Empty), Empty)
       val second = Node(0, Node(0, Empty, Empty), Node(0, Empty, Empty))
       subtractTrees(first, second)
+    }
+  }
+
+  test("removeDuplicatesDFS") {
+    val first_tree = Node(4, Node(8, Node(7, Empty, Empty), Node(16, Empty, Empty)), Node(9, Node(3, Empty, Empty), Node(1, Empty, Empty)))
+    val second_tree = Node(8, Node(8, Node(7, Empty, Empty), Node(10, Empty, Empty)), Node(9, Node(3, Empty, Empty), Node(2, Empty, Empty)))
+    val expected = (Node(4, Node(-1, Empty, Node(16, Empty, Empty)), Node(-1, Empty, Node(1, Empty, Empty))),
+      Node(8, Node(-1, Empty, Node(10, Empty, Empty)), Node(-1, Empty, Node(2, Empty, Empty))))
+
+    assertResult(expected) {
+      removeDuplicatesDFS(first_tree, second_tree)
+    }
+
+    assertThrows[IllegalArgumentException] {
+      // Not full
+      removeDuplicatesDFS(Node(1, Node(2, Empty, Empty), Node(3, Empty, Empty)),
+        Node(3, Node(4, Empty, Empty), Empty))
+    }
+
+    assertThrows[IllegalArgumentException] {
+      // Not same depth
+      removeDuplicatesDFS(Node(1, Node(2, Empty, Empty), Node(3, Empty, Empty)),
+        Node(3, Node(4, Node(5, Empty, Empty), Node(7, Empty, Empty)), Node(1, Node(10, Empty, Empty), Node(12, Empty, Empty))))
     }
   }
 
@@ -103,13 +125,15 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
     assertResult(LazyList(5, 2)) {
       eachNElement(LazyList(5, 6, 3, 2, 1), 3, 4)
     }
+    assertResult(LazyList(1,3,5,7,9,11)) {
+      eachNElement(LazyList.from(1), 2, 11)
+    }
     assertThrows[IllegalArgumentException] {
       eachNElement(LazyList(5, 6, 3, 2, 1), 0, 3)
     }
     assertThrows[IllegalArgumentException] {
       eachNElement(LazyList(5, 6, 3, 2, 1), 2, -2)
     }
-
 
   }
 
