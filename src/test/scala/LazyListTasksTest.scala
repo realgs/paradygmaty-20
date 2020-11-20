@@ -25,4 +25,3 @@ class LazyListTasksTest extends FunSuite{
     assertThrows[Exception](LazyListTasks.ldzialanie(LazyList(100,200,300,400,500), LazyList(10, 20, 0, 40,50), Operators./)==LazyList(10,10))
   }
 }
-
