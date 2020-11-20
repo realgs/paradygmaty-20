@@ -7,7 +7,7 @@ case class Node[+A](elem:A, left:BT[A], right:BT[A]) extends BT[A] //konstruktor
 def createTree(depth:Int,maxValue:Int):BT[Int] = {
   if (maxValue < 0) throw new Exception("invalid maxValue for tree nodes")
   else if (depth < 0) throw new Exception("invalid depth value")
-  if (depth == 0) Empty
+  //if (depth == 0) Empty
 
   val generator = scala.util.Random
   def createTreeHelper(depth:Int):BT[Int] =
