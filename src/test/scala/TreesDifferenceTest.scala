@@ -22,5 +22,4 @@ class TreesDifferenceTest extends FunSuite {
       )
     )
   }
-
 }

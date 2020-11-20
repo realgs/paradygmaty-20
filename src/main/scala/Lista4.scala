@@ -28,7 +28,7 @@ object Lista4 extends App {
       case (Node(value1, left1, right1), Node(value2, left2, right2)) => Node(value1 - value2, treesDifferenceHelper(left1, left2), treesDifferenceHelper(right1, right2))
     }
 
-    if(!Utils.isTreeFull(tree1) && !Utils.isTreeFull(tree2)) throw new IllegalArgumentException("One of trees are not full")
+    if (!Utils.isTreeFull(tree1) && !Utils.isTreeFull(tree2)) throw new IllegalArgumentException("One of trees are not full")
     else if (Utils.calculateDepth(tree1) != Utils.calculateDepth(tree2)) throw new IllegalArgumentException("Trees must have same depths")
     else treesDifferenceHelper(tree1, tree2)
   }
@@ -53,14 +53,70 @@ object Lista4 extends App {
       }
     }
 
-    if(!Utils.isTreeFull(tree1) && !Utils.isTreeFull(tree2)) throw new IllegalArgumentException("One of trees are not full")
+    if (!Utils.isTreeFull(tree1) && !Utils.isTreeFull(tree2)) throw new IllegalArgumentException("One of trees are not full")
     else if (Utils.calculateDepth(tree1) != Utils.calculateDepth(tree2)) throw new IllegalArgumentException("Trees must have same depths")
     else removeDuplicatesDepthHelper(tree1, tree2)
   }
 
 
   // zadanie 3 przez wyszukiwanie wszerz (3 punkty)
+  val EMPTY_ELEMENT = Int.MaxValue
 
+  def removeDuplicatesBreadth(tree1: BT[Int], tree2: BT[Int]): (BT[Int], BT[Int]) = {
+    @tailrec
+    def breadthSearch(toVisitQueue1: List[BT[Int]], toVisitQueue2: List[BT[Int]], resultList1: List[Int], resultList2: List[Int]): (List[Int], List[Int]) = (toVisitQueue1, toVisitQueue2) match {
+      case (Nil, Nil) => (resultList1.reverse, resultList2.reverse)
+      case (Empty :: tail1, Empty :: tail2) => breadthSearch(tail1, tail2, EMPTY_ELEMENT :: resultList1, EMPTY_ELEMENT :: resultList2)
+      case (Node(value1, left1, right1) :: tail1, Node(value2, left2, right2) :: tail2) => {
+        if (value1 == value2) {
+          breadthSearch(tail1 ::: List(left1, right1), tail2 ::: List(left2, right2), -1 :: resultList1, -1 :: resultList2)
+        }
+        else {
+          breadthSearch(tail1 ::: List(left1, right1), tail2 ::: List(left2, right2), value1 :: resultList1, value2 :: resultList2)
+        }
+      }
+    }
+
+    def createTreeFromList(list1: List[Int], list2: List[Int]): (BT[Int], BT[Int]) = {
+      val array1 = EMPTY_ELEMENT +: list1.toArray
+      val array2 = EMPTY_ELEMENT +: list2.toArray
+
+      def filterArrays(currentIndex: Int): Unit = {
+        if (((currentIndex + 1) * 2 + 1) <= array1.length) {
+          filterArrays(currentIndex + 1)
+        }
+
+        if ((array1(currentIndex * 2) == EMPTY_ELEMENT && array1(currentIndex * 2 + 1) == EMPTY_ELEMENT) || (array2(currentIndex * 2) == EMPTY_ELEMENT && array2(currentIndex * 2 + 1) == EMPTY_ELEMENT)) {
+          if (array1(currentIndex) == array2(currentIndex)) {
+            array1(currentIndex) = EMPTY_ELEMENT
+            array2(currentIndex) = EMPTY_ELEMENT
+          }
+        }
+      }
+
+      def createTreeFromArray(currentIndex: Int): (BT[Int], BT[Int]) = {
+        if (array1(currentIndex) == EMPTY_ELEMENT && array2(currentIndex) == EMPTY_ELEMENT) {
+          (Empty, Empty)
+        }
+        else {
+          val left = createTreeFromArray(currentIndex * 2)
+          val right = createTreeFromArray(currentIndex * 2 + 1)
+
+          (Node(array1(currentIndex), left._1, right._1), Node(array2(currentIndex), left._2, right._2))
+        }
+      }
+
+      filterArrays(1)
+      createTreeFromArray(1)
+    }
+
+    if (!Utils.isTreeFull(tree1) && !Utils.isTreeFull(tree2)) throw new IllegalArgumentException("One of trees are not full")
+    else if (Utils.calculateDepth(tree1) != Utils.calculateDepth(tree2)) throw new IllegalArgumentException("Trees must have same depths")
+    else {
+      val lists = breadthSearch(List(tree1), List(tree2), Nil, Nil)
+      createTreeFromList(lists._1, lists._2)
+    }
+  }
 
   // zadanie 4 (5 punktów)
   def eachNElement[A](lazyList: LazyList[A], n: Int, m: Int): LazyList[A] = {
@@ -81,7 +137,7 @@ object Lista4 extends App {
   }
 
   // zadanie 5 (5 punktów)
-  def lazyOperation[A](lazyList1: LazyList[A], lazyList2: LazyList[A])(operation: (A,A) => A): LazyList[A] = {
+  def lazyOperation[A](lazyList1: LazyList[A], lazyList2: LazyList[A])(operation: (A, A) => A): LazyList[A] = {
     def helper(lazyList1: LazyList[A], lazyList2: LazyList[A]): LazyList[A] = (lazyList1, lazyList2) match {
       case (LazyList(), LazyList()) => LazyList()
       case (lazyList1, LazyList()) => lazyList1
