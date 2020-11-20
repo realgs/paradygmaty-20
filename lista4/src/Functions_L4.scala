@@ -83,7 +83,7 @@ object Functions_L4 {
   def depthDeleteTheSameValues(firstTree: BT[Int], secondTree: BT[Int]): (BT[Int], BT[Int]) = {
     (firstTree, secondTree) match {
       case (Empty, Empty) => (Empty, Empty)
-      case (_, Empty) | (Empty, _) => throw new Exception("Trees have different depths")
+      case (_, Empty) | (Empty, _) => throw new Exception("Invalid trees - they must have same depth and be full")
       case (Node(firstValue, firstLeft, firstRight), Node(secondValue, secondLeft, secondRight)) =>
         val (firstLeftSubTree, secondLeftSubTree) = depthDeleteTheSameValues(firstLeft, secondLeft)
         val (firstRightSubTree, secondRightSubTree) = depthDeleteTheSameValues(firstRight, secondRight)
@@ -99,11 +99,11 @@ object Functions_L4 {
   }
 
   def breadthDeleteTheSameValues(firstTree: BT[Int], secondTree: BT[Int]): (BT[Int], BT[Int]) = {
-    (firstTree, secondTree) match {
-      case (Node(_, _, _), Node(_, _, _)) => breadthDeleteTheSameValuesHelper(firstTree, secondTree)
-      case (Empty, Empty) => (Empty, Empty)
-      case (_, _) => throw new Exception("invalid tree")
-    }
+      (firstTree, secondTree) match {
+        case (Node(_, _, _), Node(_, _, _)) => breadthDeleteTheSameValuesHelper(firstTree, secondTree)
+        case (Empty, Empty) => (Empty, Empty)
+        case (_, _) => throw new Exception("Invalid trees - they must have same depth and be full")
+      }
   }
 
   def breadthDeleteTheSameValuesHelper(firstTree: BT[Int], secondTree: BT[Int]): (BT[Int], BT[Int]) = {
@@ -142,7 +142,7 @@ object Functions_L4 {
       case (Empty, Empty) :: tail => areSubTreesTheSame(tail)
       case (Node(firstValue, firstLeft, firstRight), Node(secondValue, secondLeft, secondRight)) :: tail =>
         if (firstValue == secondValue) areSubTreesTheSame(tail ::: List((firstLeft, secondLeft), (firstRight, secondRight))) else return false
-      case (_, _) :: _ => throw new Exception("invalid trees")
+      case (_, _) :: _ => throw new Exception("Invalid trees - they must have same depth and be full")
     }
   }
 
