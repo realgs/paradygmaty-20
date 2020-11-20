@@ -55,7 +55,7 @@ class FunctionsTest extends FunSuite {
 
   test("elementwiseDiff.oneEmptyOneFull") {
     val t = Functions.generateTree(1, 0, 10)
-    assert(Functions.elementwiseDiff(Empty, Empty)(Functions.intRootDiff) === Empty)
+    assert(Functions.elementwiseDiff(Empty, t)(Functions.intRootDiff) === Empty)
   }
 
   test("diff.differentDepths") {
@@ -188,7 +188,6 @@ class FunctionsTest extends FunSuite {
 
   // Task5
   test("apply.oneEmptyAddition") {
-    val res = Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _)
     assert(Functions.apply(LazyList(), LazyList(1, 2, 3, 4))(_ + _) === LazyList(1, 2, 3, 4))
   }
 
