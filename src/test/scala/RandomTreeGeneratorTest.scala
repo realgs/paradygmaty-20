@@ -1,17 +1,24 @@
 import org.scalatest.FunSuite
 
+// testy do zadania 1 (3 punkty)
 class RandomTreeGeneratorTest extends FunSuite{
 
   test("requestedDepth") {
-    assert(Utils.calculateDepth(Lista4.generateRandomTree(4,10,20)) == 4)
+    val randomTree = Lista4.generateRandomTree(4,10,20)
+    assert(Utils.calculateDepth(randomTree) == 4)
+    assert(Utils.isTreeFull(randomTree))
   }
 
   test("depthZero") {
-    assert(Lista4.generateRandomTree(0,10,20) == Empty)
+    val randomTree = Lista4.generateRandomTree(0,10,20)
+    assert(randomTree == Empty)
+    assert(Utils.isTreeFull(randomTree))
   }
 
   test("depthOne") {
-    assert(Lista4.generateRandomTree(1,1,1) == Node(1, Empty, Empty))
+    val randomTree = Lista4.generateRandomTree(1,1,1)
+    assert(randomTree == Node(1, Empty, Empty))
+    assert(Utils.isTreeFull(randomTree))
   }
 
   test("negativeDepth") {

@@ -1,5 +1,6 @@
 import org.scalatest.FunSuite
 
+// testy do zadania 4 (5 punktow)
 class EachNElementTest extends FunSuite {
 
   val mockLazyList1 = LazyList(5,6,3,2,1)
@@ -15,6 +16,10 @@ class EachNElementTest extends FunSuite {
 
   test("basicTest3") {
     assert(Lista4.eachNElement(mockLazyList2,3,9).toList == List(1,4,7))
+  }
+
+  test("stringTest") {
+    assert(Lista4.eachNElement(LazyList("ab","cd","ef","gh", "ij","kl", "mn","ou","pq","rs"),3,9).toList == List("ab","gh","mn"))
   }
 
   test("each0Element") {

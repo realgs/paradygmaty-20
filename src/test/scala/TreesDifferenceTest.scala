@@ -1,5 +1,6 @@
 import org.scalatest.FunSuite
 
+// testy do zadania 2 (3 punkty)
 class TreesDifferenceTest extends FunSuite {
 
   test("properResult") {
