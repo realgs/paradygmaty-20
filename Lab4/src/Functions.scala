@@ -59,8 +59,8 @@ object Functions {
   def ldzialanie(list1: LazyList[Double], list2: LazyList[Double], operation: (Double, Double) => Double): LazyList[Double] =
     (list1, list2) match {
       case (LazyList(), LazyList()) => LazyList()
-      case (h1 #:: t1, LazyList()) => operation(h1, 0) #:: ldzialanie(t1, LazyList(), operation)
-      case (LazyList(), h2 #:: t2) => operation(0, h2) #:: ldzialanie(LazyList(), t2, operation)
+      case (_, LazyList()) => list1
+      case (LazyList(), _) => list2
       case (h1 #:: t1, h2 #:: t2) => operation(h1, h2) #:: ldzialanie(t1, t2, operation)
     }
 }
