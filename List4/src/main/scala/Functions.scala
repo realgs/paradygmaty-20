@@ -2,7 +2,7 @@ import scala.annotation.tailrec
 import scala.util.Random
 
 object Functions {
-  // Task 1
+  // Task 1 (3 pkt)
   def generateTree(depth: Int, valueMin: Int, valueMax: Int): BTree[Int] = {
     if (depth <= -1) Empty
     else {
@@ -18,7 +18,7 @@ object Functions {
     }
   }
 
-  // Task 2
+  // Task 2 (3 pkt)
   def elementwiseDiff(t1: BTree[Int], t2: BTree[Int])(rootDiff: (BTree[Int], BTree[Int]) => Option[Int]): BTree[Int] = {
     if (rootDiff(t1, t2).isEmpty) Empty
     else {
@@ -29,6 +29,7 @@ object Functions {
     }
   }
 
+  // Task 3 (1 + 3pkt)
   def deleteDuplicatesDFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
     require(t1.depth == t2.depth)
     def auxDeleteDFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Int], BTree[Int]) = {
@@ -55,9 +56,12 @@ object Functions {
   }
 
   def deleteDuplicatesBFS(t1: BTree[Int], t2: BTree[Int]): (BTree[Any], BTree[Any]) = {
+    val depth = t1.depth
+    require(depth == t2.depth)
+    require(Helper.isFull(t1) && Helper.isFull(t2))
+
     val bfs1 = t1.toReversedBfsList
     val bfs2 = t2.toReversedBfsList
-    val depth = t1.depth
 
     @tailrec
     def auxDelete(xs: List[Int], ys: List[Int])(lowL: List[BTree[Int]], lowR: List[BTree[Int]])(curDepth: Int): (BTree[Int], BTree[Int]) = {
@@ -75,7 +79,7 @@ object Functions {
     auxDelete(bfs1, bfs2)(List.fill(Math.pow(2, depth + 1).toInt)(Empty), List.fill(Math.pow(2, depth + 1).toInt)(Empty))(depth)
   }
 
-  // Task 4
+  // Task 4 (5 pkt)
   def eachNElement[A](lxs: LazyList[A], n: Int, m: Int): LazyList[A] = {
     def auxChooseNTh(lxs: LazyList[A], step: Int, currentIndex: Int): LazyList[A] = {
       if (currentIndex == m) return LazyList()
@@ -90,7 +94,7 @@ object Functions {
     else throw new IllegalArgumentException("Parameter n out of bounds")
   }
 
-  // Task 5
+  // Task 5 (5 pkt)
   def apply[A](lxs: LazyList[A], lys: LazyList[A])(func: (A, A) => A): LazyList[A] = {
     val LazyNil = LazyList.empty
     (lxs, lys) match {
