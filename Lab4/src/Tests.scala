@@ -37,6 +37,7 @@ object Tests {
     println(subtractTrees(tree2_6, tree2_8) == tree2_5)
     println(subtractTrees(generateBinaryTree(3, (1, 1)), generateBinaryTree(3, (1, 1))) == Node(0, Node(0, Node(0, Empty, Empty), Node(0, Empty, Empty)), Node(0, Node(0, Empty, Empty), Node(0, Empty, Empty))))
     println(subtractTrees(generateBinaryTree(1, (4, 4)), generateBinaryTree(1, (2, 2))) == Node(2, Empty, Empty))
+    println(subtractTrees(Empty, Empty) == Empty)
 
     // Task 3
     val tree3_1 = Node(1, Node(2, Node(4, Empty, Empty), Node(5, Empty, Empty)), Node(6, Node(7, Empty, Empty), Node(10, Empty, Empty)))
@@ -59,6 +60,7 @@ object Tests {
     println(deleteDuplicatesDFS(tree3_9, tree3_10) == (tree3_11, tree3_12))
     println(deleteDuplicatesDFS(tree3_1, tree3_1) == (Empty, Empty))
     println(deleteDuplicatesDFS(tree3_11, tree3_11) == (Empty, Empty))
+    println(deleteDuplicatesDFS(Empty, Empty) == (Empty, Empty))
 
     // Task 4
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3).toList == List(5, 3))
