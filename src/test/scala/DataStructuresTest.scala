@@ -1,5 +1,6 @@
 import DataStructures._
 import org.scalatest._
+
 import scala.util.Random
 
 class DataStructuresTest extends funsuite.AnyFunSuite {
@@ -10,10 +11,10 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
     assertResult(Node(16, Empty, Empty)) {
       generateTree(1, new Random(100), 1, 100)
     }
-    assertResult(Node(26,Node(20,Node(14,Empty,Empty),Node(22,Empty,Empty)),Node(11,Node(16,Empty,Empty),Node(27,Empty,Empty)))) {
-      /**         26
-       *     20        11
-       *   14  22    16  27
+    assertResult(Node(26, Node(20, Node(14, Empty, Empty), Node(22, Empty, Empty)), Node(11, Node(16, Empty, Empty), Node(27, Empty, Empty)))) {
+      /** 26
+       * 20        11
+       * 14  22    16  27
        */
       generateTree(3, new Random(100), 10, 30)
     }
@@ -45,20 +46,22 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
     assertResult(Node(-15, Node(-24, Node(-18, Empty, Empty), Node(8, Empty, Empty)), Node(-20, Node(11, Empty, Empty), Node(14, Empty, Empty)))) {
       val rand = new Random(123)
       val first = generateTree(3, rand, 10, 50)
-      /**         27
-       *     21        28
-       *   31  33    35  32
+      /** 27
+       * 21        28
+       * 31  33    35  32
        */
       val second = generateTree(3, rand, 10, 50)
-      /**         42
-       *     45        48
-       *   49  25    24  18
+
+      /** 42
+       * 45        48
+       * 49  25    24  18
        */
 
       subtractTrees(first, second)
-      /**        -15
-       *     -24      -20
-       *   -18  8    11  14
+
+      /** -15
+       * -24      -20
+       * -18  8    11  14
        */
     }
 
@@ -78,4 +81,63 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
     }
   }
 
+  test("eachNElement") {
+    assertResult(LazyList()) {
+      eachNElement(LazyList(1, 2, 3), 1, 0)
+    }
+    assertResult(LazyList(1)) {
+      eachNElement(LazyList(1, 2, 3), 5, 3)
+    }
+    assertResult(LazyList(1)) {
+      eachNElement(LazyList(1, 2, 3), 1, 1)
+    }
+    assertResult(LazyList(5, 3)) {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3)
+    }
+    assertResult(LazyList(5, 3)) {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4)
+    }
+    assertResult(LazyList(5, 6, 3, 2, 1)) {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 1, 5)
+    }
+    assertResult(LazyList(5, 2)) {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 3, 4)
+    }
+    assertThrows[IllegalArgumentException] {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 0, 3)
+    }
+    assertThrows[IllegalArgumentException] {
+      eachNElement(LazyList(5, 6, 3, 2, 1), 2, -2)
+    }
+
+
+  }
+
+  test("lazyAction") {
+    assertResult(LazyList()) {
+      lazyAction(LazyList(), LazyList(), '*')
+    }
+    assertResult(LazyList(1)) {
+      lazyAction(LazyList(1), LazyList(0), '+')
+    }
+    assertResult(LazyList(1, 2, 3)) {
+      lazyAction(LazyList(), LazyList(1, 2, 3), '+')
+    }
+    assertResult(LazyList(3, 5, 7, 5)) {
+      lazyAction(LazyList(1, 2, 3), LazyList(2, 3, 4, 5), '+')
+    }
+    assertResult(LazyList(4, 16, 32, 64)) {
+      lazyAction(LazyList(2, 2, 2, 2), LazyList(2, 8, 16, 32), '*')
+    }
+    assertResult(LazyList(5, 7, 9, 3)) {
+      lazyAction(LazyList(12, 14, 19, 4), LazyList(7, 7, 10, 1), '-')
+    }
+    assertResult(LazyList(2, 4, 8, 16)) {
+      lazyAction(LazyList(18, 16, 64, 32), LazyList(9, 4, 8, 2), '/')
+    }
+    assertThrows[NotImplementedError] {
+      lazyAction(LazyList(1, 2, 3), LazyList(1, 2, 3), '%')
+    }
+
+  }
 }
