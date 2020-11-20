@@ -13,9 +13,8 @@ object Lista4 extends App {
     }
 
     if (lowerNumberBound <= 0 || upperNumberBound <= 0) throw new IllegalArgumentException("Non positive numbers are not allowed")
-    if (lowerNumberBound > upperNumberBound) throw new IllegalArgumentException("Lower bound cannot be greater than upper")
-
-    if (depth < 0) throw new IllegalArgumentException("Depth is not allowed to be negative")
+    else if (lowerNumberBound > upperNumberBound) throw new IllegalArgumentException("Lower bound cannot be greater than upper")
+    else if (depth < 0) throw new IllegalArgumentException("Depth is not allowed to be negative")
     else if (depth == 0) Empty
     else if (depth == 1) Node(Random.between(lowerNumberBound, upperNumberBound + 1), Empty, Empty)
     else generateRandomTreeHelper(0)
@@ -130,8 +129,7 @@ object Lista4 extends App {
     }
 
     if (n < 0 || m < 0) throw new IllegalArgumentException("Input parameters is not allowed to be negative")
-
-    if (n == 0) LazyList()
+    else if (n == 0) LazyList()
     else if (n == 1) lazyList
     else helper(lazyList, 0)
   }
