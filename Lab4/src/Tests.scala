@@ -1,10 +1,11 @@
 import Functions._
+import Utils._
 
 object Tests {
 
   def main(args: Array[String]): Unit = {
 
-    // Zadanie 1
+    // Task 1
     println(generateBinaryTree(0, (1, 2)) == Empty)
     println(generateBinaryTree(1, (1, 1)) == Node(1, Empty, Empty))
     println(generateBinaryTree(2, (1, 1)) == Node(1, Node(1, Empty, Empty), Node(1, Empty, Empty)))
@@ -16,7 +17,7 @@ object Tests {
     println(isFullTree(generateBinaryTree(2, (67, 5000))))
     println(isFullTree(generateBinaryTree(1, (100, 4513))))
 
-    // Zadanie 2
+    // Task 2
     val tree2_1 = Node(1, Node(2, Node(4, Empty, Empty), Node(5, Empty, Empty)), Node(6, Node(7, Empty, Empty), Node(10, Empty, Empty)))
     val tree2_2 = Node(4, Node(3, Node(2, Empty, Empty), Node(1, Empty, Empty)), Node(7, Node(9, Empty, Empty), Node(20, Empty, Empty)))
     val tree2_3 = Node(-3, Node(-1, Node(2, Empty, Empty), Node(4, Empty, Empty)), Node(-1, Node(-2, Empty, Empty), Node(-10, Empty, Empty)))
@@ -37,7 +38,7 @@ object Tests {
     println(subtractTrees(generateBinaryTree(3, (1, 1)), generateBinaryTree(3, (1, 1))) == Node(0, Node(0, Node(0, Empty, Empty), Node(0, Empty, Empty)), Node(0, Node(0, Empty, Empty), Node(0, Empty, Empty))))
     println(subtractTrees(generateBinaryTree(1, (4, 4)), generateBinaryTree(1, (2, 2))) == Node(2, Empty, Empty))
 
-    // Zadanie 3
+    // Task 3
     val tree3_1 = Node(1, Node(2, Node(4, Empty, Empty), Node(5, Empty, Empty)), Node(6, Node(7, Empty, Empty), Node(10, Empty, Empty)))
     val tree3_2 = Node(2, Node(2, Node(4, Empty, Empty), Node(5, Empty, Empty)), Node(7, Node(8, Empty, Empty), Node(10, Empty, Empty)))
     val tree3_3 = Node(1, Empty, Node(6, Node(7, Empty, Empty), Empty))
@@ -59,7 +60,7 @@ object Tests {
     println(deleteDuplicatesDFS(tree3_1, tree3_1) == (Empty, Empty))
     println(deleteDuplicatesDFS(tree3_11, tree3_11) == (Empty, Empty))
 
-    // Zadanie 4
+    // Task 4
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 3).toList == List(5, 3))
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 4).toList == List(5, 3))
     println(eachNElement(LazyList(5, 6, 3, 2, 1), 2, 5).toList == List(5, 3, 1))
@@ -82,7 +83,7 @@ object Tests {
 //    println(eachNElement(LazyList("5", "6", "3", "2", "1"), 0, 3))
 //    println(eachNElement(LazyList("5", "6", "3", "2", "1"), 2, 0))
 
-    // Zadanie 5
+    // Task 5
     println(ldzialanie(LazyList(1, 2, 3), LazyList(2, 3, 4, 5), (x, y) => x + y).toList == List(3, 5, 7, 5))
     println(ldzialanie(LazyList(1, 2, 3), LazyList(2, 3, 4, 5), (x, y) => x - y).toList == List(-1, -1, -1, 5))
     println(ldzialanie(LazyList(1, 2, 3), LazyList(2, 3, 4, 5), (x, y) => x * y).toList == List(2, 6, 12, 5))

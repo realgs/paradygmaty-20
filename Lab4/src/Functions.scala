@@ -1,15 +1,8 @@
-import scala.util.Random
+import Utils._
 
 object Functions {
 
-  sealed trait BinaryTree[+A]
-  case object Empty extends BinaryTree[Nothing]
-  case class Node[+A](value: A, left: BinaryTree[A], right: BinaryTree[A]) extends BinaryTree[A]
-
-  // Zadanie 1 (3 pkt)
-  def randomInt(range: (Int, Int)): Int =
-    Random.nextInt(range._2 - range._1 + 1) + range._1
-
+  // Task 1 (3 pkt)
   def generateBinaryTree(n: Int, range: (Int, Int)): BinaryTree[Int] = {
     def generate(k: Int): BinaryTree[Int] =
       if(k == 0) Empty
@@ -21,23 +14,7 @@ object Functions {
     else generate(n)
   }
 
-  // Zadanie 2 (3 pkt)
-  def max(x: Int, y: Int): Int =
-    if(x > y) x else y
-
-  def height[A](tree: BinaryTree[A]): Int = tree match {
-    case Empty => 0
-    case Node(_, left, right) => 1 + max(height(left), height(right))
-  }
-
-  def countNodes[A](tree: BinaryTree[A]): Int = tree match {
-    case Empty => 0
-    case Node(_, left, right) => 1 + countNodes(left) + countNodes(right)
-  }
-
-  def isFullTree[A](tree: BinaryTree[A]): Boolean =
-    countNodes(tree) == Math.pow(2, height(tree)) - 1
-
+  // Task 2 (3 pkt)
   def subtractTrees(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): BinaryTree[Int] =
     if(!isFullTree(tree1) || !isFullTree(tree2)) throw new IllegalArgumentException("both trees must be full")
     else if(height(tree1) != height(tree2)) throw new IllegalArgumentException("both trees must be the same height")
@@ -46,7 +23,7 @@ object Functions {
       case (Node(v1, left1, right1), Node(v2, left2, right2)) => Node(v1 - v2, subtractTrees(left1, left2), subtractTrees(right1, right2))
     }
 
-  // Zadanie 3 (4 pkt)
+  // Task 3 (4 pkt)
   def deleteDuplicatesDFS(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): (BinaryTree[Int], BinaryTree[Int]) = {
     def delete(tree1: BinaryTree[Int], tree2: BinaryTree[Int]): (BinaryTree[Int], BinaryTree[Int]) =
       (tree1, tree2) match {
@@ -66,13 +43,7 @@ object Functions {
     else delete(tree1, tree2)
   }
 
-  // Zadanie 4 (5 pkt)
-  def intLazyListGenerator(): LazyList[Int] = {
-    def generator(i: Int): LazyList[Int] =
-      i #:: generator(i + 1)
-    generator(1)
-  }
-
+  // Task 4 (5 pkt)
   def eachNElement[A](list: LazyList[A], n: Int, m: Int): LazyList[A] = {
     def eachNElementHelper(list: LazyList[A], i: Int): LazyList[A] =
       if(list.isEmpty || i >= m) LazyList()
@@ -84,7 +55,7 @@ object Functions {
     eachNElementHelper(list, 0)
   }
 
-  // Zadanie 5 (5 pkt)
+  // Task 5 (5 pkt)
   def ldzialanie(list1: LazyList[Double], list2: LazyList[Double], operation: (Double, Double) => Double): LazyList[Double] =
     (list1, list2) match {
       case (LazyList(), LazyList()) => LazyList()
