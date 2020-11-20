@@ -88,7 +88,21 @@ def breadthBT(bt1 : BT[Int], bt2 : BT[Int]) : (List[BT[Int]], List[BT[Int]])={
 def checkLists(l1: List[BT[Int]], l2: List[BT[Int]]): (List[BT[Int]], List[BT[Int]])={
   val a1=l1.toArray
   val a2=l2.toArray
-  (Nil, Nil)
+  var i=a1.length-1
+  var j=a2.length-1
+  def inner(arr1: Array[BT[Int]], index: Int, value: BT[Int]): List[BT[Int]]={
+    var i=index
+    while(i>=0){
+      arr1(i) match {
+        case Empty => ()
+        case Node(v, l, r) => if(arr1(i)==value && value != Empty) arr1(i)=Node(-1, l, r) else if(arr1(i)==value && value == Empty) arr1(i)=Empty
+      }
+      i-=1
+      i/=2
+    }
+    arr1.toList
+  }
+  (inner(a1, i, a1(i)), inner(a2, j, a2(j)))
 }
 
 def createTreeFromList(list: List[BT[Int]]): BT[Int]={
@@ -177,7 +191,7 @@ val t2 = Node(1,
   )
 )
 
-breadthBT(t1, t2)
+deleteDuplicatesBFS(t1, t2);
 
 deleteDuplicatesDFS(t1, t2);
 
