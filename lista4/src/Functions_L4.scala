@@ -56,6 +56,7 @@ object Functions_L4 {
         helper(left, right)
     }
   }
+
   def breadthBT[A](tree: BT[A]): List[A] = {
     @tailrec
     def breadthBTIter(queue: List[BT[A]], returnList: List[A]): List[A] = {
@@ -67,5 +68,58 @@ object Functions_L4 {
     }
 
     breadthBTIter(List(tree), Nil)
+  }
+
+  //task 2 (3pkt)
+  def diffTrees(firstTree: BT[Int], secondTree: BT[Int]): BT[Int] = {
+    def helper(firstTree: BT[Int], secondTree: BT[Int]): BT[Int] = {
+      (firstTree, secondTree) match {
+        case (Node(_, _, _), Empty) | (Empty, Node(_, _, _)) => throw new Exception("trees have different depths")
+        case (Empty, Empty) => Empty
+        case (Node(firstElement, firstLeft, firstRight), Node(secondElement, secondLeft, secondRight)) =>
+          Node(firstElement - secondElement, helper(firstLeft, secondLeft), helper(firstRight, secondRight))
+      }
+    }
+
+    helper(firstTree, secondTree)
+  }
+
+  //task 4 (5pkt)
+  def eachNElement[A](lazyList: LazyList[A], n: Int, lastIndex: Int): LazyList[A] = {
+    if (n == 0) LazyList()
+    else if (n < 0 || lastIndex < 1) throw new Exception("invalid value")
+    else {
+      def helper(lazyList: LazyList[A], k: Int, lastIndex: Int): LazyList[A] = {
+        if (lastIndex == 0) LazyList()
+        else {
+          (lazyList, k) match {
+            case (LazyList(), _) => LazyList()
+            case (head #:: tail, 1) => head #:: helper(tail, n, lastIndex - 1)
+            case (_ #:: tail, _) => helper(tail, k - 1, lastIndex - 1)
+          }
+        }
+      }
+
+      helper(lazyList, 1, lastIndex)
+    }
+  }
+
+  //task 5 (5pkt)
+  def ldzialanie(firstLazyList: LazyList[Double], secondLazyList: LazyList[Double], action: (Double, Double) => Double): LazyList[Double] = {
+    (firstLazyList, secondLazyList) match {
+      case (LazyList(), _) => secondLazyList
+      case (_, LazyList()) => firstLazyList
+      case (firstHead #:: firstTail, secondHead #:: secondTail) => action(firstHead, secondHead) #:: ldzialanie(firstTail, secondTail, action)
+    }
+  }
+
+  def addition(x: Double, y: Double): Double = x + y
+
+  def subtraction(x: Double, y: Double): Double = x - y
+
+  def multiplication(x: Double, y: Double): Double = x * y
+
+  def division(x: Double, y: Double): Double = {
+    if (y == 0) throw new Exception("division by zero") else x / y
   }
 }
