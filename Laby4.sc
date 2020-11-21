@@ -60,3 +60,49 @@ val l=LazyList(5,6,3,2,1)
 eachNElement(l,2,3).force
 eachNElement(l,2,4).force
 
+//zad 5 5 pkt
+
+def ldzialanie(list1: LazyList[Int], list2: LazyList[Int], op: Char) : LazyList[Int] = {
+  if(list1==LazyList() && list2==LazyList()) {
+    return LazyList()
+  }else {
+    if (list1 == LazyList()) {
+      val val1 = 0
+      val val2 = list2.head
+      if (val2 == 0 && op == '/')
+        return 0 #:: ldzialanie(LazyList(), list2.tail, '/')
+      op match {
+        case '+' => return (val1 + val2) #:: ldzialanie(LazyList(), list2.tail, '+')
+        case '-' => return (val1 - val2) #:: ldzialanie(LazyList(), list2.tail, '-')
+        case '*' => return (val1 * val2) #:: ldzialanie(LazyList(), list2.tail, '*')
+        case '/' => return (val1 / val2) #:: ldzialanie(LazyList(), list2.tail, '/')
+      }
+    }
+    else if (list2 == LazyList()) {
+      val val1 = list1.head
+      val val2 = 0;
+      op match {
+        case '+' => return (val1 + val2) #:: ldzialanie(list1.tail, LazyList(), '+')
+        case '-' => return (val1 - val2) #:: ldzialanie(list1.tail, LazyList(), '-')
+        case '*' => return (val1 * val2) #:: ldzialanie(list1.tail, LazyList(), '*')
+        case '/' => return 0 #:: ldzialanie(list1.tail, LazyList(), '/')
+      }
+    }
+    else {
+      val val1 = list1.head
+      val val2 = list2.head
+      if (val2 == 0 && op == '/')
+        return 0 #:: ldzialanie(LazyList(), list2.tail, '/')
+      op match {
+        case '+' => return (val1 + val2) #:: ldzialanie(list1.tail, list2.tail, '+')
+        case '-' => return (val1 - val2) #:: ldzialanie(list1.tail, list2.tail, '-')
+        case '*' => return (val1 * val2) #:: ldzialanie(list1.tail, list2.tail, '*')
+        case '/' => return (val1 / val2) #:: ldzialanie(list1.tail, list2.tail, '/')
+      }
+
+    }
+  }
+}
+val l2=LazyList(1,2,3)
+val l3=LazyList(2,3,4,5)
+ldzialanie(l3,l2,'/').force
