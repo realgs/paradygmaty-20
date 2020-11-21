@@ -106,3 +106,7 @@ def ldzialanie(list1: LazyList[Int], list2: LazyList[Int], op: Char) : LazyList[
 val l2=LazyList(1,2,3)
 val l3=LazyList(2,3,4,5)
 ldzialanie(l3,l2,'/').force
+ldzialanie(l3,l2,'+').force
+ldzialanie(l3,l2,'-').force
+ldzialanie(l3,l2,'*').force
+
