@@ -30,7 +30,7 @@ duplicate2(List(2,1,2,1,1))(List(1,1,2,3,4))
 
 trait Debug {
   // 3)
-  def debugName(): Unit = println(this.getClass.getSimpleName)
+  def debugName(): Unit = println("Class: " + this.getClass.getSimpleName)
   // 4)
   def debugVars(): Unit = {
     def printFields(fields: Array[Field]):Unit =
