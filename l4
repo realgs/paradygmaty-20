@@ -22,7 +22,6 @@ type 'a llist = LKoniec | LElement of 'a * (unit -> 'a llist);;
 
 4) Zdefiniuj funkcję "eachNElement" wybierającą co n-ty element listy leniwej,
    zaczynając od elementu pierwszego kończąc na elemencie numer m(indeks m dotyczy listy pierwotnej, nie wynikowej). Proszę o testy(!)
-   Użyj strumieni przedstawionych na wykładzie
 
    Przykłady:
    [5;6;3;2;1], 2, 3 -> [5;3]
@@ -32,7 +31,6 @@ type 'a llist = LKoniec | LElement of 'a * (unit -> 'a llist);;
    Punkty: 5
 
 5) Zdefiniuj funkcję "ldzialanie" przyjmującą dwie listy leniwe i wykonującą podane działanie na elementach list. Obsłuż 4 podstawowe operacje matematyczne. Wynikiem jest lista leniwa. Proszę o testy(!)
-   Użyj strumieni przedstawionych na wykładzie
 
    Przykład:
    [1;2;3], [2;3;4;5] oraz + daje [3;5;7;5]
