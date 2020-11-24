@@ -1,32 +1,57 @@
 import java.lang.reflect.Field
+import scala.annotation.tailrec
+import scala.collection.immutable.Queue
 // Karol Waliszewski
 
-// TODO: Implement better collection for ex. 1 & 2.
 // 1) - 2.5pkt
-def duplicate[A](elements: List[A])(counters: List[Int]):List[A] =
- elements match {
-   case Nil => Nil
-   case _ =>
-     counters match {
-       case Nil => Nil
-       case 0::tail => duplicate(elements.tail)(counters.tail)
-       case hd::tail => elements.head :: duplicate(elements)((hd-1)::tail)
-     }
- }
+//def duplicate[A](elements: List[A])(counters: List[Int]):List[A] =
+// elements match {
+//   case Nil => Nil
+//   case _ =>
+//     counters match {
+//       case Nil => Nil
+//       case 0::tail => duplicate(elements.tail)(counters.tail)
+//       case hd::tail =>
+//         if(hd < 0)
+//           throw new Exception("Element cannot be duplicated n times if n < 0.")
+//         else
+//          elements.head :: duplicate(elements)((hd-1)::tail)
+//     }
+// }
+
+def duplicate[A] (collection: Queue[A])(repetitions: Queue[Int]): Queue[A] = {
+  @tailrec
+  def duplicateSingleElement(elements: Queue[A], element: A, repetitions: Queue[Int], reps: Int, result: Queue[A]): Queue[A] =
+    if(reps > 0) duplicateSingleElement(elements, element, repetitions, reps - 1, result.enqueue(element))
+    else if(elements.nonEmpty && repetitions.nonEmpty) {
+      val (newElement, newElements) = elements.dequeue
+      val (newReps, newRepetitions) = repetitions.dequeue
+      duplicateSingleElement(newElements, newElement, newRepetitions, newReps, result)
+    }
+    else result
 
 
-duplicate(List(1,2,3,4))(List(1,2,3,4))
-duplicate(List(1,2,3))(List(0,2,3,4))
-duplicate(List(1,2,3,4))(List(1,2,3))
-duplicate(List())(List(1,2,3,4))
-duplicate(List(1,2,3,4))(List(0))
+  if(repetitions.isEmpty || collection.isEmpty) Queue.empty
+  else {
+    val (newElement, newElements) = collection.dequeue
+    val (newReps, newRepetitions) = repetitions.dequeue
+    duplicateSingleElement(newElements, newElement, newRepetitions, newReps, Queue().empty)
+  }
+}
+
+duplicate(Queue(1, 2, 3, 4))(Queue(1, 2, 3, 4))
+duplicate(Queue(1, 2, 3))(Queue(0, 2, 3, 4))
+duplicate(Queue(1, 2, 3))(Queue(0, 2))
+duplicate(Queue(1))(Queue(0, 2))
+duplicate(Queue())(Queue(2))
+duplicate(Queue("a", "b"))(Queue(0, 2))
+duplicate(Queue("a", "b", "c"))(Queue(2, 3))
 
 // 2) - 2.5pkt
-def duplicate2[A](elements: List[A])(counters: List[Int]):List[A] =
+def duplicate2[A](elements: Queue[A])(counters: Queue[Int]):Queue[A] =
   duplicate(elements.distinct)(counters.distinct)
 
-duplicate2(List(2,1,2,1,1))(List(1,1,2,3,4))
-
+duplicate2(Queue(2,1,2,1,1))(Queue(1,1,2,3,4))
 
 trait Debug {
   // 3) - 5pkt
