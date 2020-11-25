@@ -1,3 +1,5 @@
+import java.lang.reflect.AnnotatedElement
+
 import Solutions.{Debug, duplicate, duplicateMutable, duplicateWithoutReps, duplicateWithoutRepsMutable}
 
 import scala.collection.immutable.Queue
@@ -55,44 +57,58 @@ object Tests {
       var a: String = "test"
     }
 
-    class AdvPoint extends Debug {
-      private var _x = 0
-      private var _y = 0
-      private val bound = 100
+    class AdvPoint(xv: Int, yv: Int, minBound: Int, maxBound: Int) extends Debug {
+      private var _x = xv
+      private var _y = yv
+      private val bounds = (minBound, maxBound)
 
       def x: Int = _x
       def x_= (newValue: Int): Unit = {
-        if (newValue < bound) _x = newValue else printWarning()
+        if (newValue > bounds._1 && newValue < bounds._2) _x = newValue else printWarning()
       }
 
       def y: Int = _y
       def y_= (newValue: Int): Unit = {
-        if (newValue < bound) _y = newValue else printWarning()
+        if (newValue > bounds._1 && newValue < bounds._2) _y = newValue else printWarning()
       }
 
       private def printWarning(): Unit = println("WARNING: Out of bounds")
     }
 
-    // Task 3
-    var p : Point = new Point(3,4)
+    // Task 3 + 4 + 5
+    def handleMapPrint(map: Map[String, (AnnotatedElement, AnyRef)]): Unit = {
+      map.foreach { case (key, (valType, value)) => println(s"Var $key => $valType, $value - modified val: ${value + "_mod"}")}
+    }
+
+    val p : Point = new Point(3,4)
     p.debugName()
-
-    var advPoint = new AdvPoint()
-    advPoint.debugName()
-
-    // Task 4
     p.debugVars()
-    advPoint.debugVars()
 
-    // Task 5
     val className1 = p.getName
     println(className1 + " - accessible")
+
+    val classFields1 = p.getFields
+
+    println(classFields1)
+    println(classFields1.apply("x"))
+    println(classFields1.apply("y"))
+
+    handleMapPrint(classFields1)
+
+    val advPoint = new AdvPoint(1, 2, 0, 100)
+    advPoint.debugName()
+    advPoint.debugVars()
 
     val className2 = advPoint.getName
     println(className2)
 
-//    val classFields1 = p.getFields
-//
-//    val classFields2 = advPoint.getFields
+    val classFields2 = advPoint.getFields
+
+    println(classFields2)
+    val bounds = classFields2.apply("bounds")
+    println("Bounds: " + bounds._2)
+
+    handleMapPrint(classFields2)
   }
 }
+

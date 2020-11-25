@@ -1,4 +1,4 @@
-import java.lang.reflect.Field
+import java.lang.reflect.{AnnotatedElement, Field}
 
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
@@ -56,8 +56,10 @@ object Solutions {
 
   // Task 3 + 4 + 5 (5p + 5p + 5p)
   trait Debug {
+    // Task 3 (5p)
     def debugName(): Unit = println("Class: " + getClass.getSimpleName)
 
+    // Task 4 (5p)
     def debugVars(): Unit = {
       def printFields(fields: Array[Field]): Unit = {
         for(field <- fields) {
@@ -69,13 +71,16 @@ object Solutions {
       printFields(getClass.getDeclaredFields)
     }
 
-    // not finished
+    // Task 5 (5p)
     def getName: String = getClass.getSimpleName
-    def getFields: Array[Field] = {
-//      val map = Map()
-//      for(field <- getClass.getDeclaredFields) {
-//
-//      }
+    def getFields: Map[String, (AnnotatedElement, AnyRef)] = {
+      var map: Map[String, (AnnotatedElement, AnyRef)] = Map()
+      for(field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        map = map + (field.getName -> (field.getType, field.get(this)))
+      }
+      map
     }
   }
 }
+
