@@ -19,3 +19,4 @@ class AdvPoint(xv: Int, yv: Int, minBound: Int, maxBound: Int) extends Debug {
 
   private def printWarning(): Unit = println("WARNING: Out of bounds")
 }
+

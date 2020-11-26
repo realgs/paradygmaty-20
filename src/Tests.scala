@@ -70,3 +70,4 @@ class Tests extends AnyFunSuite {
     handleMapPrint(classFields2)
   }
 }
+
