@@ -1,6 +1,6 @@
 import java.lang.reflect.AnnotatedElement
 
-import Solutions.{Debug, duplicate, duplicateWithoutReps}
+import Solutions.{duplicate, duplicateWithoutReps}
 import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.immutable.Queue
@@ -34,42 +34,15 @@ class Tests extends AnyFunSuite {
   }
 
   test("tasks 3 + 4 + 5") {
-    class Point(xv: Int, yv: Int) extends Debug {
-      var x: Int = xv
-      var y: Int = yv
-      var a: String = "test"
-    }
-
-    class AdvPoint(xv: Int, yv: Int, minBound: Int, maxBound: Int) extends Debug {
-      private var _x = xv
-      private var _y = yv
-      private val bounds = (minBound, maxBound)
-
-      def x: Int = _x
-
-      def x_=(newValue: Int): Unit = {
-        if (newValue > bounds._1 && newValue < bounds._2) _x = newValue else printWarning()
-      }
-
-      def y: Int = _y
-
-      def y_=(newValue: Int): Unit = {
-        if (newValue > bounds._1 && newValue < bounds._2) _y = newValue else printWarning()
-      }
-
-      private def printWarning(): Unit = println("WARNING: Out of bounds")
-    }
-
-    def handleMapPrint(map: Map[String, (AnnotatedElement, AnyRef)]): Unit = {
+    def handleMapPrint(map: Map[String, (AnnotatedElement, AnyRef)]): Unit =
       map.foreach { case (key, (valType, value)) => println(s"Var $key => $valType, $value - modified val: ${value + "_mod"}") }
-    }
 
     val p: Point = new Point(3, 4)
     p.debugName()
     p.debugVars()
 
     val className1 = p.getName
-    assert(className1 + " - accessible" == "Point$1 - accessible")
+    assert(className1 + " - accessible" == "Point - accessible")
 
     val classFields1 = p.getFields
     println(classFields1)
@@ -86,7 +59,7 @@ class Tests extends AnyFunSuite {
     advPoint.debugVars()
 
     val className2 = advPoint.getName
-    assert(className2 + " - accessible" == "AdvPoint$1 - accessible")
+    assert(className2 + " - accessible" == "AdvPoint - accessible")
 
     val classFields2 = advPoint.getFields
     println(classFields2)
