@@ -50,9 +50,9 @@ duplicate(Queue("a", "b", "c"))(Queue(2, 3))
 
 // 2) - 2.5pkt
 def duplicate2[A](elements: Set[A])(counters: Queue[Int]):Queue[A] = {
-  var queue = Queue[A]();
+  var queue = Queue[A]()
   for(el <- elements){
-    queue = queue.enqueue(el);
+    queue = queue.enqueue(el)
   }
   duplicate(queue)(counters)
 }
