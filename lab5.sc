@@ -1,4 +1,5 @@
 import java.lang.reflect.Field
+
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 // Karol Waliszewski
@@ -21,12 +22,12 @@ import scala.collection.immutable.Queue
 
 def duplicate[A] (collection: Queue[A])(repetitions: Queue[Int]): Queue[A] = {
   @tailrec
-  def duplicateSingleElement(elements: Queue[A], element: A, repetitions: Queue[Int], reps: Int, result: Queue[A]): Queue[A] =
-    if(reps > 0) duplicateSingleElement(elements, element, repetitions, reps - 1, result.enqueue(element))
+  def duplicateInner(elements: Queue[A], element: A, repetitions: Queue[Int], reps: Int, result: Queue[A]): Queue[A] =
+    if(reps > 0) duplicateInner(elements, element, repetitions, reps - 1, result.enqueue(element))
     else if(elements.nonEmpty && repetitions.nonEmpty) {
       val (newElement, newElements) = elements.dequeue
       val (newReps, newRepetitions) = repetitions.dequeue
-      duplicateSingleElement(newElements, newElement, newRepetitions, newReps, result)
+      duplicateInner(newElements, newElement, newRepetitions, newReps, result)
     }
     else result
 
@@ -35,7 +36,7 @@ def duplicate[A] (collection: Queue[A])(repetitions: Queue[Int]): Queue[A] = {
   else {
     val (newElement, newElements) = collection.dequeue
     val (newReps, newRepetitions) = repetitions.dequeue
-    duplicateSingleElement(newElements, newElement, newRepetitions, newReps, Queue().empty)
+    duplicateInner(newElements, newElement, newRepetitions, newReps, Queue().empty)
   }
 }
 
@@ -48,10 +49,15 @@ duplicate(Queue("a", "b"))(Queue(0, 2))
 duplicate(Queue("a", "b", "c"))(Queue(2, 3))
 
 // 2) - 2.5pkt
-def duplicate2[A](elements: Queue[A])(counters: Queue[Int]):Queue[A] =
-  duplicate(elements.distinct)(counters.distinct)
+def duplicate2[A](elements: Set[A])(counters: Queue[Int]):Queue[A] = {
+  var queue = Queue[A]();
+  for(el <- elements){
+    queue = queue.enqueue(el);
+  }
+  duplicate(queue)(counters)
+}
 
-duplicate2(Queue(2,1,2,1,1))(Queue(1,1,2,3,4))
+duplicate2(Set(2,1,2,1,1))(Queue(1,2,3,4,5))
 
 trait Debug {
   // 3) - 5pkt
