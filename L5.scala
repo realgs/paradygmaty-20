@@ -40,7 +40,7 @@ trait Debug{
     val array = getClass.getDeclaredFields
     for(field <- array){
       field.setAccessible(true)
-      println("Var: " + field.getName+" => "+ field.getType + ", " + field.get(this))
+      println("Var: " + field.getName+" => "+ field.getAnnotatedType + ", " + field.get(this))
     }
   }
 
