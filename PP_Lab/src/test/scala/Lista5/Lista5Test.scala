@@ -11,7 +11,7 @@ class Lista5Test extends FunSuite{
   val car : Car = new Car("Mercedes", 2020)
   val garage : Garage = new Garage(new Car("Audi", 2015), 50)
 
-  test("Lista 5 zadanie 1") {
+  test("Tests for exc. 1") {
     assert(duplicate(Queue(1,2,3), Queue(0,3,1,4)) == Queue(2,2,2,3))
     assert(duplicate(Queue(1,2,3), Queue(1,4)) == Queue(1,2,2,2,2))
     assert(duplicate(Queue('a','l','a'), Queue(1,2,-1)) == Queue('a','l','l'))
@@ -19,7 +19,7 @@ class Lista5Test extends FunSuite{
     assert(duplicate(Queue(1,2,3), Queue()) == Queue())
   }
 
-  test("Lista 5 zadanie 2") {
+  test("Tests for exc. 2") {
     assert(duplicateWithoutRepeating(Queue(1,2,3,1,2,4,3), Queue(0,3,1,4,5,2,4)) == Queue(2,2,2,3,4,4))
     assert(duplicateWithoutRepeating(Queue(1,2,1,2,1,2), Queue(4,-2)) == Queue(1,1,1,1))
     assert(duplicateWithoutRepeating(Queue(), Queue(0,3,1,4,5,2,4)) == Queue())
@@ -27,13 +27,13 @@ class Lista5Test extends FunSuite{
     assert(duplicateWithoutRepeating(Queue('a','l','a'), Queue(0,3,1)) == Queue('l','l','l'))
   }
 
-  test("Lista 5 zadanie 3") {
+  test("Tests for exc.3") {
     p.debugName()
     car.debugName()
     garage.debugName()
   }
 
-  test("Lista 5 zadanie 4") {
+  test("Tests for exc. 4") {
     p.debugVars()
     println()
     car.debugVars()
@@ -41,7 +41,7 @@ class Lista5Test extends FunSuite{
     garage.debugVars()
   }
 
-  test("Lista 5 zadanie 5") {
+  test("Tests for exc. 5") {
     assert(p.debugGetName() == "Point")
     assert(car.debugGetName() == "Car")
     assert(garage.debugGetName() == "Garage")
