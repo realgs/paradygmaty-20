@@ -40,3 +40,28 @@ duplicateSet(Set(),Vector(1)) == Vector()
 duplicateSet(Set(1,2,3),Vector(0,3,1,4)) == Vector(2,2,2,3)
 duplicateSet(Set(1,2,3,4),Vector(0,3,1)) == Vector(2,2,2,3)
 duplicateSet(Set(1,1,2,3,4),Vector(0,3,1,2)) == Vector(2,2,2,3,4,4)
+
+//Zadanie 3 (5pkt)
+trait Debug {
+  def debugName():Unit = {
+    println("Class: " + this.getClass.getSimpleName)
+  }
+}
+
+class Point(xv: Int, yv: Int) extends Debug {
+  var x: Int = xv
+  var y: Int = yv
+  var a: String = "test"
+}
+
+val p = new Point(3,4)
+p.debugName()
+
+class Student(name: String,age: Int,index: String) extends Debug {
+  var n = name
+  var a = age
+  var i = index
+}
+
+val s = new Student("Paweł",24,"213225")
+s.debugName()
