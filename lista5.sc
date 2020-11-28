@@ -49,7 +49,7 @@ trait Debug {
 
   def debugVars(): Unit = {
     this.getClass.getDeclaredFields.foreach(f => {
-      f.setAccessible(true);
+      f.setAccessible(true)
       if (f.getName != "$outer") println("Var: " + f.getName + " => " + f.getType.getSimpleName + " " + f.get(this))
     })
   }
@@ -75,4 +75,27 @@ val s = new Student("Pawel", 24, "213225")
 s.debugName()
 s.debugVars()
 
+//Zadanie 5 (5pkt)
+trait Debug {
+  def debugName: Class[_] = this.getClass
 
+  def debugVars: List[(String, Class[_], Object)] = {
+    var result = List.empty[(String,Class[_],Object)]
+    val fields = this.getClass.getDeclaredFields
+    for (i <- 0 to fields.length - 2) {
+      fields(i).setAccessible(true)
+      result = (fields(i).getName, fields(i).getType, fields(i).get(this)) :: result
+    }
+    result.reverse
+  }
+}
+
+class Fruit(name: String, calories: Float, color: String) extends Debug {
+  var n = name
+  var c = calories
+  var cl = color
+}
+
+val f = new Fruit("apple", 75.5f, "yellow")
+f.debugName
+f.debugVars
