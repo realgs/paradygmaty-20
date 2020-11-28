@@ -1,12 +1,14 @@
 package Lista5
 
+import java.lang.reflect.{AnnotatedElement, Field}
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 import scala.collection.immutable.HashSet
 
-object Lista5 {
+object Lista5 extends App {
+
   //zadanie 1 (2.5 pkt)
-  //wg. dokumentacji: enqueue, dequeue, front - O(1)
+  //complexity of Queue methods: enqueue, dequeue, front - O(1)
   def duplicate[A](elementCollection: Queue[A], repetitionsCollection: Queue[Int]): Queue[A] = {
     @tailrec
     def innerDuplicate(elements: Queue[A], repetitions: Queue[Int], retCollection: Queue[A], currentCounter: Int): Queue[A] = {
@@ -30,13 +32,14 @@ object Lista5 {
 
 
   //zadanie 2 (2.5 pkt)
-  //wg. dokumentacji: enqueue, dequeue, front : O(1). Dla hashSet contains,+ : O(1)
+  //complexity of Queue methods: enqueue, dequeue, front : O(1)
+  //complexity of hashSet methods: contains, + : O(1)
   def duplicateWithoutRepeating[A](elementCollection: Queue[A], repetitionsCollection: Queue[Int]): Queue[A] = {
     if(elementCollection.isEmpty || repetitionsCollection.isEmpty)
       Queue()
     else {
       @tailrec
-      //usuwanie powtorzen z kolejki elementow oraz odpowiadajace im wartosci powtorzen z kolejki ilosci powtorzen
+      //delete repetitive elements from elements queue and its corresponding repetition value from repetitions queue
       def innerPrepare(elements: Queue[A], repetitions: Queue[Int], newElements: Queue[A], newRepetition: Queue[Int], checkSet: HashSet[A]): (Queue[A], Queue[Int]) = {
         if (elements.isEmpty || repetitions.isEmpty)
           (newElements, newRepetition)
@@ -55,11 +58,53 @@ object Lista5 {
     }
   }
 
-  //zadanie 3 (5 pkt)
-  //zadanie 4 (5 pkt)
-  //zadanie 5 (5 pkt)
+
+  //classes used for testing exc. 3, 4, and 5
+  class Point(xv: Int, yv: Int) extends Debug {
+    var x: Int = xv
+    var y: Int = yv
+    var a: String = "test"
+  }
+
+  class Car(brandX: String, dateOfProductionX: Int) extends Debug {
+    var brand: String = brandX
+    var dateOfProduction: Int = dateOfProductionX
+  }
+
+  class Garage(carX: Car, areaX: Int) extends Debug {
+    var car: Car = carX
+    var area: Int = areaX
+  }
 
 
+  trait Debug {
+    //zadanie 3 (5 pkt)
+    def debugName(): Unit =
+      println("Class: " + getClass.getSimpleName)
 
+    //zadanie 4 (5 pkt)
+    def debugVars(): Unit = {
+      for (field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        println("Var: " + field.getName + " => " + field.getAnnotatedType + ", " + field.get(this))
+      }
+    }
+
+    //zadanie 5 (5 pkt)
+    def debugGetName(): String =
+      getClass.getSimpleName
+
+    def debugGetVars(): Array[(String, AnnotatedElement, Object)] = {
+      val fieldsArray: Array[Field] = getClass.getDeclaredFields
+      val retArray: Array[(String, AnnotatedElement, Object)] = new Array[(String, AnnotatedElement, Object)](fieldsArray.length)
+      var i = 0
+      for (field <- fieldsArray) {
+        field.setAccessible(true)
+        retArray(i) = (field.getName, field.getAnnotatedType, field.get(this))
+        i += 1
+      }
+      retArray
+    }
+  }
 
 }
