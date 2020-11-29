@@ -1,5 +1,7 @@
-import Solutions.Functions
+package Tests
+
 import ClassesForTest.{Car, Point, Rectangle}
+import Solutions.Functions
 import org.junit.jupiter.api.Test
 
 import scala.collection.immutable.Queue
