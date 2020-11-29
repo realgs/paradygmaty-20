@@ -44,16 +44,4 @@ object l5 {
 
   }
 
-  class Point(givenX: Double,  givenY: Double) extends Debug {
-    var x: Double = givenX
-    var y: Double = givenY
-  }
-
-  class Student(givenName: String, givenAge: Int, givenIndex: String, givenGender: Char) extends Debug {
-    var name = givenName
-    var age = givenAge
-    var index = givenIndex
-    var gender = givenGender
-  }
-
 }
