@@ -1,4 +1,4 @@
-import java.lang.reflect.Field
+import java.lang.reflect.{AnnotatedType, Field}
 
 object l5 {
   //Zadanie 1 (2.5 pkt)
@@ -18,21 +18,42 @@ object l5 {
   trait Debug {
     //Zadanie 3 (5 pkt)
     def debugName(): Unit =
-      println("Class: " + getClass.getName)
+      println("Class: " + getClass.getSimpleName)
 
     //Zadanie 4 (5 pkt)
     def debugVars(): Unit = {
-      def printFields(fields: Array[Field]): Unit = {
-        fields.foreach(field => {
-          field.setAccessible(true)
-          println("Var " + field.getName + " => " + field.getType + ", " + field.get(this))
-        })
+      for (field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        println("Var: " + field.getName + " => " + field.getAnnotatedType + ", " + field.get(this))
       }
-      val fields = this.getClass.getDeclaredFields
-      printFields(fields.slice(0, fields.length - 1))
     }
 
     //Zadanie 5 (5 pkt)
+    def debugGetName(): String =
+      getClass.getSimpleName
+
+    def debugGetVars(): List[(String, String, Object)] = {
+        val fields = getClass.getDeclaredFields
+        var result = List.empty[(String, String, Object)]
+        for (i <- 0 to fields.length - 1) {
+          fields(i).setAccessible(true)
+          result = (fields(i).getName, fields(i).getAnnotatedType.toString, fields(i).get(this)) :: result
+        }
+        result.reverse
+    }
+
+  }
+
+  class Point(givenX: Double,  givenY: Double) extends Debug {
+    var x: Double = givenX
+    var y: Double = givenY
+  }
+
+  class Student(givenName: String, givenAge: Int, givenIndex: String, givenGender: Char) extends Debug {
+    var name = givenName
+    var age = givenAge
+    var index = givenIndex
+    var gender = givenGender
   }
 
 }
