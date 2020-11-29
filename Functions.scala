@@ -28,6 +28,7 @@ class Functions {
 
   //ex 2 (2.5 pkt)
   def duplicateWithNoReps[A](elements: Set[A], repetitions: Queue[Int]): Queue[A] = {
+    @scala.annotation.tailrec
     def duplicateInnerWithNoReps[A](elements: Set[A], element: A, repetitions: Queue[Int], counter: Int, resultQueue: Queue[A]): Queue[A] = {
       if (counter > 0)
         duplicateInnerWithNoReps(elements, element, repetitions, counter - 1, resultQueue.enqueue(element))
@@ -47,5 +48,8 @@ class Functions {
       duplicateInnerWithNoReps(elements.tail, elements.head, nextRepetitions, nextCounter, Queue())
     }
   }
+
+
+
 
 }

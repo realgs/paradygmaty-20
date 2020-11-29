@@ -2,8 +2,10 @@ import org.junit.jupiter.api.Test
 
 import scala.collection.immutable.Queue
 
+
 class Tests {
-  val testFunction = new Functions
+  val testFunction: Functions = new Functions
+  val p: Point = new Point
 
   @Test
   def testFunction1 = {
