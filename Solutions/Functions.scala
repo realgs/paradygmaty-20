@@ -1,3 +1,5 @@
+package Solutions
+
 import scala.collection.immutable.Queue
 
 class Functions {

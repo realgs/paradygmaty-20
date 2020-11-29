@@ -1,11 +1,12 @@
+import Solutions.Functions
+import ClassesForTest.{Car, Point, Rectangle}
 import org.junit.jupiter.api.Test
 
 import scala.collection.immutable.Queue
 
-
 class Tests {
   val testFunction: Functions = new Functions
-  val p: Point = new Point
+
 
   @Test
   def testFunction1 = {
@@ -21,5 +22,29 @@ class Tests {
     assert(testFunction.duplicateWithNoReps(Set('b', 'a','c'), Queue(0, 0, 3)) == Queue('c', 'c', 'c'))
     assert(testFunction.duplicateWithNoReps(Set(1,1,2,3), Queue(3,3,3,3)) == Queue(1,1,1,2,2,2,3,3,3))
     assert(testFunction.duplicateWithNoReps(Set('a', 'n', 'n', 'a'), Queue(1,2,3,4)) == Queue('a', 'n', 'n'))
+  }
+
+  @Test
+  def testFunction3 = {
+    val p: Point = new Point(3,4)
+    p.debugName
+
+    val c: Car = new Car("Mercedes", "black")
+    c.debugName
+
+    val r: Rectangle = new Rectangle(5.5, 10.5)
+    r.debugName
+  }
+
+  @Test
+  def testFunction4 = {
+    val p: Point = new Point(3,4)
+    p.debugVars()
+
+    val c: Car = new Car("Mercedes", "black")
+    c.debugVars()
+
+    val r: Rectangle = new Rectangle(5.5, 10.5)
+    r.debugVars()
   }
 }
