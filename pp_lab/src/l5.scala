@@ -11,8 +11,13 @@ object l5 {
     }
 
   //Zadanie 2 (2.5 pkt)
-  def duplicateUnique[A](xs: List[A], repetitions: List[Int]): List[A] =
-    duplicate(xs.distinct, repetitions)
+  def duplicateUnique[A](xs: Set[A], repetitions: List[Int]): List[A] =
+    (xs.toList, repetitions) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (_ :: t1, 0 :: t2) => duplicate(t1, t2)
+      case (h1 :: _, h2 :: t2) => h1 :: duplicateUnique(xs, (h2 - 1) :: t2)
+    }
 
 
   trait Debug {
