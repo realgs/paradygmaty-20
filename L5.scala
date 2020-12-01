@@ -50,6 +50,20 @@ object L5 {
           v.setAccessible(true)
           println("Var: "+v.getName+" => "+v.getType+", "+v.get(this))
         })}
+
+    // Zadanie 5 (5pkt.)
+    def getDebugName:String = this.getClass.getSimpleName
+    def getDebugVars:Array[(String,Class[_],AnyRef)] = {
+      val fields = this.getClass.getDeclaredFields
+      var result = Array[(String,Class[_],AnyRef)]()
+      fields.foreach(v =>
+        if(v.getName != "$outer")
+        {
+          v.setAccessible(true)
+          result = (v.getName,v.getType,v.get(this))+:result
+        })
+      result.reverse
+    }
   }
 
   // Klasy do testowania
