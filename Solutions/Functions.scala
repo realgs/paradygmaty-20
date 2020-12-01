@@ -50,8 +50,4 @@ class Functions {
       duplicateInnerWithNoReps(elements.tail, elements.head, nextRepetitions, nextCounter, Queue())
     }
   }
-
-
-
-
 }
