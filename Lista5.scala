@@ -40,13 +40,14 @@ object lab5{
 trait Debug {
   def debugName: Unit = println("Class: " + getClass.getName)
 
+  // Zad4(5pkt)
   def debugVars: Unit = {
     for (fields <- getClass.getDeclaredFields) {
       fields.setAccessible(true)
       println("Var: " + fields.getName + " => " + fields.getType + ", " + fields.get(this))
     }
   }
-
+  // Zad5(5pkt)
   def getDebugName: String = getClass.getName
 
   def getDebugVars: (Array[Field], Array[AnyRef]) = {
