@@ -18,4 +18,23 @@ object L5 {
     }
     repeat(Queue(),collection,repetitions)
   }
+
+  // Zadanie 2 (2.5pkt)
+  // W tym zadaniu aby zapewnić, że elementy pierwszej kolekcji będą unikalne
+  // korzystam z metody kolekcji Queue -> distinct działającej w złożoności liniowej
+  // i zwracającej kolejkę bez powtarzających się elementów
+
+  def duplicateDistinct[A](collection:Queue[A],repetitions:Queue[Int]):Queue[A]={
+    def repeatElement(result:Queue[A],element:A,count:Int):Queue[A]={
+      if(count<=0)result
+      else repeatElement(result.enqueue(element),element,count-1)
+    }
+    def repeat(result:Queue[A],collection:Queue[A],repetitions:Queue[Int]):Queue[A]={
+      (collection,repetitions) match{
+        case (Queue(),Queue()) | (Queue(),_) | (_,Queue())=> result
+        case (c,r) => repeat(repeatElement(result,c.head,r.head),c.tail,r.tail)
+      }
+    }
+    repeat(Queue(),collection.distinct,repetitions)
+  }
 }
