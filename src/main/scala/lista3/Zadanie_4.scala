@@ -7,7 +7,7 @@ object Zadanie_4 {
     (list, fraze) match {
       case (Nil, _) => Nil
       case (_, "") => Nil
-      case _ => if (myContains(fraze, list.head)) list.head :: find(list.tail, fraze) else find(list.tail, fraze)
+      case _ => if (ifFrazeContains(fraze, list.head)) list.head :: find(list.tail, fraze) else find(list.tail, fraze)
     }
   }
 
@@ -17,24 +17,24 @@ object Zadanie_4 {
       (listT, frazeT) match {
         case (Nil, _) => accum
         case (_, "") => accum
-        case _ => if (myContains(frazeT, listT.head)) iterTailRecFind(listT.tail, frazeT, accum :+ listT.head) else iterTailRecFind(listT.tail, frazeT, accum)
+        case _ => if (ifFrazeContains(frazeT, listT.head)) iterTailRecFind(listT.tail, frazeT, accum :+ listT.head) else iterTailRecFind(listT.tail, frazeT, accum)
       }
     }
 
     iterTailRecFind(list, fraze, Nil)
   }
 
-  def myContains(fraze: String, sentance: String): Boolean = {
-    if (sentance == "") false
-    else if (initSegment(fraze.toList, sentance.toList)) true
-    else myContains(fraze, sentance.tail)
+  def ifFrazeContains(fraze: String, sentence: String): Boolean = {
+    if (sentence == "") false
+    else if (ifCharContains(fraze.toList, sentence.toList)) true
+    else ifFrazeContains(fraze, sentence.tail)
   }
 
-  def initSegment(xs: List[Char], ys: List[Char]): Boolean = {
+  def ifCharContains(xs: List[Char], ys: List[Char]): Boolean = {
     (xs, ys) match {
       case (Nil, _) => true
       case (_, Nil) => false
-      case _ => if (xs.head == ys.head) initSegment(xs.tail, ys.tail) else false
+      case _ => if (xs.head == ys.head) ifCharContains(xs.tail, ys.tail) else false
     }
   }
 }

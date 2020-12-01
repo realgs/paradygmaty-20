@@ -1,7 +1,7 @@
 package lista3
 
 object Zadanie_1 {
-  def podziel(list: List[Int]): (List[Int], List[Int]) =
+  def devide(list: List[Int]): (List[Int], List[Int]) =
     (filter(list, (n: Int) => n < 0), filter(list, (n: Int) => n < 0 && n % 2 != 0))
 
   def filter(list: List[Int], predic: Int => Boolean): List[Int] =

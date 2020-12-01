@@ -2,31 +2,26 @@ import org.scalatest.FunSuite
 
 class Lista3Test extends FunSuite {
   //tests for 1 task
-  test("Lista3Test.podziel"){
-    assert(lista3.Zadanie_1.podziel(List()) == (Nil,Nil))
-    assert(lista3.Zadanie_1.podziel(List(4, 6, 9, 8, 17, 19, 0)) == (Nil, Nil))
-    assert(lista3.Zadanie_1.podziel(List(-1, -4, -7, 9, -4, 6, -10, -101)) == ((List(-1, -4, -7, -4, -10, -101), List(-1, -7, -101))))
+  test("Lista3Test.devide"){
+    assert(lista3.Zadanie_1.devide(List()) == (Nil,Nil))
+    assert(lista3.Zadanie_1.devide(List(4, 6, 9, 8, 17, 19, 0)) == (Nil, Nil))
+    assert(lista3.Zadanie_1.devide(List(-1, -4, -7, 9, -4, 6, -10, -101)) == ((List(-1, -4, -7, -4, -10, -101), List(-1, -7, -101))))
   }
 
   //tests for 2 task
-  test("Lista3Test.dlugosc"){
-    assert(lista3.Zadanie_2.dlugosc(List()) == 0)
-    assert(lista3.Zadanie_2.dlugosc(List(1, 2, 3, 4, 5)) == 5)
-    assert(lista3.Zadanie_2.dlugosc(List("I", "like", "apples")) == 3)
-  }
 
-  test("Lista3Test.dlugoscTail"){
-    assert(lista3.Zadanie_2.dlugoscTail(List()) == 0)
-    assert(lista3.Zadanie_2.dlugoscTail(List(1, 2, 3, 4, 5)) == 5)
-    assert(lista3.Zadanie_2.dlugoscTail(List("I", "like", "apples")) == 3)
+  test("Lista3Test.lengthTai"){
+    assert(lista3.Zadanie_2.lengthTail(List()) == 0)
+    assert(lista3.Zadanie_2.lengthTail(List(1, 2, 3, 4, 5)) == 5)
+    assert(lista3.Zadanie_2.lengthTail(List("I", "like", "apples")) == 3)
   }
 
   //tests for 3 task
-  test("Lista3Test.polacz"){
-    assert(lista3.Zadanie_3.polacz(List(),List())  == List())
-    assert(lista3.Zadanie_3.polacz(List(1, 3, 5),List(2, 4, 6))  == List(1, 2, 3, 4, 5, 6))
-    assert(lista3.Zadanie_3.polacz(List("I", "apples", "bananas"),List("like", "peaches"))  == List("I", "like", "apples", "peaches", "bananas"))
-    assert(lista3.Zadanie_3.polacz(List("I", 100, "programming"),List("like", 500))  == List("I", "like", 100, 500, "programming"))
+  test("Lista3Test.connect"){
+    assert(lista3.Zadanie_3.connect(List(),List())  == List())
+    assert(lista3.Zadanie_3.connect(List(1, 3, 5),List(2, 4, 6))  == List(1, 2, 3, 4, 5, 6))
+    assert(lista3.Zadanie_3.connect(List("I", "apples", "bananas"),List("like", "peaches"))  == List("I", "like", "apples", "peaches", "bananas"))
+    assert(lista3.Zadanie_3.connect(List("I", 100, "programming"),List("like", 500))  == List("I", "like", 100, 500, "programming"))
   }
 
   //tests for 4 task
