@@ -36,5 +36,11 @@ object TestsForLista5 extends App with Debug {
 
   println("\nTests for zad 3")
   this.debugName()
+
+  println("\nTests for zad 4")
   this.debugVars()
+
+  println("\nTests for zad 5")
+  println(this.debugGetClassName())
+  println(this.debugGetVarsList())
 }
