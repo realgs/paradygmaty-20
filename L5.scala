@@ -7,7 +7,7 @@ class L5 {
   // Queue:
   // dodanie nowego elementu na koniec - O(1)
   // usunięcie i zwrócenie pierwszego elementu - O(1)
-  def duplicate[A](collection: Queue[A], duplications: Queue[Int]): Queue[A] ={
+  def duplicate[A](collection: Queue[A], duplications: Queue[Int]): Queue[A] = {
     @tailrec
     def replicate(element:A, times: Int, queue: Queue[A]):Queue[A] =
       if(times > 0) replicate(element, times - 1, queue.enqueue(element))
@@ -21,12 +21,19 @@ class L5 {
         iteration(queue1, queue2, replicate(elem, times, newQueue))
       }
     }
-    iteration(collection,duplications,Queue.empty)
+    iteration(collection,duplications,Queue.empty[A])
   }
 
   // zadanie 2 (2.5 pkt)
-  def duplicateOnce[A](collection: Queue[A], duplications: Queue[Int]): Queue[A] =
-    duplicate(collection.distinct, duplications)
+  // Set:
+  // nie przyjmuje duplikatów
+  def duplicateOnce[A](collection: Set[A], duplications: Queue[Int]): Queue[A] = {
+    var newCollection = Queue.empty[A]
+    for(element<-collection)
+      newCollection = newCollection.enqueue(element)
+
+    duplicate(newCollection, duplications)
+  }
 
 }
 
@@ -36,7 +43,7 @@ trait Debug{
   def debugName(): Unit = println("Class: " + getClass.getName)
 
   // zadanie 4 (5 pkt)
-  def debugVars(): Unit ={
+  def debugVars(): Unit = {
     val array = getClass.getDeclaredFields
     for(field <- array){
       field.setAccessible(true)
@@ -47,7 +54,7 @@ trait Debug{
   // zadanie 5 (5 pkt)
   def getClassName: String = getClass.getName
 
-  def getFields: Array[(String,Class[_],AnyRef)] ={
+  def getFields: Array[(String,Class[_],AnyRef)] = {
     val array = getClass.getDeclaredFields
     val newArray = new Array[(String,Class[_],AnyRef)](array.length)
     var i = 0

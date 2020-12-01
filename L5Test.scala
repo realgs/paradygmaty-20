@@ -40,12 +40,12 @@ class L5Test extends FunSuite {
   }
 
   test("testDuplicateOnce") {
-    val collection1 = Queue(1,2,4,6)
+    val collection1 = Set(1,2,4,6)
     val duplications1 = Queue(0,3,2,1)
     val expected1 = Queue(2,2,2,4,4,6)
     assert(tested.duplicateOnce(collection1,duplications1) == expected1)
 
-    val collection2 = Queue(1,1,1,1,2,2,2,2,2,4,4,4,4,4,4,4,4,4,4)
+    val collection2 = Set(1,1,1,1,2,2,2,2,2,4,4,4,4,4,4,4,4,4,4)
     val duplications2 = Queue(0,3,2,1)
     val expected2 = Queue(2,2,2,4,4)
     assert(tested.duplicateOnce(collection2,duplications2) == expected2)
