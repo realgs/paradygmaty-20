@@ -42,6 +42,14 @@ object L5 {
   trait Debug{
     // Zadanie 3 (5pkt.)
     def debugName():Unit={val name = this.getClass.getSimpleName;println(s"Class: $name" )}
+    // Zadanie 4 (5pkt.)
+    def debugVars():Unit={val fields = this.getClass.getDeclaredFields
+      fields.foreach(v =>
+        if(v.getName != "$outer")
+        {
+          v.setAccessible(true)
+          println("Var: "+v.getName+" => "+v.getType+", "+v.get(this))
+        })}
   }
 
   // Klasy do testowania

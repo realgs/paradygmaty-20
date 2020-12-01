@@ -9,6 +9,8 @@ object L5Test {
     testyZadanie2()
     // Testy zadanie 3 5pkt.
     testyZadanie3()
+    // Testy zadanie 4 5pkt.
+    testyZadanie4()
   }
 
   def testyZadanie1():Unit={
@@ -43,6 +45,21 @@ object L5Test {
 
     print("Test 3 Zadanie 3: ")
     e.debugName()
+    println()
+  }
+  def testyZadanie4():Unit={
+    val p = new Point(1,2)
+    val o = new Circle(p,2)
+    val e = new EmptyClass()
+
+    println("Test 1 Zadanie 4: ")
+    p.debugVars()
+    println()
+    println("Test 2 Zadanie 4: ")
+    o.debugVars()
+    println()
+    println("Test 3 Zadanie 4: ")
+    e.debugVars()
     println()
   }
 }
