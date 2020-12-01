@@ -37,4 +37,27 @@ object L5 {
     }
     repeat(Queue(),collection.distinct,repetitions)
   }
+
+  // Zadania 3,4,5
+  trait Debug{
+    // Zadanie 3 (5pkt.)
+    def debugName():Unit={val name = this.getClass.getSimpleName;println(s"Class: $name" )}
+  }
+
+  // Klasy do testowania
+  class Point(xv: Int, yv: Int) extends Debug {
+    var x: Int = xv
+    var y: Int = yv
+    var a: String = "test"
+  }
+
+  class Circle(ov:Point,rv:Int) extends Debug {
+    var o: Point = ov
+    var r: Int = rv
+  }
+
+  class EmptyClass() extends Debug {
+
+  }
 }
+

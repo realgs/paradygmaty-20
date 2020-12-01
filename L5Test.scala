@@ -7,6 +7,8 @@ object L5Test {
     testyZadanie1()
     // Testy zadanie 2 2.5pkt.
     testyZadanie2()
+    // Testy zadanie 3 5pkt.
+    testyZadanie3()
   }
 
   def testyZadanie1():Unit={
@@ -28,4 +30,20 @@ object L5Test {
     println("Test 6 zadanie 2: " + (duplicateDistinct(Queue(1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3),Queue(1,2)) == Queue(1,2,2)))
     println("Test 7 zadanie 2: " + (duplicateDistinct(Queue(1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2),Queue(1,2,3)) == Queue(1,2,2))+"\n")
   }
+  def testyZadanie3():Unit={
+    val p = new Point(1,2)
+    val o = new Circle(p,2)
+    val e = new EmptyClass()
+
+    print("Test 1 Zadanie 3: ")
+    p.debugName()
+
+    print("Test 2 Zadanie 3: ")
+    o.debugName()
+
+    print("Test 3 Zadanie 3: ")
+    e.debugName()
+    println()
+  }
 }
+
