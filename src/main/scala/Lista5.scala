@@ -1,5 +1,6 @@
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
+import scala.collection.mutable
 
 object Lista5 extends App {
 
@@ -22,5 +23,13 @@ object Lista5 extends App {
 
     if(elementsToDuplicate == Nil || duplicateTimes == Nil) Queue()
     else duplicateHelper(elementsToDuplicate, duplicateTimes, Queue())
+  }
+
+  // zadanie 2 (2,5 pkt)
+  // wykorzystuje strukture LinkedHashSet, poniewaz nie dopuszcza on duplikatow, a oprocz tego iterowanie po tej kolekcji
+  // sprawia ze otrzymujemy elementy w takiej kolejnosci w jakiej wpisalismy je do listy
+  def duplicateWithoutRepetitions[A](elementsWithoutRepetitions: mutable.LinkedHashSet[A], duplicateTimes: List[Int]) : Queue[A] = {
+    if(elementsWithoutRepetitions.isEmpty || duplicateTimes == Nil) Queue()
+    else duplicate(elementsWithoutRepetitions.toList, duplicateTimes)
   }
 }
