@@ -10,7 +10,14 @@ object Debugging {
     //Zad 3 (5 pkt)
     def debugName(): Unit = println("Class: " + getClass.getSimpleName)
 
-    //Zad 4 (5pkt)
-
+    //zad 4 (5 pkt)
+    def debugVars(): Unit = {
+      for (field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        println("Var: " + field.getName + " => " + field.getType + ", " + field.get(this))
+      }
+    }
+    
   }
+
 }

@@ -9,4 +9,9 @@ class DebuggingTest extends FunSuite {
     p.debugName();
   }
 
+  //Zad 4 test
+  test("debugVars.point") {
+    val p : Point = new Point(3,4);
+    p.debugVars()
+  }
 }
