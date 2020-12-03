@@ -17,7 +17,20 @@ object Debugging {
         println("Var: " + field.getName + " => " + field.getType + ", " + field.get(this))
       }
     }
-    
+
+    //Zad 5 (5 pkt)
+    def getDebugName: String = getClass.getSimpleName
+
+    def getDebugVars: Array[(String, Class[_], Object)] = {
+      val result: Array[(String, Class[_], Object)] = new Array[(String, Class[_], Object)](getClass.getDeclaredFields.length)
+      var i = 0
+      for (field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        result(i) = (field.getName, field.getType, field.get(this))
+        i += 1
+      }
+      result
+    }
   }
 
 }

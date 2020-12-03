@@ -3,15 +3,26 @@ import org.scalatest.FunSuite
 
 class DebuggingTest extends FunSuite {
 
+  val p : Point = new Point(3,4)
+
   //Zad 3 test
   test("debugName.point") {
-    val p : Point = new Point(3,4);
-    p.debugName();
+    p.debugName()
   }
 
   //Zad 4 test
   test("debugVars.point") {
-    val p : Point = new Point(3,4);
     p.debugVars()
+  }
+
+  //Zad 5 tests
+  test("getDebugName.point") {
+    assert(p.getDebugName == "Point")
+  }
+  test("getDebugVars.point") {
+    val resultArray = p.getDebugVars
+    for (field <- resultArray) {
+      println("Var: " + field._1 + " => " + field._2 + ", " + field._3)
+    }
   }
 }
