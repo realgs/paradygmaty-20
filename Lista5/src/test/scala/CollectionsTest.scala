@@ -57,6 +57,9 @@ class CollectionsTest extends FunSuite{
   test("duplicateNoEntryDuplicates.duplicateElements") {
     assert(Collections.duplicateNoEntryDuplicates(Set(1, 1, 3), Queue(3, 2, 1)) == Queue(1,1,1,3,3))
   }
+  test("duplicateNoEntryDuplicates.duplicateElements_2") {
+    assert(Collections.duplicateNoEntryDuplicates(Set(1, 3, 1, 3, 1), Queue(3, 2, 1, 2, 3)) == Queue(1,1,1,3,3))
+  }
   test("duplicateNoEntryDuplicates.equalSizes_String") {
     assert(Collections.duplicateNoEntryDuplicates(Set("Ala", "ma", "kota"), Queue(3, 2, 1)) == Queue("Ala","Ala","Ala","ma","ma","kota"))
   }

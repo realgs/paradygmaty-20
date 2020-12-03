@@ -31,6 +31,18 @@ object Debugging {
       }
       result
     }
+
+    //Pozyskaną za pomocą tej metody tablicę wynikową łatwiej testować
+    def getDebugVarsString: Array[(String, String, String)] = {
+      val result: Array[(String, String, String)] = new Array[(String, String, String)](getClass.getDeclaredFields.length)
+      var i = 0
+      for (field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        result(i) = (field.getName, field.getType.toString, field.get(this).toString)
+        i += 1
+      }
+      result
+    }
   }
 
 }

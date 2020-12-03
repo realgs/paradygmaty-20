@@ -29,22 +29,22 @@ object Collections {
   //Wszystkie powtarzające się elementy w kolekcji wejściowej są ignorowane, ale ma to wpływ na podane liczby powtórzeń dla konkretnych elementów
   def duplicateNoEntryDuplicates[A](collectionOfElements: Set[A], collectionOfRepetitionNumbers: Queue[Int]): Queue[A] = {
     @tailrec
-    def tailDuplicate(elements: Set[A], repetitions: Queue[Int], resultCollection: Queue[A], repCounter: Int): Queue[A] = {
+    def tailDuplicateNoEntryDuplicates(elements: Set[A], repetitions: Queue[Int], resultCollection: Queue[A], repCounter: Int): Queue[A] = {
       if (repCounter > 0 )
-        tailDuplicate(elements, repetitions, resultCollection.enqueue(elements.head), repCounter-1)
+        tailDuplicateNoEntryDuplicates(elements, repetitions, resultCollection.enqueue(elements.head), repCounter-1)
       else {
         val newElements = elements.tail
         val (_, newRepetitions) = repetitions.dequeue
         if (newElements.isEmpty || newRepetitions.isEmpty)
           resultCollection
         else
-          tailDuplicate(newElements, newRepetitions, resultCollection, newRepetitions.front)
+          tailDuplicateNoEntryDuplicates(newElements, newRepetitions, resultCollection, newRepetitions.front)
       }
     }
 
     if(collectionOfElements.isEmpty || collectionOfRepetitionNumbers.isEmpty)
       Queue()
     else
-      tailDuplicate(collectionOfElements, collectionOfRepetitionNumbers, Queue(), collectionOfRepetitionNumbers.front)
+      tailDuplicateNoEntryDuplicates(collectionOfElements, collectionOfRepetitionNumbers, Queue(), collectionOfRepetitionNumbers.front)
   }
 }

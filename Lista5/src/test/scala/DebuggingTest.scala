@@ -25,4 +25,7 @@ class DebuggingTest extends FunSuite {
       println("Var: " + field._1 + " => " + field._2 + ", " + field._3)
     }
   }
+  test("getDebugVarsString.point") {
+    assert(p.getDebugVarsString === Array(("x", "int", "3"), ("y", "int", "4"), ("a", "class java.lang.String", "test")))
+  }
 }
