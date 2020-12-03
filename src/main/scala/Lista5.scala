@@ -32,4 +32,19 @@ object Lista5 extends App {
     if(elementsWithoutRepetitions.isEmpty || duplicateTimes == Nil) Queue()
     else duplicate(elementsWithoutRepetitions.toList, duplicateTimes)
   }
+
+  trait Debug {
+    // zadanie 3 (5 pkt)
+    def debugName(): Unit = {
+      println(s"Class: ${getClass.getSimpleName}")
+    }
+
+    // zadanie 4 (5 pkt)
+    def debugVars(): Unit = {
+      for(field <- getClass.getDeclaredFields) {
+        field.setAccessible(true)
+        println(s"Var: ${field.getName} => ${field.getAnnotatedType}, ${field.get(this)}")
+      }
+    }
+  }
 }

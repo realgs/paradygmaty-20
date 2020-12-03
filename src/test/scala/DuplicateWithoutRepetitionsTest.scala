@@ -3,6 +3,7 @@ import org.scalatest.FunSuite
 import scala.collection.immutable.Queue
 import scala.collection.mutable
 
+// zadanie 2 testy (2,5 pkt)
 class DuplicateWithoutRepetitionsTest extends FunSuite {
 
   test("normalTest") {
