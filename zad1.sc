@@ -26,3 +26,4 @@ duplicate(Queue(2), Queue(0)) == Queue()
 duplicate(Queue(2), Queue(-1)) == Queue()
 duplicate(Queue('a', 'b', 'c'), Queue(0, 3)) == Queue('b', 'b', 'b')
 duplicate(Queue("a"), Queue(3, -1)) == Queue("a", "a", "a")
+
