@@ -1,4 +1,5 @@
 import scala.collection.immutable.Queue
+import TestClasses.{Point, Point3D, Point4D, Animal, Dog}
 import Functions_L5.{duplicate, duplicateWithoutRepetition}
 
 object Tests {
@@ -6,6 +7,8 @@ object Tests {
   def main(args: Array[String]): Unit = {
     task1Test()
     task2Test()
+    task3Test()
+    task4Test()
   }
 
   def task1Test(): Unit = {
@@ -19,7 +22,7 @@ object Tests {
   }
 
   def task2Test(): Unit = {
-    println("Task 2 test:")
+    println("\nTask 2 test:")
     println(duplicateWithoutRepetition(Set[Int](1, 1, 1), Queue[Int](0, 2, 3, 4)) == Queue())
     println(duplicateWithoutRepetition(Set[Double](10.1, 10.1, 4.04, 88.1), Queue[Int](5, 1, 3)) == Queue(10.1, 10.1, 10.1, 10.1, 10.1, 4.04, 88.1, 88.1, 88.1))
     println(duplicateWithoutRepetition(Set[String](), Queue[Int](10, 6, 3, 4)) == Queue())
@@ -27,4 +30,37 @@ object Tests {
     println(duplicateWithoutRepetition(Set[Int](1, 2, 3), Queue[Int]()) == Queue())
     println(duplicateWithoutRepetition(Set[Int](64, 64, 32, 32, 11, 11), Queue[Int](1, 0, 0, 4)) == Queue(64))
   }
+
+  def task3Test(): Unit = {
+    println("\nTask 3 test:")
+    val p: Point = new Point(3, 4)
+    val p1: Point3D = new Point3D(3, 4, 5)
+    val p2: Point4D = new Point4D(3, 4, 5, 6)
+    val dog: Dog = new Dog("doggo", 3, "pug")
+
+    p.printName()
+    p1.printName()
+    p2.printName()
+    dog.printName()
+  }
+
+  def task4Test(): Unit = {
+    println("\nTask 4 test:")
+    val p: Point = new Point(3, 4)
+    val p1: Point3D = new Point3D(3, 4, 5)
+    val p2: Point4D = new Point4D(3, 4, 5, 6)
+    val animal: Animal = new Animal("animal", 5)
+    val dog: Dog = new Dog("doggo", 3, "pug")
+
+    p.printVars()
+    println()
+    p1.printVars()
+    println()
+    p2.printVars()
+    println()
+    animal.printVars()
+    println()
+    dog.printVars()
+  }
+
 }
