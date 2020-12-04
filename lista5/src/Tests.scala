@@ -9,6 +9,7 @@ object Tests {
     task2Test()
     task3Test()
     task4Test()
+    task5Test()
   }
 
   def task1Test(): Unit = {
@@ -61,6 +62,36 @@ object Tests {
     animal.printVars()
     println()
     dog.printVars()
+  }
+
+  def task5Test(): Unit = {
+    println("\nTask 5 tests:")
+    val p: Point = new Point(3, 4)
+    val p1: Point3D = new Point3D(3, 4, 5)
+    val p2: Point4D = new Point4D(3, 4, 5, 6)
+    val animal: Animal = new Animal("animal", 5)
+    val dog: Dog = new Dog("doggo", 3, "pug")
+
+    println(p.debugName())//"Point"
+    printMap(p.debugVars())
+    println()
+    println(p1.debugName())//"Point3D"
+    printMap(p1.debugVars())
+    println()
+    println(p2.debugName())//"Point4D"
+    printMap(p2.debugVars())
+    println()
+    println(animal.debugName())//"Animal"
+    printMap(animal.debugVars())
+    println()
+    println(dog.debugName())//"Dog"
+    printMap(dog.debugVars())
+  }
+
+  def printMap(map: Map[String, (Class[_], Any)]): Unit = {
+    for (element <- map) {
+      println("Var: " + element._1 + " => " + element._2._1 + ", " + element._2._2)
+    }
   }
 
 }
