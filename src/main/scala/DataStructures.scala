@@ -112,5 +112,22 @@ object DataStructures {
 
   }
 
+  // Utility functions below
+
+  def treeHeight[A](tree: BT[A]): Int = {
+    tree match {
+      case Node(_, l, r) => 1 + Math.max(treeHeight(l), treeHeight(r))
+      case Empty => 0
+    }
+  }
+
+  def isFull[A](tree: BT[A]): Boolean = {
+    tree match {
+      case Node(_, Empty, Empty) => true
+      case Node(_, l, r) => isFull(l) && isFull(r)
+      case _ => false
+    }
+  }
+
 
 }

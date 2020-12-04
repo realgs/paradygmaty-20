@@ -18,6 +18,10 @@ class DataStructuresTest extends funsuite.AnyFunSuite {
        */
       generateTree(3, new Random(100), 10, 30)
     }
+    assertResult(true) {
+      val tree = generateTree(10, new Random(), 100, 200)
+      isFull(tree) && (treeHeight(tree) == 10)
+    }
     assertThrows[IllegalArgumentException] {
       generateTree(-1, new Random(), 1, 10)
     }
