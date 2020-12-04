@@ -1,7 +1,6 @@
 import Functions_L5.Debug
 
 object TestClasses {
-
   class Point(xv: Int, yv: Int) extends Debug {
     var x: Int = xv
     var y: Int = yv

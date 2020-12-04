@@ -78,5 +78,4 @@ object Functions_L5 {
       map
     }
   }
-
 }

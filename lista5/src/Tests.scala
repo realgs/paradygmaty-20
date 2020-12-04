@@ -93,5 +93,4 @@ object Tests {
       println("Var: " + element._1 + " => " + element._2._1 + ", " + element._2._2)
     }
   }
-
 }
