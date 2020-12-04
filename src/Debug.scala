@@ -11,13 +11,11 @@ trait Debug {
   // 5 pkt
   private[this] def getVals[A](f: Field): String = {
     f.setAccessible(true)
-    val tmp = f.getName+" => "+ f.getType + ", " + f.get()
-    f.setAccessible(false)
-    tmp
+    "Var: " + f.getName+" => "+ f.getType + ", " + f.get(this)
   }
 
   def debugVars(): Unit = {
-    for( i <- 1 to (this.getClass.getDeclaredFields.length-4)){
+    for( i <- 0 to this.getClass.getDeclaredFields.length-1){
       println(getVals(this.getClass.getDeclaredFields.array(i)))
     }
   }
@@ -30,19 +28,21 @@ trait Debug {
   private[this] def getFieldType(f: Field):String = f.getType.toString
   private[this] def getFieldVal(f: Field):String = {
     f.setAccessible(true)
-    val tmp=f.get().toString
+    val tmp=f.get(this).toString
     f.setAccessible(false)
     tmp
   }
-  private[this] def getFiledParamsAsArray(f: Field):List[String] =
+  private[this] def getFiledParamsAsList(f: Field):List[String] =
     List(getFieldName(f), getFieldType(f), getFieldVal(f))
 
+  //return value: List of Lists of String. Every List of Strings describe one variable and consist 3 elements in order:
+  // name of field, type of field and value of field
   def debugGetVarsList(): List[List[String]] = {
     @tailrec
     def helper(array: Array[Field],acc:List[List[String]], beginIndex:Int, endIndex:Int):List[List[String]] = {
-      if(beginIndex>=endIndex) helper(array, getFiledParamsAsArray(array(beginIndex)) +:acc,beginIndex-1,endIndex)
+      if(beginIndex>=endIndex) helper(array, getFiledParamsAsList(array(beginIndex)) +:acc,beginIndex-1,endIndex)
       else acc
     }
-    helper(this.getClass.getDeclaredFields,Nil,this.getClass.getDeclaredFields.length-4,1)
+    helper(this.getClass.getDeclaredFields,Nil,this.getClass.getDeclaredFields.length-1,0)
   }
 }
