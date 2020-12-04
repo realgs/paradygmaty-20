@@ -2,6 +2,8 @@ import java.lang.reflect.{AnnotatedType, Field}
 
 object l5 {
   //Zadanie 1 (2.5 pkt)
+  //Złożoność O(n) gdzie n to suma wszystkich liczb z 'repetitions'
+  //Wybrana kolekcja to Lista, gdyż jest prosta w obsłudze, a elementy w niej mogą się powtarzać
   def duplicate[A](xs: List[A], repetitions: List[Int]): List[A] =
     (xs, repetitions) match {
       case (Nil, _) => Nil
@@ -11,6 +13,8 @@ object l5 {
     }
 
   //Zadanie 2 (2.5 pkt)
+  //Złożoność O(n) gdzie n to suma wszystkich liczb z 'repetitions'
+  //Wybrana kolekcja to Set, aby uniemożliwić występowanie takich samych elementów
   def duplicateUnique[A](xs: Set[A], repetitions: List[Int]): List[A] =
     (xs.toList, repetitions) match {
       case (Nil, _) => Nil
@@ -40,7 +44,7 @@ object l5 {
     def debugGetVars(): List[(String, String, Object)] = {
         val fields = getClass.getDeclaredFields
         var result = List.empty[(String, String, Object)]
-        for (i <- 0 to fields.length - 1) {
+        for (i <- 0 until fields.length ) {
           fields(i).setAccessible(true)
           result = (fields(i).getName, fields(i).getAnnotatedType.toString, fields(i).get(this)) :: result
         }
