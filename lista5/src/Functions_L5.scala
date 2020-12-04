@@ -1,7 +1,7 @@
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 
-class Functions {
+object Functions_L5 {
   //task1 (2.5p)
   def duplicate[A](toDuplicate: Queue[A], duplications: Queue[Int]): Queue[A] = {
     @tailrec
@@ -14,10 +14,12 @@ class Functions {
         duplicateIter(tail1, tail2, returnQueue, newHowMany, newElement)
       }
     }
-
-    val (element, tail1) = toDuplicate.dequeue
-    val (howMany, tail2) = duplications.dequeue
-    duplicateIter(tail1, tail2, Queue(), howMany, element)
+    if (toDuplicate.isEmpty || duplications.isEmpty) Queue()
+    else {
+      val (element, tail1) = toDuplicate.dequeue
+      val (howMany, tail2) = duplications.dequeue
+      duplicateIter(tail1, tail2, Queue(), howMany, element)
+    }
   }
 
   //task2 (2.5p)
@@ -31,9 +33,11 @@ class Functions {
         duplicateWithoutRepetitionIter(toDuplicate.tail, tail2, returnQueue, newHowMany, toDuplicate.head)
       }
     }
-
-    val (howMany, tail2) = duplications.dequeue
-    duplicateWithoutRepetitionIter(toDuplicate.tail, tail2, Queue(), howMany, toDuplicate.head)
+    if (toDuplicate.isEmpty || duplications.isEmpty) Queue()
+    else {
+      val (howMany, tail2) = duplications.dequeue
+      duplicateWithoutRepetitionIter(toDuplicate.tail, tail2, Queue(), howMany, toDuplicate.head)
+    }
   }
 
   trait Debug {
