@@ -25,13 +25,13 @@ object TestsForLista5 extends App {
   try {
     println(duplicate2(testDequeue1, List(1, 2, 3)) == mutable.ArrayDeque(1, 2, 2, 3, 3, 3))
   } catch {
-    case e: Exception => println("Duplicate exception captured")
+    case _: Exception => println("Duplicate exception captured")
   }
 
   try {
     println(duplicate2(testDequeue2, List(1, 2, 3)) == mutable.ArrayDeque('a', 'l', 'l', 'a', 'a', 'a'))
   } catch {
-    case e: Exception => println("Duplicate exception captured")
+    case _: Exception => println("Duplicate exception captured")
   }
 
 
