@@ -1,4 +1,5 @@
 package lab05.testClasses
+
 import lab05.Debug
 
 class Point(xv: Int, yv: Int) extends Debug {
