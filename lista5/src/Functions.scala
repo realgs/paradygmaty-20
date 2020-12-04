@@ -2,6 +2,7 @@ import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 
 class Functions {
+  //task1 (2.5p)
   def duplicate[A](toDuplicate: Queue[A], duplications: Queue[Int]): Queue[A] = {
     @tailrec
     def duplicateIter(toDuplicate: Queue[A], duplications: Queue[Int], returnQueue: Queue[A], howMany: Int, element: A): Queue[A] = {
@@ -19,6 +20,7 @@ class Functions {
     duplicateIter(tail1, tail2, Queue(), howMany, element)
   }
 
+  //task2 (2.5p)
   def duplicateWithoutRepetition[A](toDuplicate: Set[A], duplications: Queue[Int]): Queue[A] = {
     @tailrec
     def duplicateWithoutRepetitionIter(toDuplicate: Set[A], duplications: Queue[Int], returnQueue: Queue[A], howMany: Int, element: A): Queue[A] = {
@@ -33,4 +35,44 @@ class Functions {
     val (howMany, tail2) = duplications.dequeue
     duplicateWithoutRepetitionIter(toDuplicate.tail, tail2, Queue(), howMany, toDuplicate.head)
   }
+
+  trait Debug {
+    //task3 (5p)
+    def printName(): Unit = println("Class: " + this.getClass.getSimpleName)
+
+    //task4(5p)
+    def printVars(): Unit = {
+      var fields = this.getClass.getDeclaredFields
+      var currentClass = this.getClass.getSuperclass
+      //inherited fields
+      while (currentClass != null) {
+        fields = fields.appendedAll(currentClass.getDeclaredFields)
+        currentClass = currentClass.getSuperclass
+      }
+      for (field <- fields) {
+        field.setAccessible(true)
+        println("Var: " + field.getName + " => " + field.getType.getName + ", " + field.get(this))
+      }
+    }
+
+    //task5(5pkt)
+    def debugName(): String = this.getClass.getSimpleName
+
+    def debugVars(): Map[String, (Class[_], Any)] = {
+      var map = Map[String, (Class[_], Any)]()
+      var fields = this.getClass.getDeclaredFields
+      var currentClass = this.getClass.getSuperclass
+      //inherited fields
+      while (currentClass != null) {
+        fields = fields.appendedAll(currentClass.getDeclaredFields)
+        currentClass = currentClass.getSuperclass
+      }
+      for (field <- fields) {
+        field.setAccessible(true)
+        map += (field.getName -> (field.getType, field.get(this)))
+      }
+      map
+    }
+  }
+
 }
