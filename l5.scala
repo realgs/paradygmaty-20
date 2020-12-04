@@ -1,8 +1,8 @@
 
 object l5 {
-  //W zadaniach 1, 2 użyłem Listy jako reprezentacji kolekcji (wstawiając element zawsze na początek a potem odwracając na koniec),
-  //ponieważ zapewnia to złożoność wstawiania O(1) plus odwrócenie na koniec O(n),
-  //zamiast wstawiać zawsze na koniec, co doprowadziłoby do złozoności rzędy n^2
+  //W zadaniach 1, 2 użyłem Listy jako reprezentacji kolekcji (wstawiając element zawsze na początek),
+  //ponieważ zapewnia to złożoność wstawiania O(1) (plus O(n) -> ewentualne odwrócenie listy ,jak w add_Elements,
+  //zamiast wstawiać na koniec, co doprowadziłoby do złozoności rzędy n^2)
 
   //Zad1 (2.5 pkt)
   //Zł. pes. O(k1+ k2 + k3+...+k_max(n, m)) gdzie k1, k2, k3, to krotności (ile razy powtórzyć) dany element, n <-dł. xs, m <- dł. how_Many_Times
