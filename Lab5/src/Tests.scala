@@ -26,12 +26,17 @@ object Tests {
     // Task 3. tests
     val p = new Point(3, 4)
     p.debugName()
+    val tc = new TestClass(1, -5.0, "TEST")
+    tc.debugName()
 
     // Task 4. tests
     p.debugVars()
+    tc.debugVars()
 
     // Task 5. tests
     println(p.getClassName)
     println(p.getClassFields)
+    println(tc.getClassName)
+    println(tc.getClassFields)
   }
 }
