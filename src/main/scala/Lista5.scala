@@ -3,13 +3,12 @@ import java.lang.reflect.{AnnotatedElement, Field}
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 import scala.collection.mutable
+import scala.collection.mutable.LinkedHashSet
 
 object Lista5 extends App {
 
   // zadanie 1 (2,5 pkt)
-  // na wejsciowych listach wykonujemy przede wszystkim operacje pobierania glowy i przekazywanie jej ogona dalej
-  // metody head oraz tail sa wykonywane w czasie stalym, stad moj wybor tej struktury danych
-  def duplicate[A](elementsToDuplicate: List[A], duplicateTimes: List[Int]): Queue[A] = {
+  def duplicate[A](elementsToDuplicate: Queue[A], duplicateTimes: Queue[Int]): Queue[A] = {
     @tailrec
     def duplicateElement(element: A, howManyDuplicates: Int, resultQueue: Queue[A]): Queue[A] = {
       if (howManyDuplicates == 0) resultQueue
@@ -18,21 +17,28 @@ object Lista5 extends App {
     }
 
     @tailrec
-    def duplicateHelper(elementsToDuplicate: List[A], duplicateTimes: List[Int], resultQueue: Queue[A]): Queue[A] = {
-      if (elementsToDuplicate == Nil || duplicateTimes == Nil) resultQueue
-      else duplicateHelper(elementsToDuplicate.tail, duplicateTimes.tail, duplicateElement(elementsToDuplicate.head, duplicateTimes.head, resultQueue))
+    def duplicateHelper(elementsToDuplicate: Queue[A], duplicateTimes: Queue[Int], resultQueue: Queue[A]): Queue[A] = {
+      if (elementsToDuplicate.isEmpty || duplicateTimes.isEmpty) resultQueue
+      else duplicateHelper(elementsToDuplicate.dequeue._2, duplicateTimes.dequeue._2, duplicateElement(elementsToDuplicate.front, duplicateTimes.front, resultQueue))
     }
 
-    if (elementsToDuplicate == Nil || duplicateTimes == Nil) Queue()
-    else duplicateHelper(elementsToDuplicate, duplicateTimes, Queue())
+    if (elementsToDuplicate.isEmpty || duplicateTimes.isEmpty) Queue.empty
+    else duplicateHelper(elementsToDuplicate, duplicateTimes, Queue.empty)
   }
 
   // zadanie 2 (2,5 pkt)
   // wykorzystuje strukture LinkedHashSet, poniewaz nie dopuszcza on duplikatow, a oprocz tego iterowanie po tej kolekcji
   // sprawia ze otrzymujemy elementy w takiej kolejnosci w jakiej wpisalismy je do listy
-  def duplicateWithoutRepetitions[A](elementsWithoutRepetitions: mutable.LinkedHashSet[A], duplicateTimes: List[Int]): Queue[A] = {
-    if (elementsWithoutRepetitions.isEmpty || duplicateTimes == Nil) Queue()
-    else duplicate(elementsWithoutRepetitions.toList, duplicateTimes)
+  def duplicateWithoutRepetitions[A](elementsWithoutRepetitions: LinkedHashSet[A], duplicateTimes: Queue[Int]): Queue[A] = {
+    if (elementsWithoutRepetitions.isEmpty || duplicateTimes.isEmpty) Queue.empty
+    else {
+      var queue = Queue[A]()
+      for(el <- elementsWithoutRepetitions){
+        queue = queue.enqueue(el)
+      }
+
+      duplicate(queue, duplicateTimes)
+    }
   }
 
   trait Debug {

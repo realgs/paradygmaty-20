@@ -7,15 +7,15 @@ import scala.collection.mutable
 class DuplicateWithoutRepetitionsTest extends FunSuite {
 
   test("normalTest") {
-    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet(1,1,1,2,2,2,3,3,3), List(0,3,1,4)) == Queue(2,2,2,3))
+    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet(1,1,1,2,2,2,3,3,3), Queue(0,3,1,4)) == Queue(2,2,2,3))
   }
 
   test("stringList") {
-    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet("scala", "ocaml", "ocaml", "scala", "haskell"), List(0,2,1)) == Queue("ocaml", "ocaml", "haskell"))
+    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet("scala", "ocaml", "ocaml", "scala", "haskell"), Queue(0,2,1)) == Queue("ocaml", "ocaml", "haskell"))
   }
 
   test("emptyDuplicatesTimesList") {
-    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet(1,2,3), List()) == Queue())
+    assert(Lista5.duplicateWithoutRepetitions(mutable.LinkedHashSet(1,2,3), Queue()) == Queue())
   }
 
 }
