@@ -21,3 +21,4 @@ class Point(xv: Int, yv: Int) extends Debug {
 var p : Point = new Point(3,4)
 p.debugName
 p.debugVars;
+
