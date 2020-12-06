@@ -14,7 +14,7 @@ object Functions {
     duplicate(collection.distinct)(mask)
   }
 
-  // Zad 1/2 without using library functions
+  // Zad 1-2 without using library functions
   def formQueue[A](count: Int)(elem: A): Queue[A] = {
     @tailrec
     def auxFormQueue(count: Int)(accu: Queue[A]): Queue[A] = count match {
@@ -40,9 +40,9 @@ object Functions {
   }
 
   trait Debug {
+    // Zad 3 (5 pkt)
     def getDebugName: String = getClass.getSimpleName
 
-    // Zad 4 (5 pkt)
     def debugName(): Unit = printf("Class: %s\n", getDebugName)
 
     // Zad 5 (5 pkt)
@@ -56,6 +56,7 @@ object Functions {
       nameTypeMap
     }
 
+    // Zad 4 (5 pkt)
     def debugVars(): Unit = {
       getDebugVarsMap.foreachEntry((ident, info) => printf("var %s (%s) = %s\n", ident, info(1), info(0)))
     }
