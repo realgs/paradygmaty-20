@@ -3,6 +3,7 @@
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 
+//Kolekcja set zapewnia brak duplikatów
 def duplicate[A](elements: Set[A], repsForElems: Queue[Int]): Queue[A] = {
   @tailrec
   def duplicateHelp[A](elements: Set[A], repsForElems: Queue[Int], repCounter: Int, outputQueue: Queue[A]): Queue[A] = {

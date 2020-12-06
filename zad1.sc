@@ -3,6 +3,7 @@
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 
+//Implementacja kolejki funkcyjnej zapewnia dostep do ostatniego i 1 elementu w zlozonosci stalej O(1)
 def duplicate[A](elements: Queue[A], repsForElems: Queue[Int]): Queue[A] = {
   @tailrec
   def duplicateHelp[A](elements: Queue[A], repsForElems: Queue[Int], repCounter: Int, outputQueue: Queue[A]): Queue[A] = {
