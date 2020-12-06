@@ -5,7 +5,7 @@ object l5 {
   //zamiast wstawiać na koniec, co doprowadziłoby do złozoności rzędy n^2)
 
   //Zad1 (2.5 pkt)
-  //Zł. pes. O(k1+ k2 + k3+...+k_max(n, m)) gdzie k1, k2, k3, to krotności (ile razy powtórzyć) dany element, n <-dł. xs, m <- dł. how_Many_Times
+  //Zł. pes. O(k1+ k2 + k3+...+k_min(n, m)) gdzie k1, k2, k3, to krotności (ile razy powtórzyć) dany element, n <-dł. xs, m <- dł. how_Many_Times
   def replicate[A](xs: List[A])(how_Many_Times: List[Int]): List[A] = {
     how_Many_Times match {
       case List() => List()
