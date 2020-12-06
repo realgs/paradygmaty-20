@@ -25,17 +25,18 @@ object Functions {
     auxFormQueue(count)(Queue())
   }
 
-  def duplicateVerbose[A](collection: Queue[A])(reps: Queue[Int]): Queue[A] = {
-    @tailrec
-    def auxDuplicate(collection: Seq[A], reps: Seq[Int])(accu: Queue[A]): Queue[A] = {
-      (collection, reps) match {
-        case (Seq(), _) => accu
-        case (x :: t, Seq()) => auxDuplicate(t, Seq())(accu.enqueue(x))
-        case (elem :: tc, count :: tr) => auxDuplicate(tc, tr)(accu ++ formQueue(count)(elem))
-      }
+  def duplicateVerbose[A](collection: Seq[A])(reps: Seq[Int]): Queue[A] = {
+    val colIter = collection.iterator
+    val repsIter = reps.iterator
+    var accu: Queue[A] = Queue()
+
+    while (colIter.hasNext & repsIter.hasNext) {
+      accu = accu.enqueueAll(formQueue(repsIter.next())(colIter.next()))
     }
 
-    auxDuplicate(collection, reps)(Queue())
+    if (colIter.hasNext) accu = accu ++ colIter
+
+    accu
   }
 
   trait Debug {

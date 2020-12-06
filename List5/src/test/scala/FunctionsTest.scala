@@ -7,7 +7,7 @@ import scala.util.Random
 class FunctionsTest extends FunSuite {
   Random.setSeed(0)
 
-  val LONG_LENGTH = 100000
+  val LONG_LENGTH = 10000
 
   val longCollection: Queue[Int] = Queue.fill(LONG_LENGTH)(Random.nextInt)
   val longMask: Queue[Int] = Queue.fill(LONG_LENGTH)(Random.between(0, 2000))
@@ -87,6 +87,10 @@ class FunctionsTest extends FunSuite {
     val collection = List()
     val mask = List(1, 2, 3)
     assert(Functions.duplicateDistinct(collection)(mask) === List())
+  }
+
+  test("duplicateVerbose.assertSameResults") {
+    assert(Functions.duplicate(longCollection)(longMask) === Functions.duplicateVerbose(longCollection)(longMask))
   }
 
   // Example class for testing Debug trait
