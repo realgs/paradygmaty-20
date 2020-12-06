@@ -2,7 +2,6 @@ import java.lang.reflect.{AnnotatedElement, Field}
 
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
-import scala.collection.mutable
 import scala.collection.mutable.LinkedHashSet
 
 object Lista5 extends App {
