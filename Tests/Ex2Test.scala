@@ -46,4 +46,11 @@ class Ex2Test {
     val numRepeats = m.Queue().addAll(List(1, 2))
     assertThrows(classOf[Exception], () => duplicateNoRepetitions(collection, numRepeats))
   }
+
+  @Test def testCollectionTryAddRepetitions(): Unit =
+  {
+    val collection = m.LinkedHashSet().addAll(List("Ala", "ma", "psa", "ma"))
+    val numRepeats = m.Queue().addAll(List(1, 2, 1, 10, 0, 0))
+    assertEquals(m.Queue().addAll(List("Ala", "ma", "ma", "psa")), duplicateNoRepetitions(collection, numRepeats))
+  }
 }
