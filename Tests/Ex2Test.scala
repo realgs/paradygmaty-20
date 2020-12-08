@@ -3,9 +3,7 @@ package Tests
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions._
-
 import Source.Ex1_2.duplicateNoRepetitions
-
 import scala.collection.{mutable => m}
 
 

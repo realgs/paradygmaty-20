@@ -1,9 +1,9 @@
 package Tests
 
+
 import org.junit.jupiter.api.{BeforeEach, Nested, Test}
 import org.junit.jupiter.api.Assertions._
 import Source.Classes.{Dragon, Mug, MugOwner, Point}
-
 import scala.collection.mutable
 
 
@@ -11,28 +11,28 @@ class Ex3_4_5Test {
 
   @Test def testPointGetClass(): Unit =
   {
-    val point = new Point(1, 2);
+    val point = new Point(1, 2)
     assertEquals("Point", point.getClassName)
     point.debugName()
   }
 
   @Test def testDragonGetClass(): Unit =
   {
-    val dragon = new Dragon("Dragon", "red", 2);
+    val dragon = new Dragon("Dragon", "red", 2)
     assertEquals("Dragon", dragon.getClassName)
     dragon.debugName()
 }
 
   @Test def testMugGetClass(): Unit =
   {
-    val mug = new Mug();
+    val mug = new Mug()
     assertEquals("Mug", mug.getClassName)
     mug.debugName()
   }
 
   @Test def testMugOwnerGetClass(): Unit =
   {
-    val mugOwner = new MugOwner(new Mug());
+    val mugOwner = new MugOwner(new Mug())
     assertEquals("MugOwner", mugOwner.getClassName)
     mugOwner.debugName()
   }
@@ -55,14 +55,14 @@ class Ex3_4_5Test {
       dict.put("x", (intType, 1))
       dict.put("y", (intType, 2))
       dict.put("a", (strType, "test"))
-      val point = new Point(1, 2);
+      val point = new Point(1, 2)
       assertEquals(dict, point.getVars)
       point.debugVars()
     }
 
     @Test def testMugGetVars(): Unit =
     {
-      val mug = new Mug();
+      val mug = new Mug()
       assertEquals(dict, mug.getVars)
       mug.debugVars()
     }

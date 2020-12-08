@@ -6,6 +6,7 @@ import scala.math.max
 
 
 object Ex1_2 {
+
   // Helper for ex 1 and 2
   private def putRepetitionsInQueue[A](queue: m.Queue[A], element: A, n_repeats: Int): Unit =
   {
@@ -14,6 +15,7 @@ object Ex1_2 {
       queue.enqueue(element)
     }
   }
+
   // Zadanie 1 (2.5 pkt)
   // =======================================================
   // Assumptions:

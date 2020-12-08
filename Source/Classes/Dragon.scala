@@ -1,6 +1,8 @@
 package Source.Classes
 
+
 import Source.Debug
+
 
 class Dragon(namev: String, colorv: String, agev: Int = 0) extends Debug {
 

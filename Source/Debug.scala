@@ -3,6 +3,7 @@ package Source
 
 import scala.collection.{mutable => m}
 
+
 trait Debug {
 
   // Zadanie 3 (5 pkt)
@@ -31,7 +32,7 @@ trait Debug {
 
   def getVars: m.Map[String, (Class[_], Any)] =
   {
-    val dict = m.Map[String, (Class[_], Any)]();
+    val dict = m.Map[String, (Class[_], Any)]()
     val vars = getClass.getDeclaredFields
     for (i <- 0 until vars.length)
     {

@@ -1,9 +1,9 @@
 package Tests
 
+
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions._
 import scala.collection.{mutable => m}
-
 import Source.Ex1_2.duplicate
 
 
