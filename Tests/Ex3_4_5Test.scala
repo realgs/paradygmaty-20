@@ -9,42 +9,42 @@ import scala.collection.mutable
 
 class Ex3_4_5Test {
 
-  val dict: mutable.Map[String, (Class[_], Any)] = mutable.Map[String, (Class[_], Any)]()
-  val intType: Class[_] = classOf[Int]
-  val strType: Class[_] = classOf[String]
-
-
   @Test def testPointGetClass(): Unit =
   {
     val point = new Point(1, 2);
-    assertEquals(("Class", "Point"), point.getClassName)
+    assertEquals("Point", point.getClassName)
     point.debugName()
   }
 
   @Test def testDragonGetClass(): Unit =
   {
     val dragon = new Dragon("Dragon", "red", 2);
-    assertEquals(("Class", "Dragon"), dragon.getClassName)
+    assertEquals("Dragon", dragon.getClassName)
     dragon.debugName()
 }
 
   @Test def testMugGetClass(): Unit =
   {
     val mug = new Mug();
-    assertEquals(("Class", "Mug"), mug.getClassName)
+    assertEquals("Mug", mug.getClassName)
     mug.debugName()
   }
 
   @Test def testMugOwnerGetClass(): Unit =
   {
     val mugOwner = new MugOwner(new Mug());
-    assertEquals(("Class", "MugOwner"), mugOwner.getClassName)
+    assertEquals("MugOwner", mugOwner.getClassName)
     mugOwner.debugName()
   }
 
   @Nested
   class TestDebugVars
   {
+
+    val dict: mutable.Map[String, (Class[_], Any)] = mutable.Map[String, (Class[_], Any)]()
+    val intType: Class[_] = classOf[Int]
+    val strType: Class[_] = classOf[String]
+
     @BeforeEach def setupDict(): Unit =
     {
       dict.clear()

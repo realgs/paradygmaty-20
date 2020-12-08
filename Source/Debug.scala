@@ -1,7 +1,7 @@
 package Source
 
 
-import scala.collection.mutable.Map
+import scala.collection.{mutable => m}
 
 trait Debug {
 
@@ -24,14 +24,14 @@ trait Debug {
   }
 
   // Zadanie 5 (5 pkt)
-  def getClassName: (String, String) =
+  def getClassName: String =
   {
-    ("Class", getClass.getSimpleName)
+    getClass.getSimpleName
   }
 
-  def getVars: Map[String, (Class[_], Any)] =
+  def getVars: m.Map[String, (Class[_], Any)] =
   {
-    val dict = Map[String, (Class[_], Any)]();
+    val dict = m.Map[String, (Class[_], Any)]();
     val vars = getClass.getDeclaredFields
     for (i <- 0 until vars.length)
     {
