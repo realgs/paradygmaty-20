@@ -2,7 +2,7 @@ trait Debug {
 
   //Zadanie 3
   def debugName() : Unit = {
-    println(getClass())
+    println("Class: " + getClass())
   }
 
   def debugVars() : Unit = {
