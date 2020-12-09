@@ -1,0 +1,12 @@
+Deadline 10.01.2021 (20pkt)
+
+Lista prezent na święta. Śmiało eksperymentujcie z nią, jeśli coś nie pójdzie do końca dobrze - nie przejmujcie się, ważny jest sam proces nauki oraz próbowanie różnych podejść.
+
+Ciekawy artykuł o rozwiązaniach równoległego przetwarzania danych:
+https://jobs.zalando.com/tech/blog/parallel-computing-with-scala/?gh_src=4n3gxh1
+
+1) Przeczytajcie artykuł ze zrozumieniem, mogę pytać 
+2) Znaleźć 2-4 problemy, inne niż te z artykułu, których rozwiązanie waszym zdaniem warto zrównoleglić
+	a) wykonajcie zrównoleglenie wybranych przez siebie zadań (10pkt)
+	b) wykonajcie to samo bez zrównoleglania (5pkt)
+	c) zmierzcie czas jaki zyskaliście / straciliście, przeanalizujcie (5pkt)
