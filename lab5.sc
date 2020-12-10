@@ -1,25 +1,9 @@
 import java.lang.reflect.Field
-
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 // Karol Waliszewski
 
 // 1) - 2.5pkt
-//def duplicate[A](elements: List[A])(counters: List[Int]):List[A] =
-// elements match {
-//   case Nil => Nil
-//   case _ =>
-//     counters match {
-//       case Nil => Nil
-//       case 0::tail => duplicate(elements.tail)(counters.tail)
-//       case hd::tail =>
-//         if(hd < 0)
-//           throw new Exception("Element cannot be duplicated n times if n < 0.")
-//         else
-//          elements.head :: duplicate(elements)((hd-1)::tail)
-//     }
-// }
-
 def duplicate[A] (collection: Queue[A])(repetitions: Queue[Int]): Queue[A] = {
   @tailrec
   def duplicateInner(elements: Queue[A], element: A, repetitions: Queue[Int], reps: Int, result: Queue[A]): Queue[A] =
