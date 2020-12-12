@@ -62,6 +62,7 @@ object Drzewa extends App{
   val lazyList1:LazyList[Int] = LazyList[Int](5,6,3,2);
   val lazyList2:LazyList[Int] = LazyList[Int](1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
   val llistTest:LazyList[Int] = LazyList[Int](5,6,3,2,1,12,10,8,6);
+  val emptyLlist:LazyList[Int] = LazyList[Int]();
 
   def eachNElement(lazyList: LazyList[Int], every:Int, toLast:Int):LazyList[Int]= {
     def thisNumber(llist:LazyList[Int], n:Int, m:Int,result:LazyList[Int]):LazyList[Int] ={
@@ -96,8 +97,10 @@ object Drzewa extends App{
   println("Zadanie 4")
   println("LazyList = " + eachNElement(llistTest,1,3).toList);
   println("LazyList = " + eachNElement(lazyList1,2,4).toList);
+  println("LazyList = " + eachNElement(lazyList2,0,5).toList);
+  println("LazyList = " + eachNElement(lazyList2,0,0).toList);
+  println("EmptyLazyList = " + eachNElement(emptyLlist,0,2).toList);
   println("LazyList2 = " + eachNElement(lazyList2,1,10).toList + "\n");
-
 
   //Zadanie 5 punkty: 5
   val llxs:LazyList[Int] = LazyList[Int](4, -6, 14)
