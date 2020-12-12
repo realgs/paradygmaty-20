@@ -1,5 +1,6 @@
 import java.lang.reflect.{AnnotatedElement, Field}
-import scala.collection.immutable
+
+import scala.collection.{immutable, mutable}
 import scala.collection.immutable.Queue
 import scala.collection.mutable.Stack
 import scala.collection.mutable.LinkedHashSet
@@ -7,6 +8,7 @@ import scala.collection.immutable.Seq
 import scala.collection.immutable.Vector
 import scala.collection.immutable.Set
 import scala.collection.immutable.Vector
+import scala.collection.immutable.Map
 
 object Lista5 extends App{
 
@@ -33,6 +35,7 @@ object Lista5 extends App{
       case _ => Vector();
     }
   }
+
   println("Test zadanie 1:");
   println("Duplicated = " + duplicate(vector,repeated));
   println("Duplicated = " + duplicate(vector2,repeated2));
@@ -59,9 +62,9 @@ object Lista5 extends App{
 
   //Zadanie3 (5pkt)
     trait Debug{
-      def debugName():String={
+      def debugName():Unit={
         val str:Array[String] = getClass.toString.split('$');
-        "Class: " + str(1);
+        println("Class: " + str(1));
       }
 
     //Zadanie4 (5pkt)
@@ -72,25 +75,48 @@ object Lista5 extends App{
         println("Var: " + value.getName + " => " + value.getAnnotatedType + ", " + value.get(this))
       };
     }
+
+    //Zadanie5 (5pkt)
+      def debugClass(): Array[String] ={
+        var className:Array[String] = Array[String]("Class: " +  getClass.getSimpleName);
+        val fields:Array[Field] = getClass.getDeclaredFields;
+        var allInfo:Array[String] = Array[String]();
+        allInfo = className;
+          for(value <- fields) {
+            value.setAccessible(true);
+            allInfo = allInfo:+ ("Var: " + value.getName + " => " + value.getAnnotatedType + ", " + value.get(this))
+           };
+        allInfo;
+      }
     }
 
+  //Classes to tests
     class Point(xv: Int, yv: Int) extends Debug {
       var x: Int = xv
       var y: Int = yv
       var a: String = "test"
     }
 
-  class Dot() extends Debug {
+  class Student(imie:String, nazwisko:String, wiek:Int) extends Debug{
+    var name = imie;
+    var surName = nazwisko;
+    var age = wiek;
   }
 
   var p : Point = new Point(3,4);
-  var d : Dot = new Dot();
+  var s : Student = new Student("Michal","Kowalski",20);
 
   println("Test zadanie 3:");
-  println(p.debugName());
-  println(d.debugName() + "\n");
+  p.debugName();
+  s.debugName();
+  println("\n");
 
   println("Test zadanie 4:");
   p.debugVars();
-  d.debugVars();
+  s.debugVars()
+  println("\n");
+
+  println("Test zadanie 5:");
+  println(p.debugClass().toList);
+  println(s.debugClass().toList);
 }
