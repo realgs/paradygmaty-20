@@ -31,7 +31,7 @@ object Tasks {
   def duplicateWithoutRepetitions[A](collection: mutable.LinkedHashSet[A], numbersOfDuplications: Queue[Int]): Queue[A] = {
     @tailrec
     def duplicateInner[B](collection: mutable.LinkedHashSet[B], numbersOfDuplications: Queue[Int], elementToDuplicate: B, duplicationCounter: Int, result: Queue[B]): Queue[B] =
-    // don't throw Exception if negative number
+      // don't throw Exception if negative number
       if(duplicationCounter > 0) duplicateInner(collection, numbersOfDuplications, elementToDuplicate, duplicationCounter - 1, result.enqueue(elementToDuplicate))
       else if(collection.isEmpty || numbersOfDuplications.isEmpty) result
       else {

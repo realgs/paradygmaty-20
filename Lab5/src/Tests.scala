@@ -1,5 +1,4 @@
 import Tasks._
-
 import scala.collection.immutable.Queue
 import scala.collection.mutable
 
