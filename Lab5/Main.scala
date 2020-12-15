@@ -12,8 +12,17 @@ object Main
     
     val point = new Point(3,4)
     point.debugName()
+    println()
     val vars = point.debugVars()
-    println(vars)
+    println(vars(0)._1 == "x")
+    println(vars(0)._2 == (678).getClass)
+    println(vars(0)._3 == 3)
+    println(vars(1)._1 == "y")
+    println(vars(1)._2 == (678).getClass)
+    println(vars(1)._3 == 4)
+    println(vars(2)._1 == "a")
+    println(vars(2)._2 == ("").getClass)
+    println(vars(2)._3 == "test")
   }
 
   def testDuplicate(): Unit =
