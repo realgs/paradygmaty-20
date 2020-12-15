@@ -13,28 +13,24 @@ class Ex3_4_5Test {
   {
     val point = new Point(1, 2)
     assertEquals("Point", point.getClassName)
-    point.debugName()
   }
 
   @Test def testDragonGetClass(): Unit =
   {
     val dragon = new Dragon("Dragon", "red", 2)
     assertEquals("Dragon", dragon.getClassName)
-    dragon.debugName()
 }
 
   @Test def testMugGetClass(): Unit =
   {
     val mug = new Mug()
     assertEquals("Mug", mug.getClassName)
-    mug.debugName()
   }
 
   @Test def testMugOwnerGetClass(): Unit =
   {
     val mugOwner = new MugOwner(new Mug())
     assertEquals("MugOwner", mugOwner.getClassName)
-    mugOwner.debugName()
   }
 
   @Nested
@@ -57,14 +53,12 @@ class Ex3_4_5Test {
       dict.put("a", (strType, "test"))
       val point = new Point(1, 2)
       assertEquals(dict, point.getVars)
-      point.debugVars()
     }
 
     @Test def testMugGetVars(): Unit =
     {
       val mug = new Mug()
       assertEquals(dict, mug.getVars)
-      mug.debugVars()
     }
 
     @Test def testDragonGetVars(): Unit =
@@ -74,7 +68,6 @@ class Ex3_4_5Test {
       dict.put("age", (intType, 18))
       val dragon = new Dragon("Dragon2", "blue", 18)
       assertEquals(dict, dragon.getVars)
-      dragon.debugVars()
     }
 
     @Test def testMugOwnerGetVars(): Unit =
@@ -83,8 +76,6 @@ class Ex3_4_5Test {
       dict.put("mug", (mug.getClass, mug))
       val mugOwner = new MugOwner(mug)
       assertEquals(dict, mugOwner.getVars)
-      println(mugOwner.getVars.get("mug"))
-      mugOwner.debugVars()
     }
   }
 }
