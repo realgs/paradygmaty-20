@@ -1,5 +1,7 @@
 import Tasks._
+
 import scala.collection.immutable.Queue
+import scala.collection.mutable
 
 object Tests {
 
@@ -14,15 +16,14 @@ object Tests {
     assert(duplicate(Queue(3, 6, -321, 3213), Queue(5, 7, 0, 2)) == Queue(3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 3213, 3213))
 
     // Task 2. tests
-    //TODO use LinkedHashSet
-    assert(duplicateWithoutRepetitions(Set(), Queue()) == Queue())
-    assert(duplicateWithoutRepetitions(Set(1), Queue(4)) == Queue(1, 1, 1, 1))
-    assert(duplicateWithoutRepetitions(Set(1), Queue(4, 2)) == Queue(1, 1, 1, 1))
-    assert(duplicateWithoutRepetitions(Set(), Queue(4, 2)) == Queue())
-    assert(duplicateWithoutRepetitions(Set(3, 6), Queue()) == Queue())
-    assert(duplicateWithoutRepetitions(Set(3, 6, -321, 3213), Queue(5, 7, 0, 2)) == Queue(3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 3213, 3213))
-    assert(duplicateWithoutRepetitions(Set(1, 1, 1), Queue(2, 3, 4)) == Queue(1, 1))
-    assert(duplicateWithoutRepetitions(Set(1, 1, 2, 1, 4, 2), Queue(2, 3, 4, 5, 6, 7)) == Queue(1, 1, 2, 2, 2, 4, 4, 4, 4))
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(), Queue()) == Queue())
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(1), Queue(4)) == Queue(1, 1, 1, 1))
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(1), Queue(4, 2)) == Queue(1, 1, 1, 1))
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(), Queue(4, 2)) == Queue())
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(3, 6), Queue()) == Queue())
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(3, 6, -321, 3213), Queue(5, 7, 0, 2)) == Queue(3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 3213, 3213))
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(1, 1, 1), Queue(2, 3, 4)) == Queue(1, 1))
+    assert(duplicateWithoutRepetitions(mutable.LinkedHashSet(1, 1, 2, 1, 4, 2), Queue(2, 3, 4, 5, 6, 7)) == Queue(1, 1, 2, 2, 2, 4, 4, 4, 4))
 
     // Task 3. tests
     val p = new Point(3, 4)

@@ -1,7 +1,6 @@
-import java.lang.reflect.AnnotatedElement
-
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
+import scala.collection.mutable
 
 object Tasks {
 
@@ -29,9 +28,9 @@ object Tasks {
   }
 
   // Task 2. (2.5 pkt)
-  def duplicateWithoutRepetitions[A](collection: Set[A], numbersOfDuplications: Queue[Int]): Queue[A] = {
+  def duplicateWithoutRepetitions[A](collection: mutable.LinkedHashSet[A], numbersOfDuplications: Queue[Int]): Queue[A] = {
     @tailrec
-    def duplicateInner[B](collection: Set[B], numbersOfDuplications: Queue[Int], elementToDuplicate: B, duplicationCounter: Int, result: Queue[B]): Queue[B] =
+    def duplicateInner[B](collection: mutable.LinkedHashSet[B], numbersOfDuplications: Queue[Int], elementToDuplicate: B, duplicationCounter: Int, result: Queue[B]): Queue[B] =
     // don't throw Exception if negative number
       if(duplicationCounter > 0) duplicateInner(collection, numbersOfDuplications, elementToDuplicate, duplicationCounter - 1, result.enqueue(elementToDuplicate))
       else if(collection.isEmpty || numbersOfDuplications.isEmpty) result
