@@ -1,7 +1,8 @@
 import ParallelMechanism.parallel
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.DurationInt
 
 object Quicksort {
   def swap[A](tab: Array[A])(i: Int)(j: Int): Unit = {
@@ -53,12 +54,12 @@ object Quicksort {
     if (l < r) {
       val (i, j) = partition(tab, l, r)
       if (j - l < r - i) {
-        Future(quick(tab, l, j))
-        Future(quick(tab, i, r))
+        Await.result(Future(quick(tab, l, j)), 2000.second)
+        Await.result(Future(quick(tab, i, r)), 2000.second)
       }
       else {
-        Future(quick(tab, i, r))
-        Future(quick(tab, l, j))
+        Await.result(Future(quick(tab, i, r)), 2000.second)
+        Await.result(Future(quick(tab, l, j)), 2000.second)
       }
     }
 

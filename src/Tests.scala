@@ -11,13 +11,14 @@ import scala.util.Random
 object Tests {
   def main(args: Array[String]): Unit = {
     // Time test
-//    timeTest()
+    timeTest()
     // Tree preorder traversal
     treePreorderTraversal()
     // HTTP GET request
-//    httpRequestTest()
+    httpRequestTest()
     // Quicksort
-//    quicksortTest()
+    quicksortTest()
+    // Fibonacci
     fibTest()
   }
 
@@ -98,7 +99,7 @@ object Tests {
   }
 
   def quicksortTest(): Unit = {
-    val test = Array.fill(100000)(Random.between(0, 1000))
+    val test = Array.fill(100000)(Random.between(0, 10000))
 
     println("Total time: " + measureTime(quicksort(quick, test.clone()), (), 20, showDetails = false))
     println("Total time: " + measureTime(quicksort(quickParallel, test.clone()), (), 20, showDetails = false))
@@ -106,30 +107,29 @@ object Tests {
 //    println(test.toList)
 
 //    10.000 elements [0-10000]
-//    Total time: 3.4294221500000006 ms
-//    Total time: 4.12667605 ms
-//    Total time: 0.1316742 ms
+//    Total time: 2.6082249500000003 ms
+//    Total time: 4.02530245 ms
+//    Total time: 0.8700941 ms
 
 //    100.000 elements [0-10000]
-//    Total time: 28.809995299999997 ms
-//    Total time: 17.004995500000003 ms
-//    Total time: 0.5792615 ms
+//    Total time: 22.800668 ms
+//    Total time: 12.35783005 ms
+//    Total time: 4.73374285 ms
 
 //    1.000.000 elements [0-10000]
-//    Total time: 191.77078834999998 ms
-//    Total time: 146.36278215000002 ms
-//    Total time: 6.251438749999999 ms
+//    Total time: 151.50320095 ms
+//    Total time: 114.2687592 ms
+//    Total time: 51.67331125 ms
 
-//    10.000.000 elements [0-10000]
-//    Total time: 2180.5475460499997 ms
-//    Total time: 1799.38061125 ms
-//    Total time: 33.29425205 ms
+//    1) 10.000.000 elements [0-10000]
+//    Total time: 1638.9212707499998 ms
+//    Total time: 1491.00554075 ms
+//    Total time: 630.8461628499998 ms
 
-//    10.000.000 elements [0-100]
-//    Total time: 1522.44752955 ms
-//    Total time: 1519.4675274499996 ms
-//    Total time: 29.562021449999996 ms
-//    Futures seem to be truly optimised, however it's almost impossible to be that fast.
+//    2) 10.000.000 elements [0-10000]
+//    Total time: 1743.4961217999996 ms
+//    Total time: 1326.5971557999999 ms
+//    Total time: 905.2194478499999 ms
   }
 
   def fibTest(): Unit = {
