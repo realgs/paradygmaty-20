@@ -46,7 +46,7 @@ object Tasks {
 
       val (firstDuplicationNumber, newNumbersOfDuplications) = numbersOfDuplications.dequeue
 
-      duplicateInner(collection.tail, newNumbersOfDuplications, collection.head, firstDuplicationNumber, Queue.empty)
+      duplicateInner(collection.tail, newNumbersOfDuplications, collection.head, firstDuplicationNumber, Queue())
     }
   }
 
@@ -67,9 +67,9 @@ object Tasks {
     // Task 5. (5 pkt)
     def getClassName: String = getClass.getSimpleName
 
-    def getClassFields: Map[String, (AnnotatedElement, AnyRef)] = {
+    def getClassFields: Map[String, (Class[_], AnyRef)] = {
 
-      var fields: Map[String, (AnnotatedElement, AnyRef)] = Map()
+      var fields: Map[String, (Class[_], AnyRef)] = Map()
 
       getClass.getDeclaredFields.foreach(field => {
         field.setAccessible(true)
