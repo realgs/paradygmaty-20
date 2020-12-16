@@ -59,6 +59,19 @@ class Car(brand_car: String, model_car: String, year_car: Int,
   var capacity_eng: Double = capacity_eng_car
 }
 
+def f[T](v: T) = v match {
+  case _: Int    => "Int"
+  case _: String => "String"
+  case _: Float => "Float"
+  case _: Char => "Char"
+  case _: Boolean => "Boolean"
+  case _: Byte => "Byte"
+  case _: Short => "Short"
+  case _: Long => "Long"
+  case _: Double => "Double"
+  case _         => "Unknown"
+
+}
 
 val point = new Point(0, 0)
 point.debugName()
@@ -66,12 +79,22 @@ point.debugVars()
 val name = point.get_debugName()
 val attributes = point.get_debugVars()
 
+for(i <- attributes){
+  println(f(i._1))
+  println(f(i._2))
+  println(f(i._3))
+}
+
+
 val car = new Car("Hyundai", "Solaris",
   2020, "Sedan", 1.6)
 car.debugName()
 car.debugVars()
-val name = car.get_debugName()
-val attributes = car.get_debugVars()
+val name1 = car.get_debugName()
+val attributes1 = car.get_debugVars()
 
-
-
+for(i <- attributes1){
+  println(f(i._1))
+  println(f(i._2))
+  println(f(i._3))
+}
