@@ -12,22 +12,27 @@ import scala.collection.immutable.Map
 
 object Lista5 extends App{
 
-  //for test
+  //for tests
   val tryingQueue:Queue[Int] = Queue[Int](9,3,7,12);
   val repeatedQueue:Queue[Int] = Queue[Int](1,2,4);
   val tryingStack:Stack[Int] = Stack[Int](1,4);
+
   val vector:Vector[Int] = Vector[Int](2,3,4);
   val vector2:Vector[Int] = Vector[Int](2,3,4,7);
-  val vector3:Vector[Int] = Vector[Int]();
+  val vector3:Vector[Int] = Vector[Int](2,5,2,7,9);
+  val vector4:Vector[Int] = Vector[Int]();
+
+  val vectorString:Vector[String] = Vector[String]("1","3","8");
+  val vectorString2:Vector[String] = Vector[String]("4","6","15","6");
+
   val repeated:Vector[Int] = Vector[Int](1,2,3);
-  val repeated2:Vector[Int] = Vector[Int](1,2,3,2,12);
-  val repeated3:Vector[Int] = Vector[Int]();
-  val set:Set[Int] = Set[Int](2,5,2,7,9);
-  val set2:Set[Int] = Set[Int]();
+  val repeated2:Vector[Int] = Vector[Int](1,3,4,2,12);
+  val repeated3:Vector[Int] = Vector[Int](-1,2);
+  val repeated4:Vector[Int] = Vector[Int]();
 
 //Zadanie1 (2.5pkt)
-  def duplicate(vector:Vector[Int], repeat:Vector[Int]) : Vector[Int] = {
-      def repeated(value:Int, many:Int, exit:Vector[Int]): Vector[Int] ={
+  def duplicate[A](vector:Vector[A], repeat:Vector[Int]) : Vector[A] = {
+      def repeated(value:A, many:Int, exit:Vector[A]): Vector[A] ={
         Vector.fill(many)(value)++exit;
       }
     vector match {
@@ -37,28 +42,32 @@ object Lista5 extends App{
   }
 
   println("Test zadanie 1:");
-  println("Duplicated = " + duplicate(vector,repeated));
-  println("Duplicated = " + duplicate(vector2,repeated2));
-  println("Duplicated = " + duplicate(vector2,repeated));
-  println("Duplicated = " + duplicate(vector,repeated2));
-  println("Duplicated = " + duplicate(vector3,repeated3));
-  println("Duplicated = " + duplicate(vector3,repeated));
-  println("Duplicated = " + duplicate(vector,repeated3) + "\n");
+  println(duplicate(vector,repeated) == Vector(2,3,3,4,4,4));//(2,3,4)-(1,2,3)
+  println(duplicate(vector2,repeated2) == Vector(2,3,3,3,4,4,4,4,7,7));//(2,3,4,7)-(1,3,4,2,12)
+  println(duplicate(vector2,repeated) == Vector(2,3,3,4,4,4));//(2,3,4,7)-(1,2,3)
+  println(duplicate(vector3,repeated3) == Vector(5,5));//(2,5,2,7,9)-(-1,2)
+  println(duplicate(vectorString,repeated) == Vector("1","3","3","8","8","8"));//("1","3","8")-(1,2,3)
+  println(duplicate(vectorString2,repeated4) == Vector());//("4","6","15","6")-()
+  println(duplicate(vector4,repeated3) == Vector());//()-(-1,2)
+  println();
 
 //zadanie2 (2.5pkt)
-  def duplicateNon(set:Set[Int], vector: Vector[Int]):Vector[Int]={
-    def repeated(value:Int, many:Int, exit:Vector[Int]): Vector[Int] ={
+  def duplicateNon[A](set:Vector[A], vector: Vector[Int]):Vector[A]={
+    def repeated[A](value:A, many:Int, exit:Vector[A]): Vector[A] ={
       Vector.fill(many)(value)++exit;
     }
-    set.toVector match {
-      case head+:tail => if(!vector.isEmpty)repeated(head,vector.head,duplicateNon(tail.toSet,vector.tail)) else Vector();
+    val s:Set[A] = set.toSet;
+    s.toVector match {
+      case head+:tail => if(!vector.isEmpty)repeated(head,vector.head,duplicateNon(tail,vector.tail)) else Vector();
       case _ => Vector();
     }
   }
 
   println("Test zadanie 2:");
-  println("DuplicatedNon = " + duplicateNon(set2,repeated2));
-  println("DuplicatedNon = " + duplicateNon(set,repeated2) + "\n");
+  println(duplicateNon(vector3,repeated2) == Vector(2, 5, 5, 5, 7, 7, 7, 7, 9, 9));//(2,5,2,7,9)-(1,3,4,2,12)
+  println(duplicateNon(vector4,repeated2) == Vector());//()-(1,3,4,2,12)
+  println(duplicateNon(vectorString2,repeated2) == Vector("4","6","6","6","15","15","15","15"));//("4","6","15","6")-(1,3,4,2,12)
+  println();
 
   //Zadanie3 (5pkt)
     trait Debug{
@@ -76,7 +85,7 @@ object Lista5 extends App{
       };
     }
 
-    //Zadanie5 (5pkt)
+    //Zadanie5 (5pkt) // poprawic
       def debugClass(): Array[String] ={
         var className:Array[String] = Array[String]("Class: " +  getClass.getSimpleName);
         val fields:Array[Field] = getClass.getDeclaredFields;
@@ -88,9 +97,22 @@ object Lista5 extends App{
            };
         allInfo;
       }
+
+    //Przerobiona wersja
+    def debugClassO(): Array[Object] = {
+      var className: Array[Object] = Array[Object](getClass.getSimpleName);
+      val fields: Array[Field] = getClass.getDeclaredFields;
+      var allInfo: Array[Object] = Array[Object]();
+      allInfo = className;
+      for (value <- fields) {
+        value.setAccessible(true);
+        allInfo = allInfo :+ (value.getName + value.getAnnotatedType + value.get(this))
+      };
+      allInfo;
+    }
     }
 
-  //Classes to tests
+  //Classes for tests
     class Point(xv: Int, yv: Int) extends Debug {
       var x: Int = xv
       var y: Int = yv
@@ -119,4 +141,7 @@ object Lista5 extends App{
   println("Test zadanie 5:");
   println(p.debugClass().toList);
   println(s.debugClass().toList);
+  println();
+  println(p.debugClassO().toList);
+  println(s.debugClassO().toList);
 }
