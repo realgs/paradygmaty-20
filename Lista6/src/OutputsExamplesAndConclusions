@@ -2,22 +2,50 @@
     Time performance example:
         *********************************** QuickSort array with 10000 elements ***********************************
         Normal quick sort: Total time: 10ms
-        Future quick sort: Total time: 181ms
-        Parallel quick sort: Total time: 10ms
+        Future quick sort: Total time: 150ms
+        Parallel quick sort: Total time: 11ms
         *********************************** QuickSort array with 100000 elements ***********************************
-        Normal quick sort: Total time: 20ms
-        Future quick sort: Total time: 13ms
+        Normal quick sort: Total time: 27ms
+        Future quick sort: Total time: 25ms
         Parallel quick sort: Total time: 10ms
         *********************************** QuickSort array with 1000000 elements ***********************************
-        Normal quick sort: Total time: 189ms
-        Future quick sort: Total time: 147ms
-        Parallel quick sort: Total time: 169ms
+        Normal quick sort: Total time: 187ms
+        Future quick sort: Total time: 136ms
+        Parallel quick sort: Total time: 118ms
         *********************************** QuickSort array with 10000000 elements ***********************************
-        Normal quick sort: Total time: 1805ms
-        Future quick sort: Total time: 1288ms
-        Parallel quick sort: Total time: 1334ms
+        Normal quick sort: Total time: 2059ms
+        Future quick sort: Total time: 1683ms
+        Parallel quick sort: Total time: 1814ms
     Conclusions:
         The bigger array, the more efficient is to use some kind of parallelization. In my case, it is better to use Feature trait, when
-        huge collection must be sorted. For smaller collections it is better to use parallel mechanism or none oh them.
-        The reason, why normal quick sort can be as effective as future or parallel quick sort for small collections, is that launching new threds
-        can be time-absorbing and thus unprofitable.
+        huge collection must be sorted (e.g. 10000000 elements), but parallel mechanism also performs good. For smaller collections it is better
+        to use parallel mechanism or none oh them. The reason, why normal quick sort can be as effective as future or parallel quick sort for small
+        collections, is that launching new threds can be time-absorbing and thus unprofitable.
+
+
+-MergeSort
+    Time performance example:
+        *********************************** MergeSort array with 100 elements ***********************************
+        Normal merge sort: Total time: 15ms
+        Future merge sort: Total time: 240ms
+        Parallel merge sort: Total time: 12ms
+        *********************************** MergeSort array with 1000 elements ***********************************
+        Normal merge sort: Total time: 20ms
+        Future merge sort: Total time: 16ms
+        Parallel merge sort: Total time: 24ms
+        *********************************** MergeSort array with 10000 elements ***********************************
+        Normal merge sort: Total time: 541ms
+        Future merge sort: Total time: 347ms
+        Parallel merge sort: Total time: 273ms
+        *********************************** MergeSort array with 100000 elements ***********************************
+        Normal merge sort: Total time: 35597ms
+        Future merge sort: Total time: 24074ms
+        Parallel merge sort: Total time: 23341ms
+    Conclusions:
+        First of all this algorithm is so much slower than QuickSort. The reason is that I wanted to make in-place MergeSort, because it
+        saves a lot of memory, but it uses time-consuming method: putInCorrectPlace.
+        Second of all, time performace. My conclusions are nearly the same as for QuickSort, but here I think parallel mechanism is the best one.
+        It has the best performing time (in most tests, sometimes mergeSortFuture was faster for array of 100000 elements).
+
+
+

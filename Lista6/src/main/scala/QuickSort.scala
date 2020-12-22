@@ -51,14 +51,14 @@ object QuickSort {
       if (j - left < right - i) {
         val fut1 = Future(quick(tab)(left)(j))
         val fut2 = Future(quick(tab)(i)(right))
-        Await.result(fut1, 10.seconds)                              // waits at most 10 seconds for the result
-        Await.result(fut2, 10.seconds)
+        Await.result(fut1, 100.seconds)                              // waits at most 100 seconds for the result
+        Await.result(fut2, 100.seconds)                              // sefer than Duration.Inf
       }
       else {
         val fut1 = Future(quick(tab)(i)(right))
         val fut2 = Future(quick(tab)(left)(j))
-        Await.result(fut1, 10.seconds)
-        Await.result(fut2, 10.seconds)
+        Await.result(fut1, 100.seconds)
+        Await.result(fut2, 100.seconds)
       }
     }
   }
