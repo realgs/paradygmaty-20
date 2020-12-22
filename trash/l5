@@ -26,12 +26,12 @@ Lista przydatnych metod do poniższych zadań:
 - getName
 - get
 
-3) Napisz cechę (trait) "Debug" z metodą "debugName", która wyświetli w konsoli nazwę klasy,
+3) Napisz cechę (trait) "Solutions.Debug" z metodą "debugName", która wyświetli w konsoli nazwę klasy,
    do której cecha została dołączona.
 
 Przykładowo:
 
-class Point(xv: Int, yv: Int) extends Debug {
+class Point(xv: Int, yv: Int) extends Solutions.Debug {
     var x: Int = xv
     var y: Int = yv
     var a: String = "test"
@@ -46,7 +46,7 @@ Class: Point
 
 Punkty: 5
 
-4) Napisz cechę (trait) "Debug" z metodą "debugVars", która wyświetli w konsoli,
+4) Napisz cechę (trait) "Solutions.Debug" z metodą "debugVars", która wyświetli w konsoli,
    listę nazw, typów pól, wartości pól, do której cecha została dołączona.
 
 var p : Point = new Point(3,4);
