@@ -7,20 +7,20 @@ object MatrixMultiply {
 
   def sequential(a: Matrix[Int], b: Matrix[Int]): Matrix[Int] = {
     val (numOfRows, numOfColumns, result) = init(a, b)
-
-    for (i <- Range(0, numOfRows)) {
-      multiplyRow(a, b, result, i, numOfColumns)
-    }
-
+    multiplyRows(a, b, result, numOfColumns, (0, numOfRows))
     result
   }
 
   def concurrent(a: Matrix[Int], b: Matrix[Int]): Matrix[Int] = {
     val (numOfRows, numOfColumns, result) = init(a, b)
+    val numOfThreads = Runtime.getRuntime.availableProcessors()
+    val step = Math.ceil(numOfRows.toDouble / numOfThreads).toInt
 
     var outerLoops: List[Future[Unit]] = List()
-    for (i <- Range(0, numOfRows)) {
-      outerLoops = Future(multiplyRow(a, b, result, i, numOfColumns)) :: outerLoops
+    for (i <- Range(0, numOfThreads)) {
+      val left = i * step
+      val right = Math.min(numOfRows, (i + 1) * step)
+      outerLoops = Future(multiplyRows(a, b, result, numOfColumns, (left, right))) :: outerLoops
     }
     outerLoops.foreach(future => Await.ready(future, Duration.Inf))
 
@@ -42,10 +42,14 @@ object MatrixMultiply {
     }
   }
 
-  private def multiplyRow(a: Matrix[Int], b: Matrix[Int], result: Matrix[Int], row: Int, numOfColumns: Int): Unit = {
-    for (j <- Range(0, numOfColumns)) {
-      for (k <- a(row).indices) {
-        result(row)(j) = result(row)(j) + a(row)(k) * b(k)(j)
+  private def multiplyRows(a: Matrix[Int], b: Matrix[Int], result: Matrix[Int],
+                           numOfColumns: Int, rows: (Int, Int)): Unit = {
+    val (left, right) = rows
+    for (i <- Range(left, right)) {
+      for (j <- Range(0, numOfColumns)) {
+        for (k <- a(i).indices) {
+          result(i)(j) = result(i)(j) + a(i)(k) * b(k)(j)
+        }
       }
     }
   }
