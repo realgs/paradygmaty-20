@@ -1,10 +1,10 @@
 import Utilities.random
 import org.scalatest.FunSuite
-import MergeSort._
+import MergeSort.MergeSort._
 
 class MergeSortTest extends FunSuite{
 
-  test("MergeSort - mergeSort corectness test") {
+  test("MergeSort - mergeSort correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) //negative numbers included
       val referenceArray = initialArray.clone()
@@ -13,7 +13,7 @@ class MergeSortTest extends FunSuite{
     }
   }
 
-  test("MergeSort - mergeSortFuture corectness test") {
+  test("MergeSort - mergeSortFuture correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) //negative numbers included
       val referenceArray = initialArray.clone()
@@ -22,7 +22,7 @@ class MergeSortTest extends FunSuite{
     }
   }
 
-  test("MergeSort - mergeSortParallel corectness test") {
+  test("MergeSort - mergeSortParallel correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) //negative numbers included
       val referenceArray = initialArray.clone()

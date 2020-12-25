@@ -1,8 +1,8 @@
-import ParallelMechanism._
-import scala.concurrent.{Await, Future}
+package MergeSort
+import ParallelMachine.ParallelMachine.parallel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
-import scala.util.{Success, Failure}
+import scala.concurrent.{Await, Future}
 
 object MergeSort {
   //in-place merge sort - reduces amount of used memory
@@ -14,16 +14,16 @@ object MergeSort {
   }
 
   private def putInCorrectPlace(tab: Array[Int], startIndex: Int, endIndex: Int): Unit = {
-    for(i <- startIndex until endIndex) {
-      if(tab(i) > tab(i + 1))
-        swap(tab, i, i+1)
+    for (i <- startIndex until endIndex) {
+      if (tab(i) > tab(i + 1))
+        swap(tab, i, i + 1)
     }
   }
 
   private def merge(tab: Array[Int], startIndex: Int, endIndex: Int, midIndex: Int): Unit = {
     var iter = startIndex
-    while(iter <= midIndex) {
-      if(tab(iter) > tab(midIndex + 1)) {
+    while (iter <= midIndex) {
+      if (tab(iter) > tab(midIndex + 1)) {
         swap(tab, iter, midIndex + 1)
         putInCorrectPlace(tab, midIndex + 1, endIndex)
       }
@@ -32,9 +32,9 @@ object MergeSort {
   }
 
   private def mergeSort(tab: Array[Int], startIndex: Int, endIndex: Int): Unit = {
-    if(endIndex - startIndex != 0) { // checks if array contains more than 1 element
-      if(endIndex - startIndex == 1) {
-        if(tab(startIndex) > tab(endIndex))
+    if (endIndex - startIndex != 0) { // checks if array contains more than 1 element
+      if (endIndex - startIndex == 1) {
+        if (tab(startIndex) > tab(endIndex))
           swap(tab, startIndex, endIndex)
       }
       else {
@@ -47,26 +47,26 @@ object MergeSort {
   }
 
   private def futureMergeSort(tab: Array[Int], startIndex: Int = 0, endIndex: Int): Unit = {
-    if(endIndex - startIndex != 0) { // checks if array contains more than 1 element
-      if(endIndex - startIndex == 1) {
-        if(tab(startIndex) > tab(endIndex))
+    if (endIndex - startIndex != 0) { // checks if array contains more than 1 element
+      if (endIndex - startIndex == 1) {
+        if (tab(startIndex) > tab(endIndex))
           swap(tab, startIndex, endIndex)
       }
       else {
         val midIndex = (endIndex + startIndex) / 2
         val fut1 = Future(mergeSort(tab, startIndex, midIndex))
         val fut2 = Future(mergeSort(tab, midIndex + 1, endIndex))
-        Await.result(fut1, 1000.seconds)                                  // waits at most 1000 seconds for the result
-        Await.result(fut2, 1000.seconds)                                  // sefer than Duration.Inf
+        Await.result(fut1, 1000.seconds) // waits at most 1000 seconds for the result
+        Await.result(fut2, 1000.seconds) // safer than Duration.Inf
         merge(tab, startIndex, endIndex, midIndex)
       }
     }
   }
 
   private def parallelMergeSort(tab: Array[Int], startIndex: Int = 0, endIndex: Int): Unit = {
-    if(endIndex - startIndex != 0) { // checks if array contains more than 1 element
-      if(endIndex - startIndex == 1) {
-        if(tab(startIndex) > tab(endIndex))
+    if (endIndex - startIndex != 0) { // checks if array contains more than 1 element
+      if (endIndex - startIndex == 1) {
+        if (tab(startIndex) > tab(endIndex))
           swap(tab, startIndex, endIndex)
       }
       else {

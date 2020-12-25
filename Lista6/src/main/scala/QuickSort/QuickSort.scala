@@ -1,10 +1,11 @@
-import scala.concurrent.{Await, Future}
+package QuickSort
+import ParallelMachine.ParallelMachine.parallel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
-import ParallelMechanism._
+import scala.concurrent.{Await, Future}
 
 object QuickSort {
-  //basic version of this algorithm was made for my Programming Paradigms classes. This version is improved
+  //basic version of this algorithm was made for my Programming Paradigms classes
 
   private def swap[A](tab: Array[A])(i: Int)(j: Int): Unit = {
     val temp = tab(i)
@@ -51,8 +52,8 @@ object QuickSort {
       if (j - left < right - i) {
         val fut1 = Future(quick(tab)(left)(j))
         val fut2 = Future(quick(tab)(i)(right))
-        Await.result(fut1, 100.seconds)                              // waits at most 100 seconds for the result
-        Await.result(fut2, 100.seconds)                              // sefer than Duration.Inf
+        Await.result(fut1, 100.seconds) // waits at most 100 seconds for the result
+        Await.result(fut2, 100.seconds) // safer than Duration.Inf
       }
       else {
         val fut1 = Future(quick(tab)(i)(right))

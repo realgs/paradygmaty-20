@@ -1,10 +1,10 @@
 import org.scalatest.FunSuite
-import QuickSort._
+import QuickSort.QuickSort._
 import Utilities.random
 
 class QuickSortTest extends FunSuite {
 
-  test("QuickSort - quickSort corectness test") {
+  test("QuickSort - quickSort correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) //negative numbers included
       val referenceArray = initialArray.clone()
@@ -13,7 +13,7 @@ class QuickSortTest extends FunSuite {
     }
   }
 
-  test("QuickSort - quickSortFuture corectness test") {
+  test("QuickSort - quickSortFuture correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) ////negative numbers included
       val referenceArray = initialArray.clone()
@@ -22,7 +22,7 @@ class QuickSortTest extends FunSuite {
     }
   }
 
-  test("QuickSort - quickSortParallel corectness test") {
+  test("QuickSort - quickSortParallel correctness test") {
     for(_ <- 0 until 10) { // for example 10 tests
       val initialArray = Array.fill(1000)(random.nextInt(10000)-500) ////negative numbers included
       val referenceArray = initialArray.clone()
