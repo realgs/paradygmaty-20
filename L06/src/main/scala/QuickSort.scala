@@ -24,12 +24,13 @@ object QuickSort {
     if (begin < end) {
       val pivotIdx = partition(array, begin, end)
       val size = end - begin + 1
+      val maxNumOfThreads = Runtime.getRuntime.availableProcessors()
 
-      if (size <= 1024) {
+      if (size <= array.length / maxNumOfThreads) {
         sequentialSort(array, begin, pivotIdx - 1)
         sequentialSort(array, pivotIdx + 1, end)
       } else {
-        val left = Future(() => concurrentSort(array, begin, pivotIdx - 1))
+        val left = Future(concurrentSort(array, begin, pivotIdx - 1))
         concurrentSort(array, pivotIdx + 1, end)
         Await.ready(left, Duration.Inf)
       }
