@@ -24,9 +24,9 @@ object QuickSort {
     if (begin < end) {
       val pivotIdx = partition(array, begin, end)
       val size = end - begin + 1
-      val maxNumOfThreads = Runtime.getRuntime.availableProcessors()
+      val numOfThreads = Runtime.getRuntime.availableProcessors()
 
-      if (size <= array.length / maxNumOfThreads) {
+      if (size <= array.length / numOfThreads) {
         sequentialSort(array, begin, pivotIdx - 1)
         sequentialSort(array, pivotIdx + 1, end)
       } else {

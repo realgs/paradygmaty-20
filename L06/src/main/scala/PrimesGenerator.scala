@@ -21,7 +21,7 @@ object PrimesGenerator {
     for (i <- Range(0, numOfThreads)) {
       val left = 1 + i * step
       val right = Math.min(limit, 1 + (i + 1) * step)
-      loops = Future { getPrimesInRange(left, right) } :: loops
+      loops = Future(getPrimesInRange(left, right)) :: loops
     }
 
     val partialResults: List[List[Int]] = Await.result(Future.sequence(loops), Duration.Inf)

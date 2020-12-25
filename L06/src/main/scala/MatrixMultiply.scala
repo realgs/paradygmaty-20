@@ -20,7 +20,7 @@ object MatrixMultiply {
 
     var outerLoops: List[Future[Unit]] = List()
     for (i <- Range(0, numOfRows)) {
-      outerLoops = Future { multiplyRow(a, b, result, i, numOfColumns) } :: outerLoops
+      outerLoops = Future(multiplyRow(a, b, result, i, numOfColumns)) :: outerLoops
     }
     outerLoops.foreach(future => Await.ready(future, Duration.Inf))
 
