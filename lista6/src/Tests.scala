@@ -1,5 +1,5 @@
 import scala.util.{Random, Sorting}
-
+//TODO Test performance and correctness of longestCommonPrefix
 object Tests {
   def generateIntArray(length: Int):Array[Int] = (for (_ <- 1 to length) yield Random.nextInt(10000)).toArray[Int]
 

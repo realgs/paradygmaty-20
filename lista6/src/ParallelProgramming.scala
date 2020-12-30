@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -87,5 +88,36 @@ object ParallelProgramming {
     }
 
     multipliedMatrix
+  }
+
+  def longestCommonPrefix(words: Array[String]): String = {
+    @tailrec
+    def longestCommonPrefixHelper(first: String, second: String, result: StringBuilder): String = (first, second) match {
+      case ("", _) | (_, "") => result.toString()
+      case _ => if (first(0) == second(0)) longestCommonPrefixHelper(first.substring(1), second.substring(1), result.append(first(0))) else result.toString()
+    }
+
+    def commonPrefix(startingIndex: Int, endingIndex: Int): String = {
+      if (startingIndex < endingIndex) {
+        if (endingIndex - startingIndex == words.length - 1) {
+          val futureLeft = Future {
+            commonPrefix(startingIndex, (startingIndex + endingIndex) / 2)
+          }
+          val futureRight = Future {
+            commonPrefix((startingIndex + endingIndex) / 2 + 1, endingIndex)
+          }
+          longestCommonPrefixHelper(Await.result(futureLeft, Duration.Inf), Await.result(futureRight, Duration.Inf), new StringBuilder())
+        }
+        else {
+          val leftLongestPrefix = commonPrefix(startingIndex, (startingIndex + endingIndex) / 2)
+          val rightLongestPrefix = commonPrefix((startingIndex + endingIndex) / 2 + 1, endingIndex)
+          longestCommonPrefixHelper(leftLongestPrefix, rightLongestPrefix, new StringBuilder())
+        }
+      }
+      else if (startingIndex == endingIndex) words(startingIndex)
+      else ""
+    }
+
+    commonPrefix(0, words.length - 1)
   }
 }
