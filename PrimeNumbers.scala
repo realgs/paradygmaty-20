@@ -28,7 +28,6 @@ object PrimeNumbers {
 
   @tailrec
   def searchPrime(from: Int, until: Int, list: List[Int]): List[Int] = {
-    //var primeList = List.fill(n)(1 until(n))
     if(from > until) list
     else if(ifPrime(from)) searchPrime(from+1, until, from :: list)
     else searchPrime(from+1, until, list)

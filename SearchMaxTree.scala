@@ -1,7 +1,6 @@
 package List6
 
 import List6.Parallel.parallel
-
 import scala.annotation.tailrec
 
 object SearchMaxTree {
