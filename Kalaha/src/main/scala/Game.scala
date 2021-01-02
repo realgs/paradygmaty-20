@@ -1,25 +1,22 @@
+import scala.annotation.tailrec
+
 //TODO smoothen the game logic
-class Game private(numberOfPebbles: Int) {
-  private val board = Array.fill(14)(numberOfPebbles)
-  board(6) = 0
-  board(13) = 0
-  private var turn = 1
+class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int = 1) {
 
-  //Play kalaha in console
-  def play(): Unit = {
-    var chosenHole = 0
+  //Makes a clone of the game for simulation purposes
+  override def clone(): Game = {
+    new Game(numberOfPebbles,board.clone(),turn)
+  }
 
-    while (!isGameOver) {
-      displayBoard()
-      print(s"Player ${1 + (turn - 1) % 2} - choose a hole: ")
-      chosenHole = scala.io.StdIn.readInt()
-      while (!move(chosenHole)) {
-        println("This move is invalid!")
-        print(s"Player ${1 + (turn - 1) % 2} - choose a hole: ")
-        chosenHole = scala.io.StdIn.readInt()
-      }
+  //Makes a list of valid moves
+  def validMoves():List[Int] = {
+    @tailrec
+    def validMovesLoop(current: Int, to: Int, acc: List[Int]):List[Int] = {
+      if(current > to) acc
+      else validMovesLoop(current + 1,to,if(board(current) > 0) current :: acc else acc)
     }
-    declareWinner()
+    if(turn % 2 == 1) validMovesLoop(0,5,List())
+    else validMovesLoop(7,12,List())
   }
 
   //Makes a move on kalaha board(if move is invalid returns false)
@@ -29,11 +26,13 @@ class Game private(numberOfPebbles: Int) {
     else {
       var nextHole = (chosenHole + 1) % 14
       while (board(chosenHole) > 1) {
+        if(nextHole == oppositeBase) nextHole = (nextHole + 1) % 14
         board(chosenHole) = board(chosenHole) - 1
         board(nextHole) = board(nextHole) + 1
         nextHole = (nextHole + 1) % 14
       }
       //Give the player additional move
+      if(nextHole == oppositeBase) nextHole = (nextHole + 1) % 14
       if (nextHole == base) turn = turn - 1
       else if (belongsToPlayer(nextHole) && board(nextHole) == 0) captureOppositeStones(nextHole)
       turn = turn + 1
@@ -45,6 +44,8 @@ class Game private(numberOfPebbles: Int) {
 
   def getBoard: Array[Int] = board
 
+  def getTurn: Int = turn
+
   def turnOfPlayer(player: Int):Boolean = 1 + (turn - 1) % 2 == player
 
   def declareWinner():Unit = {
@@ -53,7 +54,6 @@ class Game private(numberOfPebbles: Int) {
     else if(board(6) > board(13)) println("Player 1 won")
     else println("Player 2 won")
   }
-
 
   //Checks whether any of players have met game end condition
   def isGameOver: Boolean = {
@@ -79,6 +79,11 @@ class Game private(numberOfPebbles: Int) {
   //Returns current player's base
   private def base: Int = {
     if (turn % 2 == 1) 6 else 13
+  }
+
+  //Returns opposite player's base
+  private def oppositeBase: Int = {
+    if(turn % 2 == 1) 13 else 6
   }
 
   //Checks whether hole chosen by the player is empty
@@ -108,5 +113,10 @@ class Game private(numberOfPebbles: Int) {
 }
 
 object Game {
-  def apply(numberOfPebbles: Int): Game = new Game(numberOfPebbles)
+  def apply(numberOfPebbles: Int): Game = {
+    val initialBoardState = Array.fill(14)(numberOfPebbles)
+    initialBoardState(6) = 0
+    initialBoardState(13) = 0
+    new Game(numberOfPebbles,initialBoardState)
+  }
 }
