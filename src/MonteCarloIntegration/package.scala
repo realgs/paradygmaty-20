@@ -35,6 +35,6 @@ package object MonteCarloIntegration
   {
     val nJobs = Runtime.getRuntime.availableProcessors()
     val split = numSamples / nJobs
-    (0 until nJobs).toList.par.map {_ => estimateIntegral(f, a, b, split)}.sum / numSamples
+    (0 until nJobs).toList.par.map {_ => estimateIntegral(f, a, b, split)}.sum / nJobs
   }
 }
