@@ -84,6 +84,8 @@ object L6_tree {
       }
     checkSubTreePar(tree)
   }
-
-
 }
+
+
+
+

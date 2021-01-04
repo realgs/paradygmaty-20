@@ -123,3 +123,7 @@ Differ: 20380700 nanoSeconds*/
 Wyszukiwanie wzorca odbywa się równolegle na dwóch połowach listy w której szukamy,
 więc zrównoleglenie zapewni przyspieszenie do dwóch razy (przyspieszenie poprzez zrównoleglenie - czas rozgałęziania)
 */
+
+
+
+
