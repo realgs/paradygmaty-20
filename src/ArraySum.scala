@@ -23,21 +23,4 @@ object ArraySum {
       result._1 + result._2
     }
   }
-
-  def main(args: Array[String]): Unit = {
-    val array = Array.fill(100000000)(new Random().nextInt(10))
-
-    Thread.sleep(500)
-
-    val time1 = measure {
-      parCalculateSum(array)
-    }
-
-    val time2 = measure {
-      calculateSum(array)
-    }
-
-    println(time1)
-    println(time2)
-  }
 }
