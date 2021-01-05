@@ -94,5 +94,18 @@ object Funkcje {
   }
 
 
+  // Operations on list (Funkcja wykonująca funkcję z listy operations na list, i zwracająca wyniki w postaci listy)
+  def doOperationsOnList(list:List[Double],operations: List[List[Double] => Double]):List[Double]={
+    operations.foldLeft(Nil:List[Double])((result,operator) => operator(list)::result)
+  }
+  def doOperationsOnListParallel(list:List[Double],operations: List[List[Double] => Double]):List[Double]={
+    def getListOfFutures(operations:List[List[Double] => Double]):List[Future[Double]] = {
+      if(operations == Nil) Nil
+      else Future{operations.head(list)}::getListOfFutures(operations.tail)
+    }
+    val futures = getListOfFutures(operations)
 
+    val f = Future.sequence(futures)
+    Await.result(f, Duration.Inf)
+  }
 }

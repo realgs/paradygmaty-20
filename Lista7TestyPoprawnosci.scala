@@ -4,6 +4,7 @@ object Lista7TestyPoprawnosci
 {
   def main(args:Array[String]):Unit={
     testMergeSort()
+    testOperationsOnList()
   }
 
   def testMergeSort(): Unit =
@@ -31,6 +32,39 @@ object Lista7TestyPoprawnosci
      println("Test3(mała lista): " + (smallListResult == mergesort(smallList) && smallListResult == mergesortParallel(smallList)))
      println("Test4(średnia lista): " + (mediumListResult == mergesort(mediumList) && mediumListResult == mergesortParallel(mediumList)))
      println("Test5(duża lista): " + (bigListResult == mergesort(bigList) && bigListResult == mergesortParallel(bigList)))
+  }
+
+  def testOperationsOnList():Unit =
+  {
+    val operations = List((list:List[Double]) => list.foldLeft(0d)((current:Double,result:Double) => current + result),
+      (list:List[Double]) => list.foldLeft(0d)((result:Double,current:Double) => current + result))
+
+    val emptyList = List[Double]()
+    val emptyListResult = emptyList.sum :: emptyList.sum :: Nil
+
+    val oneElementList = List(1d)
+    val oneElementListResult = oneElementList.sum :: oneElementList.sum :: Nil
+
+    val smallList = generateListOfDoubles(100000)
+    val smallListResult = smallList.sum :: smallList.sum :: Nil
+
+    val mediumList = generateListOfDoubles(1000000)
+    val mediumListResult = mediumList.sum :: mediumList.sum :: Nil
+
+    val bigList = generateListOfDoubles(10000000)
+    val bigListResult = bigList.sum :: bigList.sum :: Nil
+
+    println("\nTest poprawności Operations on list")
+    println("Test1(pusta lista): " + (emptyListResult == doOperationsOnList(emptyList,operations) &&
+      emptyListResult == doOperationsOnListParallel(emptyList,operations)))
+    println("Test2(jeden element): " + (oneElementListResult == doOperationsOnList(oneElementList,operations) &&
+      oneElementListResult == doOperationsOnListParallel(oneElementList,operations)))
+    println("Test3(mała lista): " + (smallListResult == doOperationsOnList(smallList,operations) &&
+      smallListResult == doOperationsOnListParallel(smallList,operations)))
+    println("Test4(średnia lista): " + (mediumListResult == doOperationsOnList(mediumList,operations) &&
+      mediumListResult == doOperationsOnListParallel(mediumList,operations)))
+    println("Test5(duża lista): " + (bigListResult == doOperationsOnList(bigList,operations) &&
+      bigListResult == doOperationsOnListParallel(bigList,operations)))
   }
 
 }
