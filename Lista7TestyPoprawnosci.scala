@@ -5,6 +5,7 @@ object Lista7TestyPoprawnosci
   def main(args:Array[String]):Unit={
     testMergeSort()
     testOperationsOnList()
+    testQuickSort()
   }
 
   def testMergeSort(): Unit =
@@ -67,4 +68,30 @@ object Lista7TestyPoprawnosci
       bigListResult == doOperationsOnListParallel(bigList,operations)))
   }
 
+  def testQuickSort(): Unit =
+  {
+    val ascendSort = (a:Int,b:Int) => a < b
+
+    val emptyList = List[Int]()
+    val emptyListResult = emptyList.sortWith(ascendSort)
+
+    val oneElementList = List(1)
+    val oneElementListResult = oneElementList.sortWith(ascendSort)
+
+    val smallList = List(10,9,8,7,6,5,4,3,2,1)
+    val smallListResult = smallList.sortWith(ascendSort)
+
+    val mediumList = generateListOfInts(10000)
+    val mediumListResult = mediumList.sortWith(ascendSort)
+
+    val bigList = generateListOfInts(1000000)
+    val bigListResult = bigList.sortWith(ascendSort)
+
+    println("\nTest poprawności quicksorta")
+    println("Test1(pusta lista): " + (emptyListResult == quicksort(emptyList.toArray).toList && emptyListResult == quicksortParallel(emptyList.toArray).toList))
+    println("Test2(jeden element): " + (oneElementListResult == quicksort(oneElementList.toArray).toList && oneElementListResult == quicksortParallel(oneElementList.toArray).toList))
+    println("Test3(mała lista): " + (smallListResult == quicksort(smallList.toArray).toList && smallListResult == quicksortParallel(smallList.toArray).toList))
+    println("Test4(średnia lista): " + (mediumListResult == quicksort(mediumList.toArray).toList && mediumListResult == quicksortParallel(mediumList.toArray).toList))
+    println("Test5(duża lista): " + (bigListResult == quicksort(bigList.toArray).toList && bigListResult == quicksortParallel(bigList.toArray).toList))
+  }
 }

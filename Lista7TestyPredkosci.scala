@@ -3,8 +3,9 @@ import Funkcje._
 object Lista7TestyPredkosci {
 
   def main(args:Array[String]):Unit={
-    //testMergeSort()
+    testMergeSort()
     testOperationsOnList()
+    testQuickSort()
   }
 
   // Merge sort w wersji parallel jest średnio od 1.3 do 1.6 razy bardziej wydajny od zwykłej wersji
@@ -85,6 +86,42 @@ object Lista7TestyPredkosci {
 
     println("Average time of OperationsOnList for " + numberOfExperiments + " experiments is " + normalAverage +"ns")
     println("Average time of parallel OperationsOnList for " + numberOfExperiments + " experiments is " + parallelAverage +"ns")
+    println("Parallel version is " + normalAverage/parallelAverage.asInstanceOf[Double] + " times faster than normal version")
+  }
+
+  // Niewielka poprawa wydajności rzędu 1.07 - 1.3
+  def testQuickSort(): Unit =
+  {
+    println("\nResults for 10000 data")
+    sizeTestOfQuickSort(10000,10000)
+
+    println("\nResults for 100000 data")
+    sizeTestOfQuickSort(100000,1000)
+
+    println("\nResults for 1000000 data")
+    sizeTestOfQuickSort(1000000,1000)
+
+    println("\nResults for 5000000 data")
+    sizeTestOfQuickSort(5000000,100)
+  }
+
+  private def sizeTestOfQuickSort(size:Int,numberOfExperiments:Int):Unit=
+  {
+    var normalSum = 0l
+    var parallelSum = 0l
+
+    for(_ <- 0 until numberOfExperiments)
+    {
+      val list = generateListOfInts(size)
+      normalSum += time{quicksort(list.toArray)}
+      parallelSum += time{quicksortParallel(list.toArray)}
+    }
+
+    val normalAverage = normalSum/numberOfExperiments
+    val parallelAverage = parallelSum/numberOfExperiments
+
+    println("Average time of quicksort for " + numberOfExperiments + " experiments is " + normalAverage +"ns")
+    println("Average time of parallel quicksort for " + numberOfExperiments + " experiments is " + parallelAverage +"ns")
     println("Parallel version is " + normalAverage/parallelAverage.asInstanceOf[Double] + " times faster than normal version")
   }
 }

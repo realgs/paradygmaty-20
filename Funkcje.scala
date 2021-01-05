@@ -108,4 +108,66 @@ object Funkcje {
     val f = Future.sequence(futures)
     Await.result(f, Duration.Inf)
   }
+
+  // Quick sort
+  private def swap(tab:Array[Int])(i:Int)(j:Int):Unit= {
+    val aux = tab(i)
+    tab(i) = tab(j)
+    tab(j) = aux
+  }
+
+  private def choose_pivot(tab:Array[Int])(m:Int)(n:Int):Int= tab((m + n)/2)
+
+  private def partition(tab:Array[Int])(l:Int)(r:Int):(Int,Int)={
+    var i = l
+    var j = r
+    val pivot = choose_pivot(tab)(l)(r)
+
+    while(i <= j){
+      while(tab(i) < pivot) i += 1
+      while(pivot < tab(j)) j -= 1
+
+      if(i<=j) {swap(tab)(i)(j);i+=1;j-=1}
+    }
+    (i,j)
+  }
+
+  private def quick(tab:Array[Int])(l:Int)(r:Int):Unit={
+    if(l<r){
+      val (i,j) = partition(tab)(l)(r)
+      if(j-l<r-i)
+      {
+        quick(tab)(l)(j)
+        quick(tab)(i)(r)
+      }
+      else
+      {
+        quick(tab)(i)(r)
+        quick(tab)(l)(j)
+      }
+    }
+  }
+
+  private def quickParallel(tab:Array[Int])(l:Int)(r:Int):Unit={
+    if(l<r){
+      val (i,j) = partition(tab)(l)(r)
+      if(j-l<r-i)
+      {
+        val f1 = Future{quick(tab)(l)(j)}
+        val f2 = Future{quick(tab)(i)(r)}
+        Await.result(f1,Duration.Inf)
+        Await.result(f2,Duration.Inf)
+      }
+      else
+      {
+        val f1 = Future{quick(tab)(i)(r)}
+        val f2 = Future{quick(tab)(l)(j)}
+        Await.result(f1,Duration.Inf)
+        Await.result(f2,Duration.Inf)
+      }
+    }
+  }
+
+  def quicksort(tab:Array[Int]):Array[Int] = {quick(tab)(0)(tab.length-1);tab}
+  def quicksortParallel(tab:Array[Int]):Array[Int] = {quickParallel(tab)(0)(tab.length-1);tab}
 }
