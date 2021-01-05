@@ -1,9 +1,9 @@
 package Utils
 
 object Utils {
-  def measureExecTime(f: () => Any): Long = {
+  def measureExecTime[A](f: => A): Long = {
     val startTime = System.currentTimeMillis()
-    f()
+    f
     val endTime = System.currentTimeMillis()
     endTime - startTime
   }
