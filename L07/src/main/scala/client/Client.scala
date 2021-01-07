@@ -14,7 +14,7 @@ object Client {
   private var connected = false
   private var waitingForInput = false
   private var eot = false
-  private var AIlevel = 3
+  private var AIlevel = 4
 
   def main(args: Array[String]): Unit = {
     if (!args.isEmpty) {
@@ -22,11 +22,17 @@ object Client {
     }
 
     println(menu)
+
     val option = scala.io.StdIn.readInt()
     val playingAsAI = option == 2
     if (playingAsAI) {
-      println("Choose AI difficulty (values from 2 - 6 are recommended)")
-      AIlevel = scala.io.StdIn.readInt()
+      println("Choose AI difficulty (1/2/3)")
+      AIlevel = scala.io.StdIn.readInt() match {
+        case 1 => 2
+        case 2 => 4
+        case 3 => 6
+        case _ => 4
+      }
     }
 
     try {
