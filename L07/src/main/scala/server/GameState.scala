@@ -50,6 +50,8 @@ class GameState {
     val nextState = GameState.from(this)
     val pitIdx = indexOfPit(player, pit)
 
+    require(pits(pitIdx) != 0)
+
     val seeds = nextState.pits(pitIdx)
     nextState.pits(pitIdx) = 0
 

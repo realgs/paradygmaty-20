@@ -46,12 +46,9 @@ object Client {
           }
         }
 
-        eot = false
-
         if (connected && waitingForInput) {
-          val choice = scala.io.StdIn.readInt()
-          out.writeByte(1)
-          out.writeInt(choice)
+          val pit = scala.io.StdIn.readInt()
+          out.writeInt(pit)
           waitingForInput = false
         }
       }

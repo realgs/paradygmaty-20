@@ -11,8 +11,11 @@ object Server {
   private var serverSocket: ServerSocket = _
   private var players = 0
   private val connections: mutable.HashSet[Connection] = mutable.HashSet.empty
+  private var game: Game = _
 
   def numOfPlayers: Int = players
+
+  def getAnotherPlayer(connection: Connection): Connection = connections.filter(conn => conn.ne(connection)).head
 
   def main(args: Array[String]): Unit = {
     if (!args.isEmpty) {
@@ -57,7 +60,6 @@ object Server {
       connections.add(connection)
 
       ClientListener(connection).listen().onComplete(_ => {
-        connection.close()
         players -= 1
         println("A player has disconnected")
         println(s"Current player count: $players")
@@ -65,4 +67,11 @@ object Server {
       })
     }
   }
+
+  def startNewGame(): Game = {
+    game = Game()
+    game
+  }
+
+  def getGame: Game = game
 }

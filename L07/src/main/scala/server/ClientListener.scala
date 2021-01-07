@@ -26,22 +26,25 @@ class ClientListener(val connection: Connection) {
         out.writeUTF("Connected successfully")
       })
 
-      while (true) {
-        while (Server.numOfPlayers != 2) {
-          connection.sendMessage(out => {
-            out.writeByte(1)
-            out.writeInt(1)
-            out.writeUTF("Waiting for another player...")
-          })
-          Thread.sleep(2000)
-        }
-
-        // Start game
+      if (Server.numOfPlayers < 2) {
+        val game = Server.startNewGame()
+        game.join(connection)
+        game.run()
+      } else {
+        val game = Server.getGame
+        game.join(connection)
       }
+      connection.playing = true
+
+      while (connection.playing) {
+        Thread.sleep(1000)
+      }
+
     } catch {
       case e: IOException => e.printStackTrace()
     } finally {
       connection.close()
+      connection.sendMessage(out => out.writeByte(0))
     }
   }
 }

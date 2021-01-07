@@ -11,6 +11,7 @@ class Connection (val serverSocket: ServerSocket, val socket: Socket) {
   val input = new DataInputStream(socket.getInputStream)
   private val output = new DataOutputStream(socket.getOutputStream)
   private var open = true
+  var playing = false
 
   def isOpen: Boolean = open
 
@@ -19,7 +20,5 @@ class Connection (val serverSocket: ServerSocket, val socket: Socket) {
     output.writeByte(127)
   }
 
-  def close(): Unit = {
-    open = false
-  }
+  def close(): Unit = open = false
 }
