@@ -1,7 +1,7 @@
 package Martix
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{Duration, DurationInt}
 import ParallelMachine.ParallelMachine._
 
 //in my case, matrix is immutable. Multiplication method will return new matrix. It won't change state of current matrix (no OOP)
@@ -79,8 +79,8 @@ class Matrix (array: Array[Array[Int]]) {
     val midRowIndex = rowsAmount / 2
     val fut1 = Future(multiplyNormal(otherMatrix, 0, midRowIndex - 1, newMatrix))
     val fut2 = Future(multiplyNormal(otherMatrix, midRowIndex, rowsAmount - 1, newMatrix))
-    Await.result(fut1, 1000.seconds)                                  // waits at most 1000 seconds for the result
-    Await.result(fut2, 1000.seconds)                                  // safer than Duration.Inf
+    Await.result(fut1, Duration.Inf) //safe in this case, because i know that function will return at some point
+    Await.result(fut2, Duration.Inf) //blocking for certain amount of time could cause returning not multiplied matrix
     new Matrix(newMatrix)
   }
 

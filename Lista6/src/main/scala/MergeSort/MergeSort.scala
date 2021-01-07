@@ -1,7 +1,8 @@
 package MergeSort
 import ParallelMachine.ParallelMachine.parallel
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, Future}
 
 object MergeSort {
@@ -56,8 +57,8 @@ object MergeSort {
         val midIndex = (endIndex + startIndex) / 2
         val fut1 = Future(mergeSort(tab, startIndex, midIndex))
         val fut2 = Future(mergeSort(tab, midIndex + 1, endIndex))
-        Await.result(fut1, 1000.seconds) // waits at most 1000 seconds for the result
-        Await.result(fut2, 1000.seconds) // safer than Duration.Inf
+        Await.result(fut1, Duration.Inf) //safe in this case, because i know that function will return at some point
+        Await.result(fut2, Duration.Inf) //blocking for certain amount of time could cause returning unsorted array
         merge(tab, startIndex, endIndex, midIndex)
       }
     }

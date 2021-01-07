@@ -1,7 +1,8 @@
 package ClosestPairOfPoints
 import ParallelMachine.ParallelMachine._
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, Future}
 import scala.math.sqrt
 import scala.math.BigDecimal
@@ -65,8 +66,8 @@ object ClosestPairOfPoints {
       }
       val fut1 = Future(shortestDistForFirstInterval(tab, leftTab))
       val fut2 = Future(shortestDistForSecondInterval(tab, rightTab, midIndex))
-      val result1 = Await.result(fut1, 1000.seconds)                                  // waits at most 1000 seconds for the result
-      val result2 = Await.result(fut2, 1000.seconds)                                  // safer than Duration.Inf
+      val result1 = Await.result(fut1, Duration.Inf)  //safe in this case, because i know that function will return at some point
+      val result2 = Await.result(fut2, Duration.Inf)  //blocking for certain amount of time could cause returning incorrect pair of points
 
       if(result1 < result2)
         result1

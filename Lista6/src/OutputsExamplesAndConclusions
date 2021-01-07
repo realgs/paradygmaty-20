@@ -145,3 +145,15 @@
     Conclusions:
         My conclusions about time performance are the same as for QuickSort and ClosestPairOfPoints. The bigger matrices we have, the more efficient
         is to use some kind of parallelization.
+
+
+
+Additional conclusions:
+For time measurement I used System.currentTimeMillis() instead of System.nanoTime() because on Windows OS the first one works faster
+(reads the low resolution time-of-day value that Windows maintains), this is why i didn't want to use System.nanoTime() even though
+I implemented time utility with it.
+Also for very small collections (quicksort and mergesort), a few points (ClosestPairOfPoints) and small matrices (Matrices Multiplication)
+time measurements were inaccurate (for example for quicksort sometimes it showed 0 ms and sometimes 10 ms). This is why I didn't put them in my
+TimePerformanceTest. Nonetheless I am aware that using parallelization for small collections, a few points or small matrices is very unprofitable!
+This is because creating new threads take certain amount of time and at the same time, for example, normal quicksort will do the whole job without
+additional threads.

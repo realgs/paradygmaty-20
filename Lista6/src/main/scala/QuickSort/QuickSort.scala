@@ -1,7 +1,8 @@
 package QuickSort
 import ParallelMachine.ParallelMachine.parallel
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, Future}
 
 object QuickSort {
@@ -52,14 +53,14 @@ object QuickSort {
       if (j - left < right - i) {
         val fut1 = Future(quick(tab)(left)(j))
         val fut2 = Future(quick(tab)(i)(right))
-        Await.result(fut1, 100.seconds) // waits at most 100 seconds for the result
-        Await.result(fut2, 100.seconds) // safer than Duration.Inf
+        Await.result(fut1, Duration.Inf) //safe in this case, because i know that function will return at some point
+        Await.result(fut2, Duration.Inf) //blocking for certain amount of time could cause returning unsorted array
       }
       else {
         val fut1 = Future(quick(tab)(i)(right))
         val fut2 = Future(quick(tab)(left)(j))
-        Await.result(fut1, 100.seconds)
-        Await.result(fut2, 100.seconds)
+        Await.result(fut1, Duration.Inf)
+        Await.result(fut2, Duration.Inf)
       }
     }
   }

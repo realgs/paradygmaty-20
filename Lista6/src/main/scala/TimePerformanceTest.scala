@@ -21,6 +21,7 @@ object TimePerformanceTest extends App {
     val millionElements = Array.fill(1000000)(random.nextInt(1000000)-500000)
     val tenMillionElements = Array.fill(10000000)(random.nextInt(1000000)-500000)
 
+
     println("*********************************** QuickSort array with 100000 elements ***********************************")
     print("Normal quick sort: ")
     timeMeasureMilliSeconds(quickSort(hundredThousandElements.clone()))
