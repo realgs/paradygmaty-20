@@ -5,11 +5,6 @@ import server.GameState
 object AI {
   private class Node(val children: Array[Node], val state: GameState)
 
-  def main(args: Array[String]): Unit = {
-    val g = GameState()
-    println(getNextMove(g, 3))
-  }
-
   def getNextMove(gameState: GameState, depth: Int): Int = {
     require(depth > 1)
     val root = buildTree(gameState, depth)
