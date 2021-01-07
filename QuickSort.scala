@@ -28,7 +28,6 @@ object QuickSort {
     (i, j)
   }
 
-  // sequential version
   private def quick (tab: Array[Double]) (l: Int) (r: Int): Unit = {
     if (l < r) {
       val (i, j) = partition (tab)(l)(r)
