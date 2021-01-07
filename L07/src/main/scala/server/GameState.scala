@@ -43,6 +43,8 @@ class GameState {
 
   def nextTurn: String = playerTurn
 
+  def skipTurn(): Unit = playerTurn = if (playerTurn == "S") "N" else "S"
+
   def play(player: String, pit: Int): GameState = {
     require(player == playerTurn)
     require(0 <= pit && pit < 6)
@@ -121,9 +123,16 @@ class GameState {
     if (player == "S") 13 else 6
   }
 
+  private def getWinner: String = {
+    val (sp, np) = points
+    if (sp < np) "N"
+    else if (sp > np) "S"
+    else "X"
+  }
+
   override def toString: String = toString("")
 
-  def toString(player: String = ""): String = {
+  def toString(player: String = "", finished: Boolean = false): String = {
     val cellSize = 6
     val sep = "-" * cellSize
     val line = ("+" + sep) * 6 + "+"
@@ -150,8 +159,15 @@ class GameState {
     val midLine = {
       val msg = {
         if (player == "") ""
-        else if (player == playerTurn) "Your turn"
-        else "Opponent's turn"
+        else if (finished) {
+          val winner = getWinner
+          if (winner == "X") "Draw"
+          else if (player == winner) "You won"
+          else "You lost"
+        } else {
+          if (player == playerTurn) "Your turn"
+          else "Opponent's turn"
+        }
       }
       val str = new StringBuilder()
       str.append(s"| %${cellSize - 2}d |%${cellSize * 6 + 5}s| %${cellSize - 2}d |"

@@ -3,6 +3,9 @@ package client
 import java.io.{DataInputStream, DataOutputStream, IOException}
 import java.net.{InetAddress, Socket}
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object Client {
   private var port = 8888
   private var socket: Socket = _
@@ -29,7 +32,7 @@ object Client {
     val out = new DataOutputStream(socket.getOutputStream)
     val in = new DataInputStream(socket.getInputStream)
 
-    val inputThread = new Thread(() => {
+    Future {
       try {
         while (connected) {
           val input = scala.io.StdIn.readInt()
@@ -41,8 +44,7 @@ object Client {
       } catch {
         case e: IOException => e.printStackTrace()
       }
-    })
-    inputThread.start()
+    }
 
     try {
       while (connected) {
@@ -52,13 +54,10 @@ object Client {
             case 0 =>
               connected = false
               waitingForInput = false
-              println("Disconnected")
-              println("Input any number to quit")
             case 1 =>
               val messageCount = in.readInt()
               Range(0, messageCount).foreach(_ => println(in.readUTF()))
             case 2 => waitingForInput = true
-            case 3 => waitingForInput = false
             case 127 => eot = true
           }
         }
@@ -71,7 +70,6 @@ object Client {
     } finally {
       out.close()
       in.close()
-      inputThread.interrupt()
     }
   }
 }
