@@ -5,14 +5,6 @@ import java.io.IOException
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/*
- * Client's api
- * 0 - force disconnect
- * 1 - send message
- * 2 - waiting for input
- * 127 - eot
- */
-
 object ClientListener {
   def apply(connection: Connection): ClientListener = new ClientListener(connection)
 }

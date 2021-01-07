@@ -1,12 +1,14 @@
 package server
 
+import java.nio.ByteBuffer
+
 object GameState {
   def apply(): GameState = new GameState()
 
   def from(gameState: GameState): GameState = {
     val newGameState = GameState()
     newGameState.playerTurn = gameState.playerTurn
-    Array.copy(gameState.pits, 0, newGameState.pits, 0, gameState.cells)
+    Array.copy(gameState.pits, 0, newGameState.pits, 0, gameState.pits.length)
     newGameState
   }
 
@@ -20,6 +22,31 @@ object GameState {
 
     if (state.playerTurn == "S") arePitsEmpty(0, 6) else arePitsEmpty(7, 13)
   }
+
+  def serialize(state: GameState): String = {
+    val buffer = ByteBuffer.allocate(128)
+
+    buffer.put(state.playerTurn.getBytes()(0))
+    Range(0, 14).foreach(i => {
+      buffer.putInt(state.pits(i))
+    })
+
+    new String(buffer.array())
+  }
+
+  def deserialize(str: String): GameState = {
+    val buffer = ByteBuffer.wrap(str.getBytes)
+    val state = GameState()
+
+    state.playerTurn = new String(Array[Byte](buffer.get()))
+    Range(0, 14).foreach(i => {
+      state.pits(i) = buffer.getInt
+    })
+
+    state
+  }
+
+  def deserialize(str: Array[Byte]): GameState = deserialize(new String(str))
 }
 
 class GameState {
@@ -27,7 +54,6 @@ class GameState {
   private val pits = Array.fill(14)(6)
   pits(6) = 0
   pits(13) = 0
-  private val cells = pits.length
 
   def points: (Int, Int) = (pits(6), pits(13))
 
@@ -43,7 +69,14 @@ class GameState {
 
   def nextTurn: String = playerTurn
 
+  def opponent: String = if (playerTurn == "S") "N" else "S"
+
   def skipTurn(): Unit = playerTurn = if (playerTurn == "S") "N" else "S"
+
+  def isMoveLegal(player: String, pit: Int): Boolean = {
+    val pitIdx = indexOfPit(player, pit)
+    pits(pitIdx) != 0
+  }
 
   def play(player: String, pit: Int): GameState = {
     require(player == playerTurn)

@@ -52,6 +52,10 @@ class Game() {
         players.foreach {
           case (side, conn) =>
             conn.sendMessage(out => {
+              out.writeByte(3)
+              val serializedState = GameState.serialize(gameState)
+              out.writeInt(serializedState.length)
+              out.writeBytes(serializedState)
               out.writeByte(1)
               out.writeInt(1)
               out.writeUTF(gameState.toString(side))

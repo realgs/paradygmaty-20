@@ -3,8 +3,10 @@ package client
 import java.io.{DataInputStream, DataOutputStream, IOException}
 import java.net.{InetAddress, Socket}
 
-import scala.concurrent.Future
+import server.GameState
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object Client {
   private var port = 8888
@@ -12,10 +14,19 @@ object Client {
   private var connected = false
   private var waitingForInput = false
   private var eot = false
+  private var AIlevel = 3
 
   def main(args: Array[String]): Unit = {
     if (!args.isEmpty) {
       port = Integer.parseInt(args(0))
+    }
+
+    println(menu)
+    val option = scala.io.StdIn.readInt()
+    val playingAsAI = option == 2
+    if (playingAsAI) {
+      println("Choose AI difficulty (values from 2 - 6 are recommended)")
+      AIlevel = scala.io.StdIn.readInt()
     }
 
     try {
@@ -31,14 +42,22 @@ object Client {
 
     val out = new DataOutputStream(socket.getOutputStream)
     val in = new DataInputStream(socket.getInputStream)
+    @volatile var currentGameState: GameState = null
 
     Future {
       try {
         while (connected) {
-          val input = scala.io.StdIn.readInt()
-          if (connected && waitingForInput) {
-            out.writeInt(input)
-            waitingForInput = false
+          if (!playingAsAI) {
+            val input = scala.io.StdIn.readInt()
+            if (connected && waitingForInput) {
+              out.writeInt(input)
+              waitingForInput = false
+            }
+          } else if (currentGameState != null) {
+            if (connected && waitingForInput) {
+              out.writeInt(AI.getNextMove(currentGameState, AIlevel))
+              waitingForInput = false
+            }
           }
         }
       } catch {
@@ -58,6 +77,9 @@ object Client {
               val messageCount = in.readInt()
               Range(0, messageCount).foreach(_ => println(in.readUTF()))
             case 2 => waitingForInput = true
+            case 3 =>
+              val len = in.readInt()
+              currentGameState = GameState.deserialize(in.readNBytes(len))
             case 127 => eot = true
           }
         }
@@ -71,5 +93,10 @@ object Client {
       out.close()
       in.close()
     }
+  }
+
+  private def menu: String = {
+    """1. Play by yourself
+      |2. Play as AI""".stripMargin
   }
 }
