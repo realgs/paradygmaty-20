@@ -11,12 +11,12 @@ object ParallelAlgorithms {
     val product = initializeMatrix(matrix1, matrix2)
     val avProcessors = Runtime.getRuntime.availableProcessors()
     val step = Math.ceil(matrix1.length.toDouble / avProcessors).toInt
-    var futures: List[Future[Unit]] = List()
+    var futures: List[Future[Any]] = List()
 
     for(i <- Range(0, avProcessors)) {
       val left = i * step
       val right = Math.min(matrix1.length, (i + 1) * step)
-      futures = Future(rowsMultiplication(matrix1, matrix2, product)) :: futures
+      futures = Future(rowsMultiplication(matrix1, matrix2, product, left, right)) :: futures
     }
     futures.foreach(future => Await.ready(future, Duration.Inf))
     product
