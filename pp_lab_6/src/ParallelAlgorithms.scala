@@ -1,4 +1,4 @@
-import SequentialAlgorithms.{initializeMatrix, isPrime, rowsMultiplication}
+import SequentialAlgorithms.{initializeMatrix, isPrime, rowsMultiplication, innerQuickSort, partition}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -48,5 +48,27 @@ object ParallelAlgorithms {
     result.reverse
   }
 
+    //Quick Sort
+    def parQuickSort(array: Array[Double]): Unit = {
+      parInnerQuickSort(array, 0, array.length - 1)
+    }
+
+  private def parInnerQuickSort(array: Array[Double], begin: Int, end: Int): Unit = {
+    if (begin < end) {
+      val pivotIdx = partition(array, begin, end)
+      val size = end - begin + 1
+      val avProcessors = Runtime.getRuntime.availableProcessors()
+
+      if (size <= array.length / avProcessors) {
+        innerQuickSort(array, begin, pivotIdx - 1)
+        innerQuickSort(array, pivotIdx + 1, end)
+      } else {
+        val left = Future(parInnerQuickSort(array, begin, pivotIdx - 1))
+        parInnerQuickSort(array, pivotIdx + 1, end)
+        Await.ready(left, Duration.Inf)
+      }
+    }
+  }
 
 }
+
