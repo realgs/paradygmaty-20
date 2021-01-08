@@ -127,3 +127,19 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/.idea/.gitignore
+/project/build.properties
+/build.sbt
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/modules/lista_6_l.iml
+/.idea/modules/lista_6_l-build.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/codeStyles/Project.xml
+/.bsp/sbt.json
+/.idea/sbt.xml
+/.idea/libraries/sbt__org_scala_lang_modules_scala_parallel_collections_2_13_1_0_0_jar.xml
+/.idea/libraries/sbt__org_scala_lang_scala_library_2_13_4_jar.xml
+/.idea/scala_compiler.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml
