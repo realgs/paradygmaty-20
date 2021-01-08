@@ -5,8 +5,20 @@ import scala.util.Random
 import MatrixOperations._
 import CodeBreaking._
 
-object Tests extends App {
+// I use .par method from scala.collection.parallel.CollectionConverters in order to parallel compute.
 
+// I have implemented multiplying of matrixes (stored as Array[Array[Int]]) and breaking integer N-digit code with
+// brute force algorithm, both sequential and parallel.
+
+// Exemplary result for multiplying matrixes 1000x1000:
+//    Time of sequential multiplying: 1932 milliseconds
+//    Time of parallel multiplying: 763 milliseconds
+
+// Exemplary result for finding 9 digit code:
+//    Average time of sequential code breaking: 2325 milliseconds
+//    Average time of parallel code breaking: 777 milliseconds
+
+object Tests extends App {
 
   println("Comparison of sequential and parallel multiplication of matrixes.")
 

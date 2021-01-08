@@ -1,6 +1,11 @@
 
 import scala.collection.parallel.CollectionConverters._
 
+// implemented matrix operations:
+// display
+// isEqual (both parallel and sequential)
+// multiply (both parallel and sequential)
+
 object MatrixOperations {
 
   def displayMat(mat: Array[Array[Int]]): Unit = {

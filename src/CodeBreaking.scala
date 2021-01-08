@@ -3,7 +3,7 @@ import scala.collection.parallel.CollectionConverters._
 import Math._
 
 // Purpose of these example is to simulate search of simple code (for example a PIN code) with Brute Force algorithm.
-// The code is build from N integer digits, therfore it can be represented as integer number between 0 and 10^N-1
+// The code is build from N integer digits, therefore it can be represented as integer number between 0 and 10^N-1
 // If code number has less than N digits, then it is assumed it is filed with zeroes from the left side until it has N digits.
 
 class CodeBreaking(val N: Int) {
