@@ -3,8 +3,10 @@
 import scala.util.Random
 
 import MatrixOperations._
+import CodeBreaking._
 
 object Tests extends App {
+
 
   println("Comparison of sequential and parallel multiplication of matrixes.")
 
@@ -18,20 +20,6 @@ object Tests extends App {
 
   var matA = Array.fill(xMatrixDimension, commonMatrixDimension)(Random.nextInt())
   var matB = Array.fill(commonMatrixDimension, yMatrixDimension)(Random.nextInt())
-
-  /*displayMat(matA)
-  println()
-  displayMat(matB)
-  println()
-
-  println(isEqual(matA,matB))
-  println()
-
-  displayMat( multiply(matA, matB))
-  println()
-
-  displayMat( multiplyPar(matA, matB))
-  println()*/
 
   var timeSeq:Long = 0
   var timePar:Long = 0
@@ -49,4 +37,40 @@ object Tests extends App {
   println("Confirmation of equality of results: "+isEqual(multiply(matA, matB), multiplyPar(matA, matB)))
 
   println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  println()
+
+  val codeLength = 9
+  val numberOfRepeats = 10
+  println("Breaking "+codeLength+" digit code.")
+  println("Due to high randomness, final result will be an average from " + numberOfRepeats + " attempts of breaking different codes.")
+
+  var timeStart:Long = 0
+  var timeEnd:Long = 0
+  var totalSeqTime:Long =0
+  var totalParTime:Long =0
+  var confirmationCheck:Int = 0
+
+  var i = 0
+  while(i < numberOfRepeats) {
+    val codeToBreak = new CodeBreaking(codeLength)
+
+    timeStart = System.currentTimeMillis()
+    confirmationCheck = bruteForce(codeToBreak)
+    timeEnd = System.currentTimeMillis()
+
+    assert(confirmSecretCode(codeToBreak,confirmationCheck))
+    totalSeqTime += timeEnd - timeStart
+
+    timeStart = System.currentTimeMillis()
+    confirmationCheck = bruteForcePar(codeToBreak)
+    timeEnd = System.currentTimeMillis()
+
+    assert(confirmSecretCode(codeToBreak,confirmationCheck))
+    totalParTime+=timeEnd - timeStart
+
+    i += 1
+  }
+  println("Average time of sequential code breaking: " + totalSeqTime/numberOfRepeats+ " milliseconds")
+  println("Average time of parallel code breaking: " + totalParTime/numberOfRepeats+ " milliseconds")
+
 }
