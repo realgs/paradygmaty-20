@@ -1,16 +1,17 @@
 package Kalaha
 
 import java.util.Timer
-
 import akka.actor.{Actor, ActorRef, PoisonPill}
 import scala.io.StdIn.readLine
 
 class Human(server: ActorRef) extends Actor {
 
   var playerNumber: Int = _
-  var board: Board = _
-  var timeOnMove = 30000 //30000 ms
+  var boardHuman: Board = _
+  var timeOnMove = 30000 //30s
   val timer = new Timer()
+  var totalTimeFirstMove:Long = _
+  var totalTimeNextMove:Long = _
 
   server ! Connect()
 
@@ -22,42 +23,35 @@ class Human(server: ActorRef) extends Actor {
     }
     case RequireMove(number, newBoard) => {
       if(playerNumber == number) {
-        /*board = newBoard
-        var ifValidMove = 0
-        var chosenHole: Int = 0
-        while(ifValidMove == 0) {
-          chosenHole = readLine("Select hole as move: ").toInt
-          ifValidMove = board.makeMove(chosenHole, playerNumber)
-          if(ifValidMove == 0) println("Invalid move. Try again!")
-        }*/
         var chosenHole = 0
-        val totalTime = timer({
-          chosenHole = chooseMove(newBoard)
+        totalTimeFirstMove = timer({
+          chosenHole = readLine("Select hole as move: ").toInt
         })
-        if(totalTime < timeOnMove) {
-          println("Player: " + playerNumber + " chose hole number: " + chosenHole)
+        println(totalTimeFirstMove)
+        if(totalTimeFirstMove > timeOnMove) {
+          server ! TimesUp(playerNumber)
+        } else {
           server ! MakeMove(chosenHole, playerNumber)
-        } else server ! TimesUp(playerNumber)
+        }
       }
     }
-    /*case InformInvalidMove(newBoard, number) => {
-      if(playerNumber == number) {
-        println("Player: " + playerNumber + " tries again after invalid move.")
-        val chosenHole = ifInvalidMove(newBoard, playerNumber)
-        if(chosenHole == -1) server ! TimesUp(playerNumber)
-        else server ! MakeMove(chosenHole, playerNumber)
-      }
-    }*/
     case TurnAgainPlayer(newBoard) => {
-      println("Player: " + playerNumber + " moves again.")
+      makeMove()
+    }
+    case InformInvalidMove(newBoard, playerNumber) => {
       var chosenHole = 0
-      val totalTime = timer({
-        chosenHole = chooseMove(newBoard)
+      totalTimeNextMove = timer({
+        chosenHole = readLine("Select hole as move: ").toInt
       })
-      if(totalTime < timeOnMove) {
-        println("Player: " + playerNumber + " chose hole number: " + chosenHole)
+      println("Total time next move: " + totalTimeNextMove)
+      val totalTime = totalTimeNextMove + totalTimeFirstMove
+      totalTimeNextMove = totalTime
+      println("Total time: " + totalTime)
+      if(totalTime > timeOnMove) {
+        server ! TimesUp(playerNumber)
+      } else {
         server ! MakeMove(chosenHole, playerNumber)
-      } else server ! TimesUp(playerNumber)
+      }
     }
     case Disconnect => {
       self ! PoisonPill
@@ -71,15 +65,16 @@ class Human(server: ActorRef) extends Actor {
     endTime - startTime
   }
 
-  def chooseMove(newBoard: Board): Int = {
-    board = newBoard
-    var ifValidMove = 0
-    var chosenHole: Int = 0
-    while(ifValidMove == 0) {
+  def makeMove(): Unit = {
+    var chosenHole = 0
+    totalTimeFirstMove = timer({
       chosenHole = readLine("Select hole as move: ").toInt
-      ifValidMove = board.makeMove(chosenHole, playerNumber)
-      if(ifValidMove == 0) println("Invalid move. Try again!")
+    })
+    println(totalTimeFirstMove)
+    if(totalTimeFirstMove > timeOnMove) {
+      server ! TimesUp(playerNumber)
+    } else {
+      server ! MakeMove(chosenHole, playerNumber)
     }
-    chosenHole
   }
 }

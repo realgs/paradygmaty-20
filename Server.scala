@@ -1,15 +1,12 @@
 package Kalaha
 import akka.actor.{Actor, ActorRef, Terminated}
 
-import scala.util.{Failure, Random, Success}
-import scala.concurrent.duration.{DurationInt, FiniteDuration}
+import scala.util.{Random}
 
 class Server extends Actor {
 
-  //implicit val timeout = akka.util.Timeout(30.seconds)
-
-  var players = List[(Int, ActorRef)]()
-  var board: Board = _
+  private var players = List[(Int, ActorRef)]()
+  private var board: Board = _
 
   var timeStart: Long = _
   var timeEnd: Long = _
@@ -30,8 +27,8 @@ class Server extends Actor {
     case Connect() => {
       players = (players.size+1, sender) :: players
       context.watch(sender)
-      println("Player: " + players.head._1 + " are ready to game.")
       Thread.sleep(1000)
+      println("Player: " + players.head._1 + " are ready to game.")
       sender ! ReturnPlayerNumber(players.head._1)
     }
     case Start(player) => {
@@ -39,13 +36,13 @@ class Server extends Actor {
       if(turn == getPlayerNumber(player)) {
         startGame()
         board.printBoard
+        timeStart = System.currentTimeMillis()
         if(turn == 1) players.tail.head._2 ! RequireMove(turn, board)
         else players.head._2 ! RequireMove(turn, board)
       }
     }
     case MakeMove(holeNumber, playerNumber) => {
       println("Server receive the move. Player number: " + playerNumber)
-      board.printBoard
       val ifNextMove = board.makeMove(holeNumber, playerNumber)
       board.printBoard
       println("IfnextMove = " + ifNextMove)

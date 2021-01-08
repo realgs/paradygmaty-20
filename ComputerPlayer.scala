@@ -2,13 +2,10 @@ package Kalaha
 
 import akka.actor.{Actor, ActorRef, PoisonPill}
 
-import scala.concurrent.duration.DurationInt
-
 class ComputerPlayer(server: ActorRef) extends Actor {
 
   var playerNumber: Int = _
   var board: Board = _
-  implicit val timeout = akka.util.Timeout(30.seconds)
 
   server ! Connect()
 
