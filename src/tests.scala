@@ -17,7 +17,7 @@ import CodeBreaking._
 //    Average time of sequential code breaking: 2325 milliseconds
 //    Average time of parallel code breaking: 777 milliseconds
 
-object Tests extends App {
+object tests extends App {
 
   println("Comparison of sequential and parallel multiplication of matrixes.")
 
