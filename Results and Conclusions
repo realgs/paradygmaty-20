@@ -1,0 +1,29 @@
+--------------------------------- Fibonacci Time Performance ---------------------------------------
+1. Find 10 Fibonacci Number:
+   a) Sequential: 4 ms   b) Tail recursion: 0 ms   c) Parallel: 62 ms
+2. Find 25 Fibonacci Number:
+   a) Sequential: 7 ms   b) Tail recursion: 0 ms   c) Parallel: 12 ms
+3. Find 40 Fibonacci Number:
+   a) Sequential: 2033 ms   b) Tail recursion: 0 ms   c) Parallel: 1503 ms
+
+--------------------------------- QuickSort Time Performance ---------------------------------------
+1. Sort array with 100 elements:
+   a) Sequential: 1 ms   b) Parallel: 14 ms
+2. Sort array with 10 000 elements:
+   a) Sequential: 4 ms   b) Parallel: 154 ms
+3. Sort array with 100 000 elements:
+   a) Sequential: 14 ms   b) Parallel: 329 ms
+4. Sort array with 1 000 000 elements:
+   a) Sequential: 122 ms   b) Parallel: 899 ms
+
+--------------------------------- Matrix Operation Time Performance ---------------------------------------
+Multiply Matrix 100x100:
+   a) Sequential: 25 ms   b) Parallel: 71 ms
+Multiply Matrix 1000x1000:
+   a) Sequential: 2104 ms   b) Parallel: 602 ms
+Multiply Matrix 2000x2000:
+   a) Sequential: 60317 ms   b) Parallel: 21990 ms
+
+Paralell programming is useful when we are operating on big amounts of data. When we want to calculate smaller amounts of data, it is better to
+use sequential programming, because we are wasting time on switching between threads and it takes much longer than just sequential calculating.
+I am a little bit confused about my results of QuickSort (I wrote an email to you).
