@@ -9,54 +9,53 @@ import scala.util.Random
 
    Example results:
 
+   WITHOUT THRESHOLD
+
+   Array Size: 100
+   Sequential time: 2.21 ms
+   Parallel time: 3.31 ms
+   Ratio: 0,67
+
    Array Size: 1000
-   Sequential time: 4 ms
-   Parallel time: 5 ms
-   Ratio: 0,8
+   Sequential time: 3,42 ms
+   Parallel time: 5,44 ms
+   Ratio: 0,62
+
+   WITH THRESHOLD
 
    Array Size: 10_000
-   Sequential time: 7 ms
-   Parallel time: 13 ms
-   Ratio: 0,53
+   Sequential time: 5.61 ms
+   Parallel time: 3.95 ms
+   Ratio: 1,42
 
    Array Size: 100_000
-   Sequential time: 28 ms
-   Parallel time: 34 ms
-   Ratio: 0,82
-
-   Array Size: 500_000
-   Sequential time: 75 ms
-   Parallel time: 132 ms
-   Ratio: 0,56
+   Sequential time: 27.96 ms
+   Parallel time: 9.48 ms
+   Ratio: 2,94
 
    Array Size: 1_000_000
-   Sequential time: 151 ms
-   Parallel time: 176 ms
-   Ratio: 0,85
-
-   Array Size: 2_500_000
-   Sequential time: 327 ms
-   Parallel time: 203 ms
-   Ratio: 1,61
+   Sequential time: 122.71 ms
+   Parallel time: 36.36 ms
+   Ratio: 3,37
 
    Array Size: 10_000_000
-   Sequential time: 1102 ms
-   Parallel time: 386 ms
-   Ratio: 2,85
+   Sequential time: 945,61 ms
+   Parallel time: 225.51 ms
+   Ratio: 4,19
 
    Array Size: 100_000_000
-   Sequential time: 10282 ms
-   Parallel time: 2935 ms
-   Ratio: 3,5
+   Sequential time: 10560.65 ms
+   Parallel time: 2532.39 ms
+   Ratio: 4,17
 
-   Parallelized version of QuickSort, in my computer, starts giving better results than sequential one
-   when array has about 2,5 million elements. In order to make computations as efficient as possible I'm
-   checking if data is large enough and only then I use parallel version of this algorithm. Threshold helps
-   me to avoid parallelism overhead
+   The more elements the array has, the better the time performance of the parallel version of QuickSort.
+   When arrays were small (less than 1k elements) sequential version got better results than the parallel one.
+   To avoid this problem I used threshold in my implementation i.e. when the array size is smaller than 1000
+   I perform sequential computations, otherwise, I divide my problem into smaller parts
 */
 
 object QuickSortBenchmark {
-  private val RANDOM_ARRAY_TEST_SIZE = 10_000_000
+  private val RANDOM_ARRAY_TEST_SIZE = 1_000_000
   private val RANDOM_VALUE_BOUND = 100_000
 
   def run() {

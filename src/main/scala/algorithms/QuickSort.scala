@@ -1,20 +1,13 @@
 package algorithms
 
 import java.util.concurrent.ForkJoinTask.invokeAll
-import java.util.concurrent.{ForkJoinPool, RecursiveTask}
+import java.util.concurrent.{ForkJoinPool, RecursiveAction}
 
 object QuickSort {
-  private val PARALLEL_SORT_THRESHOLD = 500_000
-
   def sortSequential(array: Array[Int]): Unit = quickSequential(array)(0)(array.length - 1)
 
   def sortParallel(array: Array[Int]): Unit = {
-    if (array.length >= PARALLEL_SORT_THRESHOLD) {
-      val pool = new ForkJoinPool(Runtime.getRuntime.availableProcessors())
-      pool.invoke(new QuickSortParallel(array, 0, array.length - 1))
-    } else {
-      sortSequential(array)
-    }
+    new ForkJoinPool().invoke(new QuickSortParallel(array, 0, array.length - 1))
   }
 
   private def swap[A](array: Array[A])(i: Int)(j: Int): Unit = {
@@ -59,22 +52,29 @@ object QuickSort {
     }
   }
 
-  class QuickSortParallel(array: Array[Int], left: Int, right: Int) extends RecursiveTask[Unit] {
+  class QuickSortParallel(array: Array[Int], left: Int, right: Int) extends RecursiveAction {
+    private val PARALLEL_SORT_THRESHOLD = 1000
+
     override def compute(): Unit = {
-      if (left < right) {
-        val (i, j) = partition(array)(left)(right)
+      if (right - left + 1 <= PARALLEL_SORT_THRESHOLD) {
+        quickSequential(array)(left)(right)
+      }
+      else {
+        if (left < right) {
+          val (i, j) = partition(array)(left)(right)
 
-        if (j - 1 < right - 1) {
-          val leftArraySortOperation = new QuickSortParallel(array, left, j)
-          val rightArraySortOperation = new QuickSortParallel(array, i, right)
+          if (j - 1 < right - 1) {
+            val leftArraySortOperation = new QuickSortParallel(array, left, j)
+            val rightArraySortOperation = new QuickSortParallel(array, i, right)
 
-          invokeAll(leftArraySortOperation, rightArraySortOperation)
-        }
-        else {
-          val leftArraySortOperation = new QuickSortParallel(array, i, right)
-          val rightArraySortOperation = new QuickSortParallel(array, left, j)
+            invokeAll(leftArraySortOperation, rightArraySortOperation)
+          }
+          else {
+            val leftArraySortOperation = new QuickSortParallel(array, i, right)
+            val rightArraySortOperation = new QuickSortParallel(array, left, j)
 
-          invokeAll(leftArraySortOperation, rightArraySortOperation)
+            invokeAll(leftArraySortOperation, rightArraySortOperation)
+          }
         }
       }
     }
