@@ -4,7 +4,7 @@ import Par.parallel
 import scala.util.Random
 
 object ArrayReduce {
-  def reduceSeg[A](arr: Array[A], left: Int, right: Int)(f: (A, A) => A): A = {
+  private def reduceSeg[A](arr: Array[A], left: Int, right: Int)(f: (A, A) => A): A = {
     if (right - left < 5) {
       var res = arr(left)
       var i = left + 1
@@ -21,8 +21,21 @@ object ArrayReduce {
     }
   }
 
+  // Parallelized
   def reduceParallel[A](arr: Array[A])(f: (A, A) => A): A =
     reduceSeg(arr, 0, arr.length)(f)
+
+  // Sequential
+  def reduceSeq[A](arr: Array[A])(f: (A, A) => A): A = {
+    var res = arr(0)
+    var i = 1
+
+    while (i < arr.length) {
+      res = f(res, arr(i))
+      i += 1
+    }
+    res
+  }
 
   // Benchmark
   import org.scalameter._
