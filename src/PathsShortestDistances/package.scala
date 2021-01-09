@@ -26,6 +26,10 @@ package object PathsShortestDistances
     val nJobs = Runtime.getRuntime.availableProcessors()
     val nJobs1 = nJobs / 2
     val nJobs2 = nJobs - nJobs1
+    /*
+    val nJobs1 = scala.math.sqrt(nJobs).toInt
+    val nJobs2 = nJobs1
+    */
     val numVertex = adjacencyMatrix.length
     val shortestPaths = adjacencyMatrix.clone()
     for (id1 <- (0 until nJobs1).par)

@@ -38,7 +38,7 @@ object MonteCarloBenchmarks
   {
     var parallelTotalTime = .0
     var sequentialTotalTime = .0
-    for (_ <- 0 to differentRuns)
+    for (_ <- 0 until differentRuns)
     {
       val (sequentialTime, parallelTime) = testRun(f, a, b, samples, runsPerFunction)
       parallelTotalTime += parallelTime

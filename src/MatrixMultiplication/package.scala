@@ -34,6 +34,10 @@ package object MatrixMultiplication
     val rowsA = mat1.length
     val colsA = mat1(0).length
     val colsB = mat2(0).length
+    /*
+    val nJobs1 = scala.math.sqrt(nJobs * rowsA / colsA).toInt
+    val nJobs2 = nJobs / nJobs1
+    */
     val product = Array.fill(rowsA, colsB)(.0)
     for (id1 <- (0 until nJobs1).par)
       for (i <- id1 * rowsA / nJobs1 until (id1 + 1) * rowsA / nJobs1)

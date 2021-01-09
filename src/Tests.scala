@@ -22,7 +22,7 @@ import Benchmarks._
     I used this method to optimize: matrix multiplication (imperative version) and Floyd-Warshall algorithm (also imperative).
     This approach can potentially reduce complexity from O(n^3) to O(n) (of course it is almost impossible).
     Other methods I tried were: parallelize whole loop (much time is wasted on excessive parallelization),
-    divide matrices for areas and perform operations on them (complexity is O(n^3) > X > O(n^2))
+    divide matrices for areas and perform operations on them.
 
   To benchmark I used the Scalameter library. Each test was run 100 times (with warmer) for 10 different inputs
   of a certain size. Benchmarks are not perfect, as I measured only mean time of 1000 runs for certain input size, there
