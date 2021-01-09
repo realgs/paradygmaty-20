@@ -1,3 +1,5 @@
+package Tasks
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
@@ -12,8 +14,12 @@ object Primes {
   def generatePrimesParallel(n: Int): List[Int] = {
     if (n < 1) throw new IllegalArgumentException("cannot generate primes lower than 1")
     else {
-      val p1 = Future {generatePrimesFromTo(1, n / 2)}
-      val p2 = Future {generatePrimesFromTo((n / 2) + 1, n)}
+      val p1 = Future {
+        generatePrimesFromTo(1, n / 2)
+      }
+      val p2 = Future {
+        generatePrimesFromTo((n / 2) + 1, n)
+      }
       Await.result(p1, 100.seconds) ::: Await.result(p2, 100.seconds)
     }
   }
