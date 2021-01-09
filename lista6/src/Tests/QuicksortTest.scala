@@ -13,10 +13,9 @@ object QuicksortTest {
   }
 
   def timeTest(times: Int, size: Int): Unit = {
-    var time = (0.toLong, 0.toLong )
+    var time = (0.toLong, 0.toLong)
     var currentTime = (0.toLong, 0.toLong)
-    for(_ <- 1 to times)
-    {
+    for (_ <- 1 to times) {
       val array = Array.fill(size)(Random.nextInt(10000))
       currentTime = Utils.measureTime(Quicksort.quicksort(array.clone()), Quicksort.quicksortParallel(array.clone()))
       time = (time._1 + currentTime._1, time._2 + currentTime._2)

@@ -13,10 +13,9 @@ object SameTreesTest {
   private def timeTest(times: Int, depth: Int): Unit = {
     val tree = Tree.generateTree(depth, 1, 1000)
     val tree1 = Tree.copyTree(tree)
-    var time = (0.toLong, 0.toLong )
+    var time = (0.toLong, 0.toLong)
     var currentTime = (0.toLong, 0.toLong)
-    for(_ <- 1 to times)
-    {
+    for (_ <- 1 to times) {
       currentTime = Utils.measureTime(Tree.areTreesTheSame(tree, tree1), Tree.areTreesTheSameParallel(tree, tree1))
       time = (time._1 + currentTime._1, time._2 + currentTime._2)
     }

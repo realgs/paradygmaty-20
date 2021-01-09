@@ -7,9 +7,7 @@ import scala.concurrent.{Await, Future}
 object Tree {
 
   sealed trait BT[+A]
-
   case object Empty extends BT[Nothing]
-
   case class Node[+A](elem: A, left: BT[A], right: BT[A]) extends BT[A]
 
   def areTreesTheSameParallel[A](tree1: BT[A], tree2: BT[A]): Boolean = {
@@ -17,12 +15,8 @@ object Tree {
       case (Empty, Empty) => true
       case (Node(value1, left1, right1), Node(value2, left2, right2)) =>
         if (value1 == value2) {
-          val b1 = Future {
-            areTreesTheSame(right1, right2)
-          }
-          val b2 = Future {
-            areTreesTheSame(left1, left2)
-          }
+          val b1 = Future {areTreesTheSame(right1, right2)}
+          val b2 = Future {areTreesTheSame(left1, left2)}
           Await.result(b1, 100.seconds) && Await.result(b2, 100.seconds)
         }
         else false
@@ -48,7 +42,6 @@ object Tree {
         if (actualDepth == depth) Empty
         else Node(scala.util.Random.between(minNumber, maxNumber), helper(actualDepth + 1), helper(actualDepth + 1))
       }
-
       helper(0)
     }
   }

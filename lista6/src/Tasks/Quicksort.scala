@@ -30,22 +30,14 @@ object Quicksort {
     if (start < end) {
       val (i, j) = partition(tab, start, end)
       if (j - start < end - i) {
-        val fut1 = Future {
-          quick(tab, start, j)
-        }
-        val fut2 = Future {
-          quick(tab, i, end)
-        }
+        val fut1 = Future {quick(tab, start, j)}
+        val fut2 = Future {quick(tab, i, end)}
         Await.result(fut1, 100.seconds)
         Await.result(fut2, 100.seconds)
       }
       else {
-        val fut1 = Future {
-          quick(tab, i, end)
-        }
-        val fut2 = Future {
-          quick(tab, start, j)
-        }
+        val fut1 = Future {quick(tab, i, end)}
+        val fut2 = Future {quick(tab, start, j)}
         Await.result(fut1, 100.seconds)
         Await.result(fut2, 100.seconds)
       }
