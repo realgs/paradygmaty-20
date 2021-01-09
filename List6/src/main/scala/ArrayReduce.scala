@@ -97,24 +97,25 @@ object ArrayReduce {
   sequential time: 6.826283366666667 ms
   parallel time: 5.1128133 ms
 
-	Size: 10 000 000, Range: 1 000, func (x, y) => x + y
-	sequential time: 72.46411996666669 ms
-	parallel time: 62.01457349999999 ms
+  Size: 10 000 000, Range: 1 000, func (x, y) => x + y
+  sequential time: 72.46411996666669 ms
+  parallel time: 62.01457349999999 ms
 
   -------------------------------------
-	Improvements are minimal, because summing array elements with reduce requires little cost
-	i.e. functions applied in reduce is fast
+  Improvements are minimal, because summing array elements with reduce requires little cost
+  i.e. functions applied in reduce is fast
 
-	Suppose func = (x, y) => {doHardCalculations()}
-	array fill and reverse is used to simulate such computationally heavy function)
-	-------------------------------------
+  Suppose func = (x, y) => {doHardCalculations()}
+  array fill and reverse is used to simulate such computationally heavy function)
+  -------------------------------------
 
   Size: 10 000, Range: 1 000, func (x, y) => x + y with load
   sequential time: 18.726529966666668 ms
   parallel time: 7.5637266 ms
 
-	Size: 100 000, Range: 1 000, func (x, y) => x + y with load
-	sequential time: 200.60887693333333 ms
-	parallel time: 53.949243333333335 ms
+  Size: 100 000, Range: 1 000, func (x, y) => x + y with load
+  sequential time: 200.60887693333333 ms
+  parallel time: 53.949243333333335 ms
   */
+
 }

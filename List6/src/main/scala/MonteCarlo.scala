@@ -70,8 +70,9 @@ object MonteCarlo {
   sequential time: 39.55257323333333 ms
   parallel time: 10.414533166666667 ms
 
-	Number of iterations: 10 000 000
-	sequential time: 427.90652329999995 ms
-	parallel time: 108.05349016666665 ms
+  Number of iterations: 10 000 000
+  sequential time: 427.90652329999995 ms
+  parallel time: 108.05349016666665 ms
   */
+
 }
