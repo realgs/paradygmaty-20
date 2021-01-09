@@ -6,7 +6,7 @@ import scala.util.Random
 
 class DecisionTree(var board: Board, var whoseMove: Int) {
 
-  private val root: Node = new Node(board, -1, -1, null, -1, false)
+  private val root: Node = new Node(board, -1, -1, null, 0, false)
   private var currentPlayer: Int = whoseMove
   private var currentOpponent: Int = if(currentPlayer == 1) 2 else 1
 
@@ -146,7 +146,7 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
       else if(results.head._1 == stonesDifference) {
         val r: Random = new Random()
         val number = r.nextDouble()
-        if(number > 0.75) findInner(results.tail, results.head._1, results.head._2)
+        if(number > 0.5) findInner(results.tail, results.head._1, results.head._2)
         else findInner(results.tail, stonesDifference, holeNumber)
       } else findInner(results.tail, stonesDifference, holeNumber)
     }

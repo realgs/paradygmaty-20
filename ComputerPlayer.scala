@@ -49,6 +49,7 @@ class ComputerPlayer(server: ActorRef) extends Actor {
     tree.createFirstLevel()
     tree.createTree(4)
     val chosenHole = tree.findBestDecision(tree.createChoiceQueue(tree.getRoot()))
+    println(chosenHole)
     chosenHole
   }
 

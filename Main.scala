@@ -1,7 +1,6 @@
 package Kalaha
 
-import akka.actor.{Actor, ActorSystem, Props}
-import scala.io.Source
+import akka.actor.{ActorSystem, Props}
 import scala.io.StdIn.readLine
 
 object Main extends App {
