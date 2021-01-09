@@ -1,6 +1,7 @@
 import Par.parallel
-
 import scala.util.Random
+
+// Parallelization of Pi estimation using Monte Carlo method
 
 object MonteCarlo {
   // We randomly sample points from 1/4 of a square with unit circle inscribed in it
@@ -59,6 +60,8 @@ object MonteCarlo {
   }
 
   /*
+  numThreads = 4
+
   Number of iterations: 100 000
   sequential time: 3.880720000000001 ms
 	parallel time: 1.231849933333333 ms

@@ -1,7 +1,7 @@
-import FPar.FPar
 import Par.parallel
-
 import scala.util.Random
+
+// Parallelization of Array map higher order function
 
 object ArrayMap {
   private def mapRange[A, B](in: Array[A], out: Array[B])
@@ -79,7 +79,7 @@ object ArrayMap {
   }
 
   /*
-  MAP
+  numThreads = 4
 
   // Size 1 000 000, Range: 500 000, func = x^2
   sequential time: 8.4351265 ms

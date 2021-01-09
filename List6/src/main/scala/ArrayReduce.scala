@@ -1,7 +1,7 @@
-import ArrayMap.{initialize, map, standardConfig}
 import Par.parallel
-
 import scala.util.Random
+
+// Parallelization of Array reduce higher order function
 
 object ArrayReduce {
   private def reduceSeg[A](arr: Array[A], left: Int, right: Int)(f: (A, A) => A): A = {
@@ -90,6 +90,8 @@ object ArrayReduce {
   }
 
   /*
+  numThreads = 2
+
   Size: 1 000 000, Range: 1 000, func (x, y) => x + y
   sequential time: 6.826283366666667 ms
 	parallel time: 5.1128133 ms
