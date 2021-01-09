@@ -81,22 +81,22 @@ object ArrayMap {
   /*
   numThreads = 4
 
-  // Size 1 000 000, Range: 500 000, func = x^2
+  Size 1 000 000, Range: 500 000, func = x^2
   sequential time: 8.4351265 ms
-	parallel time: 4.104370033333334 ms
+  parallel time: 4.104370033333334 ms
 
-	// Size 10 000 000, Range: 500 000, func = x^2
-  sequential time: 91.71298653333334 ms
-	parallel time: 40.72006663333333 ms
+	Size 10 000 000, Range: 500 000, func = x^2
+	sequential time: 91.71298653333334 ms
+  parallel time: 40.72006663333333 ms
 
 	-------------------------------------------------
 
-  // Size 1 000 000, Range: 500 000, func = (Math.cosh(x) + Math.exp(x)).intValue()
+  Size 1 000 000, Range: 500 000, func = (Math.cosh(x) + Math.exp(x)).intValue()
   sequential time: 28.846920000000008 ms
-	parallel time: 11.722153433333329 ms
+  parallel time: 11.722153433333329 ms
 
-	// Size 10 000 000, Range: 500 000, func = (Math.cosh(x) + Math.exp(x)).intValue()
-  sequential time: 316.2063998333333 ms
-	parallel time: 92.18210326666666 ms
-   */
+	Size 10 000 000, Range: 500 000, func = (Math.cosh(x) + Math.exp(x)).intValue()
+	sequential time: 316.2063998333333 ms
+  parallel time: 92.18210326666666 ms
+  */
 }

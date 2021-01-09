@@ -102,21 +102,21 @@ object Quicksort {
 
   Size: 10 000, Range: 500 000
   sequential time: 0.9334301 ms ms
-	parallel time: 1.1053298666666669 ms
+  parallel time: 1.1053298666666669 ms
 
   Size: 100 000, Range: 500 000
   sequential time: 9.653313133333334 ms
-	parallel time: 5.656023300000002 ms
+  parallel time: 5.656023300000002 ms
 
 	Size: 1 000 000, Range: 500 000
-  sequential time: 147.69995676666665 ms
-	parallel time: 102.62426010000006 ms
+	sequential time: 147.69995676666665 ms
+  parallel time: 102.62426010000006 ms
 
 	Size: 10 000 000, xs(i) = i % 100
-  sequential time: 795.3976433666668 ms
-	parallel time: 736.8553333333334 ms
+	sequential time: 795.3976433666668 ms
+  parallel time: 736.8553333333334 ms
 
-
+  -----------------------------------------
   numThreads = 16
 
 	Size: 10 000, xs(i) = i % 100
@@ -129,17 +129,17 @@ object Quicksort {
 
   Size: 1 000 000, xs(i) = i % 100
   sequential time: 75.25976663333333 ms
-	parallel time: 25.6644831 ms
+  parallel time: 25.6644831 ms
 
 	Size: 10 000 000, xs(i) = i % 100
-  sequential time: 854.402456566667 ms
-	parallel time: 321.93192660000005 ms
+	sequential time: 854.402456566667 ms
+  parallel time: 321.93192660000005 ms
 
-
+  -----------------------------------------
 	numThreads = 32
 
   Size: 10 000 000, xs(i) = i % 100
   sequential time: 768.1460468000001 ms
-	parallel time: 204.55891336666664 ms
+  parallel time: 204.55891336666664 ms
   */
 }
