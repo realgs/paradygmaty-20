@@ -92,46 +92,58 @@ def quicksortParallel(tab: Array[Int]): Unit  = {
 
 // MergeSort ***************************************************************************************
 
-def mergeSortSequential(tab: Array[Int]): Unit = {
-  val tempInt = new Array[Int](tab.size)
+def merge(tab: Array[Int], tempInt: Array[Int], startIndex: Int, middleIndex: Int, endIndex: Int): Unit = {
+  for (i <- startIndex to endIndex) tempInt(i) = tab(i)
 
-  def merge(startIndex: Int, middleIndex: Int, endIndex: Int): Unit = {
-    for (i <- startIndex to endIndex) tempInt(i) = tab(i)
+  var i = startIndex
+  var j = middleIndex + 1
+  var k = startIndex
 
-    var i = startIndex
-    var j = middleIndex + 1
-    var k = startIndex
-
-    while ((i <= middleIndex) && (j <= endIndex)) {
-      if (tempInt(i) < tempInt(j)) {
-        tab(k) = tempInt(i)
-        i += 1
-      } else {
-        tab(k) = tempInt(j)
-        j += 1
-      }
-      k += 1
-    }
-
-    while (i <= middleIndex) {
+  while ((i <= middleIndex) && (j <= endIndex)) {
+    if (tempInt(i) < tempInt(j)) {
       tab(k) = tempInt(i)
-      k += 1
       i += 1
-    }
-
-    while (j <= endIndex) {
+    } else {
       tab(k) = tempInt(j)
-      k += 1
       j += 1
     }
+    k += 1
   }
+
+  while (i <= middleIndex) {
+    tab(k) = tempInt(i)
+    k += 1
+    i += 1
+  }
+
+  while (j <= endIndex) {
+    tab(k) = tempInt(j)
+    k += 1
+    j += 1
+  }
+}
+
+def mergeSortSequential(tab: Array[Int]): Unit = {
+  val tempInt = new Array[Int](tab.size)
 
   def mergeSortHelp(startIndex: Int, endIndex: Int): Unit = {
     if (startIndex >= endIndex) return
     val middleIndex = (startIndex + endIndex)/2
     mergeSortHelp(startIndex,middleIndex)
     mergeSortHelp(middleIndex + 1,endIndex)
-    merge(startIndex,middleIndex,endIndex)
+    merge(tab,tempInt,startIndex,middleIndex,endIndex)
+  }
+  mergeSortHelp(0,tab.size - 1)
+}
+
+def mergeSortParallel(tab: Array[Int]): Unit = {
+  val tempInt = new Array[Int](tab.size)
+
+  def mergeSortHelp(startIndex: Int, endIndex: Int): Unit = {
+    if (startIndex >= endIndex) return
+    val middleIndex = (startIndex + endIndex)/2
+    parallelObject.parallel(mergeSortHelp(startIndex,middleIndex),mergeSortHelp(middleIndex + 1,endIndex))
+    merge(tab,tempInt,startIndex,middleIndex,endIndex)
   }
   mergeSortHelp(0,tab.size - 1)
 }
@@ -143,6 +155,8 @@ val t4 = Array(4,8,1,12,7,3,1,9)
 quicksortSequential(t1)
 quicksortParallel(t2)
 mergeSortSequential(t3)
+mergeSortParallel(t4)
 t1
 t2
 t3
+t4
