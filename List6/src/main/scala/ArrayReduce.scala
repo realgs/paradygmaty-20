@@ -38,6 +38,7 @@ object ArrayReduce {
   }
 
   // Benchmark
+
   import org.scalameter._
 
   val standardConfig = config(
@@ -45,7 +46,7 @@ object ArrayReduce {
     Key.exec.maxWarmupRuns -> 60,
     Key.exec.benchRuns -> 30,
     Key.verbose -> true
-  ) withWarmer(new Warmer.Default)
+  ) withWarmer (new Warmer.Default)
 
   def initialize(xs: Array[Int]) {
     Random.setSeed(3)

@@ -37,7 +37,7 @@ object MonteCarlo {
     Key.exec.maxWarmupRuns -> 60,
     Key.exec.benchRuns -> 30,
     Key.verbose -> true
-  ) withWarmer(new Warmer.Default)
+  ) withWarmer (new Warmer.Default)
 
   def benchmark(): Unit = {
     val numIter = 100000
@@ -72,6 +72,6 @@ object MonteCarlo {
 
 	Number of iterations: 10 000 000
 	sequential time: 427.90652329999995 ms
-  parallel time: 108.05349016666665 ms
+	parallel time: 108.05349016666665 ms
   */
 }

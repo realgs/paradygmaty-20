@@ -5,16 +5,16 @@ import scala.util.Random
 
 object ArrayMap {
   private def mapRange[A, B](in: Array[A], out: Array[B])
-               (f: A => B)
-               (left: Int, right: Int): Unit = {
+                            (f: A => B)
+                            (left: Int, right: Int): Unit = {
     for (i <- left until right) {
       out(i) = f(in(i))
     }
   }
 
   private def mapRangeParallel[A, B](in: Array[A], out: Array[B])
-                            (f: A => B)
-                            (left: Int, right: Int): Unit = {
+                                    (f: A => B)
+                                    (left: Int, right: Int): Unit = {
 
     // Separators
     val sep = ((right - left) / 4, (right - left) / 2, 3 * (right - left) / 4)
@@ -42,7 +42,7 @@ object ArrayMap {
     Key.exec.maxWarmupRuns -> 60,
     Key.exec.benchRuns -> 30,
     Key.verbose -> true
-  ) withWarmer(new Warmer.Default)
+  ) withWarmer (new Warmer.Default)
 
   def initialize(xs: Array[Int]) {
     Random.setSeed(0)
