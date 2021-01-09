@@ -22,11 +22,11 @@ object SumOfFullTree {
     new ForkJoinPool().invoke(new TreeSumParallel(TREE_DEPTH, tree))
   }
 
-  class TreeSumParallel(id: Int, tree: BT[Int]) extends RecursiveTask[Int] {
+  class TreeSumParallel(currentDepth: Int, tree: BT[Int]) extends RecursiveTask[Int] {
     private val THRESHOLD_TREE_SUM_PARALLEL = 13
 
     override def compute(): Int = {
-      if (id <= THRESHOLD_TREE_SUM_PARALLEL) {
+      if (currentDepth <= THRESHOLD_TREE_SUM_PARALLEL) {
         sequential(tree)
       }
       else tree match {
@@ -35,8 +35,8 @@ object SumOfFullTree {
           if (leftBT == Empty && rightBT == Empty) {
             value
           } else {
-            val leftSum = new TreeSumParallel(id - 1, leftBT)
-            val rightSum = new TreeSumParallel(id - 1, rightBT)
+            val leftSum = new TreeSumParallel(currentDepth - 1, leftBT)
+            val rightSum = new TreeSumParallel(currentDepth - 1, rightBT)
 
             invokeAll(leftSum, rightSum)
 
