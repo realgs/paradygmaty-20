@@ -1,0 +1,82 @@
+Wszystkie algorytmy równoległe są opłacalne tylko dla dużej liczby danych, ponieważ tworzenie wątków i ich przełączanie zabiera trochę czasu. Porównałem ze sobą algorytm zrównoleglony i sekwencyjny dla czterech problemów: sortowanie quicksort, sortowanie mergesort, mnożenie macierzy kwadratowych, przechodzenie drzew regularnych wgłąb
+
+Quicksort
+niech n to rozmiar tablicy,
+p to stopień zrównoleglenia algorytmu
+r to średni stosunek czasu wykonania się algorytmu równoległego do sekwencyjnego przy 100 testach
+
+dla n = 10 i p = 4 , r = 0.15
+dla n = 100 i p = 4 , r = 0.26
+dla n = 1000 i p = 4 , r = 0.92
+dla n = 10000 i p = 4 , r = 1.45
+dla n = 100000 i p = 4 , r = 1.47
+
+dla n = 10 i p = 10 , r = 0.24
+dla n = 100 i p = 10 , r = 0.14
+dla n = 1000 i p = 10 , r = 0.45
+dla n = 10000 i p = 10 , r = 0.91
+dla n = 100000 i p = 10 , r = 2.07
+
+Czym większy rozmiar sortowanej tablicy, tym bardziej opłaca się użyć algorytmu równoległego
+Na ogół, czym więcej wątków, tym lepiej; jednak, gdy liczba wątków jest większa niż liczba rdzeni komputera, nie zyskujemy już więcej, a wręcz tracimy czas na przełączanie się między wątkami
+W przypadku quicksorta sprawa ma się trochę inaczej, ponieważ to, jak bardzo obciążone są wątki zależy od wyboru pivota (w środku tablicy). Może się tak zdażyć, że 3 wątki będą miały do posortowania bardzo małe części tablicy i szybko się skończą, co spowoduje brak zysku na zrównolegleniu. Utworzenie więcej wątków niż rdzeni ma komputer wykonawczy może okazać się czasem zyskowne. Tutaj wiele zależy od wyboru pivota
+
+Mergesort
+niech n to rozmiar listy,
+p to stopień zrównoleglenia algorytmu
+r to średni stosunek czasu wykonania się algorytmu równoległego do sekwencyjnego przy 100 testach
+
+dla n = 10 i p = 4 , r = 0.32
+dla n = 100 i p = 4 , r = 0.35
+dla n = 1000 i p = 4 , r = 0.39
+dla n = 2000 i p = 4 , r = 1.05
+
+dla n = 10 i p = 10 , r = 0.21
+dla n = 100 i p = 10 , r = 0.33
+dla n = 1000 i p = 10 , r = 0.38
+dla n = 2000 i p = 10 , r = 0.95
+
+Czym większy rozmiar sortowanej listy, tym bardziej opłaca się stosować zrównoleglenie. Jako, że kolejne rekurencyjne wywołania funkcji sortującej kopiują część listy, dla n = 10000 JVM wyrzucał OutOfMemoryException.
+Tutaj wątki zostają obdarowane bardziej przewidywalnie: pierwszy połową listy, drugi jedną czwartą, itd...
+Czym większa ilość wątków, tym lepiej, ale gdy osiągniemy ilość dostępnych rdzeni, czas będzie się wydłużał. Kolejne wątki będą tworzone, gdy poprzednie będą się jeszcze wykonywać, więc nie porzebny nam jest 'zapas' jak w quicksorcie.
+
+Mnożenie macierzy
+będziemy mnożyć macierz o wymiarach n x n przez inną macierz n x n,
+p to stopień zrównoleglenia algorytmu
+r to średni stosunek czasu wykonania się algorytmu równoległego do sekwencyjnego przy 100 testach
+
+
+dla n = 10 i p = 4 , r = 0.46
+dla n = 20 i p = 4 , r = 0.21
+dla n = 50 i p = 4 , r = 0.73
+dla n = 100 i p = 4 , r = 0.90
+dla n = 200 i p = 4 , r = 3.16
+dla n = 300 i p = 4 , r = 3.18
+
+dla n = 10 i p = 10 , r = 0.32
+dla n = 20 i p = 10 , r = 0.18
+dla n = 50 i p = 10 , r = 0.71
+dla n = 100 i p = 10 , r = 1.15
+dla n = 200 i p = 10 , r = 1.59
+dla n = 300 i p = 10 , r = 2.71
+
+Czym większe ilość danych, tym większy zysk.
+W tym algorytmie każdy wątek dostaje taką samą część macierzy, więc zwiększanie liczby wątków ponad liczbę rdzeni nie zwiększa zysku na zrównolegleniu
+
+Przechodzenie drzew wgłąb
+niech d to głębokość drzewa
+c to ilość dzieci, jakie posiadają każde węzły prócz liści
+r to średni stosunek czasu wykonania się algorytmu równoległego do sekwencyjnego przy 100 testach
+stopień zrównoleglenia algorytmu jest równy c
+
+dla d = 2, c = 2 , r = 0.26
+dla d = 2, c = 4 , r = 0.20
+dla d = 2, c = 10 , r = 0.22
+dla d = 4, c = 2 , r = 0.14
+dla d = 4, c = 4 , r = 0.42
+dla d = 4, c = 10 , r = 0.96
+dla d = 10, c = 2 , r = 0.43
+
+czym większa ilość danych, tym zysk jest większy.
+czym większa ilość dzieci, zatem też ilość wątków, tym zysk jest większy, gdy ilość danych jest duża.
+Gdy ilość danych jest mała, zwiększanie liczby wątków zmniejsza zysk. Dobrymi przykładami są (d,c) = (2,4) i (4,2), gdyż mają podobną ilość węzłów (taką samą ilość liści) - dla większej liczby wątków, zysk dużo mniejszy.
