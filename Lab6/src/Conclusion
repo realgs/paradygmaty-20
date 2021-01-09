@@ -1,0 +1,66 @@
+Wnioski:
+Zrównoleglanie jest opłacalne, kiedy mamy do czynienia z dużą ilością danych wjeściowych, co widać w testach, które wykonałam na problemach moim zdaniem wartych zrównoleglenia.
+Są jednak sytuacje, w których liczba wątków jest przekracza liczbę rdzeni komputera i w tym przypadku dobrym rozwiązaniem będzie zastosowanie określonego progu, żeby zmniejszyć liczbę aktywnych wątków.
+W przypadku małych danych zrównoleglanie nie jest opłacalne, bo sam proces rozdzielenie na wątki i połączenia wyników jest kosztowny.
+
+Przykładowe wyniki:
+QuickSort time test
+
+QuickSort 1000 elements
+Sequential: Total time: 7627200ns
+Future: Total time: 171191700ns
+Parallel: Total time: 13459600ns
+QuickSort 100000 elements
+Sequential: Total time: 37884200ns
+Future: Total time: 51162900ns
+Parallel: Total time: 23490800ns
+QuickSort 10000000 elements
+Sequential: Total time: 2549038000ns
+Future: Total time: 1686489200ns
+Parallel: Total time: 999702100ns
+------------------------------
+removing repetition in tree time test
+
+Tree of height 5
+Sequential: Total time: 630900ns
+Future: Total time: 1581400ns
+Parallel: Total time: 1529200ns
+
+Tree of height 15
+Sequential: Total time: 15682100ns
+Future: Total time: 19913200ns
+Parallel: Total time: 1150800ns
+
+Tree of height 22
+Sequential: Total time: 767466700ns
+Future: Total time: 443581800ns
+Parallel: Total time: 758184500ns
+------------------------------
+Fibonacci algorithm time test
+
+10th fibonacci number
+Sequential: Total time: 2071500ns
+Future: Total time: 1854900ns
+Parallel: Total time: 1186300ns
+
+25th fibonacci number
+Sequential: Total time: 14054800ns
+Future: Total time: 20062800ns
+Parallel: Total time: 2030300ns
+
+40th fibonacci number
+Sequential: Total time: 4384093900ns
+Future: Total time: 1686513200ns
+Parallel: Total time: 1757759700ns
+------------------------------
+Finding max value in array time test
+
+Array of 10000 elements
+Sequential: Total time: 31572800ns
+Future: Total time: 1098100ns
+Parallel: Total time: 16161000ns
+
+Array of 100000 elements
+Sequential: Total time: 3311900ns
+Future: Total time: 1936300ns
+Parallel: Total time: 3428900ns
