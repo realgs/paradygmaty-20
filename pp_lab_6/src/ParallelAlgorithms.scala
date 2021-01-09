@@ -48,8 +48,8 @@ object ParallelAlgorithms {
     result.reverse
   }
 
-    //Quick Sort
-    def parQuickSort(array: Array[Double]): Unit = {
+  //Quick Sort
+  def parQuickSort(array: Array[Double]): Unit = {
       parInnerQuickSort(array, 0, array.length - 1)
     }
 
