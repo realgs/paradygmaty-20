@@ -27,8 +27,6 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
       val boardAfterMove: Board = root.actualBoard.clone()
       if(boardAfterMove.getStonesNumber(holeNumber) != 0) {
         val nextMove = boardAfterMove.makeMove(holeNumber, currentPlayer)
-        //println("Player: " + currentPlayer + " choose hole number: " + x)
-        //println("Czy przysługuje kolejny ruch dla gracza: " + currentPlayer + " przy x równym: " + x + " next move: " + nextMove)
         root.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), root, holeNumber, if(nextMove >= 0) true else false))
 
       }
@@ -44,9 +42,6 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
       copiedNode = copiedNode.getNextSibling()
     }
     copiedNode = node
-    for(x <- 0 to queue.length-1) {
-      //queue(x).actualBoard.printBoard
-    }
 
     while(!queue.isEmpty) {
       copiedNode = queue.head
@@ -62,9 +57,6 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
         if(copiedNode.actualBoard.getStonesNumber(holeNumber) != 0) {
           val boardAfterMove: Board = copiedNode.actualBoard.clone()
           val nextMove = boardAfterMove.makeMove(holeNumber, currentPlayer)
-          //println("Czy przysługuje kolejny ruch dla gracza: " + currentPlayer + " przy x równym: " + x + " next move: " + nextMove)
-          //println("After move")
-          //boardAfterMove.printBoard
           copiedNode.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), copiedNode, holeNumber, if(nextMove >= 0) true else false))
         }
       }
@@ -152,6 +144,5 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
     }
     findInner(results, -1, 0)
   }
-
 
 }

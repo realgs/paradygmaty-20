@@ -1,7 +1,7 @@
 package Kalaha
 import akka.actor.{Actor, ActorRef, Terminated}
 
-import scala.util.{Random}
+import scala.util.Random
 
 class Server extends Actor {
 
@@ -12,7 +12,7 @@ class Server extends Actor {
   var timeEnd: Long = _
 
   //Drawing who starts the game
-  var turn = drawTurn()
+  var turn: Int = drawTurn()
 
   def resetGame(): Board = {
     board = new Board(4)
@@ -24,14 +24,14 @@ class Server extends Actor {
   }
 
   def receive: Receive = {
-    case Connect() => {
+    case Connect() =>
       players = (players.size+1, sender) :: players
       context.watch(sender)
       Thread.sleep(1000)
       println("Player: " + players.head._1 + " are ready to game.")
       sender ! ReturnPlayerNumber(players.head._1)
-    }
-    case Start(player) => {
+
+    case Start(player) =>
       println("The game starts by player number " + turn)
       if(turn == getPlayerNumber(player)) {
         startGame()
@@ -40,12 +40,11 @@ class Server extends Actor {
         if(turn == 1) players.tail.head._2 ! RequireMove(turn, board)
         else players.head._2 ! RequireMove(turn, board)
       }
-    }
-    case MakeMove(holeNumber, playerNumber) => {
-      println("Server receive the move. Player number: " + playerNumber)
+
+    case MakeMove(holeNumber, playerNumber) =>
+      println("Server receive the move from player number: " + playerNumber)
       val ifNextMove = board.makeMove(holeNumber, playerNumber)
       board.printBoard
-      println("IfnextMove = " + ifNextMove)
       val ifEnd = checkIfGameEnded()
       if(ifEnd) {
         println("Game over.")
@@ -73,15 +72,13 @@ class Server extends Actor {
         }
         opponent ! RequireMove(opponentNumber, board)
       }
-    }
-    case EndGame() => {
+
+    case EndGame() =>
       board.printResults
       players.head._2 ! Disconnect
-      players = players.tail
       players.head._2 ! Disconnect
-      players = players.tail
-    }
-    case TimesUp(playerNumber) => {
+
+    case TimesUp(playerNumber) =>
       println("Times up, next opponent.")
       var opponent: ActorRef = sender
       var opponentNumber = 0
@@ -94,12 +91,13 @@ class Server extends Actor {
         opponentNumber = players.head._1
       }
       opponent ! RequireMove(opponentNumber, board)
-    }
-    case Terminated(player) => {
-      val playerNumber = getPlayerNumber(player)
+
+    case Terminated(player) =>
+      //val playerNumber = getPlayerNumber(player)
+      println("player: " + " terminated")
       //players = players.filter(sender != _._2)
-      println("Player: " + playerNumber + " lost the game.")
-    }
+      //println("Player: " + " lost the game.")
+
   }
 
   def getPlayerNumber(actor: ActorRef): Int = {
@@ -111,10 +109,6 @@ class Server extends Actor {
     timeEnd = System.currentTimeMillis()
 
     timeEnd - timeStart <= 30000
-  }
-
-  def send(sender: ActorRef, msg: String): Unit = {
-    sender ! msg
   }
 
   def drawTurn(): Int = {

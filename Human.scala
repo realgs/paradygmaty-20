@@ -9,6 +9,7 @@ class Human(server: ActorRef) extends Actor {
   var playerNumber: Int = _
   var boardHuman: Board = _
   var timeOnMove = 30000 //30s
+  val miliSec = 1000
   val timer = new Timer()
   var totalTimeFirstMove:Long = _
   var totalTimeNextMove:Long = _
@@ -23,16 +24,7 @@ class Human(server: ActorRef) extends Actor {
     }
     case RequireMove(number, newBoard) => {
       if(playerNumber == number) {
-        var chosenHole = 0
-        totalTimeFirstMove = timer({
-          chosenHole = readLine("Select hole as move: ").toInt
-        })
-        println(totalTimeFirstMove)
-        if(totalTimeFirstMove > timeOnMove) {
-          server ! TimesUp(playerNumber)
-        } else {
-          server ! MakeMove(chosenHole, playerNumber)
-        }
+        makeMove()
       }
     }
     case TurnAgainPlayer(newBoard) => {
@@ -40,13 +32,13 @@ class Human(server: ActorRef) extends Actor {
     }
     case InformInvalidMove(newBoard, playerNumber) => {
       var chosenHole = 0
+      println("You have more " + (timeOnMove - totalTimeFirstMove)/miliSec + " seconds to move again.")
       totalTimeNextMove = timer({
         chosenHole = readLine("Select hole as move: ").toInt
       })
-      println("Total time next move: " + totalTimeNextMove)
       val totalTime = totalTimeNextMove + totalTimeFirstMove
-      totalTimeNextMove = totalTime
-      println("Total time: " + totalTime)
+      totalTimeFirstMove = totalTime
+      println("You moved after: " + totalTime/miliSec + " seconds")
       if(totalTime > timeOnMove) {
         server ! TimesUp(playerNumber)
       } else {
@@ -70,7 +62,7 @@ class Human(server: ActorRef) extends Actor {
     totalTimeFirstMove = timer({
       chosenHole = readLine("Select hole as move: ").toInt
     })
-    println(totalTimeFirstMove)
+    println("You needed " + totalTimeFirstMove/miliSec + " seconds to move.")
     if(totalTimeFirstMove > timeOnMove) {
       server ! TimesUp(playerNumber)
     } else {

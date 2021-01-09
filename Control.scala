@@ -18,8 +18,3 @@ case class InformInvalidMove(board: Board, playerNumber: Int) extends Control
 case class ReturnPlayerNumber(playerNumber: Int) extends Control
 case class RequireMove(playerNumber: Int, board: Board) extends Control
 case object Disconnect extends Control
-
-
-
-
-

@@ -106,16 +106,13 @@ class Board(var stonesInHole: Int) {
     require(selectedHole > -1 & selectedHole < 14, "Entered wrong hole number")
     //If the selected hole doesn't belong to current player or is the own main base return 0
     if(playerNumber == 1 & selectedHole > 5) {
-      println("Zero, because player number 1 chose hole of player number 2")
       return 0
     }
     if(playerNumber == 2 & selectedHole < 7 || selectedHole == 13) {
-      println("Zero, because player number 2 chose hole of player number 1")
       return 0
     }
     //If selected hole is empty return 0
     if(isEmptyHole(selectedHole)) {
-      println("Zero, because player chose empty hole")
       return 0
     }
 
@@ -129,7 +126,6 @@ class Board(var stonesInHole: Int) {
     while(howManyStonesToThrow > 0) {
       //If the next base is the main base of opponent - omit this base
       if(currentHole+1 == getMainBaseIndex(opponent)) {
-        //println("The next base is opponent main base - omit")
         if(opponent == 2) currentHole = -1
         else currentHole += 1
       } else {

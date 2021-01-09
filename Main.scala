@@ -7,11 +7,17 @@ object Main extends App {
 
   printInstruction()
   printMenu()
-  val choice = readLine("Select mode of game: ")
-  val number: Int = choice.toInt
+  var number: Int = chooseOption()
 
   if (number == 1) choice1()
-  else if (number == 2) choice2()
+  else if(number == 2) choice2()
+    /*println("If you want to play again enter 1")
+    val answer = readLine("Do you want to play again? ").toInt
+    if(answer == 1) {
+      printMenu()
+      number = chooseOption()
+    } else number = -1*/
+
 
   def choice1(): Unit = {
     println("You chose option number 1: ")
@@ -47,6 +53,11 @@ object Main extends App {
     println("Above there is board, which shows the index of holes. Holes from 0 to 5 are for player 1, and his main base " +
       "is on 6, but holes from 7 to 12 are belong to player 2, and his main base is on 13. When the game will start the holes" +
       " will show number of stones in that hole.")
+  }
+
+  def chooseOption(): Int = {
+    val choice = readLine("Select mode of game: ")
+    choice.toInt
   }
 
 }

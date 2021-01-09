@@ -50,8 +50,4 @@ class Node(var actualBoard: Board, var playerNumber: Int, var stonesDifference: 
     val index = copyChildren.indexOf(this)
     if(copyChildren.length > index+1) copyChildren(index+1) else null
   }
-
-
-
-
 }
