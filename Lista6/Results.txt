@@ -1,0 +1,35 @@
+***** MergeSort *****
+size | sequential | parallel
+warmup (10000) | 1578.5449 ms | 494.6629 ms
+10 | 0.0192 ms | 0.2391 ms
+100 | 0.1235 ms | 0.1415 ms
+1000 | 8.2692 ms | 5.1067 ms
+10000 | 813.8718 ms | 486.4624 ms
+50000 | 15836.551 ms | 11012.0555 ms
+
+Jak można zauważyc i można było się spodziewać po przeczytaniu artykułu, dla tablic o niewilkiej długości 
+zrównoleglenie nie daje przewagi czasowej, a nawet spowalnia wykonanie. Zysk jest zauważalny dla większych tablic,
+ale nie zawsze jest proporcjonalny.
+
+***** ArraySum *****
+size | sequential | parallel
+warmup (10000) | 6.0833 ms | 1.3977 ms
+10 | 0.0119 ms | 0.2569 ms
+100 | 0.0185 ms | 0.1075 ms
+1000 | 0.1113 ms | 0.3062 ms
+10000 | 1.0102 ms | 0.6834 ms
+50000 | 5.006 ms | 3.4642 ms
+
+Ze względu na szybkie wykonanie algorytmu zysk zauważalny jest dopiero przy tablicach o dużej długości.
+
+***** TreeToList *****
+height | sequential | parallel
+warmup (3) | 0.1315 ms | 0.0086 ms
+2 | 0.0123 ms | 0.0084 ms
+5 | 0.1257 ms | 0.0248 ms
+10 | 9.1804 ms | 0.4581 ms
+15 | 89.3527 ms | 35.7514 ms
+
+Ze względu na szybko rosnącą liczbę elementów wraz ze wzrostem wysokości drzewa przewaga zrównoleglonych obliczeń 
+szybko staje się wyrażnie widoczna, jednak nawet dla niewielkich wysokości zrównoleglone wykonanie nie 
+jest wolniejsze, w przeciwieństwie do wyższych przykładów
