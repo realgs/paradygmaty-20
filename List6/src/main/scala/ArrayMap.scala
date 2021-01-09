@@ -1,3 +1,4 @@
+import FPar.FPar
 import Par.parallel
 
 import scala.util.Random
@@ -78,6 +79,8 @@ object ArrayMap {
   }
 
   /*
+  MAP
+
   // Size 1 000 000, Range: 500 000, func = x^2
   sequential time: 8.4351265 ms
 	parallel time: 4.104370033333334 ms

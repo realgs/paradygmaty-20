@@ -1,6 +1,9 @@
 import java.util.concurrent._
 import scala.util.DynamicVariable
 
+// Simple implementation of parallel computations library
+// Based on the article linked and Parallel Programming course by École Polytechnique Fédérale de Lausanne
+
 object Par {
   val forkJoinPool = new ForkJoinPool
 
