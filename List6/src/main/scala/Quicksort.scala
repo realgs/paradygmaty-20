@@ -1,7 +1,5 @@
 import Par.parallel
 
-import scala.util.Random
-
 object Quicksort {
   private def swap[A](arr: Array[A])(i: Int, j: Int): Unit = {
     val temp = arr(i)
