@@ -1,0 +1,72 @@
+Zrównoleglenie obliczeń pomaga dla dużej ilości danych, zależnie od algorytmu trzeba będzie go optymalizować odpowiednią
+wartością progową, od której będzie zależała jego szybkość. Postarałem się w pierwszych trzech znaleźć odpowiednie
+wartości. Algorytmy będą się "dławić" dla operacji z elementami jedno lub kilku składnikowymi,
+należy wtedy użyć podejścia sekwencyjnego, aby nie spowalniać algorytmu.
+
+Wydruk z testów:
+
+Sprawdzenie calki Monte Carlo
+Ma byc okolo: 39
+38.998335009876186
+38.993225738699415
+Ma byc okolo: 11,416
+11.416765742582308
+11.419785198878362
+Ma byc okolo: 0,3
+0.30006848729188523
+0.30007849108196966
+Ma byc okolo: -0,69981
+-0.6984610707900931
+-0.700855667550783
+QuickSort******************************************************************
+Array with 100 elems
+Sequential: 95300 ns
+  Parallel: 175000 ns effectiveness: 0%
+Array with 1000 elems
+Sequential: 519900 ns
+  Parallel: 247000 ns effectiveness: 200%
+Array with 100000 elems
+Sequential: 12878000 ns
+  Parallel: 9987900 ns effectiveness: 100%
+Array with 1000000 elems
+Sequential: 116332700 ns
+  Parallel: 27686700 ns effectiveness: 400%
+MergeSort******************************************************************
+Array with 100 elems
+Sequential: 106000 ns
+  Parallel: 61100 ns effectiveness: 100%
+Array with 1000 elems
+Sequential: 591700 ns
+  Parallel: 326400 ns effectiveness: 100%
+Array with 100000 elems
+Sequential: 14980000 ns
+  Parallel: 8077800 ns effectiveness: 100%
+Array with 1000000 elems
+Sequential: 102300300 ns
+  Parallel: 73517400 ns effectiveness: 100%
+Fibonacci******************************************************************
+fibonacci of 5
+Sequential: 6800 ns
+  Parallel: 7000 ns effectiveness: 0%
+fibonacci of 10
+Sequential: 7000 ns
+  Parallel: 6400 ns effectiveness: 100%
+fibonacci of 20
+Sequential: 1393800 ns
+  Parallel: 553400 ns effectiveness: 200%
+fibonacci of 42
+Sequential: 1324364000 ns
+  Parallel: 179275700 ns effectiveness: 700%
+Monte carlo integral******************************************************************
+integral from2to5of$line24.$read$$iw<function>
+Sequential: 18817800 ns
+  Parallel: 10167100 ns effectiveness: 100%
+integral from2to5of$line24.$read$$iw<function>
+Sequential: 23376200 ns
+  Parallel: 11227900 ns effectiveness: 200%
+integral from2to5of$line24.$read$$iw<function>
+Sequential: 22971500 ns
+  Parallel: 10552600 ns effectiveness: 200%
+integral from2to5of$line24.$read$$iw<function>
+Sequential: 36244100 ns
+  Parallel: 17242500 ns effectiveness: 200%
