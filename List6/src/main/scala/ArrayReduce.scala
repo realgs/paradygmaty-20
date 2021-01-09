@@ -57,12 +57,12 @@ object ArrayReduce {
   }
 
   def benchmark(): Unit = {
-    val length = 10000
+    val length = 1000000
     val arr = Array.fill(length)(0)
 
-    val add = (x: Int, y: Int) => x + y
+    val func = (x: Int, y: Int) => x + y
 
-    val func = (x: Int, y: Int) => {
+    val addWithLoad = (x: Int, y: Int) => {
       // Simulating load
       val load = Array.fill(1000)(1)
       load.reverse
