@@ -49,18 +49,8 @@ package object util {
     (a,b)
   }
 
-  def arraysEquality(arr1: Array[Int], arr2: Array[Int]): Boolean={
-    if(arr1.length != arr2.length) false
-    else{
-      for(i <- 0 to arr1.length - 1){
-        if(arr1(i) != arr2(i))
-          false
-      }
-      true
-    }
-  }
-
   def randomListGen(length: Int, range: (Int, Int) = (0,100)): List[Int] ={
     List.fill(length)(Random.between(range._1, range._2))
   }
+
 }

@@ -20,6 +20,18 @@ class Matrix(val rowsNum: Int, val colNum: Int, rand: Boolean = false){
   def this(rowsNum: Int, rand: Boolean){ // creating square matrix of size rowsNum
     this(rowsNum, rowsNum, rand)
   }
+
+  def this(oldMatrix: Matrix, avoidRowIndex: Int, avoidColIndex: Int){
+    this(oldMatrix.rowsNum - 1, oldMatrix.colNum - 1) // creating one size smaller matrix
+
+    var i = 0 // new matrix iterator
+    for(j <- 0 to oldMatrix.matrixArray.length - 1){
+      if(!((j >= oldMatrix.colNum*avoidRowIndex && j < oldMatrix.colNum*(avoidRowIndex+1)) || (j % oldMatrix.colNum == avoidColIndex))) { // condition to avoid elems from old matrix at avoided row and col
+        matrixArray(i) = oldMatrix.matrixArray(j)
+        i += 1
+      }
+    }
+  }
   def getCol(colIndex: Int): Array[Int]={
     val colArray = Array.fill(rowsNum)(0)
     val colIndexes = Array.tabulate(rowsNum)((i: Int) => {

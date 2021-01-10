@@ -1,7 +1,5 @@
 import util._
 
-import scala.annotation.tailrec
-
 object Main{
 
   //------------problem 1: matrix multiplication-------------//
@@ -13,7 +11,6 @@ object Main{
     }
     result
   }
-
   // default matrix multiplication
   def matrixMul(mtx1: Matrix, mtx2: Matrix) ={
     val resMatrix = new Matrix(mtx1.rowsNum, mtx2.colNum, false)
@@ -127,8 +124,8 @@ object Main{
     time(parMatrixMul(m1, m2))
   }
 
-  //------------problem 2: merge sort-----------------------//
-
+  //------------problem 2: merge sort------------------------//
+  // default mergesort
   def mergesort[T](pred: (T, T) => Boolean, xs: List[T]): List[T] = {
     val lists = listDivide(xs)  // list division into two halves
     lists match{
@@ -138,6 +135,7 @@ object Main{
     }
   }
 
+  // parallel mergesort
   def parMergesort[T](pred: (T, T) => Boolean, xs: List[T]): List[T] ={
     val lists = listDivide(xs)
     val (l1, l2) = parallel(mergesort(pred, lists._1), mergesort(pred, lists._2))
@@ -204,10 +202,151 @@ object Main{
     time(parMergesort(pred, list))
   }
 
+  //------------problem 3: calculating determinant------------//
+  // default determinant calc
+  def determinantCalc(matrix: Matrix): Double={
+    val laplaceRow = matrix.getRow(0) // row toward which Laplace expansion will be calculated
+    var result: Double = 0
+
+    if(matrix.colNum == 1){
+      result = matrix.matrixArray(0)
+    }
+    else {
+      for (i <- 0 to laplaceRow.length - 1) { // each elem from laplaceRow will have its minor matrix
+        val laplaceElemVal = laplaceRow(i)
+        val sign = scala.math.pow(-1, i) // sign in final product
+        val minor = new Matrix(matrix, 0, i)
+        result += sign * determinantCalc(minor) * laplaceElemVal
+      }
+    }
+    result
+  }
+
+  //parallel determinant calc
+  def parDeterminantCalc(matrix: Matrix): Double={
+    def helper(matrix: Matrix, lowerRange: Boolean = false, upperRange: Boolean = false): Double={
+      val laplaceRow = matrix.getRow(0) // row toward which Laplace expansion will be calculated
+      var result: Double = 0
+
+      val divN: Int = laplaceRow.length / 2
+      var range = 0 to laplaceRow.length - 1
+      if(lowerRange){
+        range = 0 to (divN - 1);
+      }
+      else if(upperRange){
+        range = divN to (laplaceRow.length - 1);
+      }
+
+      if(matrix.colNum == 1){
+        result = matrix.matrixArray(0)
+      }
+      else {
+        for (i <- range) { // each elem from laplaceRow will have its minor matrix
+          val laplaceElemVal = laplaceRow(i)
+          val sign = scala.math.pow(-1, i) // sign in final product
+          val minor = new Matrix(matrix, 0, i)
+          result += sign * helper(minor) * laplaceElemVal
+        }
+      }
+      result
+    }
+    val (res1, res2) = parallel(helper(matrix, true), helper(matrix, false, true))
+    res1 + res2
+  }
+
+  def determinantCalcTest(): Unit ={
+    var m1 = new Matrix(Array(1,2,3,4),2,2)
+    println(determinantCalc(m1) == - 2)
+    println(parDeterminantCalc(m1) == -2)
+    m1 = new Matrix(Array(0,0,90,90),2,2)
+    println(determinantCalc(m1) == 0)
+    println(parDeterminantCalc(m1) == 0)
+    m1 = new Matrix(Array(0,1,0,4,5,6,2,2,2),3,3)
+    println(determinantCalc(m1) == 4)
+    println(parDeterminantCalc(m1) == 4)
+  }
+
+  def determinantTimeTest(): Unit ={
+    println("Determinant calculation for matrix size 2 x 2:")
+    print("default: ")
+    var m = new Matrix(2, 2, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 3 x 3:")
+    print("default: ")
+    m = new Matrix(3, 3, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 4 x 4:")
+    print("default: ")
+    m = new Matrix(4, 4, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 7 x 7:")
+    print("default: ")
+    m = new Matrix(7, 7, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 8 x 8:")
+    print("default: ")
+    m = new Matrix(8, 8, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 9 x 9:")
+    print("default: ")
+    m = new Matrix(9, 9, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 10 x 10:")
+    print("default: ")
+    m = new Matrix(10, 10, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 11 x 11:")
+    print("default: ")
+    m = new Matrix(11, 11, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+
+    println
+    println("Determinant calculation for matrix size 12 x 12:")
+    print("default: ")
+    m = new Matrix(12, 12, true)
+    time(determinantCalc(m))
+    print("parallel: ")
+    time(parDeterminantCalc(m))
+  }
+
   def main(args: Array[String]): Unit = {
     //mergeSortTest
     //mergeSortTimeTest
+
     //matrixMulTest
     //matrixMulTimeTests
+
+    //determinantCalcTest
+    determinantTimeTest
   }
 }
