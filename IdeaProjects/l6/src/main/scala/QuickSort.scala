@@ -1,5 +1,9 @@
 object QuickSort{
 
+  def createArray(i: Int): Array[Int]={
+    Array.fill(i){scala.util.Random.nextInt(i)}
+  }
+
   def swap(tab : Array[Int], i : Int, j : Int) : Unit={
     val aux = tab(i)
     tab(i)=tab(j)
@@ -43,6 +47,24 @@ object QuickSort{
 
   def quickSort(tab : Array[Int]) : Unit={
     quick(tab, 0, tab.length-1)
+  }
+
+  def quickParallel(tab : Array[Int], l : Int, r : Int) : Unit={
+    if(l<r){
+      val (i, j)=partition(tab : Array[Int], l : Int, r : Int)
+      if(j-l<r-i){
+        ParallelUtil.parallel(quickParallel(tab, l, j), quickParallel(tab, i, r))
+      }
+      else{
+        ParallelUtil.parallel(quickParallel(tab, i, r), quickParallel(tab, l, j))
+      }
+    }
+  }
+
+
+  def quickSortParallel(tab : Array[Int]) : Unit={
+    quickParallel(tab, 0, tab.length-1)
+
   }
 
 }

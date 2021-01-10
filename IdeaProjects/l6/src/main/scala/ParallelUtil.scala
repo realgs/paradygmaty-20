@@ -1,37 +1,32 @@
 import java.util.concurrent._
-import scala.util.DynamicVariable
 
 object ParallelUtil {
 
-  val forkJoinPool=new ForkJoinPool()
+  val forkJoinPool=ForkJoinPool.commonPool()
 
-  class Scheduler{
-    def schedule[T](body: => T): ForkJoinTask[T] = {
-      val t = new RecursiveTask[T] {
-        def compute: T = body
-      }
-      Thread.currentThread match {
-        case wt: ForkJoinWorkerThread =>
-          t.fork()
-        case _ =>
-          forkJoinPool.execute(t)
-      }
-      t
-    }
-  }
-
-  def scheduler=new DynamicVariable[Scheduler](new Scheduler())
-
-  def parallel[A,B](taskA: => A, taskB: => B): (A, B) = {
-    val right = task {
+  def parallel[A, B](taskA: => A, taskB: => B): (A, B) = {
+    val right = schedule {
       taskB
     }
     val left = taskA
     (left, right.join())
   }
 
+  def schedule[T](body: => T): ForkJoinTask[T] = {
+    val t = new RecursiveTask[T] {
+      def compute: T = body
+    }
+    Thread.currentThread match {
+      case wt: ForkJoinWorkerThread =>
+        t.fork() //dividing into subtasks
+      case _ =>
+        forkJoinPool.execute(t) //arranging for (asynchronous) execution of the given task.
+    }
+    t
+  }
+
   def task[T](body: => T): ForkJoinTask[T] = {
-    scheduler.value.schedule(body)
+    schedule(body)
   }
 
 }
