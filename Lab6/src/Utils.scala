@@ -2,6 +2,13 @@ import scala.util.Random
 
 object Utils {
 
+  sealed trait BinaryTree[+T]
+  case object Empty extends BinaryTree[Nothing]
+  case class Node[+T](value: T, left: BinaryTree[T], right: BinaryTree[T]) extends BinaryTree[T]
+
+  def randomInt(range: (Int, Int)): Int =
+    Random.nextInt(range._2 - range._1 + 1) + range._1
+
   def generateRandomIntArray(size: Int, min: Int, max: Int): Array[Int] =
     Array.fill(size)(Random.between(min, max))
 
@@ -23,4 +30,16 @@ object Utils {
 
     new Matrix(a)
   }
+
+  def generateBinaryTree(n: Int, range: (Int, Int)): BinaryTree[Int] = {
+    def generate(k: Int): BinaryTree[Int] =
+      if(k == 0) Empty
+      else Node(randomInt(range), generate(k - 1), generate(k - 1))
+
+    if(n < 0) throw new IllegalArgumentException("n must be non-negative")
+    else if(range._1 <= 0) throw new IllegalArgumentException("range must be positive")
+    else if(range._1 > range._2) throw new IllegalArgumentException("invalid range")
+    else generate(n)
+  }
+
 }
