@@ -1,0 +1,78 @@
+/*Conclusion:
+	In the cases that I chose, parallel methods are an efficient alternative. However, when data which I am performing on is not a big one 
+	- it is better to use sequential methods. The bigger data, the more efficient and faster parallel methods are becoming.
+	The difference is especially visible in prime and Fibonacci numbers generator - in the first test,
+	the input data is small and the parallel timing is definitely worse than the sequential one, but on the last test, where the input data is much bigger, 
+	parallel methods are almost 2 times faster*/
+
+**********************************************************
+10 different runs of quicksort on arrays size: 1000
+Average time for sequential quicksort: 20170
+Average time for parallel quicksort:   26130
+**********************************************************
+
+**********************************************************
+10 different runs of quicksort on arrays size: 100000
+Average time for sequential quicksort: 910050
+Average time for parallel quicksort:   810410
+**********************************************************
+
+**********************************************************
+10 different runs of quicksort on arrays size: 10000000
+Average time for sequential quicksort: 68171110
+Average time for parallel quicksort:   39952440
+**********************************************************
+
+**********************************************************
+10 different runs of fibonacci number generator, number: 10
+Average time for sequential fibonacci: 110
+Average time for parallel fibonacci:   107360
+**********************************************************
+
+**********************************************************
+10 different runs of fibonacci number generator, number: 30
+Average time for sequential fibonacci: 296010
+Average time for parallel fibonacci:   195830
+**********************************************************
+
+**********************************************************
+10 different runs of fibonacci number generator, number: 43
+Average time for sequential fibonacci: 140191810
+Average time for parallel fibonacci:   86606950
+**********************************************************
+
+**********************************************************
+10 different runs of same trees method on tree with depth: 10
+Average time for sequential same trees: 980
+Average time for parallel same trees:   11320
+**********************************************************
+
+**********************************************************
+10 different runs of same trees method on tree with depth: 15
+Average time for sequential same trees: 68580
+Average time for parallel same trees:   46390
+**********************************************************
+
+**********************************************************
+10 different runs of same trees method on tree with depth: 25
+Average time for sequential same trees: 56490270
+Average time for parallel same trees:   33551970
+**********************************************************
+
+**********************************************************
+10 different runs of primes generator, from number: 100
+Average time for sequential primes generator: 9250
+Average time for parallel primes generator:   16910
+**********************************************************
+
+**********************************************************
+10 different runs of primes generator, from number: 1000
+Average time for sequential primes generator: 35080
+Average time for parallel primes generator:   33060
+**********************************************************
+
+**********************************************************
+10 different runs of primes generator, from number: 50000
+Average time for sequential primes generator: 25357440
+Average time for parallel primes generator:   18542470
+**********************************************************
