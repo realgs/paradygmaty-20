@@ -11,13 +11,6 @@ object Main extends App {
 
   if (number == 1) choice1()
   else if(number == 2) choice2()
-    /*println("If you want to play again enter 1")
-    val answer = readLine("Do you want to play again? ").toInt
-    if(answer == 1) {
-      printMenu()
-      number = chooseOption()
-    } else number = -1*/
-
 
   def choice1(): Unit = {
     println("You chose option number 1: ")

@@ -27,7 +27,7 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
       val boardAfterMove: Board = root.actualBoard.clone()
       if(boardAfterMove.getStonesNumber(holeNumber) != 0) {
         val nextMove = boardAfterMove.makeMove(holeNumber, currentPlayer)
-        root.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), root, holeNumber, if(nextMove >= 0) true else false))
+        root.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), root, holeNumber, if(nextMove == 1) true else false))
 
       }
     }
@@ -45,19 +45,14 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
 
     while(!queue.isEmpty) {
       copiedNode = queue.head
-      //println("copiedNode = before the move")
-      //copiedNode.actualBoard.printBoard
-      //println("Rozważany wezel z kolejki: " + copiedNode.nextMove)
-      //copiedNode.actualBoard.printBoard
       if(!queue.head.nextMove) changePlayers()
-      //println("Current player: " + currentPlayer)
       for(x <- 0 to 5) {
         var holeNumber = x
         if(currentPlayer == 2) holeNumber += 7
         if(copiedNode.actualBoard.getStonesNumber(holeNumber) != 0) {
           val boardAfterMove: Board = copiedNode.actualBoard.clone()
           val nextMove = boardAfterMove.makeMove(holeNumber, currentPlayer)
-          copiedNode.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), copiedNode, holeNumber, if(nextMove >= 0) true else false))
+          copiedNode.addChild(new Node(boardAfterMove, currentPlayer, boardAfterMove.getScore(currentPlayer) - boardAfterMove.getScore(currentOpponent), copiedNode, holeNumber, if(nextMove == 1) true else false))
         }
       }
       if(!queue.head.nextMove) changePlayers()
@@ -66,20 +61,17 @@ class DecisionTree(var board: Board, var whoseMove: Int) {
   }
 
   //Creating tree with required depth
-  def createTree(maxDepth: Int): Unit = {
+  def createTree(): Unit = {
     createFirstLevel() //depth = 1
-    def createTreeInner(actualDepth: Int, node: Node): Unit = {
+    def createTreeInner(node: Node): Unit = {
       var copiedNode = node
       createNextLevel(copiedNode)
       while(copiedNode.getNextSibling() != null) {
         copiedNode = copiedNode.getNextSibling()
         createNextLevel(copiedNode)
       }
-      //if(node.getFirstChild() != null) copiedNode = copiedNode.getFirstChild()
-      //if(actualDepth < maxDepth) createTreeInner(actualDepth+1, copiedNode)
-      //else ()
     }
-    createTreeInner(1, root.getFirstChild())
+    createTreeInner(root.getFirstChild())
   }
 
   def printTreeByLevels(node: Node): Unit = {

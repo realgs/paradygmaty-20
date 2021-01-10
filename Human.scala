@@ -1,18 +1,15 @@
 package Kalaha
 
-import java.util.Timer
 import akka.actor.{Actor, ActorRef, PoisonPill}
 import scala.io.StdIn.readLine
 
 class Human(server: ActorRef) extends Actor {
 
-  var playerNumber: Int = _
-  var boardHuman: Board = _
-  var timeOnMove = 30000 //30s
-  val miliSec = 1000
-  val timer = new Timer()
-  var totalTimeFirstMove:Long = _
-  var totalTimeNextMove:Long = _
+  private var playerNumber: Int = _
+  private val timeOnMove = 30000 //30s
+  private val miliSec = 1000
+  private var totalTimeFirstMove:Long = _
+  private var totalTimeNextMove:Long = _
 
   server ! Connect()
 
@@ -46,6 +43,7 @@ class Human(server: ActorRef) extends Actor {
       }
     }
     case Disconnect => {
+      println("Disconnect - human: player " + playerNumber)
       self ! PoisonPill
     }
   }

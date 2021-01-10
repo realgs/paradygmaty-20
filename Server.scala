@@ -1,6 +1,5 @@
 package Kalaha
 import akka.actor.{Actor, ActorRef, Terminated}
-
 import scala.util.Random
 
 class Server extends Actor {
@@ -8,11 +7,8 @@ class Server extends Actor {
   private var players = List[(Int, ActorRef)]()
   private var board: Board = _
 
-  var timeStart: Long = _
-  var timeEnd: Long = _
-
   //Drawing who starts the game
-  var turn: Int = drawTurn()
+  private var turn: Int = drawTurn()
 
   def resetGame(): Board = {
     board = new Board(4)
@@ -36,7 +32,6 @@ class Server extends Actor {
       if(turn == getPlayerNumber(player)) {
         startGame()
         board.printBoard
-        timeStart = System.currentTimeMillis()
         if(turn == 1) players.tail.head._2 ! RequireMove(turn, board)
         else players.head._2 ! RequireMove(turn, board)
       }
@@ -93,22 +88,19 @@ class Server extends Actor {
       opponent ! RequireMove(opponentNumber, board)
 
     case Terminated(player) =>
-      //val playerNumber = getPlayerNumber(player)
-      println("player: " + " terminated")
-      //players = players.filter(sender != _._2)
-      //println("Player: " + " lost the game.")
-
+      context.stop(self)
+      resetGame()
+      players = players.filter(sender != _._2)
+      Thread.sleep(1000)
+      Main.printMenu()
+      val number = Main.chooseOption()
+      if(number == 1) Main.choice1()
+      else if(number == 2) Main.choice2()
+      context.system.terminate()
   }
 
   def getPlayerNumber(actor: ActorRef): Int = {
     players.filter(actor == _._2).head._1
-  }
-
-  def timer(): Boolean = {
-    Thread.sleep(30000)
-    timeEnd = System.currentTimeMillis()
-
-    timeEnd - timeStart <= 30000
   }
 
   def drawTurn(): Int = {
