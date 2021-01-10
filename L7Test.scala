@@ -90,11 +90,11 @@ class L7Test extends FunSuite {
     tree.createTree()
     val chosenHole = tree.findBestDecision(tree.createChoiceQueue(tree.getRoot()))
     assert(chosenHole == 3)
-    //For computera as player 2
+    //For computer as player 2
     val board2: Board = new Board(4)
-    board.board(2) = 3
+    board2.board(2) = 3
     board2.board(3) = 3
-    board.board(7) = 3
+    board2.board(7) = 3
     board2.board(9) = 0
     board2.board(10) = 2
     board2.board(11) = 0
