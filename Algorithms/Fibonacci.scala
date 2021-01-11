@@ -1,8 +1,8 @@
 package Algorithms
 
 import scala.concurrent.{Await, Future}
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Fibonacci {
   def findFibonacci(n: Int): BigInt = {
@@ -27,14 +27,17 @@ object Fibonacci {
     else throw new Exception("n must be positive")
   }
 
-  def findFibonacciParallel(n: Int): BigInt = {
-    n match {
-      case 0 => 0
-      case 1 => 1
-      case _ =>
-        val f1 = Future(findFibonacci(n - 1))
-        val f2 = Future(findFibonacci(n - 2))
-        Await.result(f1, 1000.seconds) + Await.result(f2, 1000.seconds)
+  def findFibonacciParallel(n: Int, depth: Int): BigInt = {
+    if (depth == 0) findFibonacci(n)
+    else {
+      n match {
+        case 0 => 0
+        case 1 => 1
+        case _ =>
+          val f1 = Future(findFibonacciParallel(n - 1, depth - 1))
+          val f2 = Future(findFibonacciParallel(n - 2, depth - 1))
+          Await.result(f1, 1000.seconds) + Await.result(f2, 1000.seconds)
+      }
     }
   }
 }

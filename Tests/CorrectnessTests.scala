@@ -7,7 +7,9 @@ import scala.util.Random
 
 class CorrectnessTests {
   @Test
-  def FibonacciTest(): Unit = {
+  def FibonacciTest() = {
+    val processors = Runtime.getRuntime.availableProcessors()
+
     //testing sequential algorithm
     assert(Fibonacci.findFibonacci(25) == 75025)
     assert(Fibonacci.findFibonacci(30) == 832040)
@@ -21,14 +23,14 @@ class CorrectnessTests {
     assert(Fibonacci.findFibonacciIter(1) == 1)
 
     //testing parallel algorithm
-    assert(Fibonacci.findFibonacciParallel(25) == 75025)
-    assert(Fibonacci.findFibonacciParallel(30) == 832040)
-    assert(Fibonacci.findFibonacciParallel(0) == 0)
-    assert(Fibonacci.findFibonacciParallel(1) == 1)
+    assert(Fibonacci.findFibonacciParallel(25, processors / 2 - 1) == 75025)
+    assert(Fibonacci.findFibonacciParallel(30, processors / 2 - 1) == 832040)
+    assert(Fibonacci.findFibonacciParallel(0, processors / 2 - 1) == 0)
+    assert(Fibonacci.findFibonacciParallel(1, processors / 2 - 1) == 1)
   }
 
   @Test
-  def QuickSortTest(): Unit = {
+  def QuickSortTest = {
     /*testing sequential algorithm*/
 
     //array with 3 elements
@@ -70,7 +72,7 @@ class CorrectnessTests {
   }
 
   @Test
-  def matrixMultiplicationTest(): Unit = {
+  def matrixMultiplicationTest = {
     var A: Matrix = new Matrix(Array(
       Array(5, -1, 0),
       Array(4, 9, 4),

@@ -7,25 +7,26 @@ import scala.util.Random
 
 object TimeTests {
   def main(args: Array[String]): Unit = {
-    //fibonacciSpeedTest()
-    //quickSortSpeedTest()
+    fibonacciSpeedTest()
+    quickSortSpeedTest()
     matrixMultiplicationSpeedTest()
   }
 
   def fibonacciSpeedTest() = {
+    val processors = Runtime.getRuntime.availableProcessors()
     println("--------------------------------- Fibonacci Time Performance ---------------------------------------")
     println("1. Find 10 Fibonacci Number: ")
     printf("   a) Sequential: %d ms", Utils.measureExecTime(Fibonacci.findFibonacci(10)))
     printf("   b) Tail recursion: %d ms", Utils.measureExecTime(Fibonacci.findFibonacciIter(10)))
-    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(10)))
+    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(10, processors/2 - 1)))
     println("2. Find 25 Fibonacci Number: ")
     printf("   a) Sequential: %d ms", Utils.measureExecTime(Fibonacci.findFibonacci(25)))
     printf("   b) Tail recursion: %d ms", Utils.measureExecTime(Fibonacci.findFibonacciIter(25)))
-    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(25)))
+    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(25, processors/2 - 1)))
     println("3. Find 40 Fibonacci Number: ")
     printf("   a) Sequential: %d ms", Utils.measureExecTime(Fibonacci.findFibonacci(40)))
     printf("   b) Tail recursion: %d ms", Utils.measureExecTime(Fibonacci.findFibonacciIter(40)))
-    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(40)))
+    printf("   c) Parallel: %d ms %n", Utils.measureExecTime(Fibonacci.findFibonacciParallel(40, processors/2 - 1)))
   }
 
   def quickSortSpeedTest() = {
@@ -33,6 +34,7 @@ object TimeTests {
     val arrayWith10000Elem = Array.fill(10000)(Random.between(0, 1000)) // 10 000
     val arrayWith100000Elem = Array.fill(100000)(Random.between(0, 1000)) // 100 000
     val arrayWith1000000Elem = Array.fill(1000000)(Random.between(0, 1000)) // 1 000 000
+    val arrayWith10000000Elem = Array.fill(10000000)(Random.between(0, 1000)) // 10 000 000
 
     println("--------------------------------- QuickSort Time Performance ---------------------------------------")
     println("1. Sort array with 100 elements:")
@@ -47,6 +49,9 @@ object TimeTests {
     println("4. Sort array with 1 000 000 elements:")
     printf("   a) Sequential: %d ms", Utils.measureExecTime(QuickSort.quickSort(arrayWith1000000Elem.clone())))
     printf("   b) Parallel: %d ms %n", Utils.measureExecTime(QuickSort.quickSortParallel(arrayWith1000000Elem.clone())))
+    println("5. Sort array with 10 000 000 elements:")
+    printf("   a) Sequential: %d ms", Utils.measureExecTime(QuickSort.quickSort(arrayWith10000000Elem.clone())))
+    printf("   b) Parallel: %d ms %n", Utils.measureExecTime(QuickSort.quickSortParallel(arrayWith10000000Elem.clone())))
 
   }
 

@@ -41,18 +41,20 @@ object QuickSort {
     }
   }
 
-  private def quickParallel(array: Array[Int], left: Int, right: Int): Unit = {
+  private def quickParallel(array: Array[Int], left: Int, right: Int, depth: Int): Unit = {
+    if (depth == 0)
+      quick(array, left, right)
     if (left < right) {
       val (i, j) = partition(array, left, right)
       if (j - left < right - i) {
-        val futureLeft = Future(quickParallel(array, left, j))
-        val futureRight = Future(quickParallel(array, i, right))
+        val futureLeft = Future(quickParallel(array, left, j, depth - 1))
+        val futureRight = Future(quickParallel(array, i, right, depth - 1))
         Await.result(futureLeft, 1000.seconds)
         Await.result(futureRight, 1000.seconds)
       }
       else {
-        val futureRight = Future(quickParallel(array, i, right))
-        val futureLeft = Future(quickParallel(array, left, j))
+        val futureRight = Future(quick(array, i, right))
+        val futureLeft = Future(quick(array, left, j))
         Await.result(futureLeft, 1000.seconds)
         Await.result(futureRight, 1000.seconds)
       }
@@ -65,6 +67,6 @@ object QuickSort {
   }
 
   def quickSortParallel(array: Array[Int]): Unit = {
-    quickParallel(array, 0, array.length - 1)
+    quickParallel(array, 0, array.length - 1, Runtime.getRuntime.availableProcessors()/2 - 1)
   }
 }
