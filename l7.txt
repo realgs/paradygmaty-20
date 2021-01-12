@@ -4,7 +4,7 @@ W tym zadaniu wykorzystacie zarówno umiejętności nabyte podczas nauki samych 
 https://pl.wikipedia.org/wiki/Kalaha
 
 a) przeprowadzić symulację gry po obu stronach automatycznie (4pkt)
-b) wprowadzić możliwość gry z przeciwnikiem - komputer vs użytkownik (6pkt)
+b) wprowadzić możliwość gry z przeciwnikiem - komputer vs użytkownik. Komputer powinien podejmować logiczne decyzje- patrz wskazówka na końcu. (6pkt)
 c) napisać interfejs umożliwiający komunikację dwóch silników gry w Kalaha. Załóżcie pewne standardy i zasady np. mamy 3 aplikacje nazwane: serwer + 2 klientów. Wszystkie mogą działać lokalnie na Waszym komputerze. "Serwer" przyjmuje od klientów polecenia (kolejne numery pul, z których klient chce ruszyć pionki). Klient na podjęcie takiej decyzji ma maksymalnie 30 sekund. Czasu pilnuje "serwer". Serwer pilnuje kolejności ruchów (na przemian). Załóżcie czy klient może wskazać nieprawidłowe pole (np puste) i co wtedy się stanie. Serwer może ignorować niepoprawne wartości i czekać 30 sekund na poprawną (lub rozwiązać to w inny, logiczny sposób). (10pkt)
 d) interfejs komunikacji w podstawowej wersji to printowanie w konsoli stanu gry i pobieranie inputów (ruchów) od użytkownika. Dodatkowo można wprowadzić podstawowy interfejs graficzny GUI (*1pkt) - zadanie dodatkowe poza pulą punktów
 
