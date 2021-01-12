@@ -1,4 +1,4 @@
-Deadline 17.01.2021 (20 pkt/ 21* pkt)
+Deadline 17.01.2021. Rozszerzony do 24.01.2021 (20 pkt/ 21* pkt)
 
 W tym zadaniu wykorzystacie zarówno umiejętności nabyte podczas nauki samych struktur danych jak i programowania równoległego. Zadanie polega na tym, by zaprojektować symulację rozgrywki gry logicznej Kalaha (2 graczy - 1 na 1). Opis gry:
 https://pl.wikipedia.org/wiki/Kalaha
