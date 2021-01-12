@@ -1,4 +1,7 @@
-import java.util.concurrent._
+package main
+
+import java.util.concurrent.{ForkJoinPool, ForkJoinTask, ForkJoinWorkerThread, RecursiveTask}
+
 import scala.util.DynamicVariable
 
 object ParallelMechanism {

@@ -1,5 +1,6 @@
-import ParallelMechanism.parallel
+package main
 
+import main.ParallelMechanism._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
@@ -15,11 +16,13 @@ object Computations {
     max
   }
 
-  def arrayMaxValue(arr: Array[Int]): Int = findMax(arr)
+  def arrayMaxValue(arr: Array[Int]): Int =
+      if (arr.length == 0) throw new Exception("Cannot find max value of empty array")
+      else findMax(arr)
 
   def arrayMaxValueParallel(arr: Array[Int]): Int = {
     val n = arr.length
-    if (n == 0) 0
+    if (n == 0) throw new Exception("Cannot find max value of empty array")
     else {
       val (left, right) = arr.splitAt(n / 2)
       if (n > threshold) {
@@ -35,7 +38,7 @@ object Computations {
 
   def arrayMaxValueFuture(arr: Array[Int]): Int = {
     val n = arr.length
-    if (n == 0) 0
+    if (n == 0) throw new Exception("Cannot find max value of empty array")
     else {
       val (left, right) = arr.splitAt(n / 2)
       if (n > threshold) {

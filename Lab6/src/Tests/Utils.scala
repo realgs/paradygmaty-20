@@ -1,3 +1,5 @@
+package Tests
+
 object Utils {
 
   def timeMillis[A](block: => A): Unit = {

@@ -1,5 +1,5 @@
-import ParallelMechanism.parallel
-
+package main
+import main.ParallelMechanism._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}

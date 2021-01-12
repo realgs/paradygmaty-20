@@ -1,14 +1,15 @@
-import Fibonacci._
-import Sorts._
-import Trees._
+package Tests
 import Utils._
-import Computations._
+import main.Fibonacci._
+import main.Sorts._
+import main.Trees._
+import main.Computations._
 
 import scala.util.Random
 
-object Tests {
+object TimeTest {
 
-  def main(args: Array[String]): Unit = {
+  def runTest(): Unit = {
     quickSortTimeTests()
     removeRepetitionTimeTest()
     fibonacciTimeTest()
