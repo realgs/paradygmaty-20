@@ -1,0 +1,5 @@
+package ServerPackage
+
+class Server {
+
+}

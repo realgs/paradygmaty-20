@@ -1,0 +1,5 @@
+package UserPackage
+
+class User {
+
+}
