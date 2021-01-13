@@ -6,7 +6,7 @@ import main.server.{Client, Connect, Disconnect, Server}
 
 object Main extends App {
     val p1 = new SmartBot("p1", 6, 6)
-    val p2 = new RandomBot("p2", 6, 6)
+    val p2 = new SmartBot("p2", 6, 6)
 
     val system = ActorSystem("kalaha")
 
@@ -16,9 +16,9 @@ object Main extends App {
 
     c1 ! Connect(server)
     c2 ! Connect(server)
-
-//    Thread.sleep(100)
-//
-//    c1 ! Disconnect()
-
+    
+    /*
+        Thread.sleep(100)
+        c2 ! Disconnect()
+    */
 }

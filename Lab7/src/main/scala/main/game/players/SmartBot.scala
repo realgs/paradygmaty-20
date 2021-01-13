@@ -10,8 +10,8 @@ class SmartBot(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Playe
   private var playerIndex: Int = -1
 
   def setCurrentGame(currentGame: Game): Unit = {
-    game = currentGame
-    if(game != null){
+    if(currentGame != null){
+      game = currentGame
       playerIndex = if(this == game.players(0)) 0 else 1
     }
   }

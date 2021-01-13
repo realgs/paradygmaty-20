@@ -1,17 +1,15 @@
 package main.server
 
 import akka.actor.{Actor, ActorRef, PoisonPill, Terminated}
-import akka.pattern.{AskTimeoutException, ask}
 import main.Interface
 import main.game.Game
 import main.game.players.Player
 
-import scala.concurrent.{Await, TimeoutException}
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.util.Random
 
 class Server extends Actor {
-  val moveTimeout = (30 seconds)
+  val moveTimeout: FiniteDuration = (30 seconds)
 
   var connected: Array[(ActorRef, Player)] = Array.empty;
   var currentGame: Game = null
@@ -19,8 +17,11 @@ class Server extends Actor {
   var currentClient: ActorRef = null
   var currentIndex: Int = -1
 
+  var timerStart: Long = 0
+  var timerEnd: Long = 0
+
   def connect(client: ActorRef, player: Player):Unit = {
-    connected = connected :+ (client,player)
+    connected = connected :+ (client, player)
     context.watch(client)
     println(s"Connected $client:$player")
 
@@ -55,47 +56,6 @@ class Server extends Actor {
     broadcastMessage(Interface.startInfo)
     sendUpdatedGame()
     decideMove()
-
-//    broadcastMessage(Interface.board(currentGame.players))
-//
-//    while(currentGame.started) {
-//      var chosenMove:Int = 0
-//      try {
-//        broadcastMessage(Interface.turn(currentPlayer))
-//
-//        currentClient ! PrintText(Interface.chooseMove)
-//        val decidedMove = currentClient.ask(DecideMove)(moveTimeout).mapTo[Int]
-//        chosenMove = Await.result(decidedMove, moveTimeout)
-//
-//        if(!currentPlayer.getAvailableMoves.contains(chosenMove)){
-//          chosenMove = currentPlayer.getAvailableMoves(0)
-//        }
-//      }catch {
-//        case _: AskTimeoutException => {
-//          broadcastMessage(Interface.stop)
-//          stop()
-//          return
-//        }
-//        case _: TimeoutException => {
-//          broadcastMessage(Interface.timeout)
-//          broadcastMessage(Interface.finish)
-//          broadcastMessage(Interface.winner(currentGame.players((currentPlayerIndex + 1) % currentGame.numberOfFields)))
-//          stop()
-//          return
-//        }
-//      }
-//
-//      currentPlayerIndex = currentGame.move(currentPlayerIndex, chosenMove)
-//      currentClient = connected(currentPlayerIndex)._1
-//      currentPlayer = connected(currentPlayerIndex)._2
-//
-//      broadcastMessage(Interface.board(currentGame.players))
-//    }
-//
-//    broadcastMessage(Interface.finish)
-//    broadcastMessage(Interface.points(currentGame.players))
-//    broadcastMessage(Interface.winner(currentGame.winner))
-
   }
 
   def stop(): Unit = {
@@ -103,7 +63,9 @@ class Server extends Actor {
     for(client <- connected){
       client._1 ! PoisonPill
     }
+    connected = Array.empty
     self ! PoisonPill
+    context.system.terminate()
   }
 
   def startingPlayer: Int = {
@@ -115,6 +77,7 @@ class Server extends Actor {
     broadcastMessage(Interface.turn(currentPlayer))
     currentClient ! PrintText(Interface.decideMove)
     currentClient ! DecideMove()
+    timerStart = System.currentTimeMillis()
   }
 
   def makeMove(move: Int): Unit = {
@@ -151,7 +114,15 @@ class Server extends Actor {
     case StartGame => start()
     case MoveDecided(move: Int) =>
       if(sender() == currentClient) {
-        if(currentPlayer.getAvailableMoves.contains(move)){
+        timerEnd = System.currentTimeMillis()
+
+        if(timerEnd - timerStart > moveTimeout.toMillis){
+          val availableMoves = currentPlayer.getAvailableMoves
+          val rand = new Random()
+          sender() ! MoveTimeout()
+          makeMove(availableMoves(rand.nextInt(availableMoves.length)))
+        }
+        else if(currentPlayer.getAvailableMoves.contains(move)){
           makeMove(move)
         }else {
           sender() ! WrongMove()
