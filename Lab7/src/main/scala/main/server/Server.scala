@@ -23,8 +23,9 @@ class Server extends Actor {
   def connect(client: ActorRef, player: Player):Unit = {
     connected = connected :+ (client, player)
     context.watch(client)
-    println(s"Connected $client:$player")
+    println(s"Connected $client")
 
+    // If both players joined, start the game
     if(connected.length == 2) {
       self ! StartGame
     }
@@ -32,7 +33,6 @@ class Server extends Actor {
 
   def disconnect(client: ActorRef): Unit = {
     println(s"Disconnected client: $client")
-
     stop();
   }
 
@@ -81,13 +81,17 @@ class Server extends Actor {
   }
 
   def makeMove(move: Int): Unit = {
+    // Making move
     currentIndex = currentGame.move(currentIndex, move)
 
+    // Sending updated board to clients
     sendUpdatedGame()
 
+    // Switching player
     currentClient = connected(currentIndex)._1
     currentPlayer = currentGame.players(currentIndex)
 
+    // Checking if game should be continued or finished
     if(currentGame.started){
       decideMove()
     }else {
@@ -116,15 +120,19 @@ class Server extends Actor {
       if(sender() == currentClient) {
         timerEnd = System.currentTimeMillis()
 
+        // Time to move exceeded, move will be chosen randomly
         if(timerEnd - timerStart > moveTimeout.toMillis){
           val availableMoves = currentPlayer.getAvailableMoves
           val rand = new Random()
           sender() ! MoveTimeout()
           makeMove(availableMoves(rand.nextInt(availableMoves.length)))
         }
+        // Move made on time and correct
         else if(currentPlayer.getAvailableMoves.contains(move)){
           makeMove(move)
-        }else {
+        }
+        // Wrong move, asking for new one
+        else {
           sender() ! WrongMove()
           sender() ! DecideMove()
         }

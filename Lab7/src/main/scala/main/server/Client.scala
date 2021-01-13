@@ -10,7 +10,7 @@ class Client(val player: Player, val log: Boolean) extends Actor {
 
     case DecideMove() => sender() ! MoveDecided(player.decideMove)
     case WrongMove() => if(log) println("Wrong move")
-    case MoveTimeout() => if(log) println("U haven't decided your move. Chosen randomly")
+    case MoveTimeout() => if(log) println("Time to move exceeded, move will be chosen randomly")
 
     case UpdateData(fields: Array[Int], base:Int) => {
       player.fields = fields

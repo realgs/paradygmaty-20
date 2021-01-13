@@ -2,6 +2,8 @@ package main
 
 import main.game.players.Player
 
+import scala.io.StdIn.readInt
+
 object Interface {
 
   private def calculatePoints(player: Player): Int =
@@ -76,6 +78,38 @@ object Interface {
   }
   def drawBoard(players: Array[Player]): Unit = {
     println(board(players))
+  }
+
+  def menu:String = "==============================\nChoose game mode:\n1. Human vs Bot(easy)\n2. Human vs Bot(hard)\n3. Bot(easy) vs Bot(easy)\n4. Bot(hard) vs Bot(easy)\n5. Bot(hard) vs Bot(hard)\n==============================="
+  def printMenu(): Unit = {
+    println(menu)
+  }
+
+  def menuOption: Int = {
+    var move = -1
+    var correctMove = true
+
+    do {
+      correctMove = true
+
+      try {
+        move = readInt()
+        if(move > 5 || move < 1){
+          correctMove = false
+        }
+      }catch {
+        case e: NumberFormatException => {
+          correctMove = false
+        }
+      }
+
+      if(!correctMove) {
+        Interface.printInputError()
+      }
+
+    }while(!correctMove )
+
+    move
   }
 
 }
