@@ -1,4 +1,4 @@
-package main.players
+package main.game.players
 
 abstract class Player(val name: String, val fieldsNumber: Int, rocksNumbers: Int) {
   var fields:Array[Int] = Array.fill[Int](fieldsNumber)(rocksNumbers)

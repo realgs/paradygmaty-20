@@ -1,6 +1,6 @@
-package main
+package main.game
 
-import main.players.{Human, Player, SmartBot}
+import main.game.players.{Human, Player, SmartBot}
 
 
 class Game(
@@ -119,5 +119,5 @@ class Game(
     game
   }
 
-  override def toString = s"Started: $started\nGame main.players: \n ${players(0)} \n ${players(1)}"
+  override def toString = s"Started: $started\nGame main.game.players: \n ${players(0)} \n ${players(1)}"
 }

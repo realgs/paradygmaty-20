@@ -1,4 +1,4 @@
-package main.players
+package main.game.players
 
 import scala.util.Random
 

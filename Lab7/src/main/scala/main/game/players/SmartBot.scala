@@ -1,6 +1,6 @@
-package main.players
+package main.game.players
 
-import main.Game
+import main.game.Game
 
 import scala.util.Random
 
