@@ -29,4 +29,12 @@ class Human(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Player(n
 
     move
   }
+
+  def copy: Player = {
+    val copied = new Human(name, fieldsNumber, rocksNumbers)
+    copied.base = base
+    copied.fields = fields.clone()
+
+    copied
+  }
 }

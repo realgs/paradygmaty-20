@@ -1,6 +1,6 @@
 package main
 
-import main.players.{Player,Human,SmartBot}
+import main.players.{Human, Player, SmartBot}
 
 
 class Game(
@@ -26,7 +26,7 @@ class Game(
     players((player + 1) % numberOfPlayers).fields(numberOfFields - 1 - field) = 0
   }
 
-  def move(playerIndex: Int, fieldIndex: Int): Boolean = {
+  def move(playerIndex: Int, fieldIndex: Int): Int = {
     assert(playerIndex >= 0 && playerIndex < numberOfPlayers && fieldIndex >= 0 && fieldIndex < numberOfFields)
 
     var repeatMove = false
@@ -44,7 +44,7 @@ class Game(
       // Rock in the base
       if(currentFieldIndex == numberOfFields){
         // Last rock is dropped into the base, player gets another move.
-        if(rocksLeft == 0){
+        if(rocksLeft == 0 && currentPlayerIndex == playerIndex){
           repeatMove = true
         }
 
@@ -68,60 +68,56 @@ class Game(
       }
     }
 
-    if(checkForEnd){
+    if(isFinished){
       finish()
     }
 
-    repeatMove
+    if(repeatMove){
+      playerIndex
+    }else {
+      (playerIndex + 1) % numberOfPlayers
+    }
   }
 
   def calculatePoints(player: Player): Int =
     player.fields.sum + player.base
 
-  def calculateDifference():Int =
-    calculatePoints(players(0)) - calculatePoints(players(1))
+  def calculateDifference(index: Int = 0):Int =
+    calculatePoints(players(index)) - calculatePoints(players((index + 1) % numberOfPlayers))
 
-  def checkForEnd: Boolean =
+  def isFinished: Boolean =
     calculatePoints(players(0)) == players(0).base || calculatePoints(players(1)) == players(1).base
-
-  def finish(): Unit = {
-    val p0Points = calculatePoints(players(0))
-    val p1Points = calculatePoints(players(1))
-
-    Interface.drawBoard(players)
-    Interface.printFinish
-    Interface.printPoints(players)
-    if(p0Points == p1Points) {
-      Interface.printDraw
-    }
-    else {
-      Interface.printWinner(if(p0Points < p1Points) players(1) else players(0))
-    }
-
-
-
-    started = false
-  }
 
   def start():Unit = {
     started = true
-    Interface.printStartInfo
+  }
 
-    var currentPlayer = players(0)
-    var currentPlayerIndex = 0
+  def finish(): Unit = {
+    started = false
+  }
 
+  def winner: Player = {
+    var winner: Player = null
 
-    while(started) {
-      Interface.drawBoard(players)
-      Interface.printTurn(currentPlayer)
+    if(!started){
+      val p0Points = calculatePoints(players(0))
+      val p1Points = calculatePoints(players(1))
 
-      val chosenMove = currentPlayer.decideMove
-      if(!move(currentPlayerIndex, chosenMove)){
-        currentPlayerIndex = (currentPlayerIndex + 1) % numberOfPlayers
-        currentPlayer = players(currentPlayerIndex)
+      if(p0Points < p1Points) {
+        winner = players(1)
+      } else if(p0Points > p1Points) {
+        winner = players(0)
       }
-
     }
 
+    winner
   }
+
+  def copy: Game = {
+    val game = new Game(players(0).copy, players(1).copy)
+    game.started = started
+    game
+  }
+
+  override def toString = s"Started: $started\nGame main.players: \n ${players(0)} \n ${players(1)}"
 }

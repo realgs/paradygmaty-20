@@ -7,4 +7,12 @@ class RandomBot(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Play
     val availableMoves = getAvailableMoves
     availableMoves(Random.nextInt(availableMoves.length))
   }
+
+  def copy: Player = {
+    val copied = new RandomBot(name, fieldsNumber, rocksNumbers)
+    copied.base = base
+    copied.fields = fields.clone()
+
+    copied
+  }
 }

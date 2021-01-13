@@ -8,11 +8,11 @@ object Interface {
     player.fields.sum + player.base
 
 
-  def chooseMove: Unit = {
+  def chooseMove(): Unit = {
     println("Which field do you want to move?")
   }
 
-  def printInputError: Unit = {
+  def printInputError(): Unit = {
     println("Wrong input, try again.")
   }
 
@@ -26,19 +26,19 @@ object Interface {
     }
   }
 
-  def printFinish: Unit = {
+  def printFinish(): Unit = {
     println("Game finished")
   }
 
-  def printWinner(player: Player): Unit = {
-    println("The winner is: " + player.name + "!")
+  def printWinner(player: Player = null): Unit = {
+    if(player == null){
+      println("Draw!")
+    }else {
+      println("The winner is: " + player.name + "!")
+    }
   }
 
-  def printDraw: Unit = {
-    println("Draw!")
-  }
-
-  def printStartInfo: Unit = {
+  def printStartInfo(): Unit = {
     println("Game started!")
   }
 
