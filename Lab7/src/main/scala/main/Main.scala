@@ -1,32 +1,24 @@
 package main
 
-import main.players.{RandomBot, SmartBot}
-import akka.actor.{Actor, ActorSystem, Props}
+import main.game.players.{Human, RandomBot, SmartBot}
+import akka.actor.{ActorRef, ActorSystem, PoisonPill, Props}
+import main.server.{Client, Connect, Disconnect, Server}
 
 object Main extends App {
     val p1 = new SmartBot("p1", 6, 6)
-    val p2 = new RandomBot("p2", 6, 6)
-    val game = new Game(p1, p2)
+    val p2 = new Human("p2", 6, 6)
 
-    game.start()
+    val system = ActorSystem("kalaha")
 
-    Interface.printStartInfo()
+    val server = system.actorOf(Props[Server](), "server")
+    val c1 = system.actorOf(Props(classOf[Client], p1, false), "c1")
+    val c2 = system.actorOf(Props(classOf[Client], p2, true), "c2")
 
-    var currentPlayer = game.players(0)
-    var currentPlayerIndex = 0
+    c1 ! Connect(server)
+    c2 ! Connect(server)
 
-    Interface.drawBoard(game.players)
-    while(game.started) {
+//    Thread.sleep(100)
+//
+//    c1 ! Disconnect()
 
-        Interface.printTurn(currentPlayer)
-
-        val chosenMove = currentPlayer.decideMove
-        currentPlayerIndex = game.move(currentPlayerIndex, chosenMove)
-        currentPlayer = game.players(currentPlayerIndex)
-        Interface.drawBoard(game.players)
-    }
-
-    Interface.printFinish()
-    Interface.printPoints(game.players)
-    Interface.printWinner(game.winner)
 }

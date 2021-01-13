@@ -2,7 +2,6 @@ package main.game
 
 import main.game.players.{Human, Player, SmartBot}
 
-
 class Game(
             p1: Player = new Human("p1", 6, 6),
             p2: Player = new Human("p2", 6, 6)

@@ -77,7 +77,7 @@ class SmartBot(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Playe
       copiedGame.move(playerIndex, move)
       val score = minimax(5, copiedGame, (playerIndex + 1) % game.numberOfPlayers, false, Int.MinValue, Int.MaxValue)
 
-      println("Move: " + move + ", score: " + score)
+      //println("Move: " + move + ", score: " + score)
       if(bestMove == -1 || score > bestScore) {
         bestMove = move
         bestScore = score

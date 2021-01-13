@@ -1,52 +1,86 @@
 package main
 
-import main.players.Player
+import main.game.players.Player
 
 object Interface {
 
   private def calculatePoints(player: Player): Int =
     player.fields.sum + player.base
 
+  def chooseMove: String = "Which field do you want to move?"
 
-  def chooseMove(): Unit = {
-    println("Which field do you want to move?")
+  def printChooseMove(): Unit = {
+    println(chooseMove)
   }
+
+  def inputError: String = "Wrong input, try again."
 
   def printInputError(): Unit = {
-    println("Wrong input, try again.")
+    println(inputError)
   }
 
+  def turn(player: Player): String = "Now it's " + player.name + " turn."
+
   def printTurn(player: Player): Unit = {
-    println("Now it's " + player.name + " turn.")
+    println(turn(player))
+  }
+
+  def points(players: Array[Player]): String = {
+    var text = ""
+    for (player <- players) {
+      text = text + "\n" + player.name + ": " + calculatePoints(player)
+    }
+
+    text
   }
 
   def printPoints(players: Array[Player]): Unit = {
-    for (player <- players) {
-      println(player.name + ": " + calculatePoints(player))
-    }
+    println(points(players))
   }
 
+  def finish: String = "Game finished"
   def printFinish(): Unit = {
-    println("Game finished")
+    println(finish)
   }
 
-  def printWinner(player: Player = null): Unit = {
+  def stop: String = "Game stopped unexpectedly"
+  def printStop(): Unit = {
+    println(stop)
+  }
+
+  def timeout: String = "Player time to decide passed."
+  def printTimeout(): Unit = {
+    println(stop)
+  }
+
+  def winner(player: Player = null): String = {
     if(player == null){
-      println("Draw!")
+      "Draw!"
     }else {
-      println("The winner is: " + player.name + "!")
+      "The winner is: " + player.name + "!"
     }
   }
+  def printWinner(player: Player = null): Unit = {
+    println(winner(player))
+  }
 
+  def startInfo: String = "Game started!"
   def printStartInfo(): Unit = {
-    println("Game started!")
+    println(startInfo)
+  }
+
+  def board(players: Array[Player]):String = {
+    val p1 = players(0)
+    val p2 = players(1)
+    var text = ""
+    text += s"${p2.name}: [${p2.base}][${p2.fields.reverse.mkString(" ")}]"
+    text += s"\n${p1.name}: [${p1.fields.mkString(" ")}][${p1.base}]"
+
+    text
   }
 
   def drawBoard(players: Array[Player]): Unit = {
-    val p1 = players(0)
-    val p2 = players(1)
-    println(s"${p2.name}: [${p2.base}][${p2.fields.reverse.mkString(" ")}]")
-    println(s"${p1.name}: [${p1.fields.mkString(" ")}][${p1.base}]")
+    println(board(players))
   }
 
 }
