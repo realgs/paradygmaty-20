@@ -8,9 +8,14 @@ class Client(val player: Player, val log: Boolean) extends Actor {
     case Connect(server) => server ! Connected(player)
     case Disconnect() => self ! PoisonPill
 
-    case DecideMove => sender() ! player.decideMove
+    case DecideMove() => sender() ! MoveDecided(player.decideMove)
+    case WrongMove() => if(log) println("Wrong move")
+    case UpdateData(fields: Array[Int], base:Int) => {
+      player.fields = fields
+      player.base = base
+    }
     case PrintText(text) => if(log) println(text)
 
-    case _ => println("Unknown client message")
+    case msg => println("Unknown client message: " + msg)
   }
 }

@@ -5,7 +5,6 @@ import main.Interface
 class Human(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Player(name, fieldsNumber, rocksNumbers) {
 
   def decideMove: Int = {
-    val availableMoves = getAvailableMoves
     var move = -1
     var correctMove = true
 
@@ -20,11 +19,11 @@ class Human(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Player(n
         }
       }
 
-      if(!correctMove || !availableMoves.contains(move)) {
+      if(!correctMove ) {
         Interface.printInputError()
       }
 
-    }while(!correctMove || !availableMoves.contains(move))
+    }while(!correctMove )
 
     move
   }

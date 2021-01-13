@@ -7,20 +7,17 @@ object Interface {
   private def calculatePoints(player: Player): Int =
     player.fields.sum + player.base
 
-  def chooseMove: String = "Which field do you want to move?"
-
-  def printChooseMove(): Unit = {
-    println(chooseMove)
+  def decideMove: String = "Which field do you want to move?"
+  def printDecideMove(): Unit = {
+    println(decideMove)
   }
 
   def inputError: String = "Wrong input, try again."
-
   def printInputError(): Unit = {
     println(inputError)
   }
 
   def turn(player: Player): String = "Now it's " + player.name + " turn."
-
   def printTurn(player: Player): Unit = {
     println(turn(player))
   }
@@ -33,7 +30,6 @@ object Interface {
 
     text
   }
-
   def printPoints(players: Array[Player]): Unit = {
     println(points(players))
   }
@@ -78,7 +74,6 @@ object Interface {
 
     text
   }
-
   def drawBoard(players: Array[Player]): Unit = {
     println(board(players))
   }

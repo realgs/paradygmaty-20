@@ -11,7 +11,9 @@ class SmartBot(name: String, fieldsNumber: Int, rocksNumbers: Int) extends Playe
 
   def setCurrentGame(currentGame: Game): Unit = {
     game = currentGame
-    playerIndex = if(this == game.players(0)) 0 else 1
+    if(game != null){
+      playerIndex = if(this == game.players(0)) 0 else 1
+    }
   }
 
   def copy: Player = {

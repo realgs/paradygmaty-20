@@ -6,13 +6,13 @@ import main.server.{Client, Connect, Disconnect, Server}
 
 object Main extends App {
     val p1 = new SmartBot("p1", 6, 6)
-    val p2 = new Human("p2", 6, 6)
+    val p2 = new RandomBot("p2", 6, 6)
 
     val system = ActorSystem("kalaha")
 
     val server = system.actorOf(Props[Server](), "server")
-    val c1 = system.actorOf(Props(classOf[Client], p1, false), "c1")
-    val c2 = system.actorOf(Props(classOf[Client], p2, true), "c2")
+    val c1 = system.actorOf(Props(classOf[Client], p1, true), "c1")
+    val c2 = system.actorOf(Props(classOf[Client], p2, false), "c2")
 
     c1 ! Connect(server)
     c2 ! Connect(server)
