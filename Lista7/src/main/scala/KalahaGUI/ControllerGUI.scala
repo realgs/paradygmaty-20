@@ -21,7 +21,7 @@ object ControllerGUI {
     val gameBoard = new Gameboard
     val player1 = system.actorOf(Props(classOf[User],userButton1,user1TextInput), "Player1")
     val player2 = system.actorOf(Props(classOf[User],userButton2,user2TextInput), "Player2")
-    val server = system.actorOf(Props(classOf[Server], player1, player2, gameBoard), "server")
+    val server = system.actorOf(Props(classOf[Server], player1, player2, gameBoard, gameMessageOutput), "Server")
     server ! Server.ServerAction(gameMessageOutput)
   }
 }
