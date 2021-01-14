@@ -1,7 +1,6 @@
 package GameboardPackage
 
 import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, HOLES_IN_TABLE, PLAYER_1_ROUND, PLAYER_2_ROUND}
-
 import scala.annotation.tailrec
 import scala.util.Random
 
@@ -16,7 +15,7 @@ object Gameboard {
 }
 
 class Gameboard {
-  val board = createBoard(6)
+  val board = createBoard(4)
   private var whoseRound = 1
 
   def createBoard(numberOfStones: Int): Array[Int] = {
@@ -60,19 +59,41 @@ class Gameboard {
     if (checkIfFieldCorrect(inputField)) {
       val stonesFromInputField = board(inputField)
       board(inputField) = 0
-      @tailrec
       def playerMoveHelp(currentIndex: Int, stonesToGiveAway: Int): Unit = {
-        if (stonesToGiveAway > 0){
+        if (stonesToGiveAway > 0) {
           if (whoseRound == PLAYER_1_ROUND) {
             if (currentIndex != BASE_INDEX_PLAYER2) board(currentIndex) = board(currentIndex) + 1
           } else {
             if (currentIndex != BASE_INDEX_PLAYER1) board(currentIndex) = board(currentIndex) + 1
           }
           playerMoveHelp((currentIndex+1)%HOLES_IN_TABLE,stonesToGiveAway-1)
+        } else {
+          val indexOfLastMovedStone = if (currentIndex == 0) BASE_INDEX_PLAYER2 else currentIndex - 1
+          lastStone(indexOfLastMovedStone)
+          if (indexOfLastMovedStone == BASE_INDEX_PLAYER1 && whoseRound == PLAYER_1_ROUND) ()
+          else if (indexOfLastMovedStone == BASE_INDEX_PLAYER2 && whoseRound == PLAYER_2_ROUND) ()
+          else changePlayer()
         }
       }
       playerMoveHelp(inputField+1,stonesFromInputField)
-      changePlayer()
+    }
+  }
+
+  def lastStone(indexOfLastMovedStone: Int): Unit = {
+    if (whoseRound == PLAYER_1_ROUND) { //indexOfLastMovedStone 0 <= 5
+      if (board(indexOfLastMovedStone) - 1 == 0 && indexOfLastMovedStone >= FIRST_INDEX_PLAYER1 && indexOfLastMovedStone < BASE_INDEX_PLAYER1) {
+        val indexToStealFrom = BASE_INDEX_PLAYER2 - 1 - indexOfLastMovedStone
+        board(BASE_INDEX_PLAYER1) += board(indexToStealFrom)
+        board(indexToStealFrom) = 0
+        println("YOUVE STOLEN STONES")
+      }
+    } else { //indexOfLastMovedStone 7 <= 12
+      if (board(indexOfLastMovedStone) - 1 == 0 && indexOfLastMovedStone >= FIRST_INDEX_PLAYER2 && indexOfLastMovedStone < BASE_INDEX_PLAYER2) {
+        val indexToStealFrom = BASE_INDEX_PLAYER2 - 1 - indexOfLastMovedStone
+        board(BASE_INDEX_PLAYER2) += board(indexToStealFrom)
+        board(indexToStealFrom) = 0
+        println("YOUVE STOLEN STONES")
+      }
     }
   }
 
@@ -94,10 +115,69 @@ class Gameboard {
     if (whoseRound == PLAYER_1_ROUND) "**************Player 1 Turn**************\n"
     else "**************Player 2 Turn**************\n"
   }
-  override def toString(): String = {
+
+  def stringResult(): String = {
+    val results = countPlayersStones()
+    if (results._1 > results._2) "PLAYER 1 WON THE GAME!!!"
+    else if (results._1 > results._1) "PLAYER 2 WON THE GAME!!!"
+    else "REMIS!!!"
+  }
+
+  override def toString: String = {
     stringPLayerRound() +
       s"    [${board(12)}] - [${board(11)}] - [${board(10)}] - [${board(9)}] - [${board(8)}] - [${board(7)}]\n" +
       s"[${board(13)}]                                   [${board(6)}]\n" +
       s"    [${board(0)}] - [${board(1)}] - [${board(2)}] - [${board(3)}] - [${board(4)}] - [${board(5)}]\n"
+  }
+
+  def testMove(): Unit = {
+    val obj2 = new Gameboard
+    println("PLAYER CHOSES TO MOVE: " + 2 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(2))
+    println(obj2)
+    println("PLAYER CHOSES TO MOVE: " + 1 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(1))
+    println(obj2)
+    println("PLAYER CHOSES TO MOVE: " + 9 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(9))
+    println(obj2)
+    println("PLAYER CHOSES TO MOVE: " + 7 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(7))
+    println(obj2)
+    println("PLAYER CHOSES TO MOVE: " + 3 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(3))
+    println(obj2)
+    println("**************")
+    println("PLAYER CHOSES TO MOVE: " + 7 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(7))
+    println(obj2)
+    println("PLAYER CHOSES TO MOVE: " + 2 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj2.playerMove(2))
+    println(obj2)
+
+    val obj3 = new Gameboard()
+    obj3.changePlayer()
+    println("PLAYER CHOSES TO MOVE: " + 9 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(9))
+    println(obj3)
+    println("PLAYER CHOSES TO MOVE: " + 8 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(8))
+    println(obj3)
+    println("PLAYER CHOSES TO MOVE: " + 2 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(2))
+    println(obj3)
+    println("PLAYER CHOSES TO MOVE: " + 0 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(0))
+    println(obj3)
+    println("PLAYER CHOSES TO MOVE: " + 10 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(10))
+    println(obj3)
+    println("**************")
+    println("PLAYER CHOSES TO MOVE: " + 0 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(0))
+    println(obj3)
+    println("PLAYER CHOSES TO MOVE: " + 9 + " NOW RUN THE METHOD MOVE: \n")
+    println(obj3.playerMove(9))
+    println(obj3)
   }
 }
