@@ -32,6 +32,10 @@ class Gameboard {
     random.nextInt(2)
   }
 
+  def getWhoseRound(): Int =  {
+    whoseRound
+  }
+
   def changePlayer(): Unit ={
     if (whoseRound == PLAYER_1_ROUND) whoseRound = PLAYER_2_ROUND
     else whoseRound = PLAYER_1_ROUND

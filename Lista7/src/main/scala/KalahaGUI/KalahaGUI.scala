@@ -1,6 +1,6 @@
 package KalahaGUI
 
-import java.awt.event.{ActionEvent, ActionListener}
+import java.awt.event.{ActionEvent}
 import java.awt.{BorderLayout, GridLayout}
 import javax.swing.JFrame
 import javax.swing._
@@ -15,9 +15,9 @@ class KalahaGUI {
   private val panelWEST = new JPanel()
   private val panelSOUTH = new JPanel()
   private val panelCENTER = new JPanel()
-  private val userTextInput = new JTextField()
+  private val user1TextInput = new JTextField()
+  private val user2TextInput = new JTextField()
   private val gameWindow = new JTextArea()
-  private val gameMessageOutput = new JTextArea()
 
   panelWEST.setLayout(new GridLayout(3,1))
   panelWEST.add(button1)
@@ -25,16 +25,20 @@ class KalahaGUI {
   panelWEST.add(button3)
   panelSOUTH.setLayout(new GridLayout(2,1))
 
-  panelSOUTH.add(gameMessageOutput)
-  panelSOUTH.add(userTextInput)
+  panelSOUTH.add(user1TextInput)
+  panelSOUTH.add(user2TextInput)
   panelSOUTH.add(button4)
   panelSOUTH.add(button5)
+  button4.setVisible(false)
+  button5.setVisible(false)
+
   panelCENTER.setLayout(new GridLayout(1,1))
   panelCENTER.add(gameWindow)
-  gameMessageOutput.setEditable(false)
+  gameWindow.setEditable(false)
+
   button1.addActionListener((e: ActionEvent) => ControllerGUI.pcVsPc(panelSOUTH,gameWindow))
-  button2.addActionListener((e: ActionEvent) => ControllerGUI.userVsPc(panelSOUTH,button4,button5,gameMessageOutput))
-  button3.addActionListener((e: ActionEvent) => ControllerGUI.userVsUser(panelSOUTH,button4,button5,gameMessageOutput))
+  button2.addActionListener((e: ActionEvent) => ControllerGUI.userVsPc(panelSOUTH,button4,button5,gameWindow))
+  button3.addActionListener((e: ActionEvent) => ControllerGUI.userVsUser(panelSOUTH,button4,button5,user1TextInput,user2TextInput,gameWindow))
 
   frame.add(panelWEST,BorderLayout.WEST)
   frame.add(panelSOUTH,BorderLayout.SOUTH)
