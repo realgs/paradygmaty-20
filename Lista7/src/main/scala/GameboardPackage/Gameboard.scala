@@ -1,6 +1,6 @@
 package GameboardPackage
 
-import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, PLAYER_1_ROUND, PLAYER_2_ROUND}
+import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, HOLES_IN_TABLE, PLAYER_1_ROUND, PLAYER_2_ROUND}
 
 import scala.annotation.tailrec
 import scala.util.Random
@@ -10,12 +10,13 @@ object Gameboard {
   private val BASE_INDEX_PLAYER1 = 6
   private val FIRST_INDEX_PLAYER2 = 7
   private val BASE_INDEX_PLAYER2 = 13
+  private val HOLES_IN_TABLE = 14
   private val PLAYER_1_ROUND = 1
   private val PLAYER_2_ROUND = 2
 }
 
 class Gameboard {
-  val board = createBoard(14)
+  val board = createBoard(6)
   private var whoseRound = 1
 
   def createBoard(numberOfStones: Int): Array[Int] = {
@@ -59,6 +60,7 @@ class Gameboard {
     if (checkIfFieldCorrect(inputField)) {
       val stonesFromInputField = board(inputField)
       board(inputField) = 0
+      @tailrec
       def playerMoveHelp(currentIndex: Int, stonesToGiveAway: Int): Unit = {
         if (stonesToGiveAway > 0){
           if (whoseRound == PLAYER_1_ROUND) {
@@ -66,10 +68,36 @@ class Gameboard {
           } else {
             if (currentIndex != BASE_INDEX_PLAYER1) board(currentIndex) = board(currentIndex) + 1
           }
-          playerMoveHelp((currentIndex+1)%14,stonesToGiveAway-1)
+          playerMoveHelp((currentIndex+1)%HOLES_IN_TABLE,stonesToGiveAway-1)
         }
       }
       playerMoveHelp(inputField+1,stonesFromInputField)
+      changePlayer()
     }
+  }
+
+  def countPlayersStones(): (Int,Int) = {
+    @tailrec
+    def countPlayersStonesHelp(currentIndex: Int,output: (Int,Int)): (Int,Int) = {
+      if (currentIndex < BASE_INDEX_PLAYER1)
+        countPlayersStonesHelp(currentIndex+1,(output._1 + board(currentIndex),output._2))
+      else if (currentIndex == BASE_INDEX_PLAYER1)
+        countPlayersStonesHelp(currentIndex+1,(output._1,output._2))
+      else if (currentIndex > BASE_INDEX_PLAYER1 && currentIndex < HOLES_IN_TABLE)
+        countPlayersStonesHelp(currentIndex+1,(output._1,output._2 + board(currentIndex)))
+      else output
+    }
+    countPlayersStonesHelp(0,(board(BASE_INDEX_PLAYER1),board(BASE_INDEX_PLAYER2)))
+  }
+
+  def stringPLayerRound(): String = {
+    if (whoseRound == PLAYER_1_ROUND) "**************Player 1 Turn**************\n"
+    else "**************Player 2 Turn**************\n"
+  }
+  override def toString(): String = {
+    stringPLayerRound() +
+      s"    [${board(12)}] - [${board(11)}] - [${board(10)}] - [${board(9)}] - [${board(8)}] - [${board(7)}]\n" +
+      s"[${board(13)}]                                   [${board(6)}]\n" +
+      s"    [${board(0)}] - [${board(1)}] - [${board(2)}] - [${board(3)}] - [${board(4)}] - [${board(5)}]\n"
   }
 }
