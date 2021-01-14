@@ -6,16 +6,24 @@ import akka.actor.{Actor, ActorRef}
 import ServerPackage.Server
 import GameboardPackage.Gameboard
 
-class User(private[this] val button: JButton, private[this] val textArea: JTextField) extends Actor {
+class User(private[this] val name:String,
+           private[this] val button: JButton,
+           private[this] val textArea: JTextField) extends Actor {
+
   private[this] var senderval: ActorRef = _
 
-  private[this] var text: String = ""
-  button.addActionListener((e: ActionEvent) =>
-    senderval! Server.UserMoveReceived(Integer.parseInt(textArea.getText()))
+  button.addActionListener((e: ActionEvent) => {
+    val userField = textArea.getText()
+    textArea.setText("")
+    button.setText(name)
+    senderval! Server.UserMoveReceived(Integer.parseInt(userField))}
   )
 
   override def receive: Receive = {
-    case Server.UserMoveRequest(board: Gameboard) => textArea.setText("It's your move")
+    case Server.UserMoveRequest(board: Gameboard) => {
       senderval = sender()
+      button.setText("Write Move Above!")
+    }
+
   }
 }

@@ -16,7 +16,7 @@ object Gameboard {
 
 class Gameboard {
   val board = createBoard(4)
-  private var whoseRound = 1
+  private var whoseRound = drawWhoseRound()
 
   def createBoard(numberOfStones: Int): Array[Int] = {
     def createBoardHelp(currentIndex:Int, numberOfStones:Int): List[Int] = {
@@ -130,7 +130,7 @@ class Gameboard {
   override def toString: String = {
     stringPLayerRound() +
       s"    [${board(12)}] - [${board(11)}] - [${board(10)}] - [${board(9)}] - [${board(8)}] - [${board(7)}]\n" +
-      s"[${board(13)}]                                   [${board(6)}]\n" +
+      s"    [${board(13)}]                                    [${board(6)}]\n" +
       s"    [${board(0)}] - [${board(1)}] - [${board(2)}] - [${board(3)}] - [${board(4)}] - [${board(5)}]\n"
   }
 

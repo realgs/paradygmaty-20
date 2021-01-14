@@ -1,11 +1,13 @@
 package ServerPackage
 
 import akka.actor.{Actor, ActorRef}
-import javax.swing.JTextArea
+import javax.swing.{JLabel, JTextArea, JTextField, JTextPane}
 import akka.util.Timeout
 import akka.pattern.ask
+
 import scala.concurrent.duration.DurationInt
 import GameboardPackage.Gameboard
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
@@ -19,7 +21,7 @@ object Server {
 class Server(val player1: ActorRef,
              val player2: ActorRef,
              val board: Gameboard,
-             val gameMessageOutput:JTextArea) extends Actor {
+             val gameMessageOutput:JTextPane) extends Actor {
 
   implicit val timeout: Timeout = {
     Timeout(30.seconds)
