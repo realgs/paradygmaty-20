@@ -1,0 +1,5 @@
+package KalahaGUI
+
+class KalahaGUI {
+
+}
