@@ -16,8 +16,14 @@ object Server {
   case class UserMoveReceived(userField: Int)   //Information for server that data was received
   case class ServerAction()                     //Information for server that he should send next packets
 }
-class Server(val player1: ActorRef, val player2: ActorRef, val board: Gameboard, val gameMessageOutput:JTextArea) extends Actor {
-  implicit val timeout: Timeout = Timeout(30 seconds)
+class Server(val player1: ActorRef,
+             val player2: ActorRef,
+             val board: Gameboard,
+             val gameMessageOutput:JTextArea) extends Actor {
+
+  implicit val timeout: Timeout = {
+    Timeout(30.seconds)
+  }
 
   override def receive: Receive = {
 
