@@ -10,7 +10,8 @@ class Computer extends Actor {
     case Server.UserMoveRequest(board: Gameboard) =>
       val decisionTree = new DecisionTree(board)
       decisionTree.createTree()
-      Thread.sleep(300)
+      Thread.sleep(300) //This can be commented but it's for tests and better watch in games like USER vs PC
       sender ! Server.UserMoveReceived(decisionTree.findBestMove())
   }
 }
+

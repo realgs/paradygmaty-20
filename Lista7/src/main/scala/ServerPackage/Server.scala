@@ -4,10 +4,8 @@ import akka.actor.{Actor, ActorRef}
 import javax.swing.JTextPane
 import akka.util.Timeout
 import akka.pattern.ask
-
 import scala.concurrent.duration.DurationInt
 import GameboardPackage.Gameboard
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
@@ -64,3 +62,4 @@ class Server(private[this] val player1: ActorRef, private[this] val player2: Act
       }
   }
 }
+

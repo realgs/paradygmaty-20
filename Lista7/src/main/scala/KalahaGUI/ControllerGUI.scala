@@ -7,6 +7,11 @@ import UserPackage.User
 import akka.actor.{ActorSystem, Props}
 import ComputerPackage.Computer
 
+/*
+  object that separates GUI from actual calculations (small exceptions for getting
+  better functionality and readable GUI)
+*/
+
 object ControllerGUI {
   def pcVsPc(userButton1:JButton, userButton2:JButton, user1TextInput:JTextField,
              user2TextInput:JTextField, gameMessageOutput:JTextPane): Unit = {
@@ -51,7 +56,7 @@ object ControllerGUI {
     user1TextInput.setVisible(true)
     user2TextInput.setVisible(true)
     val system = ActorSystem("Kalaha")
-    val gameBoard = new Gameboard(Gameboard.createBoard(4),Gameboard.drawWhoseMove())
+    val gameBoard = new Gameboard(Gameboard.createBoard(6),Gameboard.drawWhoseMove())
     val player1 = system.actorOf(
       Props(classOf[User],userButton1.getText,userButton1,user1TextInput), "Player1")
     val player2 = system.actorOf(

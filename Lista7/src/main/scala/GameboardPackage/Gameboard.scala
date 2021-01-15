@@ -2,8 +2,11 @@ package GameboardPackage
 
 import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, HOLES_IN_TABLE, PLAYER_1_ROUND, PLAYER_2_ROUND, createBoard}
 
-import scala.annotation.tailrec
 import scala.util.Random
+
+/*
+  Gameboard class is a class that has all Kahala methods that are necessary to run the game
+*/
 
 object Gameboard {
   private val FIRST_INDEX_PLAYER1 = 0
@@ -210,3 +213,4 @@ class Gameboard(private var board: Array[Int], private var whoseRound: Int){
     (print(obj3.countPlayersStones()))
   }
 }
+

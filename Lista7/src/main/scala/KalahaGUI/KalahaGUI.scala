@@ -8,6 +8,10 @@ import javax.swing.JTextPane
 import javax.swing._
 import javax.swing.text.StyleConstants
 
+/*
+  class for providing ONLY user interface components
+*/
+
 class KalahaGUI {
   private val frame = new JFrame
   private val button1 = new JButton("PC vs PC")

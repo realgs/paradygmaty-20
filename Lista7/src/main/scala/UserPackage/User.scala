@@ -24,3 +24,4 @@ class User(private[this] val name:String, private[this] val button: JButton,
       button.setText("Write Move Above!")
   }
 }
+

@@ -7,6 +7,7 @@ import GameboardPackage.Gameboard
   calculated outputs. it is a tree that has x levels described in constant COMPUTER_FORESEE_LEVELS. Tree takes
   the best output at the lowest level of the tree and takes it as path to win.
  */
+
 object DecisionTree {
   private val FIRST_INDEX_PLAYER1 = 0
   private val BASE_INDEX_PLAYER1 = 6
@@ -14,7 +15,7 @@ object DecisionTree {
   private val BASE_INDEX_PLAYER2 = 13
   private val PLAYER_1_ROUND = 1
   private val PLAYER_2_ROUND = 2
-  private val COMPUTER_FORESEE_LEVELS = 3
+  private val COMPUTER_FORESEE_LEVELS = 2
 }
 
 class DecisionTree(var gameboard: Gameboard) {
@@ -107,3 +108,4 @@ class DecisionTree(var gameboard: Gameboard) {
     tempNode.getFieldChoice()
   }
 }
+
