@@ -1,7 +1,9 @@
 package GameboardPackage
 
-import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, HOLES_IN_TABLE, PLAYER_1_ROUND, PLAYER_2_ROUND, createBoard}
-
+import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2,
+  FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2,
+  HOLES_IN_TABLE, PLAYER_1_ROUND,
+  PLAYER_2_ROUND, createBoard} //This import was made in order not to use the object namespace
 import scala.util.Random
 
 /*

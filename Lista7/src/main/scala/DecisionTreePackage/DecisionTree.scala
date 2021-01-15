@@ -1,6 +1,6 @@
 package DecisionTreePackage
 
-import DecisionTreePackage.DecisionTree._
+import DecisionTreePackage.DecisionTree._ //This import was made in order not to use the object namespace
 import GameboardPackage.Gameboard
 
 /* This tree makes bruteforce calculation for the best path in order to gain the biggest advantage based on
