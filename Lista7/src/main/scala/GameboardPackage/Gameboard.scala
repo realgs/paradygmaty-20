@@ -74,7 +74,7 @@ class Gameboard(private var board: Array[Int], private var whoseRound: Int){
     else board(BASE_INDEX_PLAYER2) - board(BASE_INDEX_PLAYER1)
   }
 
-  def checkIfFieldCorrect(inputField: Int):Boolean = {
+  private def checkIfFieldCorrect(inputField: Int):Boolean = {
     if (whoseRound == PLAYER_1_ROUND) {
       if (inputField < FIRST_INDEX_PLAYER1 || inputField > BASE_INDEX_PLAYER1 - 1) false
       else if (board(inputField) == 0) false
@@ -116,7 +116,7 @@ class Gameboard(private var board: Array[Int], private var whoseRound: Int){
     }
   }
 
-  def lastStone(indexOfLastMovedStone: Int): Unit = {
+  private def lastStone(indexOfLastMovedStone: Int): Unit = {
     if (whoseRound == PLAYER_1_ROUND) { //indexOfLastMovedStone 0 <= 5
       if (board(indexOfLastMovedStone) == 1 && indexOfLastMovedStone >= FIRST_INDEX_PLAYER1 && indexOfLastMovedStone < BASE_INDEX_PLAYER1) {
         val indexToStealFrom = BASE_INDEX_PLAYER2 - 1 - indexOfLastMovedStone
@@ -132,7 +132,7 @@ class Gameboard(private var board: Array[Int], private var whoseRound: Int){
     }
   }
 
-  def countPlayersStones(): (Int,Int) = {
+  private def countPlayersStones(): (Int,Int) = {
     def countPlayersStonesHelp(currentIndex: Int,output: (Int,Int)): (Int,Int) = {
       if (currentIndex <= BASE_INDEX_PLAYER1)
         countPlayersStonesHelp(currentIndex+1,(output._1 + board(currentIndex),output._2))

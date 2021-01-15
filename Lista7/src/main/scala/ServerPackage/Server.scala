@@ -35,7 +35,6 @@ class Server(private[this] val player1: ActorRef, private[this] val player2: Act
     case Server.UserMoveReceived(userField) =>
       board.playerMove(userField)
       gameMessageOutput.setText(board.toString)
-      println(board.countPlayersStones())
       if (board.endGameCheck()) self ! Server.EndGame()
       else self ! Server.ServerAction()
 

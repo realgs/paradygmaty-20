@@ -3,7 +3,7 @@ package MainPackage
 import KalahaGUI.KalahaGUI
 
 object Main extends App {
-  val obj = new KalahaGUI
-  obj.run()
+  val gui = new KalahaGUI
+  gui.run()
 }
 
