@@ -18,10 +18,8 @@ object Server {
   case class UserMoveReceived(userField: Int)   //Information for server that data was received
   case class ServerAction()                     //Information for server that he should send next packets
 }
-class Server(val player1: ActorRef,
-             val player2: ActorRef,
-             val board: Gameboard,
-             val gameMessageOutput:JTextPane) extends Actor {
+class Server(private[this] val player1: ActorRef, private[this] val player2: ActorRef,
+             private[this] val board: Gameboard, private[this] val gameMessageOutput:JTextPane) extends Actor {
 
   implicit val timeout: Timeout = {
     Timeout(30.seconds)
@@ -44,7 +42,7 @@ class Server(val player1: ActorRef,
 
     case Server.ServerAction() =>
       gameMessageOutput.setText(board.toString)
-      if (board.getWhoseRound() == 1) {
+      if (board.getWhoseRound == 1) {
         val future = player1 ? Server.UserMoveRequest(board)
         future onComplete {
           case Success(userField) =>

@@ -1,6 +1,9 @@
 package GameboardPackage
 
-import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1, BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1, FIRST_INDEX_PLAYER2, HOLES_IN_TABLE, PLAYER_1_ROUND, PLAYER_2_ROUND}
+import GameboardPackage.Gameboard.{BASE_INDEX_PLAYER1,
+  BASE_INDEX_PLAYER2, FIRST_INDEX_PLAYER1,
+  FIRST_INDEX_PLAYER2, HOLES_IN_TABLE,
+  PLAYER_1_ROUND, PLAYER_2_ROUND} //For clearer code in this class
 import scala.annotation.tailrec
 import scala.util.Random
 
@@ -15,7 +18,7 @@ object Gameboard {
 }
 
 class Gameboard {
-  val board = createBoard(4)
+  private var board = createBoard(6)
   private var whoseRound = drawWhoseRound()
 
   def createBoard(numberOfStones: Int): Array[Int] = {
@@ -27,12 +30,27 @@ class Gameboard {
     createBoardHelp(FIRST_INDEX_PLAYER1,numberOfStones).toArray
   }
 
+  def boardToList: List[Int] = {
+    def boardToListHelp(currentIndex: Int): List[Int] = {
+      if (currentIndex > BASE_INDEX_PLAYER2) Nil
+      else board(currentIndex) :: boardToListHelp(currentIndex+1)
+    }
+    boardToListHelp(FIRST_INDEX_PLAYER1)
+  }
+
+  def boardClone(): Gameboard = {
+    val tempVal = new Gameboard
+    tempVal.board = board.clone()
+    tempVal.whoseRound = whoseRound
+    tempVal
+  }
+
   def drawWhoseRound(): Int = {
     val random = new Random()
     random.nextInt(2)
   }
 
-  def getWhoseRound(): Int =  {
+  def getWhoseRound: Int =  {
     whoseRound
   }
 
@@ -45,6 +63,11 @@ class Gameboard {
     if (board.slice(FIRST_INDEX_PLAYER1,BASE_INDEX_PLAYER1).sum == 0 && whoseRound == PLAYER_1_ROUND) true
     else if (board.slice(FIRST_INDEX_PLAYER2,BASE_INDEX_PLAYER2).sum == 0 && whoseRound == PLAYER_2_ROUND) true
     else false
+  }
+
+  def calculateAdvantage(): Int = {
+    if (whoseRound == PLAYER_1_ROUND) board(BASE_INDEX_PLAYER1) - board(BASE_INDEX_PLAYER2)
+    else board(BASE_INDEX_PLAYER2) - board(BASE_INDEX_PLAYER1)
   }
 
   def checkIfFieldCorrect(inputField: Int):Boolean = {
@@ -89,14 +112,12 @@ class Gameboard {
         val indexToStealFrom = BASE_INDEX_PLAYER2 - 1 - indexOfLastMovedStone
         board(BASE_INDEX_PLAYER1) += board(indexToStealFrom)
         board(indexToStealFrom) = 0
-        println("YOUVE STOLEN STONES")
       }
     } else { //indexOfLastMovedStone 7 <= 12
       if (board(indexOfLastMovedStone) - 1 == 0 && indexOfLastMovedStone >= FIRST_INDEX_PLAYER2 && indexOfLastMovedStone < BASE_INDEX_PLAYER2) {
         val indexToStealFrom = BASE_INDEX_PLAYER2 - 1 - indexOfLastMovedStone
         board(BASE_INDEX_PLAYER2) += board(indexToStealFrom)
         board(indexToStealFrom) = 0
-        println("YOUVE STOLEN STONES")
       }
     }
   }

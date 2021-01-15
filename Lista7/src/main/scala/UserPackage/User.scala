@@ -6,8 +6,7 @@ import akka.actor.{Actor, ActorRef}
 import ServerPackage.Server
 import GameboardPackage.Gameboard
 
-class User(private[this] val name:String,
-           private[this] val button: JButton,
+class User(private[this] val name:String, private[this] val button: JButton,
            private[this] val textArea: JTextField) extends Actor {
 
   private[this] var senderval: ActorRef = _
