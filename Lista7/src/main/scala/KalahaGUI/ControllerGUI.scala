@@ -1,26 +1,57 @@
 package KalahaGUI
 
-import javax.swing.{JButton, JLabel, JPanel, JTextArea, JTextField, JTextPane}
+import javax.swing.{JButton,JTextField, JTextPane}
 import ServerPackage.Server
 import GameboardPackage.Gameboard
 import UserPackage.User
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actor.{ActorSystem, Props}
+import ComputerPackage.Computer
 
 object ControllerGUI {
-  def pcVsPc(panel: JPanel,okno: JTextPane): Unit = {
-
+  def pcVsPc(userButton1:JButton, userButton2:JButton, user1TextInput:JTextField,
+             user2TextInput:JTextField, gameMessageOutput:JTextPane): Unit = {
+    userButton1.setVisible(false)
+    userButton2.setVisible(false)
+    user1TextInput.setVisible(false)
+    user2TextInput.setVisible(false)
+    val system = ActorSystem("Kalaha")
+    val gameBoard = new Gameboard(Gameboard.createBoard(6),Gameboard.drawWhoseMove())
+    val player1 = system.actorOf(
+      Props(classOf[Computer]), "Computer1")
+    val player2 = system.actorOf(
+      Props(classOf[Computer]), "Computer2")
+    val server = system.actorOf(
+      Props(classOf[Server],player1, player2, gameBoard, gameMessageOutput), "Server")
+    server ! Server.ServerAction()
   }
-  def userVsPc(panel: JPanel, userButton: JButton, disabledButton:JButton, GameMessageOutput:JTextPane): Unit = {
 
-    disabledButton.setVisible(false)
+  def userVsPc(userButton1:JButton, userButton2:JButton, user1TextInput:JTextField,
+               user2TextInput:JTextField, gameMessageOutput:JTextPane): Unit = {
+
+    userButton1.setVisible(true)
+    userButton2.setVisible(false)
+    user1TextInput.setVisible(true)
+    user2TextInput.setVisible(false)
+    val system = ActorSystem("Kalaha")
+    val gameBoard = new Gameboard(Gameboard.createBoard(6),Gameboard.drawWhoseMove())
+    val player1 = system.actorOf(
+      Props(classOf[User],userButton1.getText,userButton1,user1TextInput), "Player1")
+    val player2 = system.actorOf(
+      Props(classOf[Computer]), "Computer2")
+    val server = system.actorOf(
+      Props(classOf[Server],player1, player2, gameBoard, gameMessageOutput), "Server")
+    server ! Server.ServerAction()
   }
-  def userVsUser(panel: JPanel, userButton1:JButton, userButton2:JButton, user1TextInput:JTextField,
+
+  def userVsUser(userButton1:JButton, userButton2:JButton, user1TextInput:JTextField,
                  user2TextInput:JTextField, gameMessageOutput:JTextPane): Unit = {
 
     userButton1.setVisible(true)
     userButton2.setVisible(true)
+    user1TextInput.setVisible(true)
+    user2TextInput.setVisible(true)
     val system = ActorSystem("Kalaha")
-    val gameBoard = new Gameboard
+    val gameBoard = new Gameboard(Gameboard.createBoard(4),Gameboard.drawWhoseMove())
     val player1 = system.actorOf(
       Props(classOf[User],userButton1.getText,userButton1,user1TextInput), "Player1")
     val player2 = system.actorOf(

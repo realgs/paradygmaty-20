@@ -19,10 +19,8 @@ class User(private[this] val name:String, private[this] val button: JButton,
   )
 
   override def receive: Receive = {
-    case Server.UserMoveRequest(board: Gameboard) => {
+    case Server.UserMoveRequest(board: Gameboard) =>
       senderval = sender()
       button.setText("Write Move Above!")
-    }
-
   }
 }

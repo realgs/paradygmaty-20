@@ -3,26 +3,28 @@ package DecisionTreePackage
 import DecisionTreePackage.DecisionTree._
 import GameboardPackage.Gameboard
 
-import scala.annotation.tailrec
-
+/* This tree makes bruteforce calculation for the best path in order to gain the biggest advantage based on
+  calculated outputs. it is a tree that has x levels described in constant COMPUTER_FORESEE_LEVELS. Tree takes
+  the best output at the lowest level of the tree and takes it as path to win.
+ */
 object DecisionTree {
   private val FIRST_INDEX_PLAYER1 = 0
   private val BASE_INDEX_PLAYER1 = 6
   private val FIRST_INDEX_PLAYER2 = 7
   private val BASE_INDEX_PLAYER2 = 13
   private val PLAYER_1_ROUND = 1
-  private val COMPUTER_FORESEE_LEVELS = 2
+  private val PLAYER_2_ROUND = 2
+  private val COMPUTER_FORESEE_LEVELS = 3
 }
 
 class DecisionTree(var gameboard: Gameboard) {
-  val root = new Node(gameboard.boardClone(),gameboard.getWhoseRound,0,-1)
+  private[this] val  root = new Node(gameboard.boardClone(),gameboard.getWhoseRound,0,null,-1)
 
-  private class Node(private[this] val board: Gameboard, private[this] val playerNumber: Int,
-                     private val level: Int, private val fieldChoice: Int) {
+  class Node(private[this] val board: Gameboard, private[this] val playerNumber: Int,
+                     private val level: Int,private val parent: Node, private val fieldChoice: Int) {
 
-    private var parent: Node = _
-    private val children: List[Node] = calculateChildren()
-    private var advantage = if (board.getWhoseRound == playerNumber) board.calculateAdvantage()
+    private var children: List[Node] = Nil
+    private val advantage = if (board.getWhoseRound == playerNumber) board.calculateAdvantage()
                             else {
                               board.changePlayer()
                               val temp = board.calculateAdvantage()
@@ -31,19 +33,23 @@ class DecisionTree(var gameboard: Gameboard) {
                             }
 
     def calculateChildren(): List[Node] = { //This method is calculating best route for enemy and user at the same time
-      if (board.endGameCheck()) return Nil
       def calculateChildrenHelp(currentIndex: Int): List[Node] = {
-        if (currentIndex > BASE_INDEX_PLAYER1 || currentIndex > BASE_INDEX_PLAYER2) Nil
+        if ((board.getWhoseRound == PLAYER_1_ROUND && (currentIndex >= BASE_INDEX_PLAYER1 || currentIndex < FIRST_INDEX_PLAYER1)
+          || (board.getWhoseRound == PLAYER_2_ROUND && (currentIndex >= BASE_INDEX_PLAYER2 || currentIndex < FIRST_INDEX_PLAYER2)))) Nil
         else {
-          val testBoard = board.boardClone()
-          testBoard.playerMove(currentIndex)
-          val child = new Node(testBoard.boardClone(),playerNumber,level+1,currentIndex)
-          child.parent = this
-          child.advantage = testBoard.calculateAdvantage()
-          child :: calculateChildrenHelp(currentIndex + 1)
+          if (!board.endGameCheck() && board.getElem(currentIndex) != 0) {
+            val testBoard = board.boardClone()
+            testBoard.playerMove(currentIndex)
+            val child = new Node(testBoard, playerNumber, level + 1, this, currentIndex)
+            child :: calculateChildrenHelp(currentIndex + 1)
+          } else {
+            if (currentIndex + 1 == BASE_INDEX_PLAYER1 || currentIndex + 1 >= BASE_INDEX_PLAYER2) Nil
+            else calculateChildrenHelp(currentIndex + 1)
+          }
         }
       }
-      calculateChildrenHelp(if (board.getWhoseRound == PLAYER_1_ROUND) FIRST_INDEX_PLAYER1 else FIRST_INDEX_PLAYER2)
+      children = calculateChildrenHelp(if (board.getWhoseRound == PLAYER_1_ROUND) FIRST_INDEX_PLAYER1 else FIRST_INDEX_PLAYER2)
+      children
     }
 
     def getChildren(): List[Node] = {
@@ -65,22 +71,22 @@ class DecisionTree(var gameboard: Gameboard) {
     def getLevel(): Int = {
       level
     }
+
+    override def toString: String = s"[$advantage $level $fieldChoice]"
   }
 
   def createTree(): Unit = {
-    @tailrec
     def createTreeHelp(nodeQueue: List[Node]): Unit = {
       nodeQueue match {
         case h :: t => if (h.getLevel() >= COMPUTER_FORESEE_LEVELS) ()
-                       else {h.calculateChildren()
-                            createTreeHelp(t ::: h.getChildren)}
+                       else createTreeHelp(t ::: h.calculateChildren())
+        case Nil => ()
       }
     }
     createTreeHelp(List(root))
   }
 
   private def findBestNode(): Node = {
-    @tailrec
     def findBestNodeHelp(nodeQueue: List[Node], bestNode:Node): Node = {
        nodeQueue match {
          case h :: t  => if (h.getChildren == Nil && h.getAdvantage > bestNode.getAdvantage) findBestNodeHelp(t,h)
@@ -89,13 +95,13 @@ class DecisionTree(var gameboard: Gameboard) {
          case Nil => bestNode
        }
     }
-    findBestNodeHelp(List(root),root)
+    findBestNodeHelp(List(root),root.getChildren().head)
   }
 
   def findBestMove(): Int = {
     val bestMoveNode = findBestNode()
     var tempNode = bestMoveNode
-    while (tempNode.getParent().getFieldChoice() != -1) {
+    while (tempNode.getParent() != root) {
       tempNode = tempNode.getParent()
     }
     tempNode.getFieldChoice()
