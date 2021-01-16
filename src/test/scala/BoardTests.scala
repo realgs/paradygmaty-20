@@ -1,3 +1,4 @@
+import gameboard.{GameBoard, Turn}
 import org.scalatest.FunSuite
 
 class BoardTests extends FunSuite {

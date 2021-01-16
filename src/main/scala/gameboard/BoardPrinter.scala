@@ -1,4 +1,6 @@
-import GameBoard.{PLAYERS_HOLES_NUMBER, PLAYER_ONE_BASE_INDEX, PLAYER_ONE_FIRST_HOLE_INDEX, PLAYER_TWO_BASE_INDEX, PLAYER_TWO_FIRST_HOLE_INDEX}
+package gameboard
+
+import gameboard.GameBoard._
 
 class BoardPrinter(board: Array[Int]) {
   def printBoard(turn: Turn.Value): Unit = {

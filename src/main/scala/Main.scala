@@ -1,14 +1,11 @@
+import actors.{ComputerPlayer, Server}
+import akka.actor.{ActorRef, ActorSystem}
+
 object Main extends App {
-  val gameBoard = new GameBoard()
+  val actorSystem = ActorSystem()
+  val server: ActorRef = actorSystem.actorOf(Server.props)
+  val player1: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server), "Player1")
+  val player2: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server), "Player2")
 
-  gameBoard.printBoard()
-
-  gameBoard.makeMove(1)
-
-  gameBoard.printBoard()
-
-  gameBoard.makeMove(7)
-
-  gameBoard.printBoard(Turn.SecondPlayer)
-  gameBoard.printBoard()
+  actorSystem.terminate()
 }

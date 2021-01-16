@@ -1,4 +1,6 @@
-import GameBoard.{HOLES_BOARD_NUMBER, PLAYER_ONE_BASE_INDEX, PLAYER_ONE_FIRST_HOLE_INDEX, PLAYER_TWO_BASE_INDEX, PLAYER_TWO_FIRST_HOLE_INDEX, STONES_INITIAL_AMOUNT}
+package gameboard
+
+import gameboard.GameBoard._
 
 class GameBoard {
   private var turn = Turn.FirstPlayer
@@ -12,7 +14,7 @@ class GameBoard {
   def makeMove(holeIndex: Int): Unit = {
     var actualIndex = holeIndex
 
-    for (i <- 0 until board(holeIndex)) {
+    for (_ <- 0 until board(holeIndex)) {
       actualIndex = (actualIndex + 1) % HOLES_BOARD_NUMBER
 
       turn match {
@@ -77,6 +79,16 @@ class GameBoard {
   def printBoard(): Unit = printer.printBoard(turn)
 
   def printBoard(turn: Turn.Value): Unit = printer.printBoard(turn)
+
+  override def clone(): GameBoard = {
+    val cloned = new GameBoard()
+
+    for (i <- 0 to HOLES_BOARD_NUMBER) {
+      cloned.board(i) = this.board(i)
+    }
+
+    cloned
+  }
 
   private def isNextMoveAvailable(lastStoneHoleIndex: Int): Boolean = turn match {
     case Turn.FirstPlayer => lastStoneHoleIndex == PLAYER_ONE_BASE_INDEX
