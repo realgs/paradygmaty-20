@@ -1,4 +1,4 @@
-import GameBoard.{HOLES_BOARD_NUMBER, PLAYERS_HOLES_NUMBER, PLAYER_ONE_BASE_INDEX, PLAYER_ONE_FIRST_HOLE_INDEX, PLAYER_TWO_BASE_INDEX, PLAYER_TWO_FIRST_HOLE_INDEX, STONES_INITIAL_AMOUNT}
+import GameBoard.{HOLES_BOARD_NUMBER, PLAYER_ONE_BASE_INDEX, PLAYER_ONE_FIRST_HOLE_INDEX, PLAYER_TWO_BASE_INDEX, PLAYER_TWO_FIRST_HOLE_INDEX, STONES_INITIAL_AMOUNT}
 
 class GameBoard {
   private var turn = Turn.FirstPlayer
@@ -8,27 +8,27 @@ class GameBoard {
 
   board(PLAYER_ONE_BASE_INDEX) = 0
   board(PLAYER_TWO_BASE_INDEX) = 0
-  
+
   def makeMove(holeIndex: Int): Unit = {
     var actualIndex = holeIndex
 
-    for (_ <- 0 until board(holeIndex)) {
+    for (i <- 0 until board(holeIndex)) {
+      actualIndex = (actualIndex + 1) % HOLES_BOARD_NUMBER
+
       turn match {
         case Turn.FirstPlayer => if (actualIndex == PLAYER_TWO_BASE_INDEX) actualIndex = 0
         case Turn.SecondPlayer => if (actualIndex == PLAYER_ONE_BASE_INDEX) actualIndex += 1
       }
 
-      actualIndex = (actualIndex + 1) % HOLES_BOARD_NUMBER
       board(actualIndex) += 1
     }
 
-    if(isTakingOppositeStonesAvailable(actualIndex)) {
+    if (isTakingOppositeStonesAvailable(actualIndex)) {
       takeOppositeStones(actualIndex)
     }
 
-    if(!isNextMoveAvailable(actualIndex)) turn match {
-      case Turn.FirstPlayer => turn = Turn.SecondPlayer
-      case Turn.SecondPlayer => turn= Turn.FirstPlayer
+    if (!isNextMoveAvailable(actualIndex)) {
+      changeTurn()
     }
 
     // TODO funkcja od klonowania planszy (ale to do zastanowienia) myslalem o tym w kontekscie komunikacji miedzy aktorami
@@ -51,7 +51,18 @@ class GameBoard {
         }
     }
 
-    stonesSum > 0
+    stonesSum == 0
+  }
+
+  // when game is over we need to return all stones to players bases
+  def finishGame(): Unit = {
+    for (i <- PLAYER_ONE_FIRST_HOLE_INDEX until PLAYER_ONE_BASE_INDEX) {
+      board(PLAYER_ONE_BASE_INDEX) += board(i)
+    }
+
+    for (i <- PLAYER_TWO_FIRST_HOLE_INDEX until PLAYER_TWO_BASE_INDEX) {
+      board(PLAYER_TWO_BASE_INDEX) += board(i)
+    }
   }
 
   def getActualTurn: Turn.Value = turn
@@ -64,6 +75,8 @@ class GameBoard {
   def getBoard: Array[Int] = board
 
   def printBoard(): Unit = printer.printBoard(turn)
+
+  def printBoard(turn: Turn.Value): Unit = printer.printBoard(turn)
 
   private def isNextMoveAvailable(lastStoneHoleIndex: Int): Boolean = turn match {
     case Turn.FirstPlayer => lastStoneHoleIndex == PLAYER_ONE_BASE_INDEX
@@ -97,26 +110,21 @@ class GameBoard {
     board(lastStoneHoleIndex) = 0
   }
 
-  // when game is over we need to return all stones to players bases
-  private def finishGame(): Unit = {
-    for (i <- PLAYER_ONE_FIRST_HOLE_INDEX until PLAYER_ONE_BASE_INDEX) {
-      board(PLAYER_ONE_BASE_INDEX) += board(i)
-    }
-
-    for (i <- PLAYER_TWO_FIRST_HOLE_INDEX until PLAYER_TWO_BASE_INDEX) {
-      board(PLAYER_TWO_BASE_INDEX) += board(i)
-    }
+  private def changeTurn(): Unit = turn match {
+    case Turn.FirstPlayer => turn = Turn.SecondPlayer
+    case Turn.SecondPlayer => turn = Turn.FirstPlayer
   }
 }
 
 object GameBoard {
-  val PLAYER_ONE_FIRST_HOLE_INDEX = 0
-  val PLAYER_ONE_BASE_INDEX = 6
-
-  val PLAYER_TWO_FIRST_HOLE_INDEX = 7
-  val PLAYER_TWO_BASE_INDEX = 13
-
   val PLAYERS_HOLES_NUMBER = 6
-  private val HOLES_BOARD_NUMBER = PLAYERS_HOLES_NUMBER * 2 + 2
-  private val STONES_INITIAL_AMOUNT = 6
+  val STONES_INITIAL_AMOUNT = 6
+
+  val PLAYER_ONE_FIRST_HOLE_INDEX = 0
+  val PLAYER_ONE_BASE_INDEX: Int = PLAYERS_HOLES_NUMBER
+
+  val PLAYER_TWO_FIRST_HOLE_INDEX: Int = PLAYERS_HOLES_NUMBER + 1
+  val PLAYER_TWO_BASE_INDEX: Int = PLAYERS_HOLES_NUMBER * 2 + 1
+
+  val HOLES_BOARD_NUMBER: Int = PLAYERS_HOLES_NUMBER * 2 + 2
 }
