@@ -3,7 +3,7 @@ package decisiontree
 import gameboard.GameBoard
 import model.{GameConstants, Player}
 
-import scala.util.control.Breaks.break
+import scala.util.control.Breaks.{break, breakable}
 
 class DecisionTree(private val maximizingPlayer: Player.Value) {
   private var maximizingPlayerFirstIndex: Int = _
@@ -21,9 +21,11 @@ class DecisionTree(private val maximizingPlayer: Player.Value) {
 
   def minimax(gameBoard: GameBoard, depth: Int, alpha: Int, beta: Int, isMaximizingPlayer: Boolean): Int = {
     if (gameBoard.isGameOver) {
+      //println("Decision Tree - Game Over")
       return gameBoard.getFinalScore(maximizingPlayer)
     }
     if (depth == 0) {
+      //println("Decision Tree - depth 0")
       return gameBoard.getActualScore(maximizingPlayer)
     }
 
@@ -31,18 +33,26 @@ class DecisionTree(private val maximizingPlayer: Player.Value) {
       var alphaLocal = alpha
       var maxScore: Int = Int.MinValue
 
-      for (holeIndex <- maximizingPlayerFirstIndex until maximizingPlayerFirstIndex + GameConstants.PLAYERS_HOLES_NUMBER) {
-        if (gameBoard.isMoveValid(holeIndex)) {
-          val newBoard = gameBoard.clone()
-          newBoard.makeMove(holeIndex)
+      breakable {
+        for (holeIndex <- maximizingPlayerFirstIndex until maximizingPlayerFirstIndex + GameConstants.PLAYERS_HOLES_NUMBER) {
+          if (gameBoard.isMoveValid(holeIndex)) {
+            val newBoard = gameBoard.clone()
+            newBoard.makeMove(holeIndex)
 
-          val score = minimax(newBoard, depth - 1, alphaLocal, beta, newBoard.getActualTurn == maximizingPlayer)
+            val score = minimax(
+              gameBoard = newBoard,
+              depth = depth - 1,
+              alpha = alphaLocal,
+              beta = beta,
+              isMaximizingPlayer = newBoard.getActualTurn == maximizingPlayer
+            )
 
-          maxScore = math.max(maxScore, score)
-          alphaLocal = math.max(alphaLocal, score)
+            maxScore = math.max(maxScore, score)
+            alphaLocal = math.max(alphaLocal, score)
 
-          if (beta <= alphaLocal) {
-            break
+            if (beta <= alphaLocal) {
+              break
+            }
           }
         }
       }
@@ -53,18 +63,26 @@ class DecisionTree(private val maximizingPlayer: Player.Value) {
       var betaLocal = beta
       var minScore: Int = Int.MaxValue
 
-      for (holeIndex <- minimizingPlayerFirstIndex until minimizingPlayerFirstIndex + GameConstants.PLAYERS_HOLES_NUMBER) {
-        if (gameBoard.isMoveValid(holeIndex)) {
-          val newBoard = gameBoard.clone()
-          newBoard.makeMove(holeIndex)
+      breakable {
+        for (holeIndex <- minimizingPlayerFirstIndex until minimizingPlayerFirstIndex + GameConstants.PLAYERS_HOLES_NUMBER) {
+          if (gameBoard.isMoveValid(holeIndex)) {
+            val newBoard = gameBoard.clone()
+            newBoard.makeMove(holeIndex)
 
-          val score = minimax(newBoard, depth - 1, alpha, betaLocal, newBoard.getActualTurn == maximizingPlayer)
+            val score = minimax(
+              gameBoard = newBoard,
+              depth = depth - 1,
+              alpha = alpha,
+              beta = betaLocal,
+              isMaximizingPlayer = newBoard.getActualTurn == maximizingPlayer
+            )
 
-          minScore = math.min(minScore, score)
-          betaLocal = math.min(betaLocal, score)
+            minScore = math.min(minScore, score)
+            betaLocal = math.min(betaLocal, score)
 
-          if (betaLocal <= alpha) {
-            break
+            if (betaLocal <= alpha) {
+              break
+            }
           }
         }
       }

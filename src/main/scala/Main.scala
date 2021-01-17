@@ -1,16 +1,12 @@
-import actors.{ComputerPlayer, Server}
+import actors.player.ComputerPlayer
+import actors.server.{Server, ServerActions}
 import akka.actor.{ActorRef, ActorSystem}
+import model.Player
 
 object Main extends App {
   val actorSystem = ActorSystem()
+
   val server: ActorRef = actorSystem.actorOf(Server.props)
-  //val playerOne: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server), "Player1")
-  //val playerTwo: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server), "Player2")
-
-  server ! Server.ValidateMove(3)
-  server ! Server.NextMove
-
-  Thread.sleep(5000)
-
-  actorSystem.terminate()
+  val playerOne: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server, Player.First), "Player1")
+  val playerTwo: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server, Player.Second), "Player2")
 }

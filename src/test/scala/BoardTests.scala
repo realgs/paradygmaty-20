@@ -62,4 +62,25 @@ class BoardTests extends FunSuite {
 
     assert(gameBoard.getBoard sameElements Array(7,0,7,7,7,7,1,0,7,7,7,7,7,1))
   }
+
+  test("cloneTest") {
+    val gameBoard = new GameBoard()
+    val clone = gameBoard.clone()
+
+    clone.getBoard(3) = 900
+
+    assert(gameBoard.getBoard(3) != clone.getBoard(3))
+  }
+
+  test("invalidMoveTest") {
+    val gameBoard = new GameBoard()
+    gameBoard.getBoard(1) = 0
+
+    assert(!gameBoard.isMoveValid(1))
+    assert(!gameBoard.isMoveValid(7))
+
+    gameBoard.makeMove(5)
+
+    assert(!gameBoard.isMoveValid(4))
+  }
 }

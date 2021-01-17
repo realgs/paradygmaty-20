@@ -46,6 +46,7 @@ class GameBoard {
     }
   }
 
+
   def isGameOver: Boolean = {
     var stonesSum = 0
 
@@ -91,14 +92,16 @@ class GameBoard {
 
   def printBoard(): Unit = printer.printBoard(turn)
 
-  def printBoard(player: Player.Value): Unit = printer.printBoard(turn)
+  def printBoard(player: Player.Value): Unit = printer.printBoard(player)
 
   override def clone(): GameBoard = {
     val cloned = new GameBoard()
 
-    for (i <- 0 to HOLES_BOARD_NUMBER) {
+    for (i <- 0 until HOLES_BOARD_NUMBER) {
       cloned.board(i) = this.board(i)
     }
+
+    cloned.turn = turn
 
     cloned
   }

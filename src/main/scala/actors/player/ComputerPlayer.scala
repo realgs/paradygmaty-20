@@ -1,6 +1,7 @@
-package actors
+package actors.player
 
-import actors.ComputerPlayer.DECISION_TREE_SEARCH_DEPTH
+import actors.player.ComputerPlayer.DECISION_TREE_SEARCH_DEPTH
+import actors.server.ServerActions
 import akka.actor.{Actor, ActorRef, Props}
 import decisiontree.DecisionTree
 import gameboard.GameBoard
@@ -18,13 +19,16 @@ class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
     case Player.Second => firstHoleIndex = GameConstants.PLAYER_TWO_FIRST_HOLE_INDEX
   }
 
-  server ! Server.ConnectToServer
+  server ! ServerActions.ConnectToServer(player.id)
 
-  override def receive: PartialFunction[Any, Unit] = {
+  override def receive: Receive = {
     case PlayerActions.MakeMove(gameBoard: GameBoard) => {
-      val bestMove = getNextMove(gameBoard)
+      println(s"\nPlayer ${player.id + 1} turn")
+      gameBoard.printBoard(player)
 
-      server ! Server.ValidateMove(bestMove)
+      val bestMove = getNextMove(gameBoard)
+      println("Player will send bestMove to the server")
+      server ! ServerActions.ValidateMove(bestMove)
     }
 
     case PlayerActions.Timeout(gameBoard: GameBoard) => {
@@ -35,7 +39,7 @@ class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
         randomMove = Random.between(firstHoleIndex, firstHoleIndex + GameConstants.PLAYERS_HOLES_NUMBER)
       } while (gameBoard.isMoveValid(randomMove))
 
-      server ! Server.ValidateMove(randomMove)
+      server ! ServerActions.ValidateMove(randomMove)
     }
 
   }
@@ -43,15 +47,19 @@ class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
   private def getNextMove(gameBoard: GameBoard): Int = {
     var bestMove = firstHoleIndex
     var bestScore = Int.MinValue
-    val alpha = Int.MinValue
-    val beta = Int.MaxValue
 
     for (holeIndex <- firstHoleIndex until firstHoleIndex + GameConstants.PLAYERS_HOLES_NUMBER) {
       if (gameBoard.isMoveValid(holeIndex)) {
         val newBoard = gameBoard.clone()
         newBoard.makeMove(holeIndex)
 
-        val score = decisionTree.minimax(newBoard, DECISION_TREE_SEARCH_DEPTH, alpha, beta, newBoard.getActualTurn == player)
+        val score = decisionTree.minimax(
+          gameBoard = newBoard,
+          depth = DECISION_TREE_SEARCH_DEPTH,
+          alpha = Int.MinValue,
+          beta = Int.MaxValue,
+          isMaximizingPlayer = newBoard.getActualTurn == player
+        )
 
         if (score > bestScore) {
           bestScore = score
@@ -67,5 +75,5 @@ class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
 object ComputerPlayer {
   def props(server: ActorRef, player: Player.Value): Props = Props(classOf[ComputerPlayer], server, player)
 
-  private val DECISION_TREE_SEARCH_DEPTH = 8
+  private val DECISION_TREE_SEARCH_DEPTH = 10
 }
