@@ -10,11 +10,12 @@ class Server private(game: Game) extends Actor {
   }
 
 
-  private def makeRandomMove():Unit =
+  private def makeRandomMove():Unit = {
   {
     var randomMove = Random.nextInt(14)
-
     while(!game.move(randomMove)) randomMove = Random.nextInt(14)
+    println(s"Server made a random move: $randomMove")
+  }
   }
 }
 

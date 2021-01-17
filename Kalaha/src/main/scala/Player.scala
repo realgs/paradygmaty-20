@@ -4,7 +4,7 @@ abstract class Player(val name: String, val number: Int) {
 
 class Human(name: String, number: Int) extends Player(name, number) {
   override def play(gameStatus: Game): Int = {
-    scala.io.StdIn.readLine().toInt
+    scala.io.StdIn.readInt()
   }
 }
 
@@ -15,52 +15,47 @@ object Human {
 class AI(number: Int, depth: Int) extends Player(name = s"AI-$number", number) {
 
   override def play(gameStatus: Game): Int = {
-    val bestMove = chooseAMove(gameStatus, number % 2 == 1)
+    val bestMove = minimax(gameStatus,depth,Integer.MIN_VALUE,Integer.MAX_VALUE,gameStatus.getTurn % 2 == 1,-1)._2
     println(bestMove)
     bestMove
   }
 
-
-  def chooseAMove(gameStatus: Game, maximizingPlayer: Boolean): Int = {
-    var bestMove = -1
-    var moveValue = 0
-    var currentBestMoveValue = if (maximizingPlayer) Integer.MIN_VALUE else Integer.MAX_VALUE
-    val validMoves = gameStatus.validMoves()
-    for (i <- validMoves.indices) {
-      val child = gameStatus.clone()
-      child.move(validMoves(i))
-      moveValue = minimax(child, depth,Integer.MIN_VALUE,Integer.MAX_VALUE,maximizingPlayer)
-      if (maximizingPlayer && moveValue >= currentBestMoveValue || !maximizingPlayer && moveValue <= currentBestMoveValue) {
-        currentBestMoveValue = moveValue
-        bestMove = validMoves(i)
-      }
-    }
-    bestMove
-  }
-
   //Using min-max algorithm with alpha beta pruning
-  def minimax(gamePosition: Game, depth: Int, alpha: Int, beta: Int, maximizingPlayer: Boolean): Int = {
-    if (depth == 0 || gamePosition.isGameOver) gamePosition.getBoard(6) - gamePosition.getBoard(13)
+  def minimax(gamePosition: Game, depth: Int, alpha: Int, beta: Int, maximizingPlayer: Boolean, previousMove: Int): (Int,Int) = {
+    if (depth == 0 || gamePosition.isGameOver) {
+      if(gamePosition.emptySide()) gamePosition.gatherPebbles()
+      (gamePosition.getBoard(6) - gamePosition.getBoard(13),previousMove)
+    }
 
     else if (maximizingPlayer) {
       var newAlpha = alpha
-      gamePosition.validMoves().foreach(elem => {
+      var optimalMove = -1
+      gamePosition.validMoves().foreach(move => {
         val child = gamePosition.clone()
-        child.move(elem)
-        newAlpha = math.max(alpha, minimax(child, depth - 1, newAlpha, beta, child.getTurn % 2 == 1))
-        if (newAlpha >= beta) return beta
+        child.move(move)
+        val tmpPair = minimax(child,depth - 1,newAlpha,beta,child.getTurn % 2 == 1,move)
+        if(tmpPair._1 > newAlpha) {
+          newAlpha = tmpPair._1
+          optimalMove = move
+        }
+        if(newAlpha >= beta) return (beta,move)
       })
-      newAlpha
+      (newAlpha,optimalMove)
     }
     else {
       var newBeta = beta
-      gamePosition.validMoves().foreach(elem => {
+      var optimalMove = -1
+      gamePosition.validMoves().foreach(move => {
         val child = gamePosition.clone()
-        child.move(elem)
-        newBeta = math.min(beta, minimax(child, depth - 1, alpha, newBeta, child.getTurn % 2 == 1))
-        if (newBeta <= alpha) return alpha
+        child.move(move)
+        val tmpPair = minimax(child,depth - 1,alpha,newBeta,child.getTurn % 2 == 1,move)
+        if(tmpPair._1 < newBeta) {
+          newBeta = tmpPair._1
+          optimalMove = move
+        }
+        if(newBeta <= alpha) return (alpha,move)
       })
-      newBeta
+      (newBeta,optimalMove)
     }
   }
 

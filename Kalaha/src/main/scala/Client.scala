@@ -22,7 +22,9 @@ class Client(server: ActorRef, player: Player) extends Actor {
 
   private def makeAMove(gameStatus: Game): Unit = {
     try {
+      val currentTime = System.currentTimeMillis()
       val chosenHole = chooseAHole(gameStatus)
+      println(System.currentTimeMillis() - currentTime)
       server ! MakeAMove(chosenHole)
     }
     catch {

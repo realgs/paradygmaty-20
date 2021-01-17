@@ -1,6 +1,5 @@
 import scala.annotation.tailrec
 
-//TODO smoothen the game logic
 class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int = 1) {
 
   //Makes a clone of the game for simulation purposes
@@ -31,13 +30,13 @@ class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int 
         board(nextHole) = board(nextHole) + 1
         nextHole = (nextHole + 1) % 14
       }
-      //Give the player additional move
       if(nextHole == oppositeBase) nextHole = (nextHole + 1) % 14
-      if (nextHole == base) turn = turn - 1
-      else if (belongsToPlayer(nextHole) && board(nextHole) == 0) captureOppositeStones(nextHole)
-      turn = turn + 1
       board(chosenHole) = board(chosenHole) - 1
       board(nextHole) = board(nextHole) + 1
+      //Give the player additional move
+      if (nextHole == base) turn = turn - 1
+      else if (belongsToPlayer(nextHole) && board(nextHole) == 1) captureOppositeStones(nextHole)
+      turn = turn + 1
       true
     }
   }
@@ -50,6 +49,7 @@ class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int 
 
   def declareWinner():Unit = {
     gatherPebbles()
+    displayBoard()
     if(board(6) == board(13)) println("Game ended in a draw")
     else if(board(6) > board(13)) println("Player 1 won")
     else println("Player 2 won")
@@ -71,9 +71,10 @@ class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int 
 
   //Takes pebbles from opposite base
   private def captureOppositeStones(hole: Int):Unit = {
-    if (turn % 2 == 1) board(6) = board(6) + board(12 - hole)
-    else board(13) = board(13) + board(12 - hole)
+    if (turn % 2 == 1) board(6) = board(6) + board(12 - hole) + board(hole)
+    else board(13) = board(13) + board(12 - hole) + board(hole)
     board(12 - hole) = 0
+    board(hole) = 0
   }
 
   //Returns current player's base
@@ -95,12 +96,12 @@ class Game private(numberOfPebbles: Int,board: Array[Int],private var turn: Int 
   }
 
   //Returns whether either of player's side is empty
-  private def emptySide(): Boolean = {
+  def emptySide(): Boolean = {
     board.slice(0, 6).sum == 0 || board.slice(7, 13).sum == 0
   }
 
   //Returns all stones to corresponding player base
-  private def gatherPebbles(): Unit = {
+  def gatherPebbles(): Unit = {
     board(6) = board(6) + board.slice(0, 6).sum
     board(13) = board(13) + board.slice(7, 13).sum
     for (i <- board.indices) if (i != 6 && i != 13) board(i) = 0
