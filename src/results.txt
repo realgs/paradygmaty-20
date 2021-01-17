@@ -1,0 +1,46 @@
+Podsumowanie wyników:
+
+Quicksort:
+size | normal | parallel
+10       | 0.4588 ms   | 0.1624 ms
+100      | 3.0359 ms   | 0.3821 ms
+1000     | 11.3422 ms  | 0.9263 ms
+10000    | 17.4671 ms  | 4.1366 ms
+100000   | 59.4056 ms  | 37.9793 ms
+1000000  | 652.7479 ms | 343.9663 ms
+10000000 | 6212.696 ms | 3059.895 ms
+
+Komentarz:
+Im większa ilość danych, tym bardziej opłaca się korzystać ze zrównoleglenia.
+Ku mojemu zaskoczeniu nawet przy małej ilości danych narzut czasowy spowodowany przełączaniem między wątkami nie spowodował, że algorytm równoległy miałby większy czas wykonania niż algorytm sekwencyjny.
+
+ArraySum:
+size      | normal      | parallel
+10        | 0.0195 ms   | 0.0777 ms
+100       | 0.0225 ms   | 0.0942 ms
+1000      | 0.1348 ms   | 0.08 ms
+10000     | 0.5131 ms   | 0.0725 ms
+100000    | 2.9792 ms   | 0.1942 ms
+1000000   | 2.3845 ms   | 1.0564 ms
+10000000  | 10.0889 ms  | 10.197 ms
+100000000 | 207.0686 ms | 101.6615 ms
+
+Komentarz:
+W tym przypadku stworzyłem dwie implementcje sumowania elementów tablicy. Jedna z nich dzieli to zadanie pomiędzy dwa wątki.
+Jak widać tutaj w pierwszym przypadku przy małej ilości danych jest to niekorzystne czasowo, jednak im więcej elementów, tym bardziej opłaca się użyć tutaj zrównoleglenia.
+W przypadku algorytmu zrównoleglonego momentami uzyskałem zaskakujące wyniki, przykładowo szybsze zsumowanie 10000 elementów niż 1000 elementów.
+Dla 100 milionów elementów dzieki zrównolegleniu uzyskałem ponad dwukrotne przyspieszenie.
+
+MergeSort:
+size     | normal      | parallel
+10       | 0.0364 ms   | 0.1341 ms
+100      | 0.31 ms     | 0.1774 ms
+1000     | 2.0118 ms   | 0.4668 ms
+10000    | 4.6522 ms   | 2.6885 ms
+100000   | 32.575 ms   | 5.2724 ms
+1000000  | 156.662 ms   | 48.0245 ms
+10000000 | 1301.2317 ms | 718.0326 ms
+
+Komentarz:
+Algorytm ten napisałem w stylu imperatywnym, operuje on na przekazanej mu tablicy, zatem jest szybszy od przedstawionego wcześniej quicksorta.
+Widać tutaj, że w przypadku zrównoleglenia obliczeń można uzyskać znaczne przyspieszenie wykonania programu, natomiast narzut spowodowany równoległością powoduje, że nie opłaca się używać implementacji równoległej dla małych tablic.
