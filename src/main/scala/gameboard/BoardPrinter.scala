@@ -1,12 +1,13 @@
 package gameboard
 
-import gameboard.GameBoard._
+import model.GameConstants._
+import model.Player
 
 class BoardPrinter(board: Array[Int]) {
-  def printBoard(turn: Turn.Value): Unit = {
-    turn match {
-      case Turn.FirstPlayer => printFirstPlayerPerspective()
-      case Turn.SecondPlayer => printSecondPlayerPerspective()
+  def printBoard(player: Player.Value): Unit = {
+    player match {
+      case Player.First => printFirstPlayerPerspective()
+      case Player.Second => printSecondPlayerPerspective()
     }
 
     print("\n\n")

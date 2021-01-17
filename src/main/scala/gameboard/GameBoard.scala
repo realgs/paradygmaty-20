@@ -1,9 +1,10 @@
 package gameboard
 
-import gameboard.GameBoard._
+import model.GameConstants._
+import model.Player
 
 class GameBoard {
-  private var turn = Turn.FirstPlayer
+  private var turn = Player.First
   private val board: Array[Int] = Array.fill(HOLES_BOARD_NUMBER)(STONES_INITIAL_AMOUNT)
 
   private val printer = BoardPrinter(board)
@@ -18,8 +19,8 @@ class GameBoard {
       actualIndex = (actualIndex + 1) % HOLES_BOARD_NUMBER
 
       turn match {
-        case Turn.FirstPlayer => if (actualIndex == PLAYER_TWO_BASE_INDEX) actualIndex = 0
-        case Turn.SecondPlayer => if (actualIndex == PLAYER_ONE_BASE_INDEX) actualIndex += 1
+        case Player.First => if (actualIndex == PLAYER_TWO_BASE_INDEX) actualIndex = 0
+        case Player.Second => if (actualIndex == PLAYER_ONE_BASE_INDEX) actualIndex += 1
       }
 
       board(actualIndex) += 1
@@ -33,21 +34,28 @@ class GameBoard {
       changeTurn()
     }
 
-    // TODO funkcja od klonowania planszy (ale to do zastanowienia) myslalem o tym w kontekscie komunikacji miedzy aktorami
-
     board(holeIndex) = 0
+  }
+
+  def isMoveValid(holeIndex: Int): Boolean = {
+    if (board(holeIndex) == 0) return false
+
+    turn match {
+      case Player.First => PLAYER_ONE_FIRST_HOLE_INDEX until PLAYER_ONE_BASE_INDEX contains holeIndex
+      case Player.Second => PLAYER_TWO_FIRST_HOLE_INDEX until PLAYER_TWO_BASE_INDEX contains holeIndex
+    }
   }
 
   def isGameOver: Boolean = {
     var stonesSum = 0
 
     turn match {
-      case Turn.FirstPlayer =>
+      case Player.First =>
         for (i <- PLAYER_ONE_FIRST_HOLE_INDEX until PLAYER_ONE_BASE_INDEX) {
           stonesSum += board(i)
         }
 
-      case Turn.SecondPlayer =>
+      case Player.Second =>
         for (i <- PLAYER_TWO_FIRST_HOLE_INDEX until PLAYER_TWO_BASE_INDEX) {
           stonesSum += board(i)
         }
@@ -67,18 +75,23 @@ class GameBoard {
     }
   }
 
-  def getActualTurn: Turn.Value = turn
-
-  def getActualScore(turn: Turn.Value): Int = turn match {
-    case Turn.FirstPlayer => board(PLAYER_ONE_BASE_INDEX)
-    case Turn.SecondPlayer => board(PLAYER_TWO_BASE_INDEX)
+  def getActualScore(player: Player.Value): Int = player match {
+    case Player.First => board(PLAYER_ONE_BASE_INDEX) - board(PLAYER_TWO_BASE_INDEX)
+    case Player.Second => board(PLAYER_TWO_BASE_INDEX) - board(PLAYER_ONE_BASE_INDEX)
   }
+
+  def getFinalScore(player: Player.Value): Int = {
+    finishGame()
+    getActualScore(player)
+  }
+
+  def getActualTurn: Player.Value = turn
 
   def getBoard: Array[Int] = board
 
   def printBoard(): Unit = printer.printBoard(turn)
 
-  def printBoard(turn: Turn.Value): Unit = printer.printBoard(turn)
+  def printBoard(player: Player.Value): Unit = printer.printBoard(turn)
 
   override def clone(): GameBoard = {
     val cloned = new GameBoard()
@@ -91,17 +104,17 @@ class GameBoard {
   }
 
   private def isNextMoveAvailable(lastStoneHoleIndex: Int): Boolean = turn match {
-    case Turn.FirstPlayer => lastStoneHoleIndex == PLAYER_ONE_BASE_INDEX
-    case Turn.SecondPlayer => lastStoneHoleIndex == PLAYER_TWO_BASE_INDEX
+    case Player.First => lastStoneHoleIndex == PLAYER_ONE_BASE_INDEX
+    case Player.Second => lastStoneHoleIndex == PLAYER_TWO_BASE_INDEX
   }
 
   // first we check if last move was in player's board part
   // then we check if this hole has only one stone
   private def isTakingOppositeStonesAvailable(lastStoneHoleIndex: Int): Boolean = turn match {
-    case Turn.FirstPlayer =>
+    case Player.First =>
       (PLAYER_ONE_FIRST_HOLE_INDEX until PLAYER_ONE_BASE_INDEX contains lastStoneHoleIndex) && board(lastStoneHoleIndex) == 1
 
-    case Turn.SecondPlayer =>
+    case Player.Second =>
       (PLAYER_TWO_FIRST_HOLE_INDEX until PLAYER_TWO_BASE_INDEX contains lastStoneHoleIndex) && board(lastStoneHoleIndex) == 1
   }
 
@@ -109,11 +122,11 @@ class GameBoard {
     var oppositeHoleIndex: Int = 0
 
     turn match {
-      case Turn.FirstPlayer =>
+      case Player.First =>
         oppositeHoleIndex = PLAYER_ONE_BASE_INDEX + (PLAYER_ONE_BASE_INDEX - lastStoneHoleIndex)
         board(PLAYER_ONE_BASE_INDEX) += board(oppositeHoleIndex) + board(lastStoneHoleIndex)
 
-      case Turn.SecondPlayer =>
+      case Player.Second =>
         oppositeHoleIndex = PLAYER_ONE_BASE_INDEX - (PLAYER_ONE_BASE_INDEX - lastStoneHoleIndex)
         board(PLAYER_TWO_BASE_INDEX) += board(oppositeHoleIndex) + board(lastStoneHoleIndex)
     }
@@ -123,20 +136,7 @@ class GameBoard {
   }
 
   private def changeTurn(): Unit = turn match {
-    case Turn.FirstPlayer => turn = Turn.SecondPlayer
-    case Turn.SecondPlayer => turn = Turn.FirstPlayer
+    case Player.First => turn = Player.Second
+    case Player.Second => turn = Player.First
   }
-}
-
-object GameBoard {
-  val PLAYERS_HOLES_NUMBER = 6
-  val STONES_INITIAL_AMOUNT = 6
-
-  val PLAYER_ONE_FIRST_HOLE_INDEX = 0
-  val PLAYER_ONE_BASE_INDEX: Int = PLAYERS_HOLES_NUMBER
-
-  val PLAYER_TWO_FIRST_HOLE_INDEX: Int = PLAYERS_HOLES_NUMBER + 1
-  val PLAYER_TWO_BASE_INDEX: Int = PLAYERS_HOLES_NUMBER * 2 + 1
-
-  val HOLES_BOARD_NUMBER: Int = PLAYERS_HOLES_NUMBER * 2 + 2
 }

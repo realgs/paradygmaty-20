@@ -1,4 +1,5 @@
-import gameboard.{GameBoard, Turn}
+import gameboard.GameBoard
+import model.{GameConstants, Player}
 import org.scalatest.FunSuite
 
 class BoardTests extends FunSuite {
@@ -13,7 +14,7 @@ class BoardTests extends FunSuite {
 
     gameBoard.makeMove(1)
 
-    assert(board(GameBoard.PLAYER_ONE_BASE_INDEX) == 21)
+    assert(board(GameConstants.PLAYER_ONE_BASE_INDEX) == 21)
   }
 
   test("nextTurnAvailableTest") {
@@ -23,14 +24,14 @@ class BoardTests extends FunSuite {
     board(5) = 1
     gameBoard.makeMove(5)
 
-    assert(gameBoard.getActualTurn == Turn.FirstPlayer)
+    assert(gameBoard.getActualTurn == Player.First)
   }
 
   test("isGameOverTest") {
     val gameBoard = new GameBoard()
     val board = gameBoard.getBoard
 
-    for(i <- GameBoard.PLAYER_ONE_FIRST_HOLE_INDEX until GameBoard.PLAYER_ONE_BASE_INDEX) {
+    for(i <- GameConstants.PLAYER_ONE_FIRST_HOLE_INDEX until GameConstants.PLAYER_ONE_BASE_INDEX) {
       board(i) = 0
     }
 
@@ -41,13 +42,13 @@ class BoardTests extends FunSuite {
     val gameBoard = new GameBoard()
     val board = gameBoard.getBoard
 
-    for(i <- GameBoard.PLAYER_ONE_FIRST_HOLE_INDEX until GameBoard.PLAYER_ONE_BASE_INDEX) {
+    for(i <- GameConstants.PLAYER_ONE_FIRST_HOLE_INDEX until GameConstants.PLAYER_ONE_BASE_INDEX) {
       board(i) = 0
     }
 
     gameBoard.finishGame()
 
-    assert(board(GameBoard.PLAYER_TWO_BASE_INDEX) == 36 && board(GameBoard.PLAYER_ONE_BASE_INDEX) == 0)
+    assert(board(GameConstants.PLAYER_TWO_BASE_INDEX) == 36 && board(GameConstants.PLAYER_ONE_BASE_INDEX) == 0)
   }
 
   test("normalTurnsTest") {
