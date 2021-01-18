@@ -11,7 +11,6 @@ class Server extends Actor {
   var board: Board = new Board
   var players: Array[ActorRef] = new Array[ActorRef](2)
   var numberOfPlayers = 0
-  var moveDone :Boolean = true
   var token = 0
   var timeStart: Long = 0
   var timeEnd: Long = 0

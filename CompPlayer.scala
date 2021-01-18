@@ -2,10 +2,7 @@ package L7
 
 import akka.actor.{Actor, ActorRef, PoisonPill}
 
-import scala.util.Random
-
 class CompPlayer(val server: ActorRef, val playerToken: Int,val hardnessMode: Int) extends Actor{
-  var r = Random
   server ! Connect(playerToken)
 
   override def receive: Receive = {
