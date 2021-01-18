@@ -4,13 +4,13 @@ import scala.io.StdIn.readInt
 
 class KalahaGame(val numberOfStones: Int)
 {
-    val numbOfHouses = 6
-    val houses: Array[Array[Int]] = Array.ofDim[Int](2,numbOfHouses+1) // Base at index 6
-    val baseIdx: Int = 6
-    val players : Array[Player] = new Array[Player](2)
-    var tokenMove  = 0  // represent who is moving
-    var extraMove = false // true if current player has extra move
-    var gameON = true
+    private[this] val numbOfHouses = 6
+    private[this] val houses: Array[Array[Int]] = Array.ofDim[Int](2,numbOfHouses+1) // Base at index 6
+    private[this] val baseIdx: Int = 6
+    private[this] val players : Array[Player] = new Array[Player](2)
+    private[this] var tokenMove  = 0  // represent who is moving
+    private[this] var extraMove = false // true if current player has extra move
+    private[this] var gameON = true
     private def createPlayers(): Unit ={
         for(i<-players.indices)
             players(i) = new CompPlayer(i)

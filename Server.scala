@@ -5,14 +5,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 
 class Server extends Actor{
-  private val gameBoard = new GameBoard(6)
-  private val players : Array[ActorRef] = new Array[ActorRef](2)
-  private val maxMoveTime: FiniteDuration = 10.seconds
-  private var Idx = 0
-  private var tokenMove  = 0  // represent who is moving
-  private var currentMoveNumb = 0
-  private val AutoMoveCode: Int = 7
-  private val EndGameCode: Int = 8
+  private[this] val gameBoard = new GameBoard(6)
+  private[this] val players : Array[ActorRef] = new Array[ActorRef](2)
+  private[this] val maxMoveTime: FiniteDuration = 10.seconds
+  private[this] var Idx = 0
+  private[this] var tokenMove  = 0  // represent who is moving
+  private[this] var currentMoveNumb = 0
+  private[this] val AutoMoveCode: Int = 7
+  private[this] val EndGameCode: Int = 8
 
   override def receive: Receive = {
     case Connect(side)=>
@@ -57,7 +57,6 @@ class Server extends Actor{
     }
     case TimesUp(side, moveNumb) =>
     {
-      //println("Player "+side +" moveNumb "+moveNumb+" cm "+currentMoveNumb)
       if(currentMoveNumb == moveNumb){
         println("Player "+side +" your move: "+moveNumb+" time end, auto house chosen")
         gameBoard.move(getFirstNotEmptyIdx(side), side)
