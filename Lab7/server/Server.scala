@@ -115,7 +115,8 @@ class Server extends Actor {
     case Connected(player: Player) => connect(sender(), player)
     case Terminated(client: ActorRef) => disconnect(client)
 
-    case StartGame => start()
+    case StartGame() => start()
+    case StopGame() => stop()
     case MoveDecided(move: Int) =>
       if(sender() == currentClient) {
         timerEnd = System.currentTimeMillis()
