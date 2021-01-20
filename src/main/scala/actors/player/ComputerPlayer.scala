@@ -7,8 +7,6 @@ import decisiontree.DecisionTree
 import gameboard.GameBoard
 import model.{GameConstants, Player}
 
-import scala.util.Random
-
 class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
 
   private val decisionTree = new DecisionTree(player)
@@ -23,25 +21,8 @@ class ComputerPlayer(server: ActorRef, player: Player.Value) extends Actor {
 
   override def receive: Receive = {
     case PlayerActions.MakeMove(gameBoard: GameBoard) => {
-      println(s"\nPlayer ${player.id + 1} turn")
-      gameBoard.printBoard(player)
-
-      val bestMove = getNextMove(gameBoard)
-      println("Player will send bestMove to the server")
-      server ! ServerActions.ValidateMove(bestMove)
+      sender ! getNextMove(gameBoard)
     }
-
-    case PlayerActions.Timeout(gameBoard: GameBoard) => {
-      println("Koniec czasu")
-      var randomMove = 0
-
-      do {
-        randomMove = Random.between(firstHoleIndex, firstHoleIndex + GameConstants.PLAYERS_HOLES_NUMBER)
-      } while (gameBoard.isMoveValid(randomMove))
-
-      server ! ServerActions.ValidateMove(randomMove)
-    }
-
   }
 
   private def getNextMove(gameBoard: GameBoard): Int = {

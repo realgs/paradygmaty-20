@@ -21,11 +21,9 @@ class DecisionTree(private val maximizingPlayer: Player.Value) {
 
   def minimax(gameBoard: GameBoard, depth: Int, alpha: Int, beta: Int, isMaximizingPlayer: Boolean): Int = {
     if (gameBoard.isGameOver) {
-      //println("Decision Tree - Game Over")
       return gameBoard.getFinalScore(maximizingPlayer)
     }
     if (depth == 0) {
-      //println("Decision Tree - depth 0")
       return gameBoard.getActualScore(maximizingPlayer)
     }
 

@@ -3,6 +3,8 @@ package gameboard
 import model.GameConstants._
 import model.Player
 
+import scala.util.Random
+
 class GameBoard {
   private var turn = Player.First
   private val board: Array[Int] = Array.fill(HOLES_BOARD_NUMBER)(STONES_INITIAL_AMOUNT)
@@ -37,7 +39,21 @@ class GameBoard {
     board(holeIndex) = 0
   }
 
+  def makeRandomMove(): Unit = {
+    var randomMove = 0
+
+    do {
+      turn match {
+        case Player.First => randomMove = Random.between(PLAYER_ONE_FIRST_HOLE_INDEX, PLAYER_ONE_BASE_INDEX)
+        case Player.Second => randomMove = Random.between(PLAYER_TWO_FIRST_HOLE_INDEX, PLAYER_TWO_BASE_INDEX)
+      }
+    } while (!isMoveValid(randomMove))
+
+    makeMove(randomMove)
+  }
+
   def isMoveValid(holeIndex: Int): Boolean = {
+    if(holeIndex > HOLES_BOARD_NUMBER || holeIndex < 0) return false
     if (board(holeIndex) == 0) return false
 
     turn match {

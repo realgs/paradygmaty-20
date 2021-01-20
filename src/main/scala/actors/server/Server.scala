@@ -6,70 +6,55 @@ import akka.actor.{Actor, ActorRef, PoisonPill, Props, Timers}
 import akka.pattern.ask
 import akka.util.Timeout
 import gameboard.GameBoard
+import model.GameConstants.NUMBER_OF_PLAYERS
 import model.Player
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
+import scala.util.{Failure, Success}
 
 class Server extends Actor with Timers {
 
-  private val playersList = new Array[ActorRef](2)
+  private val playersList = new Array[ActorRef](NUMBER_OF_PLAYERS)
   private var gameBoard: GameBoard = _
 
-  private var timeout = false
+  implicit private val timeout: Timeout = Timeout(TURN_TIME)
 
   override def receive: Receive = {
     case ServerActions.ConnectToServer(playerId: Int) => {
       playersList(playerId) = sender()
       println(s"Player ${playerId + 1} has connected to the server")
 
-      if(playersList(PLAYER_ONE_INDEX) != null && playersList(PLAYER_TWO_INDEX) != null) {
-        self ! ServerActions.StartGame
-      }
-    }
-
-    case ServerActions.StartGame => {
-      println("Game is starting")
-
-      gameBoard = new GameBoard()
-      playersList(PLAYER_ONE_INDEX) ! PlayerActions.MakeMove(gameBoard.clone())
-
-      startTimer()
+      if (!playersList.contains(null)) startGame()
     }
 
     case ServerActions.ValidateMove(holeIndex: Int) => {
-      println("Server is validating the move")
-
-      if (!timeout) {
-        println("No timeout")
-        if (gameBoard.isMoveValid(holeIndex)) handleValidMove(holeIndex)
-        else handleInvalidMove(holeIndex)
-      }
-      else {
-        timeout = false
-      }
+      sender ! gameBoard.isMoveValid(holeIndex)
     }
 
-    case ServerActions.NextMove => {
-      startTimer()
-      playersList(gameBoard.getActualTurn.id) ! PlayerActions.MakeMove(gameBoard.clone())
-    }
+    case ServerActions.NextMove =>
+      printTurnInformation()
 
-    case ServerActions.GameOver => {
+      val future = playersList(gameBoard.getActualTurn.id) ? PlayerActions.MakeMove(gameBoard.clone())
+
+      future onComplete {
+        case Success(holeIndex: Int) => handleValidMove(holeIndex)
+        case Failure(_) => handleTimeout()
+      }
+
+    case ServerActions.GameOver =>
       gameBoard.finishGame()
       printWinnerCommunicate()
       disconnectPlayers()
-    }
+      terminateActorsSystem()
+  }
 
-    case ServerActions.Timeout => {
-      println("Timeout occurred")
-      timeout = true
-      playersList(gameBoard.getActualTurn.id) ! PlayerActions.Timeout(gameBoard.clone())
-    }
+  private def startGame(): Unit = {
+    gameBoard = new GameBoard()
+    self ! ServerActions.NextMove
   }
 
   private def handleValidMove(holeIndex: Int): Unit = {
-    println("Handle Valid move")
-    stopTimer()
     gameBoard.makeMove(holeIndex)
 
     if (gameBoard.isGameOver) {
@@ -79,10 +64,10 @@ class Server extends Actor with Timers {
     }
   }
 
-  private def handleInvalidMove(holeIndex: Int): Unit = {
-    println("Handle invalid move")
-    println(s"Hole index: ${holeIndex}")
-    sender() ! PlayerActions.InvalidMove(holeIndex)
+  private def handleTimeout(): Unit = {
+    println("Timeout! You lost!")
+    disconnectPlayers()
+    terminateActorsSystem()
   }
 
   private def printWinnerCommunicate(): Unit = {
@@ -93,28 +78,22 @@ class Server extends Actor with Timers {
     else println("Draw!")
   }
 
+  private def printTurnInformation(): Unit = {
+    println(s"Player ${gameBoard.getActualTurn.id + 1} turn")
+    gameBoard.printBoard()
+  }
+
   private def disconnectPlayers(): Unit = {
     for (i <- playersList.indices) {
       playersList(i) ! PoisonPill
     }
   }
 
-  private def startTimer(): Unit = {
-    timers.startSingleTimer(TIMER_KEY, ServerActions.Timeout, TURN_TIME)
-  }
-
-  private def stopTimer(): Unit = {
-    timers.cancel(TIMER_KEY)
-  }
+  private def terminateActorsSystem() = context.system.terminate()
 }
 
 object Server {
   def props: Props = Props[Server]()
 
-  private val TURN_TIME = 30000.millis
-
-  private val PLAYER_ONE_INDEX = 0
-  private val PLAYER_TWO_INDEX = 1
-
-  private val TIMER_KEY = "SERVER_TIMER"
+  private val TURN_TIME = 30.seconds
 }
