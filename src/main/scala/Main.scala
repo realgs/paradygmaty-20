@@ -27,7 +27,4 @@ object Main extends App {
     val playerOne: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server, Player.First), "Player1")
     val playerTwo: ActorRef = actorSystem.actorOf(ComputerPlayer.props(server, Player.Second), "Player2")
   }
-
-
-
 }
