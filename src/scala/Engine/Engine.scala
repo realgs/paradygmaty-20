@@ -1,3 +1,4 @@
+// Konrad Karanowski
 package Engine
 
 import Game.Board;
