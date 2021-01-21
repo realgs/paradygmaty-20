@@ -14,7 +14,7 @@ trait Player extends Actor
       sender ! makeMove(board)
 
     case FailureInfo =>
-      println(Console.RED + "Move is illegal, the random move was chosen for you randomly.")
+      println(Console.RED + "Move is illegal, the move was chosen for you randomly.")
   }
 
   protected def makeMove(board: Board): Int
