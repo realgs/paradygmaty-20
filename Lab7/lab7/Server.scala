@@ -13,8 +13,8 @@ class Server(val firstPlayer: ActorRef, val secondPlayer: ActorRef) extends Acto
 
   private var counter = 0
 
-  def opponent(act: ActorRef) = if (firstPlayer == act) secondPlayer else firstPlayer
-  def currentPlayer = if (position.turn == Yellow) firstPlayer else secondPlayer
+  def opponent(act: ActorRef): ActorRef = if (firstPlayer == act) secondPlayer else firstPlayer
+  def currentPlayer: ActorRef = if (position.turn == Yellow) firstPlayer else secondPlayer
 
   firstPlayer ! Init(self, Yellow)
   secondPlayer ! Init(self, Blue)
@@ -22,26 +22,14 @@ class Server(val firstPlayer: ActorRef, val secondPlayer: ActorRef) extends Acto
   firstPlayer ! MoveRequest(position, moveTimeSeconds)
   system.scheduler.scheduleOnce(moveTimeSeconds.seconds, self, TimeUp(counter))
 
-  def receive = {
+  def receive: Receive = {
     case Move(move) => {
       counter += 1
       try {
         position = position.next(move)
         if (position.finished) {
-          position.winner match {
-            case None => {
-              firstPlayer ! End(Draw)
-              secondPlayer ! End(Draw)
-            }
-            case Some(Yellow) => {
-              firstPlayer ! End(Win)
-              secondPlayer ! End(Loose)
-            }
-            case Some(Blue) => {
-              firstPlayer ! End(Loose)
-              secondPlayer ! End(Win)
-            }
-          }
+          firstPlayer ! End(position.yellowMankala)
+          secondPlayer ! End(position.blueMankala)
         } else {
           currentPlayer ! MoveRequest(position, moveTimeSeconds)
           system.scheduler.scheduleOnce(moveTimeSeconds.seconds, self, TimeUp(counter))
@@ -65,7 +53,7 @@ class Server(val firstPlayer: ActorRef, val secondPlayer: ActorRef) extends Acto
 }
 
 object Server {
-  val moveTimeSeconds = 10
+  val moveTimeSeconds = 30
   val wrongMoveTimeSeconds = 20
 
   def props(firstPlayer: ActorRef, secondPlayer: ActorRef): Props = Props(new Server(firstPlayer, secondPlayer))

@@ -2,10 +2,11 @@ package lab7
 
 import scala.collection.parallel.CollectionConverters._
 
-case object MinMaxAlgorithm extends Algorithm {
+class MinMaxAlgorithm(val level: Int) extends Algorithm {
   override def move(position: Position): Int = {
     val node = new Node(position)
-    node.calculate(12, position.turn)
+    val move = node.calculate(level, position.turn)
+    move
   }
 
   class Node(val position: Position, val id: String = "start") {

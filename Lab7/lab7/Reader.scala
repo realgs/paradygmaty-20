@@ -3,16 +3,16 @@ package lab7
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import lab7.Reader.{AskInt, Read, ResponseInt, Withdraw}
 
+import scala.collection.mutable
 import scala.io.StdIn.readInt
-import scala.collection.mutable._
 
 class Reader(system: ActorSystem) extends Actor {
   var intReader: ActorRef = system.actorOf(ReadInt.props())
   intReader ! ReadInt.Start
 
-  val queue: Queue[(ActorRef, ActorRef, String)] = new Queue()
+  val queue: mutable.Queue[(ActorRef, ActorRef, String)] = new mutable.Queue()
 
-  def receive = {
+  def receive: Receive = {
     case AskInt(msg, act) => {
       if (queue.isEmpty) println(msg)
       queue.enqueue((sender(), act, msg))
@@ -22,10 +22,10 @@ class Reader(system: ActorSystem) extends Actor {
       if(msg.length > 0) println(msg)
     }
     case Read(answer) => {
-      if (!queue.isEmpty) {
+      if (queue.nonEmpty) {
         val (waitingActor, _, _) = queue.dequeue()
         waitingActor ! ResponseInt(answer)
-        if(!queue.isEmpty) {
+        if(queue.nonEmpty) {
           val (_,_, msg) = queue.front
           println(msg)
         }
@@ -34,7 +34,7 @@ class Reader(system: ActorSystem) extends Actor {
   }
 
   class ReadInt() extends Actor {
-    def receive = {
+    def receive: Receive = {
       case ReadInt.Start => {
         println("ReadInt started")
         while (true) {

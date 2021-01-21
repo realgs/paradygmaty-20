@@ -5,6 +5,9 @@ import scala.util.Random
 class Position private(var turn: Player, _holes: Array[Int]) {
   val holes: Array[Int] = _holes.clone()
 
+  def yellowMankala: Int = holes(6)
+  def blueMankala: Int = holes(13)
+
   def firstHole: Int = turn match {
     case Yellow => 0
     case Blue => 7

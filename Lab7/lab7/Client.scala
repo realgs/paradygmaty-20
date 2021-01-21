@@ -9,7 +9,7 @@ class Client(val algorithm: Option[Algorithm] = None, val reader: ActorRef, val 
   private var server: Option[ActorRef] = None
   private var color = ""
 
-  def receive = {
+  def receive: Receive = {
     case Init(serv: ActorRef, playerColor: Player ) => {
       server = Some(serv)
       if (playerColor == Yellow) color = Console.YELLOW
@@ -19,7 +19,11 @@ class Client(val algorithm: Option[Algorithm] = None, val reader: ActorRef, val 
       println(position)
       algorithm match {
         case None => reader ! AskInt(color + s"your turn (you've got $seconds seconds)" + Console.RESET, self)
-        case Some(alg) => server.get ! Move(alg.move(position))
+        case Some(alg) => {
+          val move = alg.move(position)
+          println(color + "algorithm found out " + move)
+          server.get ! Move(move)
+        }
       }
     }
     case ResponseInt(answer) => {
@@ -28,9 +32,15 @@ class Client(val algorithm: Option[Algorithm] = None, val reader: ActorRef, val 
     case PositionUpdated(position) => {
       println(position)
     }
-    case End(reason) => {
-      ???
-      reader ! Withdraw("timeout")
+    case End(score) => {
+      reader ! Withdraw()
+      if (score == 36) {
+        println(color + "the game ended with a draw (36 - 36)" + Console.RESET)
+      } else if (score < 36) {
+        println(color + s"you loose ($score - ${72 - score})" + Console.RESET)
+      } else {
+        println(color + s"you won ($score - ${72 - score})" + Console.RESET)
+      }
     }
     case InvalidMove(seconds) => {
       reader ! AskInt(color + s"Invalid Move. \r\n your turn (you've got $seconds seconds)" + Console.RESET, self)
@@ -48,7 +58,7 @@ object Client {
   final case class Init(serv: ActorRef, playerColor: Player)
   final case class MoveRequest(position: Position, seconds: Int)
   final case class PositionUpdated(position: Position)
-  final case class End(reason: Reason)
+  final case class End(score: Int)
   final case class InvalidMove(seconds: Int)
   final case class Timeout()
 }
