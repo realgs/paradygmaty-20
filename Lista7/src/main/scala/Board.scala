@@ -40,7 +40,7 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     pits(index) = 0
     lastDroppedSeedIndex = index
     while(seeds > 0){
-      lastDroppedSeedIndex = (lastDroppedSeedIndex + 1) % 13
+      lastDroppedSeedIndex = (lastDroppedSeedIndex + 1) % 14
       pits(lastDroppedSeedIndex) += 1
       seeds -= 1
     }
@@ -73,7 +73,7 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     if(activePlayerNumber == 0 && lastDroppedSeedIndex != fstPlayerEndZoneIndex) {
       activePlayerNumber = 1
     }
-    if(activePlayerNumber == 1 && lastDroppedSeedIndex != sndPlayerEndZoneIndex) {
+    else if(activePlayerNumber == 1 && lastDroppedSeedIndex != sndPlayerEndZoneIndex) {
       activePlayerNumber = 0
     }
   }
@@ -107,10 +107,12 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
 
   def printBoard(): Unit = {
     println("")
-    println("Pit nr:\t12\t11\t10\t9\t8\t7\t\tPlayer 2")
+    println("\t\t\tPlayer 2 side")
+    println("Pit nr:\t 12\t 11\t 10\t 9\t 8\t 7")
     println(s"\t\t[${pits(12)}]\t[${pits(11)}]\t[${pits(10)}]\t[${pits(9)}]\t[${pits(8)}]\t[${pits(7)}]")
-    println(s"\t[${pits(13)}]\t\t\t\t\t\t\t\t\t[${pits(6)}]")
+    println(s"\t[${pits(13)}]\t\t\t\t\t\t  [${pits(6)}]")
     println(s"\t\t[${pits(0)}]\t[${pits(1)}]\t[${pits(2)}]\t[${pits(3)}]\t[${pits(4)}]\t[${pits(5)}]")
-    println("Pit nr:\t0\t1\t2\t3\t4\t5\t\tPlayer 1")
+    println("Pit nr:\t 0\t 1\t 2\t 3\t 4\t 5")
+    println("\t\t\tPlayer 1 side")
   }
 }

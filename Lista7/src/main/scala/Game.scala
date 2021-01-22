@@ -13,6 +13,7 @@ object Game extends App{
     while(startingSeeds < 3 || startingSeeds > 6){
       startingSeeds = getUserInputFromConsole
     }
+    createCompVsCompGame(startingSeeds)
   }
   if(usersChoice == 2){
     println("You have chosen to play against vs computer")
@@ -22,11 +23,13 @@ object Game extends App{
     while(startingSeeds < 3 || startingSeeds > 6){
       startingSeeds = getUserInputFromConsole
     }
+    createHumanVSCompGame(startingSeeds)
   }
-  println("Goodbye!")
 
   def createCompVsCompGame(startingSeeds: Int): Unit = {
     val startingPlayerNumber = drawBeginnerNumber()
+    if (startingPlayerNumber == 0) println("Player 1 starts")
+    else println("Player 2 starts")
     val system = ActorSystem("System")
     val board = new Board(startingSeeds, startingPlayerNumber)
     val fstPlayer = system.actorOf(Props(classOf[ComputerPlayer], 0.toByte), "fstPlayer")
@@ -37,6 +40,8 @@ object Game extends App{
 
   def createHumanVSCompGame(startingSeeds: Int): Unit = {
     val startingPlayerNumber = drawBeginnerNumber()
+    if (startingPlayerNumber == 0) println("Player 1 starts")
+    else println("Player 2 starts")
     val system = ActorSystem("System")
     val board = new Board(startingSeeds, startingPlayerNumber)
     val fstPlayer = system.actorOf(Props(classOf[HumanPlayer], 0.toByte), "fstPlayer")

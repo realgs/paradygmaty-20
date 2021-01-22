@@ -1,34 +1,34 @@
 import HumanPlayer.ChoosePit
-import Server.{EndGame, Move, RequestPitNumber, Walkover}
+import Server._
 import akka.actor.{Actor, ActorRef}
-import akka.pattern.ask
-import akka.util.Timeout
 
-import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
-import scala.concurrent.duration.DurationInt
-import scala.util.{Failure, Success}
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
 
 class Server(val board: Board, val fstPlayer: ActorRef, val sndPlayer: ActorRef) extends Actor{
-  implicit val timeout: Timeout = Timeout(30 seconds)
-  implicit val ec: ExecutionContextExecutor = ExecutionContext.global
+
+  private val timeLimit: FiniteDuration = 30 seconds
+  var requestStartTime: Long = System.currentTimeMillis()
+  var requestEndTime: Long = System.currentTimeMillis()
 
   override def receive: Receive = {
     case RequestPitNumber =>
+      if(board.getActivePlayerNumber == 0) println("*** Player 1 move ***")
+      else println("*** Player 2 move ***")
       board.printBoard()
-      if (board.getActivePlayerNumber == 0) {
-        val futureResult = fstPlayer ? ChoosePit(board)
-        futureResult onComplete {
-          case Success(result) => self ! result
-          case Failure(_) => self ! Walkover
+
+      requestStartTime = System.currentTimeMillis()
+      if (board.getActivePlayerNumber == 0) fstPlayer ! ChoosePit(board)
+      else sndPlayer ! ChoosePit(board)
+
+    case CheckMove (index: Int) =>
+      requestEndTime = System.currentTimeMillis()
+      if(requestEndTime - requestStartTime < timeLimit.toMillis){
+        if(board.isChosenPitCorrect(index)){
+          self ! Move(index)
         }
+        else sender() ! ChoosePit(board)
       }
-      else {
-        val futureResult = sndPlayer ? ChoosePit(board)
-        futureResult onComplete {
-          case Success(result) => self ! result
-          case Failure(_) => self ! Walkover
-        }
-      }
+      else self ! Walkover
 
     case Walkover =>
       if (board.getActivePlayerNumber == 0) {
@@ -40,6 +40,7 @@ class Server(val board: Board, val fstPlayer: ActorRef, val sndPlayer: ActorRef)
         println("Player 2 wins!")
       }
       context.system.terminate()
+      println("Goodbye!")
 
     case Move(pitNumber: Int) =>
       board.moveSeedsFrom(pitNumber)
@@ -53,6 +54,7 @@ class Server(val board: Board, val fstPlayer: ActorRef, val sndPlayer: ActorRef)
       board.endGameCollectSeeds()
       board.printEndGameResult()
       context.system.terminate()
+      println("Goodbye!")
   }
 }
 object Server{
@@ -60,4 +62,5 @@ object Server{
   case object EndGame
   case object Walkover
   case class Move(index: Int)
+  case class CheckMove(index : Int)
 }
