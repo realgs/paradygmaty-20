@@ -4,13 +4,17 @@ import akka.actor._
 import Server._
 import Board.Board
 
-abstract class Player(val id: Int, val server: ActorRef) extends Actor
+abstract class Player(val id: Int) extends Actor
 {
   override def receive: Receive =
     {
-      case Player.RequestMove(board) =>
+      case RequestMove(board) =>
+        println()
         println(board)
-        server ! Server.MakeMove(makeMove(), id)
+        sender ! (makeMove(), id)
+
+      case WrongMove(message) =>
+        println(message)
     }
 
   protected def makeMove(): Int
@@ -18,6 +22,6 @@ abstract class Player(val id: Int, val server: ActorRef) extends Actor
 
 object Player
 {
-  case class RequestMove(board: Board)
+
 }
 
