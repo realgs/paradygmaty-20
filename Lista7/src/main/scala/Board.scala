@@ -14,7 +14,7 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     lastHouseIndex - 1 - index
   }
 
-  def isHouseEmpty(index: Int): Boolean = {
+  private def isHouseEmpty(index: Int): Boolean = {
     pits(index) == 0
   }
 
@@ -44,6 +44,9 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
       pits(lastDroppedSeedIndex) += 1
       seeds -= 1
     }
+    if(pits(lastDroppedSeedIndex) == 1 && lastDroppedSeedIndex != fstPlayerEndZoneIndex && lastDroppedSeedIndex != sndPlayerEndZoneIndex){
+      collectSeedsFromOppositePit(lastDroppedSeedIndex)
+    }
   }
 
   def endGameCollectSeeds(): Unit = {
@@ -55,7 +58,7 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     }
   }
 
-  def collectSeedsFromOppositePit(index: Int): Unit = {
+  private def collectSeedsFromOppositePit(index: Int): Unit = {
     if(activePlayerNumber == 0){
       pits(fstPlayerEndZoneIndex) += (pits(getOppositeHouseIndex(index)) + 1)
     }
@@ -75,15 +78,20 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     }
   }
 
-  def isMovePossible: Boolean = {
+  def isNextMovePossible: Boolean = {
     if(activePlayerNumber == 0 && pits.slice(0, 6).sum != 0) true
     else if(activePlayerNumber == 1 && pits.slice(7, 13).sum != 0) true
     else false
   }
 
-  def printResult(): Unit = {
-    println(s"Player 1 scored: ${pits(fstPlayerEndZoneIndex)}")
-    println(s"Player 2 scored: ${pits(sndPlayerEndZoneIndex)}")
+  def getActivePlayerNumber: Byte = {
+    activePlayerNumber
+  }
+
+  def printEndGameResult(): Unit = {
+    println("EndGame score:")
+    println(s" - Player 1 scored ${pits(fstPlayerEndZoneIndex)} points")
+    println(s" - Player 2 scored ${pits(sndPlayerEndZoneIndex)} points")
     if(pits(sndPlayerEndZoneIndex) > pits(fstPlayerEndZoneIndex)){
       println("Player 2 won!")
     }
