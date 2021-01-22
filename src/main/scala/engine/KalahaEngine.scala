@@ -1,6 +1,8 @@
 package engine
 
+import Board.ImmutableBoard
+
 trait KalahaEngine
 {
-  def calculateBestMove(depth: Int): Int
+  def calculateBestMove(board: ImmutableBoard): Int
 }

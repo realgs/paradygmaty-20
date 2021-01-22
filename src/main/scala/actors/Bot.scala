@@ -1,25 +1,28 @@
 package actors
 
+import Board.{Board, ImmutableBoard}
 import akka.actor._
 import Server._
+import engine.KalahaEngine
 
-class Bot(id: Int) extends Player(id)
+class Bot(id: Int, private[this] val engine: KalahaEngine) extends Player(id)
 {
-  override protected def makeMove(): Int =
+  override protected def makeMove(board: Board): Int =
     {
-      val move = findBestMove()
-      println(s"Bot choice is: ${move + 1}")
+      println()
+      println(board)
+      val move = findBestMove(board)
+      println(s"Bot$id choice is: ${move + 1}")
       move
     }
 
-  def findBestMove(): Int =
+  def findBestMove(board: Board): Int =
     {
-      val random = scala.util.Random
-      random.nextInt(Server.numOfHoles)
+      engine.calculateBestMove(new ImmutableBoard(board.copyBoard()))
     }
 }
 
 object Bot
 {
-  def props(id: Int): Props = Props(classOf[Bot], id)
+  def props(id: Int, engine: KalahaEngine): Props = Props(classOf[Bot], id, engine)
 }

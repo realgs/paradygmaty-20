@@ -1,10 +1,8 @@
 package Board
 
-import actors.Server
-
 class Board
 {
-  val board: Array[Array[Int]] = Array(Array(6, 6, 6, 6, 6, 6, 0), Array(6, 6, 6, 6, 6, 6, 0))
+  private[this] val board: Array[Array[Int]] = Array(Array(6, 6, 6, 6, 6, 6, 0), Array(6, 6, 6, 6, 6, 6, 0))
   val numOfHoles: Int = 6
   val numOfPlayers: Int = 2
 
@@ -47,7 +45,7 @@ class Board
     else false
   }
 
-  def checkGameEnd(board: Board): Int =
+  def checkGameEnd(): Int =
   {
     """
       |Checks if either player has no stones in any of his holes. Returns -1 if both players have at least one non-empty hole or
@@ -59,7 +57,7 @@ class Board
       var hasStones = false
       for (j <- 0 until numOfHoles)
       {
-        if (board.board(i)(j) > 0)
+        if (board(i)(j) > 0)
           hasStones = true
       }
       if(!hasStones)
@@ -95,6 +93,16 @@ class Board
       if(board(player_id)(i) > 0)
         seq = seq.appended(i)
     seq
+  }
+
+  def getPoints(player_id: Int): Int =
+    {
+      board(player_id)(6)
+    }
+
+  def copyBoard(): Array[Array[Int]] =
+  {
+    Array(board(0).clone, board(1).clone)
   }
 
   override def toString: String =
