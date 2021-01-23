@@ -2,7 +2,7 @@ import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
 
 object EngineClient {
-  var gameState: GameState = GameState()
+  private var gameState: GameState = GameState()
 
   private def refreshDisplay(name: String): Unit = {
     println(s"[$name] Refreshing state...")

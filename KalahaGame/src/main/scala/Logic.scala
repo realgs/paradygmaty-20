@@ -1,5 +1,5 @@
 object Logic {
-  val TREE_DEPTH = 15
+  private val TREE_DEPTH = 15
 
   def getMove(gs: GameState)(turn: Int): Int = {
     var maxValue = Integer.MIN_VALUE

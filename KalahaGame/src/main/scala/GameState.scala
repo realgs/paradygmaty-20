@@ -1,11 +1,11 @@
 class GameState(var seedsPerHouse: Int = 4, val southName: String = "South", val northName: String = "North") {
   assert(seedsPerHouse >= 0)
 
-  val BOARD_SIZE = 14
-  val NORTH_STORE_INDEX = 13
-  val SOUTH_STORE_INDEX = 6
+  private val BOARD_SIZE = 14
+  private val NORTH_STORE_INDEX = 13
+  private val SOUTH_STORE_INDEX = 6
 
-  var board: Array[Int] = Array.fill(BOARD_SIZE)(seedsPerHouse)
+  private var board: Array[Int] = Array.fill(BOARD_SIZE)(seedsPerHouse)
   board(6) = 0
   board(13) = 0
 
@@ -26,15 +26,6 @@ class GameState(var seedsPerHouse: Int = 4, val southName: String = "South", val
     }
 
     lastStore
-  }
-
-  def getAnyCorrectMove(turn: Int): Int = {
-    for (i <- 5 to 0) {
-      if (isMoveCorrect(i)(turn)) {
-        i
-      }
-    }
-    -1
   }
 
   def isMoveCorrect(relativeIndex: Int)(turn: Int): Boolean = {

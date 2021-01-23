@@ -4,7 +4,7 @@ import akka.actor.typed.scaladsl.Behaviors
 import scala.io.StdIn.readInt
 
 object Client {
-  var gameState: GameState = GameState()
+  private var gameState: GameState = GameState()
 
   private def refreshDisplay(name: String): Unit = {
     println(s"[$name] Refreshing state...")

@@ -2,18 +2,18 @@ import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
 
 object Server {
-  var gameState: GameState = GameState()
-  var currentTurn: ActorRef[ServerResponse] = _
+  private var gameState: GameState = GameState()
+  private var currentTurn: ActorRef[ServerResponse] = _
 
-  var south: ActorRef[ServerResponse] = _
-  var north: ActorRef[ServerResponse] = _
+  private var south: ActorRef[ServerResponse] = _
+  private var north: ActorRef[ServerResponse] = _
 
   private var timeToMoveMillis: Long = 10 * 1000
   private var timeStart: Long = 0
 
-  implicit def bool2int(b:Boolean): Int = if (b) 1 else 0
+  implicit private def bool2int(b: Boolean): Int = if (b) 1 else 0
 
-  def changeTurn(): Unit = {
+  private def changeTurn(): Unit = {
     if (currentTurn == south) currentTurn = north else currentTurn = south
   }
 
