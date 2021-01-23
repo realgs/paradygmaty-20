@@ -13,8 +13,9 @@ object EngineClient {
     Behaviors.receive { (ctx, msg) =>
       msg match {
         case ExpectMove(server) =>
-          println("[EngineClient]: Making move...")
+          println(s"[$name]: Making move...")
           val moveIndex = Logic.getMove(gameState)(sideIdent)
+          println(s"[$name]: Moved from index=$moveIndex")
 
           server ! Move(moveIndex, ctx.self)
 
