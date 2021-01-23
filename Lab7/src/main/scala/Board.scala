@@ -4,6 +4,7 @@ class Board {
   private val board: Array[Int] = createBoard()
   var ifPlayerOneMove = true
   var ifOneAgainMove = false
+  var ifGameIsOver = false
 
   def makeMove(fieldNumber: Int): Boolean = {
 
@@ -36,6 +37,8 @@ class Board {
 
       } else ifPlayerOneMove = !ifPlayerOneMove
 
+      checkIfEndOfGame()
+
       true
     }
   }
@@ -56,4 +59,31 @@ class Board {
     printf("%n    | %2d | %2d | %2d | %2d | %2d | %2d |%n", board(0), board(1), board(2), board(3), board(4), board(5))
   }
 
+  def ifCorrectFieldNumber(fieldNumber: Int): Boolean =
+    fieldNumber >= 1 && fieldNumber <= 6 && board(fieldNumber + (if(ifPlayerOneMove) -1 else + 6)) != 0
+
+  def printResult(): Unit = {
+
+    val player1Score = board(6)
+    val player2Score = board(13)
+
+    printf("%nPlayer 1. score: %2d", player1Score)
+    printf("%nPlayer 2. score: %2d", player2Score)
+    if(player1Score == player2Score) println("\nDraw!")
+    else printf("%n%nPlayer %d. won!%n", if(player1Score > player2Score) 1 else 2)
+  }
+
+  def checkIfEndOfGame(): Unit = {
+
+    var i = 0
+    ifGameIsOver = true
+
+    for (x <- board) {
+
+      if(i >= 7 && i <= 12)
+        ifGameIsOver = ifGameIsOver && x == 0
+
+      i += 1
+    }
+  }
 }
