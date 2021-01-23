@@ -209,3 +209,4 @@ object Main extends App{
   server!Start()
   //przy graniu gracz vs komp : przed kazdym ruchem wyswielta sie aktualny stan pola, dolna czesc jest nasza, wpisujemy liczbę od 1 do 6 liczac od lewej sybolizującą z ktorego dolka chcemy wyjac kulki
 }
+
