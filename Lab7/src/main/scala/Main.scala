@@ -13,10 +13,10 @@ object Main extends App {
 
   def printMenu(): Unit = {
 
-    println("# Menu")
-    println("1. player vs computer")
-    println("2. computer vs computer")
-    println("3. exit\n")
+    println("\n# MENU")
+    println("# 1. PLAYER VS COMPUTER")
+    println("# 2. COMPUTER VS COMPUTER")
+    println("# 3. EXIT\n")
   }
 
   def chooseOption(): Int = {
@@ -26,7 +26,7 @@ object Main extends App {
 
     while(!ifCorrectNumber) {
 
-      print("Select option: ")
+      print("# SELECT OPTION: ")
 
       try {
 
@@ -35,11 +35,11 @@ object Main extends App {
         ifCorrectNumber = option >= 1 && option <= 3
 
         if(!ifCorrectNumber)
-          println("\nWrong number! Try again.")
+          println("\n# WRONG NUMBER! TRY AGAIN.")
 
       } catch {
 
-        case _: NumberFormatException => println("\nWrong input! Try again.")
+        case _: NumberFormatException => println("\n# WRONG INPUT! TRY AGAIN.")
         case _: Exception => ()
       }
     }
@@ -49,8 +49,12 @@ object Main extends App {
 
   def playerVsComputerGame(): Unit = {
 
+    println("\n# PLAYER VS COMPUTER")
+    println("# YOU ARE PLAYER 1., COMPUTER IS PLAYER 2.")
+
     val system = ActorSystem()
     val board = new Board
+    board.print()
     val player1 = system.actorOf(Props(new HumanPlayer), "player1")
     val player2 = system.actorOf(Props(new ComputerPlayer), "player2")
     val server = system.actorOf(Props(new Server(player1, player2, board)), "server")
@@ -59,8 +63,11 @@ object Main extends App {
   }
   def computerVsComputerGame(): Unit = {
 
+    print("\n# COMPUTER VS COMPUTER")
+
     val system = ActorSystem()
     val board = new Board
+    board.print()
     val player1 = system.actorOf(Props(new ComputerPlayer), "player1")
     val player2 = system.actorOf(Props(new ComputerPlayer), "player2")
     val server = system.actorOf(Props(new Server(player1, player2, board)), "server")

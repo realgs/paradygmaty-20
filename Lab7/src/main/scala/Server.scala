@@ -14,18 +14,19 @@ class Server(val player1: ActorRef, val player2: ActorRef, val board: Board) ext
   override def receive: Receive = {
 
     case AskForMove =>
-      println("ASK FOR MOVE")
-      if(board.ifPlayer1Move) waitForMove(player1)
+      printf("%n%n# PLAYER %d. MOVE", if(board.isPlayer1Move) 1 else 2)
+      if(board.isPlayer1Move) waitForMove(player1)
       else waitForMove(player2)
 
     case Move(fieldNumber) =>
-      println("WYBRANO " + fieldNumber)
+      printf("%n# PLAYER %d. HAS CHOSEN %d%n", if(board.isPlayer1Move) 1 else 2, fieldNumber)
       board.makeMove(fieldNumber)
       board.print()
-      if(board.ifGameIsOver) self ! EndGame
+      if(board.isGameOver) self ! EndGame
       else self ! AskForMove
 
     case EndGame =>
+      println("\n\n# THE GAME IS OVER")
       board.printResult()
       context.system.terminate()
   }
@@ -38,9 +39,9 @@ class Server(val player1: ActorRef, val player2: ActorRef, val board: Board) ext
 
       case Success(value) => self ! value
       case Failure(_) =>
-        printf("%nTime is up! Player %d won!%n%nEnd of the game!", if(board.ifPlayer1Move) 2 else 1)
+        printf("%n%n# TIME IS UP! PLAYER %d. WON!%n%n# END OF THE GAME!%n", if(board.isPlayer1Move) 2 else 1)
         context.system.terminate()
-        System.exit(0)
+//        System.exit(0)
     }
   }
 }

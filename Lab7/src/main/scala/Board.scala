@@ -1,10 +1,9 @@
-class Board {
+class Board(private val startStonesNumber: Int = 6) {
 
-  private val startStonesNumber = 6
   private val board: Array[Int] = createBoard()
-  var ifPlayer1Move = true
-  var ifOneAgainMove = false
-  var ifGameIsOver = false
+  private var ifPlayer1Move = true
+  private var ifOneMoreMove = false
+  private var ifGameIsOver = false
 
   def makeMove(fieldNumber: Int): Boolean = {
 
@@ -27,17 +26,33 @@ class Board {
         }
       }
 
-      if(index == (if(ifPlayer1Move) 6 else 13)) ifOneAgainMove = true
-      else if(board(index) == 1 && index >= (if(ifPlayer1Move) 0 else 7) && index <= (if(ifPlayer1Move) 5 else 12)) {
+      if(index == (if(ifPlayer1Move) 6 else 13)) ifOneMoreMove = true
+      else if(board(index) == 1 && board(12 - index) != 0 && index >= (if(ifPlayer1Move) 0 else 7) && index <= (if(ifPlayer1Move) 5 else 12)) {
 
         board(if(ifPlayer1Move) 6 else 13) += board(12 - index) + 1
         board(12 - index) = 0
         board(index) = 0
         ifPlayer1Move = !ifPlayer1Move
+        ifOneMoreMove = false
 
-      } else ifPlayer1Move = !ifPlayer1Move
+      } else {
+
+        ifPlayer1Move = !ifPlayer1Move
+        ifOneMoreMove = false
+      }
 
       checkIfEndOfGame()
+
+      if(ifGameIsOver) {
+
+        for(i <- 0 to 5) {
+
+          board(6) += board(i)
+          board(13) += board(i + 7)
+          board(i) = 0
+          board(i + 7) = 0
+        }
+      }
 
       true
     }
@@ -67,17 +82,36 @@ class Board {
     val player1Score = board(6)
     val player2Score = board(13)
 
-    printf("%nPlayer 1. score: %2d", player1Score)
-    printf("%nPlayer 2. score: %2d", player2Score)
-    if(player1Score == player2Score) println("\nDraw!")
-    else printf("%n%nPlayer %d. won!%n", if(player1Score > player2Score) 1 else 2)
+    printf("%n# PLAYER 1. SCORE: %2d", player1Score)
+    printf("%n# PLAYER 2. SCORE: %2d", player2Score)
+    if(player1Score == player2Score) println("\n# DRAW!")
+    else printf("%n%n# PLAYER %d. WON!%n", if(player1Score > player2Score) 1 else 2)
   }
 
   def checkIfEndOfGame(): Unit = {
 
     ifGameIsOver = true
 
-    for (i <- if(ifPlayer1Move) 7 to 12 else 0 to 6)
-        ifGameIsOver = ifGameIsOver && board(i) == 0
+    for (i <- if(ifPlayer1Move) 0 to 5 else 7 to 12)
+      ifGameIsOver = ifGameIsOver && board(i) == 0
   }
+
+  override def clone(): Board = {
+
+    val clone = new Board(startStonesNumber)
+
+    for(i <- 0 to 13)
+      clone.board(i) = board(i)
+    clone.ifPlayer1Move = ifPlayer1Move
+    clone.ifOneMoreMove = ifOneMoreMove
+    clone.ifGameIsOver = ifGameIsOver
+
+    clone
+  }
+
+  def getScores:(Int, Int) = (board(6), board(13))
+
+  def isPlayer1Move: Boolean = ifPlayer1Move
+  def hasLastPlayerOneMoreMove: Boolean = ifOneMoreMove
+  def isGameOver: Boolean = ifGameIsOver
 }

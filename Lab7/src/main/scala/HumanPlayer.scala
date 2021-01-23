@@ -16,17 +16,17 @@ class HumanPlayer extends Actor {
 
     while(!board.ifCorrectFieldNumber(fieldNumber)) {
 
-      print("Chose field (1-6): ")
+      print("\n\n# CHOSE FIELD (1-6): ")
 
       try {
 
         fieldNumber = StdIn.readInt()
         if(!board.ifCorrectFieldNumber(fieldNumber))
-          println("\nWrong field number! Try again.")
+          println("\n# WRONG FIELD NUMBER! TRY AGAIN.")
 
       } catch {
 
-        case _: NumberFormatException => println("\nWrong input! Try again.")
+        case _: NumberFormatException => println("\n# WRONG INPUT! TRY AGAIN.")
         case _: Exception => ()
       }
     }
