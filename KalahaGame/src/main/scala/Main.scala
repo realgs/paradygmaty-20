@@ -20,6 +20,4 @@ object Main extends App {
 
     Behaviors.empty
   }, "server")
-
-
 }

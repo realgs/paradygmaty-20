@@ -3,9 +3,6 @@ import akka.actor.typed.scaladsl.Behaviors
 
 import scala.io.StdIn.readInt
 
-class Client {
-}
-
 object Client {
   var gameState: GameState = GameState()
 

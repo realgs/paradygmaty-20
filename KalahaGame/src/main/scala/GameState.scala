@@ -55,7 +55,7 @@ class GameState(var seedsPerHouse: Int = 4, val southName: String = "South", val
     // Omit the opponents store
     val toOmit = if (turn == 0) NORTH_STORE_INDEX else SOUTH_STORE_INDEX
 
-    val firstIndex = (index + 1) % (BOARD_SIZE)
+    val firstIndex = (index + 1) % BOARD_SIZE
     val range = firstIndex until (firstIndex + size)
 
     var result = range.toArray.map(i => i % BOARD_SIZE)

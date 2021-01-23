@@ -9,9 +9,6 @@ sealed trait ServerResponse
 final case class RefreshState(gs: GameState) extends ServerResponse
 
 final case class ExpectMove(sender: ActorRef[Command]) extends ServerResponse
-final case class ExpectEngineMove(sender: ActorRef[Command], yourTurn: Int) extends ServerResponse
-
-final case class TimeExpired(sender: ActorRef[Command]) extends ServerResponse
 
 final case class InvalidMove(relativeIndex: Int, sender: ActorRef[Command]) extends ServerResponse
 final case class PromptMessage(msg: String) extends ServerResponse

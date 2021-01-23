@@ -1,15 +1,12 @@
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
 
-class Server {
-}
-
 object Server {
   var gameState: GameState = GameState()
-  var currentTurn: ActorRef[ServerResponse] = null
+  var currentTurn: ActorRef[ServerResponse] = _
 
-  var south: ActorRef[ServerResponse] = null
-  var north: ActorRef[ServerResponse] = null
+  var south: ActorRef[ServerResponse] = _
+  var north: ActorRef[ServerResponse] = _
 
   private var timeToMoveMillis: Long = 10 * 1000
   private var timeStart: Long = 0

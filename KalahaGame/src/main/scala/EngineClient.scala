@@ -1,9 +1,6 @@
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
 
-class EngineClient {
-}
-
 object EngineClient {
   var gameState: GameState = GameState()
 
