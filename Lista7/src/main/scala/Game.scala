@@ -25,6 +25,7 @@ object Game extends App{
     }
     createHumanVSCompGame(startingSeeds)
   }
+  if(usersChoice != 1 && usersChoice != 2) println("Goodbye!")
 
   def createCompVsCompGame(startingSeeds: Int): Unit = {
     val startingPlayerNumber = drawBeginnerNumber()
@@ -61,8 +62,12 @@ object Game extends App{
 
   def getUserInputFromConsole: Int = {
     println("Enter correct number:")
-    var input = 0
-    input = scala.io.StdIn.readInt()
+    var input = -1
+    try {
+      input = scala.io.StdIn.readInt()
+    } catch {
+      case _ : NumberFormatException => input = -1
+    }
     input
   }
 

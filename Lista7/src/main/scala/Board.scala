@@ -88,6 +88,25 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     activePlayerNumber
   }
 
+  override def clone(): Board = {
+    val clone = new Board(startingSeedsNumber, activePlayerNumber)
+    for(i <- pits.indices){
+      clone.pits(i) = pits(i)
+    }
+    clone
+  }
+
+  def calculateAdvantage(player: Int): Int = {
+    var result = 0
+    if(player == 0) {
+      result = pits(fstPlayerEndZoneIndex) - pits(sndPlayerEndZoneIndex)
+    }
+    else{
+      result = pits(sndPlayerEndZoneIndex) - pits(fstPlayerEndZoneIndex)
+    }
+    result
+  }
+
   def printEndGameResult(): Unit = {
     println("EndGame score:")
     println(s" - Player 1 scored ${pits(fstPlayerEndZoneIndex)} points")
@@ -110,7 +129,7 @@ class Board(private val startingSeedsNumber: Int, val startingPayer: Byte) {
     println("\t\t\tPlayer 2 side")
     println("Pit nr:\t 12\t 11\t 10\t 9\t 8\t 7")
     println(s"\t\t[${pits(12)}]\t[${pits(11)}]\t[${pits(10)}]\t[${pits(9)}]\t[${pits(8)}]\t[${pits(7)}]")
-    println(s"\t[${pits(13)}]\t\t\t\t\t\t  [${pits(6)}]")
+    println(s"\t[${pits(13)}]\t\t\t\t\t\t [${pits(6)}]")
     println(s"\t\t[${pits(0)}]\t[${pits(1)}]\t[${pits(2)}]\t[${pits(3)}]\t[${pits(4)}]\t[${pits(5)}]")
     println("Pit nr:\t 0\t 1\t 2\t 3\t 4\t 5")
     println("\t\t\tPlayer 1 side")
