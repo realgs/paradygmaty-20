@@ -22,6 +22,9 @@ object Main extends App {
       case 3 =>
         player1 = system.actorOf(Props(classOf[Computer], server, 0), "Player_1")
         player2 = system.actorOf(Props(classOf[Computer], server, 1), "Player_2")
+      case 4 =>
+        player1 = system.actorOf(Props(classOf[Player], server, 0), "Player_1")
+        player2 = system.actorOf(Props(classOf[SmartComputer], server, 1), "Player_2")
       case _ =>
         system.terminate()
     }
@@ -33,6 +36,7 @@ object Main extends App {
     println("[1] Player vs player")
     println("[2] Player vs computer (random)")
     println("[3] Computer vs computer (random)")
+    println("[4] Player vs computer (smart)")
     println("[Any] I don't know what I am doing here, get out!")
   }
 

@@ -1,55 +1,60 @@
-import akka.actor.{Actor, ActorRef, PoisonPill}
+import akka.actor.{Actor, ActorRef}
 
 import scala.util.Random
 
 class Server extends Actor {
-  private val players = List[(Int, ActorRef)]()
-  private val gameBoard: GameBoard = new GameBoard
+  private val players: Array[ActorRef] = new Array[ActorRef](2)
   private var currentPlayer: Int = drawRound()
+  private val gameBoard: GameBoard = new GameBoard(currentPlayer)
 
   override def receive: Receive = onMessage(players)
 
-  private def drawRound(): Int = {
-    Random.between(0, 1)
-  }
+  private def drawRound(): Int = Random.between(0, 2)
 
-  private def oppositePlayer(): Unit = {
-    if (currentPlayer == 1)
-      currentPlayer = 0
-    else currentPlayer = 1
-  }
+  private def nextPlayer(): Unit =
+    currentPlayer match {
+      case 1 => currentPlayer = 0
+      case 0 => currentPlayer = 1
+    }
 
-  private def endGame() = {
-    context.system.terminate()
-  }
+  private def endGame() = context.system.terminate()
 
-  private def onMessage(players: List[(Int, ActorRef)]): Receive = {
+  private def onMessage(players: Array[ActorRef]): Receive = {
     case Connect(playerID: Int) =>
-      context.become(onMessage((playerID, sender) :: players))
+      players(playerID) = sender()
       context.watch(sender)
-      if (currentPlayer == playerID) {
-        gameBoard.printBoard()
-        sender() ! move(gameBoard)
-      }
+      if (!players.contains(null))
+        startGame()
 
-    case MakeMove() =>
-      val gameStatus = gameBoard.makeMove()
-      if (gameStatus == 0) {
-        println("Game over!")
-        gameBoard.checkResults()
-        endGame()
+    case MakeMove(move: Int) =>
+      val gameStatus = gameBoard.makeMove(move)
+      gameStatus match {
+        case 0 =>
+          gameBoard.printBoard()
+          println(Console.RED + "Game over!")
+          gameBoard.finishGame()
+          endGame()
+        case 1 =>
+          Thread.sleep(1000)
+          gameBoard.printBoard()
+          Thread.sleep(1000)
+          println(Console.BLUE + s"One more round for Player $currentPlayer" + Console.RESET)
+          players(currentPlayer) ! Move(gameBoard)
+        case 2 =>
+          Thread.sleep(1000)
+          gameBoard.printBoard()
+          nextPlayer()
+          Thread.sleep(1000)
+          println(Console.BLUE + s"Next round for Player $currentPlayer" + Console.RESET)
+          players(currentPlayer) ! Move(gameBoard)
       }
-      else if (gameStatus == 1) {
-        println("One more round for player")
-        gameBoard.printBoard()
-        players(currentPlayer)._2 ! move(gameBoard)
-      }
-      else if (gameStatus == 2) {
-        println("Next player round:")
-        gameBoard.printBoard()
-        oppositePlayer()
-        players(currentPlayer)._2 ! move(gameBoard)
-      }
+  }
 
+  private def startGame(): Unit = {
+    println("Starting game!")
+    Thread.sleep(1000)
+    gameBoard.printBoard()
+    Thread.sleep(1000)
+    players(currentPlayer) ! Move(gameBoard)
   }
 }
