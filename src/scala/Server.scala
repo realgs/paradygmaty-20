@@ -6,11 +6,10 @@ import scala.ServerRequest._
 import scala.ClientRequest._
 import scala.util.Random
 
-class Server extends Actor {
+class Server(var board: Board) extends Actor {
   var playerOne: ActorRef = null
   var playerTwo: ActorRef = null
   var alreadyConnected: Int = 0
-  var board: Board = Board.instance
 
   def start(): Unit = {
     println("Starting a game")
@@ -18,7 +17,6 @@ class Server extends Actor {
     println(s"Player $playerToStart will start the game")
     printCurrentSituation(if (playerToStart == 1) PlayerOne else PlayerTwo)
 
-    println("Available holes " + (if (playerToStart == 1) board.playerOneAvailableHoles else board.playerTwoAvailableHoles))
     playerToStart match {
       case 1 => playerOne ! MOVE(board.playerOneAvailableHoles)
       case 2 => playerTwo ! MOVE(board.playerTwoAvailableHoles)
@@ -47,24 +45,30 @@ class Server extends Actor {
         case PlayerOne =>
           if (holeNumber >= 1 && holeNumber <= 6) {
             board.takeFromHole(holeNumber, PlayerOne)
-            if (board.shouldPlayerRepeatTheMove) {
-              printCurrentSituation(PlayerOne)
-              playerOne ! MOVE(board.playerOneAvailableHoles)
-            } else {
-              printCurrentSituation(PlayerTwo)
-              playerTwo ! MOVE(board.playerTwoAvailableHoles)
+            if (board.shouldGameBeContinued) {
+              if (board.shouldPlayerRepeatTheMove) {
+                printCurrentSituation(PlayerOne)
+                playerOne ! MOVE(board.playerOneAvailableHoles)
+              } else {
+                printCurrentSituation(PlayerTwo)
+                playerTwo ! MOVE(board.playerTwoAvailableHoles)
+              }
             }
+            else self ! END_GAME
           }
         case PlayerTwo =>
           if (holeNumber >= 1 && holeNumber <= 6) {
             board.takeFromHole(holeNumber, PlayerTwo)
-            if (board.shouldPlayerRepeatTheMove) {
-              printCurrentSituation(PlayerTwo)
-              playerTwo ! MOVE(board.playerTwoAvailableHoles)
-            } else {
-              printCurrentSituation(PlayerOne)
-              playerOne ! MOVE(board.playerOneAvailableHoles)
+            if (board.shouldGameBeContinued) {
+              if (board.shouldPlayerRepeatTheMove) {
+                printCurrentSituation(PlayerTwo)
+                playerTwo ! MOVE(board.playerTwoAvailableHoles)
+              } else {
+                printCurrentSituation(PlayerOne)
+                playerOne ! MOVE(board.playerOneAvailableHoles)
+              }
             }
+            else self ! END_GAME
           }
       }
     }
@@ -81,14 +85,17 @@ class Server extends Actor {
   override def receive: Receive = {
     case START_GAME => start()
     case JOIN => join()
-    case TAKE_FROM_HOLE(number, playerNumber) => playerNumber match {
-      case PlayerOne =>
-        if (board.playerOneAvailableHoles.contains(number)) takeFromHole(number, playerNumber)
-        else playerOne ! MOVE(board.playerOneAvailableHoles)
-      case PlayerTwo =>
-        if (board.playerTwoAvailableHoles.contains(number)) takeFromHole(number, playerNumber)
-        else playerTwo ! MOVE(board.playerTwoAvailableHoles)
+    case TAKE_FROM_HOLE(number, playerNumber) => if (board.shouldGameBeContinued) {
+      playerNumber match {
+        case PlayerOne =>
+          if (board.playerOneAvailableHoles.contains(number)) takeFromHole(number, playerNumber)
+          else playerOne ! MOVE(board.playerOneAvailableHoles)
+        case PlayerTwo =>
+          if (board.playerTwoAvailableHoles.contains(number)) takeFromHole(number, playerNumber)
+          else playerTwo ! MOVE(board.playerTwoAvailableHoles)
+      }
     }
-    case END_GAME =>
+    else endGame()
+    case END_GAME => endGame()
   }
 }

@@ -1,5 +1,6 @@
 package scala
 
+import scala.io.StdIn
 import scala.util.Random
 
 abstract class PlayerNumber {
@@ -25,6 +26,19 @@ abstract class Player(val playerNumber: PlayerNumber) {
 
 class NPCPlayer(playerNumber: PlayerNumber) extends Player(playerNumber) {
   override def receiveNumber: Int = Random.between(1, 7)
+}
+
+class IntelligentNPCPlayer(playerNumber: PlayerNumber, board: Board) extends Player(playerNumber) {
+  override def receiveNumber: Int = playerNumber match {
+    case PlayerOne => board.selectHoleWithTheSmallestAmountOFStones(PlayerOne)
+    case PlayerTwo => board.selectHoleWithTheSmallestAmountOFStones(PlayerTwo)
+  }
+}
+
+class HumanPlayer(playerNumber: PlayerNumber) extends Player(playerNumber) {
+  override def receiveNumber: Int = {
+    Helper.getInputFromUser()
+  }
 }
 
 object Player {

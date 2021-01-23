@@ -15,6 +15,10 @@ object Board {
 class Board {
   private val boardRepresentation: Array[Int] = new Array[Int](HOLES)
 
+  for (i <- Range.inclusive(0, HOLES - 1)) {
+    if (i != PLAYER_ONE_BASE_INDEX && i != PLAYER_TWO_BASE_INDEX) boardRepresentation(i) = STONES
+  }
+
   def shouldPlayerRepeatTheMove: Boolean = shouldPlayerRepeatMove
 
   def playerOneAvailableHoles: List[Int] = {
@@ -31,10 +35,6 @@ class Board {
 
   private var shouldPlayerRepeatMove: Boolean = false
 
-  for (i <- Range.inclusive(0, HOLES - 1)) {
-    if (i != PLAYER_ONE_BASE_INDEX && i != PLAYER_TWO_BASE_INDEX) boardRepresentation(i) = STONES
-  }
-
   def amountOfHolesInFirstPlayerBase: Int = boardRepresentation(PLAYER_ONE_BASE_INDEX)
 
   def amountOfHolesInSecondPlayerBase: Int = boardRepresentation(PLAYER_TWO_BASE_INDEX)
@@ -42,10 +42,37 @@ class Board {
   def shouldGameBeContinued: Boolean = {
     var shouldBeContinued = false
     for (i <- 0 until PLAYER_ONE_BASE_INDEX) if (boardRepresentation(i) != 0) shouldBeContinued = true
-    if (shouldBeContinued) return true
-    for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_ONE_BASE_INDEX) if (boardRepresentation(i) != 0) shouldBeContinued = true
+    if (!shouldBeContinued) {
+      boardRepresentation(PLAYER_TWO_BASE_INDEX) = amountOfHolesInSecondPlayerBase + boardRepresentation.slice(PLAYER_ONE_BASE_INDEX + 1, PLAYER_TWO_BASE_INDEX).sum
+      for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX) boardRepresentation(i) = 0
+      return false
+    }
+
+    shouldBeContinued = false
+    for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX) if (boardRepresentation(i) != 0) shouldBeContinued = true
     if (shouldBeContinued) true
-    else false
+    else {
+      boardRepresentation(PLAYER_ONE_BASE_INDEX) = amountOfHolesInFirstPlayerBase + boardRepresentation.slice(0, PLAYER_ONE_BASE_INDEX).sum
+      for (i <- 0 until PLAYER_ONE_BASE_INDEX) boardRepresentation(i) = 0
+      false
+    }
+  }
+
+
+  def selectHoleWithTheSmallestAmountOFStones(playerNumber: PlayerNumber): Int = {
+    var index = 0
+    var smallest = 73
+    playerNumber match {
+      case PlayerOne => for (i <- playerOneAvailableHoles) if (boardRepresentation(i - 1) < smallest) {
+        smallest = boardRepresentation(i - 1)
+        index = i
+      }
+      case PlayerTwo => for (i <- playerTwoAvailableHoles) if (boardRepresentation(i - 1 + 7) < smallest) {
+        smallest = boardRepresentation(i - 1 + 7)
+        index = i
+      }
+    }
+    index
   }
 
   def printSituation(perspective: PlayerNumber): Unit = {
@@ -95,9 +122,9 @@ class Board {
     while (stonesToPut > 0) {
       if (i != excludesIndex) {
         if (stonesToPut == 1) {
-          if (boardRepresentation(i) == 0) {
-            val temp = boardRepresentation((i + 7) % HOLES)
-            boardRepresentation((i + 7) % HOLES) = 0
+          if (boardRepresentation(i) == 0 && i != baseIndex && !playerNumber.holesNumbers.contains(i + 1)) {
+            val temp = boardRepresentation((HOLES - 2 - i) % HOLES)
+            boardRepresentation((HOLES - 2 - i) % HOLES) = 0
             boardRepresentation(baseIndex) += temp
           }
         }
