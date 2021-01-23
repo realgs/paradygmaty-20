@@ -1,8 +1,6 @@
 import HumanPlayer.ChoosePit
-import Server.Move
+import Server.CheckMove
 import akka.actor.Actor
-
-import scala.util.Random
 
 class ComputerPlayer(val number: Byte) extends Actor{
   override def receive: Receive = {
@@ -15,7 +13,7 @@ class ComputerPlayer(val number: Byte) extends Actor{
 //      sender() ! Move(choice)
       val choice = getBestPossibleMove(board)
       println(s"Computer player's choice: $choice")
-      sender() ! Move(choice)
+      sender() ! CheckMove(choice)
   }
 
   private def minMax(currentBoard: Board, depth: Int, isMaximizing: Boolean, callingPlayerNumber: Byte): Int= {
@@ -26,16 +24,17 @@ class ComputerPlayer(val number: Byte) extends Actor{
       if(currentBoard.calculateAdvantage(callingPlayerNumber) > 0) {
         return Int.MaxValue
       }
-      else return currentBoard.calculateAdvantage(currentBoard.getActivePlayerNumber)
+      else return Int.MinValue
+      //return currentBoard.calculateAdvantage(currentBoard.getActivePlayerNumber)
     }
 
     if(isMaximizing){
-      for(i <- 0 to 13){
+      for(i <- 0 to 12){
         if(currentBoard.isChosenPitCorrect(i)){
           val newBoard = currentBoard.clone()
           newBoard.moveSeedsFrom(i)
           newBoard.determineNextPlayerNumber()
-          val advantage = minMax(newBoard, depth - 1, if(callingPlayerNumber == newBoard.getActivePlayerNumber) true else false, callingPlayerNumber)
+          val advantage = minMax(newBoard, depth - 1, callingPlayerNumber == newBoard.getActivePlayerNumber, callingPlayerNumber)
           currentAdvantage = currentAdvantage.max(advantage)
         }
       }
@@ -43,12 +42,12 @@ class ComputerPlayer(val number: Byte) extends Actor{
     else{
       currentAdvantage = Int.MaxValue
 
-      for(i <- 0 to 13){
+      for(i <- 0 to 12){
         if(currentBoard.isChosenPitCorrect(i)){
           val newBoard = currentBoard.clone()
           newBoard.moveSeedsFrom(i)
           newBoard.determineNextPlayerNumber()
-          val advantage = minMax(newBoard, depth - 1, if(callingPlayerNumber != newBoard.getActivePlayerNumber) true else false, callingPlayerNumber)
+          val advantage = minMax(newBoard, depth - 1, callingPlayerNumber == newBoard.getActivePlayerNumber, callingPlayerNumber)
           currentAdvantage = currentAdvantage.min(advantage)
         }
       }
@@ -60,14 +59,14 @@ class ComputerPlayer(val number: Byte) extends Actor{
     var currentBestMove = -1
     var highestAdvantage = Int.MinValue
 
-    for(i <- 0 to 13){
+    for(i <- 0 to 12){
       if(board.isChosenPitCorrect(i)){
         val newBoard = board.clone()
         newBoard.moveSeedsFrom(i)
         newBoard.determineNextPlayerNumber()
         val advantage = minMax(newBoard, 9, board.getActivePlayerNumber == newBoard.getActivePlayerNumber, board.getActivePlayerNumber)
 
-        if(advantage > highestAdvantage){
+        if(advantage > highestAdvantage || currentBestMove == -1){
           highestAdvantage = advantage
           currentBestMove = i
         }

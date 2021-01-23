@@ -36,8 +36,8 @@ class Server(val board: Board, val fstPlayer: ActorRef, val sndPlayer: ActorRef)
         println("Player 2 wins!")
       }
       else {
-        println("Player 1 haven't made his move in time")
-        println("Player 2 wins!")
+        println("Player 2 haven't made his move in time")
+        println("Player 1 wins!")
       }
       context.system.terminate()
       println("Goodbye!")
