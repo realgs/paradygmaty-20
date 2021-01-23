@@ -15,7 +15,7 @@ class Server(val player1: ActorRef, val player2: ActorRef, val board: Board) ext
 
     case AskForMove =>
       println("ASK FOR MOVE")
-      if(board.ifPlayerOneMove) waitForMove(player1)
+      if(board.ifPlayer1Move) waitForMove(player1)
       else waitForMove(player2)
 
     case Move(fieldNumber) =>
@@ -38,7 +38,7 @@ class Server(val player1: ActorRef, val player2: ActorRef, val board: Board) ext
 
       case Success(value) => self ! value
       case Failure(_) =>
-        printf("%nTime is up! Player %d won!%n%nEnd of the game!", if(board.ifPlayerOneMove) 2 else 1)
+        printf("%nTime is up! Player %d won!%n%nEnd of the game!", if(board.ifPlayer1Move) 2 else 1)
         context.system.terminate()
         System.exit(0)
     }
