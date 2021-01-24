@@ -1,7 +1,7 @@
 object Main {
   def main(args: Array[String]): Unit = {
-    val board = new GameBoard(6, 12)
-    board.printState()
+    val game = new KalahGame(6, 6)
+    game.gameLoop()
 
   }
 }
