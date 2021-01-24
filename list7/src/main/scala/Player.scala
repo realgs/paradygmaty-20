@@ -1,6 +1,6 @@
 
 
-class Player(val number: Int){
+class Player(val number: Int) {
 
   def makeMove(board: Board): Int = {
     if (number == 1) print("\nChoose a pit from 0 to 5: ")

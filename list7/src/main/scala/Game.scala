@@ -166,11 +166,11 @@ class Game() {
     println("2. no")
     print("Selected option: ")
     var choice = 3
-      try{
-        choice = scala.io.StdIn.readInt()
-      } catch {
-        case _:Exception => choice = 3
-      }
+    try {
+      choice = scala.io.StdIn.readInt()
+    } catch {
+      case _: Exception => choice = 3
+    }
     choice match {
       case 1 =>
         board = board.reset()
