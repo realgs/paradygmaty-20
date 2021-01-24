@@ -24,7 +24,7 @@ class GameEngine(private val settings: GameSettings, private val players: (Playe
   }
 
   def playerMove(): GameStatus.Value = {
-    var pit = current_player.choosePit
+    var pit = current_player.choosePit(board)
 
     if (!current_player.pits.contains(pit)) {
       println("It's not your turn or wrong pit index provided!")
@@ -86,6 +86,11 @@ class GameEngine(private val settings: GameSettings, private val players: (Playe
     for (pit_index <- current_player.pits)
       sum += board(pit_index)
     board(current_player.kalah_index) += sum
+
+    sum = 0
+    for (pit_index <- opposite_player.pits)
+      sum += board(pit_index)
+    board(opposite_player.kalah_index) += sum
   }
 
   def declareWinner(): GameStatus.Value = {
