@@ -6,11 +6,12 @@ class Board {
 
   def showBoard(): Unit={
     println("PLANSZA:")
-    println(playerOneBase + " | " + playerOneHoles(0) + " | "+ playerOneHoles(1) + " | "+ playerOneHoles(2) + " | "+
-      playerOneHoles(3) + " | "+ playerOneHoles(4) + " | "+ playerOneHoles(5) + " | ")
+    println(playerTwoBase + " | " + playerTwoHoles(5) + " | "+ playerTwoHoles(4) + " | "+ playerTwoHoles(3) + " | "+
+      playerTwoHoles(2) + " | "+ playerTwoHoles(1) + " | "+ playerTwoHoles(0) + " | "+" ")
     println("------------------------------")
-    println(" " + " | " + playerTwoHoles(5) + " | "+ playerTwoHoles(4) + " | "+ playerTwoHoles(3) + " | "+
-      playerTwoHoles(2) + " | "+ playerTwoHoles(1) + " | "+ playerTwoHoles(0) + " | "+playerTwoBase)
+    println(" " + " | " + playerOneHoles(0) + " | "+ playerOneHoles(1) + " | "+ playerOneHoles(2) + " | "+
+      playerOneHoles(3) + " | "+ playerOneHoles(4) + " | "+ playerOneHoles(5) + " | " + playerOneBase)
+
   }
 
   def endGame(): Unit={
@@ -57,6 +58,7 @@ class Board {
           turn=false
           playerOneBase+=1
           position%=6
+          position-=1
         }else{
           playerOneHoles(position)+=1
         }
@@ -65,6 +67,7 @@ class Board {
           turn=true
           playerTwoBase+=1
           position%=6
+          position-=1
         }else{
           playerTwoHoles(position)+=1
         }
