@@ -1,4 +1,7 @@
+import akka.actor.TypedActor.dispatcher
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+
+import scala.concurrent.Future
 
 case class MakeAMove()
 case class UpdateHoles(arr: Array[Int])
