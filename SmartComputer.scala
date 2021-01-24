@@ -1,3 +1,4 @@
+import akka.actor.{Actor, ActorRef, PoisonPill}
 import scala.util.control.Breaks._
 
 class SmartComputer(server: ActorRef, playerNumber: Int) extends Actor {
@@ -12,7 +13,7 @@ class SmartComputer(server: ActorRef, playerNumber: Int) extends Actor {
   private def onMessage(playerID: Int): Receive = {
     case Move(gameBoard: GameBoard) =>
       println(s"Your turn Player $playerID: ")
-      server ! MakeMove(getBestMove(gameBoard.copy()))
+      sender() ! getBestMove(gameBoard.copy())
 
     case Disconnect() =>
       self ! PoisonPill

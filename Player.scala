@@ -19,7 +19,7 @@ class Player(server: ActorRef, playerNumber: Int) extends Actor {
   private def onMessage(playerID: Int): Receive = {
     case Move(gameBoard: GameBoard) =>
       println(s"Your turn Player $playerID: ")
-      server ! MakeMove(getMove(gameBoard))
+      sender() ! getMove(gameBoard)
 
     case Disconnect() =>
       self ! PoisonPill

@@ -1,11 +1,19 @@
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{Actor, ActorRef, Timers}
+import akka.util.Timeout
+import scala.util.{Failure, Success}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import akka.pattern.ask
 
 import scala.util.Random
 
-class Server extends Actor {
+class Server extends Actor with Timers {
   private val players: Array[ActorRef] = new Array[ActorRef](2)
   private var currentPlayer: Int = drawRound()
   private val gameBoard: GameBoard = new GameBoard(currentPlayer)
+
+  implicit private val timeout: Timeout = Timeout(30.seconds)
 
   override def receive: Receive = onMessage(players)
 
@@ -26,28 +34,51 @@ class Server extends Actor {
       if (!players.contains(null))
         startGame()
 
-    case MakeMove(move: Int) =>
-      val gameStatus = gameBoard.makeMove(move)
-      gameStatus match {
-        case 0 =>
-          gameBoard.printBoard()
-          println(Console.RED + "Game over!")
-          gameBoard.finishGame()
-          endGame()
-        case 1 =>
-          Thread.sleep(1000)
-          gameBoard.printBoard()
-          Thread.sleep(1000)
-          println(Console.BLUE + s"One more round for Player $currentPlayer" + Console.RESET)
-          players(currentPlayer) ! Move(gameBoard)
-        case 2 =>
-          Thread.sleep(1000)
-          gameBoard.printBoard()
-          nextPlayer()
-          Thread.sleep(1000)
-          println(Console.BLUE + s"Next round for Player $currentPlayer" + Console.RESET)
-          players(currentPlayer) ! Move(gameBoard)
+    case MakeMove() =>
+      val chosenMove = players(currentPlayer) ? Move(gameBoard)
+
+      chosenMove.onComplete {
+        case Success(hole: Int) => executeMove(hole)
+        case Failure(_) =>
+          val randMove = randomMove()
+          println(s"\nYour time is out, making random move: $randMove")
+          executeMove(randMove)
       }
+  }
+
+  def randomMove(): Int = {
+    val move = Random.between(0, 6)
+    if (gameBoard.checkMove(move))
+      move
+    else randomMove()
+  }
+
+  def executeMove(move: Int): Unit = {
+    val gameStatus = gameBoard.makeMove(move)
+    gameStatus match {
+      case 0 => gameOver()
+      case 1 =>
+        printBoard("One more round for Player ")
+        self ! MakeMove()
+      case 2 =>
+        nextPlayer()
+        printBoard("Next round for Player ")
+        self ! MakeMove()
+    }
+  }
+
+  private def printBoard(message: String): Unit = {
+    Thread.sleep(1000)
+    gameBoard.printBoard()
+    Thread.sleep(1000)
+    println(Console.BLUE + message + s"$currentPlayer" + Console.RESET)
+  }
+
+  private def gameOver() = {
+    gameBoard.printBoard()
+    println(Console.RED + "Game over!")
+    gameBoard.finishGame()
+    endGame()
   }
 
   private def startGame(): Unit = {
@@ -55,6 +86,6 @@ class Server extends Actor {
     Thread.sleep(1000)
     gameBoard.printBoard()
     Thread.sleep(1000)
-    players(currentPlayer) ! Move(gameBoard)
+    self ! MakeMove()
   }
 }
