@@ -5,11 +5,13 @@ import scala.concurrent.Future
 
 case class MakeAMove()
 case class UpdateHoles(arr: Array[Int])
+case class GetBoard(board: Board)
 
 abstract class Player(name: String) extends Actor {
 
   var myPoints=0
   var myHoles=initializeHoles()
+  var b=new Board
 
   override def receive: Receive={
     case MakeAMove => {
@@ -23,6 +25,7 @@ abstract class Player(name: String) extends Actor {
       sender() ! Move(decision)
     }
     case UpdateHoles(arr) => myHoles=arr
+    case GetBoard(board)  => b=board
   }
 
   def anyAvailable(): Boolean={

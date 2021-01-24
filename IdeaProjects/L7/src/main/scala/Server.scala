@@ -53,6 +53,7 @@ class Server(val player1: ActorRef, val player2: ActorRef) extends Actor{
       }
     }
     case ShowBoard => {
+      sender ! GetBoard(board.copy())
       board.showBoard()
       if(player) sender ! UpdateHoles(board.playerOneHoles) else sender ! UpdateHoles(board.playerTwoHoles)
     }
