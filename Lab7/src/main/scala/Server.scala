@@ -45,7 +45,7 @@ class Server(val player1: ActorRef, val player2: ActorRef, val board: Board) ext
 
     } catch {
 
-      case _: TimeoutException => -1
+      case _: TimeoutException => fieldNumberFuture.failed; -1
     }
   }
 

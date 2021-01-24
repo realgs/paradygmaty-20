@@ -29,7 +29,7 @@ class HumanPlayer extends Actor {
 
       } catch {
 
-        case ex: NumberFormatException => println("\n# WRONG INPUT! TRY AGAIN.")
+        case _: NumberFormatException => println("\n# WRONG INPUT! TRY AGAIN.")
         case _: Exception => ()
       }
     }

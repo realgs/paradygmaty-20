@@ -27,7 +27,7 @@ class Board(private val startStonesNumber: Int = 6) {
       }
 
       if(index == (if(ifPlayer1Move) 6 else 13)) ifOneMoreMove = true
-      else if(board(index) == 1 && board(12 - index) != 0 && index >= (if(ifPlayer1Move) 0 else 7) && index <= (if(ifPlayer1Move) 5 else 12)) {
+      else if(board(index) == 1 && /*board(12 - index) != 0 &&*/ index >= (if(ifPlayer1Move) 0 else 7) && index <= (if(ifPlayer1Move) 5 else 12)) {
 
         board(if(ifPlayer1Move) 6 else 13) += board(12 - index) + 1
         board(12 - index) = 0
@@ -112,6 +112,8 @@ class Board(private val startStonesNumber: Int = 6) {
   def getScores:(Int, Int) = (board(6), board(13))
 
   def isPlayer1Move: Boolean = ifPlayer1Move
+
   def hasLastPlayerOneMoreMove: Boolean = ifOneMoreMove
+
   def isGameOver: Boolean = ifGameIsOver
 }

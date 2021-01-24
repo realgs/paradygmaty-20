@@ -3,6 +3,8 @@ import akka.actor.{ActorSystem, Props}
 
 object Main extends App {
 
+  Tests.test()
+
   printMenu()
 
   val optionNumber = chooseOption()
@@ -65,7 +67,7 @@ object Main extends App {
   }
   def computerVsComputerGame(): Unit = {
 
-    print("\n# COMPUTER VS COMPUTER")
+    println("\n# COMPUTER VS COMPUTER")
 
     val system = ActorSystem()
     val board = new Board
