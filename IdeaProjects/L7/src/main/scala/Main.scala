@@ -10,5 +10,4 @@ object Main extends App{
   val player2=mySystem.actorOf(Props(new BotPlayer("player2")))
   val server=mySystem.actorOf(Props(new Server(player1, player2)))
   server ! Start
-  mySystem.terminate()
 }

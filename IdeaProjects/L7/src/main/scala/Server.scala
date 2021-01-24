@@ -2,6 +2,7 @@ import akka.actor.{Actor, ActorRef, PoisonPill}
 
 case class Move(pit: Int)
 case class IsAvailable(pit: Int)
+case class GetMyHoles()
 case object ShowBoard
 case object Stop
 case object Start
@@ -14,13 +15,13 @@ class Server(val player1: ActorRef, val player2: ActorRef) extends Actor{
   override def receive: Receive = {
     case Start => {
       player=false
-      println("Start")
       player2 ! MakeAMove
     }
     case IsAvailable(pit) => {
       if(player) board.isAvailableForPlayer(pit, 1) else board.isAvailableForPlayer(pit, 2)
     }
     case Move(pit) => {
+
       println("Move "+pit)
       if(pit<0 || pit>5){
         println("Wrong hole!")
@@ -36,8 +37,8 @@ class Server(val player1: ActorRef, val player2: ActorRef) extends Actor{
       }
     }
     case ShowBoard => {
-      println("Showing board")
       board.showBoard()
+      if(player) sender ! UpdateHoles(board.playerOneHoles) else sender ! UpdateHoles(board.playerTwoHoles)
     }
     case Stop => {
       board.endGame()
@@ -45,6 +46,7 @@ class Server(val player1: ActorRef, val player2: ActorRef) extends Actor{
       player2 ! PoisonPill
       board.result()
       self ! PoisonPill
+      context.system.terminate()
     }
   }
 }

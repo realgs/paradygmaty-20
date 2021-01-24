@@ -41,7 +41,6 @@ class Board {
   }
 
   def moveFromHole(i: Int, playerOne: Boolean): Unit={
-    println("Making a move on board")
     var turn=playerOne
     var position=i+1
     var counter=(-1)
