@@ -6,9 +6,7 @@ class Mancala(var seeds: Int = 0) {
 
   def get(): Int = seeds
 
-  def copy(): Mancala = {
-    new Mancala(seeds)
-  }
+  def copy(): Mancala = new Mancala(seeds)
 
   override def toString: String = seeds.toString
 }

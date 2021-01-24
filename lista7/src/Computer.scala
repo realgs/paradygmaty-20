@@ -2,9 +2,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 
-class Computer(simulator: Simulator = new Simulator()) extends Engine {
+class Computer(simulator: Simulator = new Simulator()) extends Players {
   override def move(player: Int): Int = {
-
     val result = {
       for (i <- 0 until 6)
         yield Future(simulator.simulate(i, player))

@@ -1,8 +1,5 @@
 import Board.{mancalas, pits1, pits2}
-//pits indexes: 1-6 player1, 7-12 player2
-//mancalas indexes: 1 - player1, 2 - player2
 
-//TODO: how to write this class? def in object or in class
 class Board(pits1: Array[Pit] = pits1, pits2: Array[Pit] = pits2, mancalas: Array[Mancala] = mancalas) {
   def print(): Unit = {
     var m1 = ""
@@ -17,7 +14,6 @@ class Board(pits1: Array[Pit] = pits1, pits2: Array[Pit] = pits2, mancalas: Arra
       m2 = "–"
       st3 = " "
     }
-
 
     println(s"╭–––$m1–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––$m2––––––╮")
     println(s"|  ╭–$m1––╮    ╭–––╮   ╭–––╮   ╭–––╮   ╭–––╮   ╭–––╮   ╭–––╮     ╭–$m2––╮  |")
@@ -66,7 +62,6 @@ class Board(pits1: Array[Pit] = pits1, pits2: Array[Pit] = pits2, mancalas: Arra
   def getMancala(number: Int): Mancala = {
     mancalas(number)
   }
-
 }
 
 object Board {

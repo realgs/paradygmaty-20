@@ -7,9 +7,9 @@ class Logic(board: Board = new Board()) extends Simulator(board) {
 
   def getBoard: Board = board
 
-  def print(): Unit = board.print()
-
   def getPlayer1Points: Int = board.getMancalas(0).get()
 
   def getPlayer2Points: Int = board.getMancalas(1).get()
+
+  def print(): Unit = board.print()
 }

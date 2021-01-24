@@ -19,9 +19,7 @@ class Simulator(private val board: Board = new Board()) {
     else Int.MinValue
   }
 
-  //(ifSuccessful, anotherMove)
   protected def move(localBoard: Board, position: Int, player: Int): (Boolean, Boolean) = {
-    //  println("position: " + position)
     if (localBoard.getPits(player)(position).get() == 0) {
       return (false, false)
     }
@@ -46,17 +44,12 @@ class Simulator(private val board: Board = new Board()) {
         }
       }
     }
-    //TODO: in steal lastPitIndex < 0 and remove -1 in updatePitsWithoutMancala or leave like that
     steal(localBoard, lastPitIndex, player, player2)
     (true, anotherMove)
   }
 
   def moveHelper(localBoard: Board, position: Int, player: Int): (Int, Int, Boolean) =
     updatePitsWithMancala(localBoard, localBoard.getPits(player)(position).take(), position + 1, player)
-
-  // def add(board: Board, seeds: Int, player1: Int): (Int, Int) = updatePitsWithoutMancala(board, seeds, player1 * 6)
-
-  // def addYours(board: Board, seeds: Int, player1: Int): (Int, Int) = updatePitsWithMancala(board, seeds, player1 * 6)
 
   def steal(localBoard: Board, lastPitIndex: Int, who: Int, from: Int): Unit = {
     if (lastPitIndex != -1 && getPit(localBoard, who, lastPitIndex) == 1 && getPit(localBoard, from, 5 - lastPitIndex) != 0)
@@ -71,13 +64,11 @@ class Simulator(private val board: Board = new Board()) {
   private def updatePitsWithoutMancala(localBoard: Board, amount: Int, startHoleIndex: Int, player: Int): (Int, Int) = {
     var seeds = amount
     var pitIndex = startHoleIndex
-
     while (seeds > 0 && pitIndex < 6) {
       localBoard.getPits(player)(pitIndex).add()
       seeds -= 1
       pitIndex += 1
     }
-
     //-1 because I return the index which was the last updated one
     (seeds, pitIndex - 1)
   }
@@ -85,7 +76,6 @@ class Simulator(private val board: Board = new Board()) {
   private def updatePitsWithMancala(localBoard: Board, amount: Int, startPitIndex: Int, player: Int): (Int, Int, Boolean) = {
     var anotherMove = false
     var (seeds, pitIndex) = updatePitsWithoutMancala(localBoard, amount, startPitIndex, player)
-    //TODO: refactor if(seeds == 0)
     if (seeds > 0) {
       localBoard.getMancalas(player).add()
       seeds -= 1

@@ -1,3 +1,3 @@
-abstract class Engine {
+abstract class Players {
   def move(player: Int): Int
 }

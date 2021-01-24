@@ -1,20 +1,14 @@
 import java.util.concurrent.TimeoutException
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{Await, Future}
 import scala.io.StdIn.readInt
 
-class Player(exceedTime: Int = 30) extends Engine {
+class HumanPlayer(exceedTime: Int = 30) extends Players {
 
   override def move(player: Int): Int = {
-    exceed(exceedTime.seconds, player)
-  }
-
-  def exceed(exceedTime: FiniteDuration, player: Int): Int = {
     print("Player" + (player + 1) + " choose pit: ")
     var timedOut = false
-
     val f1 = Future {
       while (System.in.available() == 0) {
         if (timedOut) throw new TimeoutException()
@@ -24,8 +18,7 @@ class Player(exceedTime: Int = 30) extends Engine {
       pos
     }
 
-
-    try Await.result(f1, exceedTime)
+    try Await.result(f1, exceedTime.seconds)
     catch {
       case _: TimeoutException =>
         println("Sorry, the time is up")

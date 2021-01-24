@@ -30,12 +30,13 @@ class Server(private val logic: Logic = new Logic()) {
     else println("Draw! Nobody won :o")
   }
 
-  private def makeMove(player: Engine, playerNum: Int): Unit = {
+  private def makeMove(player: Players, playerNum: Int): Unit = {
     var position = player.move(playerNum)
     if (wrongMove(position, player, playerNum)) return
     var results = logic.makeMove(position, playerNum)
     var successful = results._1
     var anotherMove = results._2
+
     while ((!successful || anotherMove) && !gameEnded()) {
       while (!successful) {
         println("Illegal pit - pit cannot be empty. Choose another one")
@@ -45,7 +46,6 @@ class Server(private val logic: Logic = new Logic()) {
         successful = results._1
         anotherMove = results._2
       }
-
       while (anotherMove && !gameEnded()) {
         logic.print()
         position = player.move(playerNum)
@@ -57,7 +57,7 @@ class Server(private val logic: Logic = new Logic()) {
     }
   }
 
-  private def wrongMove(position: Int, player: Engine, playerNum: Int): Boolean = {
+  private def wrongMove(position: Int, player: Players, playerNum: Int): Boolean = {
     if (position == 0) true
     else if (position == -1) {
       makeMove(player, playerNum)
@@ -83,19 +83,18 @@ class Server(private val logic: Logic = new Logic()) {
     }
   }
 
-  private def chooseMode(): (Engine, Engine) = {
+  private def chooseMode(): (Players, Players) = {
     println("Choose mode:\n1 - computer vs computer\n2 - player vs computer\n3 - player vs player")
-
     @tailrec
-    def chooseModeHelper(): (Engine, Engine) = {
+    def chooseModeHelper(): (Players, Players) = {
       val choice: Int = readInt
       choice match {
         case 1 =>
           (new Computer, new Computer)
         case 2 =>
-          (new Player(), new Computer)
+          (new HumanPlayer(), new Computer)
         case 3 =>
-          (new Player(), new Player())
+          (new HumanPlayer(), new HumanPlayer())
         case _ =>
           println("Wrong value. Try once again")
           chooseModeHelper()
