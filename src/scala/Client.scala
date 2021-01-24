@@ -2,12 +2,12 @@ package scala
 
 import akka.actor.Actor
 
-import ClientRequest._
-import ServerRequest._
+import scala.ClientRequest._
+import scala.ServerRequest._
 
-class Client(player: Player) extends Actor{
+class Client(player: Player) extends Actor {
   override def receive: Receive = {
-    case MOVE(availableHoles: List[Int]) =>
+    case MOVE =>
       print("Select number (from 1 to 6): ")
       val numberOfHoleToTakeStonesFrom = player.receiveNumber
       print(numberOfHoleToTakeStonesFrom)

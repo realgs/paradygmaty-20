@@ -1,10 +1,11 @@
 package scala
 
-import scala.Board.{HOLES, PLAYER_ONE_BASE_INDEX, PLAYER_TWO_BASE_INDEX, STONES}
+import scala.Board.{AMOUNT_OF_PLAYER_HOLES, HOLES, PLAYER_ONE_BASE_INDEX, PLAYER_TWO_BASE_INDEX, STONES}
 import scala.collection.mutable
 
 object Board {
   val HOLES = 14
+  val AMOUNT_OF_PLAYER_HOLES: Int = HOLES / 2
   val STONES = 6
   val PLAYER_ONE_BASE_INDEX = 6
   val PLAYER_TWO_BASE_INDEX = 13
@@ -21,6 +22,8 @@ class Board {
 
   def shouldPlayerRepeatTheMove: Boolean = shouldPlayerRepeatMove
 
+  private var shouldPlayerRepeatMove: Boolean = false
+
   def playerOneAvailableHoles: List[Int] = {
     val queue: mutable.Queue[Int] = mutable.Queue()
     for (i <- 0 until PLAYER_ONE_BASE_INDEX) if (boardRepresentation(i) != 0) queue.enqueue(i + 1)
@@ -29,21 +32,20 @@ class Board {
 
   def playerTwoAvailableHoles: List[Int] = {
     val queue: mutable.Queue[Int] = mutable.Queue()
-    for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX) if (boardRepresentation(i) != 0) queue.enqueue(i + 1 - 7)
+    for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX)
+      if (boardRepresentation(i) != 0) queue.enqueue(i + 1 - AMOUNT_OF_PLAYER_HOLES)
     queue.toList
   }
 
-  private var shouldPlayerRepeatMove: Boolean = false
+  def amountOfStonesInFirstPlayerBase: Int = boardRepresentation(PLAYER_ONE_BASE_INDEX)
 
-  def amountOfHolesInFirstPlayerBase: Int = boardRepresentation(PLAYER_ONE_BASE_INDEX)
-
-  def amountOfHolesInSecondPlayerBase: Int = boardRepresentation(PLAYER_TWO_BASE_INDEX)
+  def amountOfStonesInSecondPlayerBase: Int = boardRepresentation(PLAYER_TWO_BASE_INDEX)
 
   def shouldGameBeContinued: Boolean = {
     var shouldBeContinued = false
     for (i <- 0 until PLAYER_ONE_BASE_INDEX) if (boardRepresentation(i) != 0) shouldBeContinued = true
     if (!shouldBeContinued) {
-      boardRepresentation(PLAYER_TWO_BASE_INDEX) = amountOfHolesInSecondPlayerBase + boardRepresentation.slice(PLAYER_ONE_BASE_INDEX + 1, PLAYER_TWO_BASE_INDEX).sum
+      boardRepresentation(PLAYER_TWO_BASE_INDEX) = amountOfStonesInSecondPlayerBase + boardRepresentation.slice(PLAYER_ONE_BASE_INDEX + 1, PLAYER_TWO_BASE_INDEX).sum
       for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX) boardRepresentation(i) = 0
       return false
     }
@@ -52,7 +54,7 @@ class Board {
     for (i <- PLAYER_ONE_BASE_INDEX + 1 until PLAYER_TWO_BASE_INDEX) if (boardRepresentation(i) != 0) shouldBeContinued = true
     if (shouldBeContinued) true
     else {
-      boardRepresentation(PLAYER_ONE_BASE_INDEX) = amountOfHolesInFirstPlayerBase + boardRepresentation.slice(0, PLAYER_ONE_BASE_INDEX).sum
+      boardRepresentation(PLAYER_ONE_BASE_INDEX) = amountOfStonesInFirstPlayerBase + boardRepresentation.slice(0, PLAYER_ONE_BASE_INDEX).sum
       for (i <- 0 until PLAYER_ONE_BASE_INDEX) boardRepresentation(i) = 0
       false
     }
@@ -61,14 +63,14 @@ class Board {
 
   def selectHoleWithTheSmallestAmountOFStones(playerNumber: PlayerNumber): Int = {
     var index = 0
-    var smallest = 73
+    var smallest = Integer.MAX_VALUE
     playerNumber match {
       case PlayerOne => for (i <- playerOneAvailableHoles) if (boardRepresentation(i - 1) < smallest) {
         smallest = boardRepresentation(i - 1)
         index = i
       }
-      case PlayerTwo => for (i <- playerTwoAvailableHoles) if (boardRepresentation(i - 1 + 7) < smallest) {
-        smallest = boardRepresentation(i - 1 + 7)
+      case PlayerTwo => for (i <- playerTwoAvailableHoles) if (boardRepresentation(i - 1 + AMOUNT_OF_PLAYER_HOLES) < smallest) {
+        smallest = boardRepresentation(i - 1 + AMOUNT_OF_PLAYER_HOLES)
         index = i
       }
     }
