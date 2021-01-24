@@ -1,5 +1,9 @@
-class BotPlayer extends Player {
-  override def receive: Receive = ???
+import scala.util.Random
 
-  override def makeDecision(): Int = ???
+class BotPlayer(name: String) extends Player(name: String){
+
+  override def makeDecision(): Int = {
+    var r=new Random()
+    r.nextInt(6)
+  }
 }
