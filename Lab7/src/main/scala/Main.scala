@@ -1,5 +1,6 @@
 import scala.io.StdIn
 import akka.actor.{ActorSystem, Props}
+
 object Main extends App {
 
   printMenu()
@@ -50,7 +51,8 @@ object Main extends App {
   def playerVsComputerGame(): Unit = {
 
     println("\n# PLAYER VS COMPUTER")
-    println("# YOU ARE PLAYER 1., COMPUTER IS PLAYER 2.")
+    println("# YOU ARE PLAYER 1.")
+    println("# COMPUTER IS PLAYER 2.")
 
     val system = ActorSystem()
     val board = new Board

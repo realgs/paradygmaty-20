@@ -1,14 +1,16 @@
 import akka.actor.Actor
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
 class ComputerPlayer extends Actor {
 
   override def receive: Receive = {
     case Server.MakeMove(board: Board) =>
-      sender ! Server.Move(makeMove(board))
+      sender ! Server.Move(Future{makeMove(board)})
   }
 
   def makeMove(board: Board): Int = {
-
     Thread.sleep(1000)
     getBestResultFieldNumber(createResults(board))
   }
@@ -51,13 +53,9 @@ class ComputerPlayer extends Actor {
     val scoresAfterMove = board.getScores
     var resultAfterMove = scoresAfterMove._2 - scoresAfterMove._1
 
-    if(ifPlayer1Move)
-      resultAfterMove = -resultAfterMove
+    if(ifPlayer1Move) resultAfterMove = -resultAfterMove
 
-    if(board.hasLastPlayerOneMoreMove) {
-
-      resultAfterMove + getBestResultFieldNumber(createResults(board))
-
-    } else resultAfterMove
+    if(board.hasLastPlayerOneMoreMove)resultAfterMove + getBestResultFieldNumber(createResults(board))
+    else resultAfterMove
   }
 }
