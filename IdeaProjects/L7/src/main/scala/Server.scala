@@ -34,6 +34,14 @@ class Server(val player1: ActorRef, val player2: ActorRef) extends Actor{
         board.moveFromHole((new Random).nextInt(6), player)
       }else{
         board.moveFromHole(pit, player)
+        if(board.again){
+          board.again=false
+          if(player){
+            player1 ! MakeAMove
+          }else{
+            player2 ! MakeAMove
+          }
+        }
         player=(!player)
         if(player){
           time1=System.currentTimeMillis()
