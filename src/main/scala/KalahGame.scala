@@ -5,7 +5,7 @@ import scala.io.StdIn
 
 object KalahGame extends App {
 
-  private val actor_system = ActorSystem()
+  private val actor_system = ActorSystem("KalahGame")
 
   print(s"Choose mode for player 1 (0 - computer, 1 - real player) = ")
   val first_player = PlayerData(7, List.range(1, 7), actor_system.actorOf(Player.props(1, 7, List.range(1, 7), StdIn.readInt())))

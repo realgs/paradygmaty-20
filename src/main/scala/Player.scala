@@ -1,11 +1,11 @@
 import akka.actor.{Actor, Props}
 
 abstract class Player(val id: Int, val kalah: Int, val pits: List[Int]) extends Actor {
-  var m_board: Map[Int, Int] = _
+  var board: Map[Int, Int] = _
 
   final override def receive: Receive = {
-    case Player.MoveRequest(board) =>
-      m_board = board
+    case Player.MoveRequest(server_board) =>
+      board = server_board
       sender() ! GameServer.MoveReply(choosePit())
     case _ => println("Unknown request to client!")
   }

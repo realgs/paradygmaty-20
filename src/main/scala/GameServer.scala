@@ -11,14 +11,13 @@ class GameServer(val initial_stones: Int, val first_player: GameServer.PlayerDat
   initializeBoard()
   println("Initial board state:")
   printState()
+
   private var current_player = first_player
   private var opposite_player = second_player
 
   override def receive: Receive = {
     case GameServer.Start => current_player.actor ! Player.MoveRequest(board.toMap)
-    case GameServer.MoveReply(pit) =>
-      playerMove(pit)
-      current_player.actor ! Player.MoveRequest(board.toMap)
+    case GameServer.MoveReply(pit) => playerMove(pit)
     case _ => println("Unknown command!")
   }
 
@@ -40,24 +39,17 @@ class GameServer(val initial_stones: Int, val first_player: GameServer.PlayerDat
 
   def playerMove(pit: Int): Unit = {
 
-    if (gameEnded()) {
-      moveStonesToKalah()
-      declareWinner()
-
-      first_player.actor ! PoisonPill
-      second_player.actor ! PoisonPill
-      context.stop(self)
-    }
-
     if (!current_player.pits.contains(pit)) {
       println("It's not your turn or wrong pit index provided!")
       changePlayer()
+      current_player.actor ! Player.MoveRequest(board.toMap)
       return
     }
 
     if(board(pit) == 0) {
       println("You can't move from an empty pit!")
       changePlayer()
+      current_player.actor ! Player.MoveRequest(board.toMap)
       return
     }
 
@@ -69,7 +61,7 @@ class GameServer(val initial_stones: Int, val first_player: GameServer.PlayerDat
       curr_pit += 1
       if (curr_pit > last_pit) curr_pit = first_pit
 
-      if (pit != opposite_player.kalah) {
+      if (curr_pit != opposite_player.kalah) {
         board(curr_pit) += 1
         stones -= 1
       }
@@ -81,12 +73,25 @@ class GameServer(val initial_stones: Int, val first_player: GameServer.PlayerDat
       board(last_pit - curr_pit) = 0
     }
 
+    if (gameEnded()) {
+      // Finished with empty pits
+      moveStonesToKalah()
+      declareWinner()
+
+      context.stop(first_player.actor)
+      context.stop(second_player.actor)
+      context.stop(self)
+      return
+    }
+
     if (pit != current_player.kalah) {
       // If we didn't end on player's kalah
       changePlayer()
     }
 
     printState()
+    current_player.actor ! Player.MoveRequest(board.toMap)
+
   }
 
   def initializeBoard(): Unit = {
