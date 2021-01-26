@@ -1,24 +1,19 @@
+import GameServer.PlayerData
+import akka.actor.{ActorRef, ActorSystem}
 
-class KalahGame(initial_stones: Int, pits_per_player: Int) {
+import scala.io.StdIn
 
-  private val pits_amount = pits_per_player * 2 + 2
-  private val engine = new GameEngine(
-    new GameSettings(initial_stones, 1, pits_amount),
-    (new ComputerPlayer(1, pits_amount / 2, List.range(1, pits_amount / 2)),
-    new ComputerPlayer(2, pits_amount, List.range(pits_amount / 2 + 1, pits_amount))))
+object KalahGame extends App {
 
-  def gameLoop(): Unit = {
-    var last_status = GameStatus.IN_PROGRESS
-    println("Game started:")
-    engine.printState()
+  private val actor_system = ActorSystem()
 
-    while(last_status == GameStatus.IN_PROGRESS) {
-      last_status = engine.playerMove()
-      engine.printState()
-    }
+  print(s"Choose mode for player 1 (0 - computer, 1 - real player) = ")
+  val first_player = PlayerData(7, List.range(1, 7), actor_system.actorOf(Player.props(1, 7, List.range(1, 7), StdIn.readInt())))
 
-  }
+  print(s"Choose mode for player 2 (0 - computer, 1 - real player) = ")
+  val second_player = PlayerData(14, List.range(8, 14), actor_system.actorOf(Player.props(2, 14, List.range(8, 14), StdIn.readInt())))
 
-
+  val server = actor_system.actorOf(GameServer.props(6, first_player, second_player))
+  server ! GameServer.Start
 
 }
