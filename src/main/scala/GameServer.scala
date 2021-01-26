@@ -84,7 +84,7 @@ class GameServer(val initial_stones: Int, val first_player: GameServer.PlayerDat
       return
     }
 
-    if (pit != current_player.kalah) {
+    if (curr_pit != current_player.kalah) {
       // If we didn't end on player's kalah
       changePlayer()
     }

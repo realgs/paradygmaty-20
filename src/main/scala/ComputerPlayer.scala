@@ -6,17 +6,8 @@ class ComputerPlayer(id: Int, kalah: Int, pits: List[Int]) extends Player(id, ka
 
   override def choosePit(): Int = {
     var chosen_pit = findLandingOnKalah()
-    if(chosen_pit != -1) println("landing")
-
-    if(chosen_pit == -1) {
-      chosen_pit = findStealingFromOpposite()
-      if(chosen_pit != -1) println("stealing")
-    }
-
-    if(chosen_pit == -1) {
-      chosen_pit = findLargestPit()
-      println("largest pit")
-    }
+    if(chosen_pit == -1) chosen_pit = findStealingFromOpposite()
+    if(chosen_pit == -1) chosen_pit = findLargestPit()
 
     println("[Player " + id + "] chose pit " + chosen_pit + "\n")
     chosen_pit
