@@ -11,7 +11,11 @@ Proszę o komentarze z numerem zadania oraz liczbą punktów możliwą do osiąg
 
    Punkty: 3
 
-3) Napisz funkcję przyjmującą dwa pełne drzewa o tej samej głębokości i usuwającą powtarzające się wartości w określony sposób: jeśli wartość węzła i wszystkich jego potomków jest identyczna - usuń całą gałąź. Jeśli wartość węzła jest identyczna, a któryś z potomków się różni wstaw -1, potomków zostaw bez zmian. Funkcja ma zwracać dwa drzewa z usuniętymi w powyższy sposób duplikatami. Zaimplementuj przechodząc po drzewie wgłąb (Punkty: 1) i wszerz (Punkty: 3). Zwróć uwagę na wydajność rozwiązania.
+3) Napisz funkcję przyjmującą dwa pełne drzewa o tej samej głębokości i usuwającą powtarzające się wartości w określony sposób:
+jeśli wartość węzła i wszystkich jego potomków jest identyczna - usuń całą gałąź.
+Jeśli wartość węzła jest identyczna, a któryś z potomków się różni wstaw -1, potomków zostaw bez zmian.
+Funkcja ma zwracać dwa drzewa z usuniętymi w powyższy sposób duplikatami.
+Zaimplementuj przechodząc po drzewie wgłąb (Punkty: 1) i wszerz (Punkty: 3). Zwróć uwagę na wydajność rozwiązania.
 
 
 W poniższych zadaniach użyj podstawowej rekurencji.
