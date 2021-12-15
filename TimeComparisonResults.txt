@@ -1,0 +1,56 @@
+Otrzymane wyniki czasowe:
+
+I. QuickSort 
+Time comparison for QuickSort
+*** Sorting array of 100000 elements ***
+1) sequential version: 62500800 ns
+2)  parallel  version: 24621500 ns
+
+Time comparison for QuickSort
+*** Sorting array of 1000000 elements ***
+1) sequential version: 247150700 ns
+2)  parallel  version: 71609800 ns
+
+
+II. numberOfElementBT 
+Time comparison for function counting number of specific element in BT
+*** BT which depth is 15 ***
+1) sequential version: 12362200 ns
+2)  parallel  version: 7838100 ns
+
+Time comparison for function counting number of specific element in BT
+*** BT which depth is 20 ***
+1) sequential version: 9128500 ns
+2)  parallel  version: 3668900 ns
+
+
+III. listProduct
+Time comparison for function counting product of elements in list
+*** List of 10000 elements ***
+1) sequential version: 157120000 ns
+2)  parallel  version: 16550500 ns
+
+Time comparison for function counting product of elements in list
+*** List of 100000 elements ***
+1) sequential version: 24522175300 ns
+2)  parallel  version: 104490700 ns
+
+
+IV. areTheSameBT
+Time comparison for function checking if BT are the same
+*** BT which depth is 20 ***
+1) sequential version: 52515600 ns
+2)  parallel  version: 18878400 ns
+
+Time comparison for function checking if BT are the same
+*** BT which depth is 25 ***
+1) sequential version: 774615000 ns
+2)  parallel  version: 399530500 ns
+
+
+Wnioski: 
+Funkcje wykonujące zadania równolegle zazwyczaj powodowały oszczędność czasową względem ich sekwencyjnych odpowiedników, 
+jednak przy małej ilości danych nie zawsze było opłacalne zrównoleglanie zadań.
+Wpływ na szybkość działania funkcji wykonujących zadania współbieżnie miał sposób rozdzielenia wątków oraz ich ilość. 
+W tym celu w niektórych funkcjach została wykorzystana stała o nazwie threshold, kontrolująca podział na wątki, 
+która dodatkowo usprawniła ich działanie. 
